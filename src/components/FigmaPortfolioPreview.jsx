@@ -29,6 +29,7 @@ import { Dock } from '@/components/ui/dock-two';
 import { AnimatedNumber } from '@/components/ui/animated-counter';
 import { SearchInputWithLoader } from '@/components/ui/search-input';
 import SpecularButton from '@/components/ui/SpecularButton';
+import SpecularElectricButton from '@/components/ui/SpecularElectricButton';
 import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { Separator } from '@/components/ui/separator';
 import {
@@ -244,17 +245,10 @@ export default function FigmaPortfolioPreview({
 
           {/* Right: Credits Badge & User Auth Buttons */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0 ml-auto z-10">
-            <button 
-              onClick={onOpenUpgrade}
-              className="inline-flex items-center gap-2 h-9 px-3.5 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-sans text-xs font-bold shadow-md shadow-purple-600/20 border border-purple-400/30 transition-all duration-200 cursor-pointer shrink-0 active:scale-95 group"
-              title="Klik untuk Top Up Kredit"
-            >
-              <Coins size={15} className="text-amber-300 shrink-0 group-hover:rotate-12 transition-transform" />
-              <span className="whitespace-nowrap flex items-center gap-1">
-                <span className="text-white font-extrabold"><AnimatedNumber value={userCredits} /></span>
-                <span className="text-purple-100 text-xs font-medium">Kredit</span>
-              </span>
-            </button>
+            <SpecularElectricButton 
+              onClick={onOpenUpgrade} 
+              credits={userCredits} 
+            />
 
             {currentUser ? (
               <button 

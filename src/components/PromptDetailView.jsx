@@ -4,6 +4,7 @@ import { Check, Coins } from 'lucide-react';
 import { toast } from 'sonner';
 import { Dock } from '@/components/ui/dock-two';
 import { AnimatedNumber } from '@/components/ui/animated-counter';
+import SpecularElectricButton from '@/components/ui/SpecularElectricButton';
 import { SubscriptionCards } from './SubscriptionView';
 import { 
   Cancel01Icon, 
@@ -316,17 +317,10 @@ export default function PromptDetailView({
 
           {/* Action Controls: Credits, Share, Close */}
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => setShowSubscription(true)}
-              className="inline-flex items-center gap-2 h-9 px-4 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-sans text-xs font-bold shadow-md shadow-purple-600/20 border border-purple-400/30 transition-all cursor-pointer active:scale-95 group"
-              title="Klik untuk Top Up Kredit"
-            >
-              <Coins size={15} className="text-amber-300 shrink-0 group-hover:rotate-12 transition-transform" />
-              <span className="flex items-center gap-1">
-                <strong className="text-white font-extrabold"><AnimatedNumber value={userCredits} /></strong>
-                <span className="text-purple-100 font-medium">Kredit</span>
-              </span>
-            </button>
+            <SpecularElectricButton 
+              onClick={() => setShowSubscription(true)} 
+              credits={userCredits} 
+            />
 
             <button
               onClick={handleShareLink}
