@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "scrape": "node scripts/scrape_prompts.js",
     "discover": "node scripts/discover_prompts.js",
-    "review": "node scripts/review_candidates.js"
+    "review": "node scripts/review_candidates.js",
+    "sync": "git add . && git commit -m \"update: auto commit & push\" && git push origin main"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
