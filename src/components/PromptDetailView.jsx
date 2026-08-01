@@ -676,15 +676,15 @@ export default function PromptDetailView({
                           whileTap={{ scale: 0.93, y: 1 }}
                           transition={{ type: 'spring', stiffness: 600, damping: 22 }}
                           onClick={handleCopyText}
-                          className="group relative inline-flex items-center justify-between pl-6 sm:pl-7 pr-2 py-2 rounded-full bg-black hover:bg-white text-white hover:text-obsidian text-sm font-medium border border-black hover:border-zinc-300 shadow-md hover:shadow-xl active:shadow-xs transition-all duration-300 cursor-pointer pointer-events-auto overflow-hidden select-none"
+                          className="group relative inline-flex items-center justify-between pl-6 sm:pl-7 pr-2 py-2 rounded-full bg-black hover:bg-white text-white hover:text-obsidian text-sm font-semibold border border-black hover:border-zinc-300 shadow-md hover:shadow-xl active:shadow-xs transition-all duration-300 cursor-pointer pointer-events-auto overflow-hidden select-none"
                         >
                           <span className="relative inline-flex items-center justify-center overflow-hidden">
                             {/* Default Text (Locks button width, slides UP & out on hover) */}
-                            <span className="transition-all duration-300 group-hover:-translate-y-8 group-hover:opacity-0 group-active:scale-95">
+                            <span className="transition-all duration-300 group-hover:-translate-y-8 group-hover:opacity-0 group-active:scale-95 font-semibold">
                               Buka Prompt ({Number(promptCost).toLocaleString('id-ID')} Kredit)
                             </span>
                             {/* Hover Text (Slides IN from bottom on hover, without altering button width) */}
-                            <span className="absolute inset-0 flex items-center justify-center transition-all duration-300 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 font-bold whitespace-nowrap group-active:scale-95">
+                            <span className="absolute inset-0 flex items-center justify-center transition-all duration-300 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 font-semibold whitespace-nowrap group-active:scale-95">
                               Buka & Salin Sekarang
                             </span>
                           </span>
