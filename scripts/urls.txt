@@ -1,0 +1,4 @@
+# Tambahkan URL postingan X (Twitter) atau Threads di bawah ini (1 URL per baris)
+# Contoh:
+# https://x.com/TechieBySA/status/2017928823497453789
+# https://www.threads.net/@user/post/xyz123

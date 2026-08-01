@@ -1,0 +1,43 @@
+[
+  {
+    "id": "2017928823497453789",
+    "status": "pending",
+    "prompt": "Create a technical infographic of [OBJECT] with a 45-degree isometric 3D perspective showing the device slightly tilted to reveal depth and dimension. Combine a realistic photoreal render with black ink technical annotations on pure white background. Include key component labels with color-coded callout boxes.",
+    "author": "TechieBySA",
+    "author_name": "TechieSA",
+    "likes": 3567,
+    "views": 159772,
+    "raw_image_url": "https://images.meigen.ai/tweets/2017928823497453789/0.jpg",
+    "raw_images": [
+      "https://images.meigen.ai/tweets/2017928823497453789/0.jpg"
+    ],
+    "source_url": "https://x.com/TechieBySA/status/2017928823497453789",
+    "detected_model": "gptimage",
+    "detected_categories": [
+      "UI & Graphic"
+    ],
+    "keyword_found": "@TechieBySA",
+    "discovered_at": "2026-07-31T07:50:00.000Z"
+  },
+  {
+    "id": "2048748266293190833",
+    "status": "pending",
+    "prompt": "Low-angle fashion campaign photograph of a confident model holding a large [PRODUCT NAME] very close to the camera, exaggerated perspective with the hand and product dominating the foreground, full-body pose visible in the background, wide stance, dynamic posture, clean pure white studio background.",
+    "author": "azed_ai",
+    "author_name": "Amira Zairi",
+    "likes": 1730,
+    "views": 66346,
+    "raw_image_url": "https://images.meigen.ai/tweets/2048748266293190833/0.jpg",
+    "raw_images": [
+      "https://images.meigen.ai/tweets/2048748266293190833/0.jpg"
+    ],
+    "source_url": "https://x.com/azed_ai/status/2048748266293190833",
+    "detected_model": "Flux",
+    "detected_categories": [
+      "Product & Brand",
+      "Photography"
+    ],
+    "keyword_found": "@azed_ai",
+    "discovered_at": "2026-07-31T07:50:00.000Z"
+  }
+]

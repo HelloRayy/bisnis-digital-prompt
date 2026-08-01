@@ -1,0 +1,13 @@
+# Tambahkan Kata Kunci atau Username (@handle) atau URL Post (1 per baris)
+
+# Kata Kunci
+midjourney prompt
+flux prompt
+gptimage prompt
+ui design prompt
+product photography prompt
+
+# Account Handle yang Sering Membagikan Prompt
+@TechieBySA
+@azed_ai
+@mehvishs25
