@@ -121,6 +121,7 @@ export default function PromptDetailView({
   const [errorMsg, setErrorMsg] = useState('');
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showInsufficientModal, setShowInsufficientModal] = useState(false);
   const [isTutorialOpen, setIsTutorialOpen] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
@@ -215,8 +216,14 @@ export default function PromptDetailView({
 
   const handleCopyText = async () => {
     setErrorMsg('');
+    if (!currentUser) {
+      toast.info('Silakan masuk dengan Google untuk membuka prompt ini.');
+      onOpenAuth();
+      return;
+    }
+
     if (isPremium && !isUnlocked && userCredits < promptCost) {
-      setErrorMsg('Kredit Anda tidak mencukupi untuk membuka prompt premium ini.');
+      setShowInsufficientModal(true);
       return;
     }
 
@@ -230,15 +237,28 @@ export default function PromptDetailView({
 
   const executeUnlock = async () => {
     setErrorMsg('');
+    if (!currentUser) {
+      toast.info('Silakan masuk dengan Google untuk membuka prompt ini.');
+      onOpenAuth();
+      return;
+    }
+
+    if (userCredits < promptCost) {
+      setShowInsufficientModal(true);
+      return;
+    }
 
     const unlockTask = new Promise(async (resolve, reject) => {
       try {
         if (isPremium && !isUnlocked) {
           const result = await onDeductCredits(promptCost, prompt.id, prompt.prompt.slice(0, 30));
           if (!result?.success) {
-            const reason = result?.reason === 'AUTH_REQUIRED'
-              ? 'Silakan masuk/daftar akun terlebih dahulu.'
-              : (result?.reason || 'Gagal memproses pemotongan kredit.');
+            if (result?.reason === 'AUTH_REQUIRED') {
+              onOpenAuth();
+              return reject(new Error('Silakan login terlebih dahulu'));
+            }
+            setShowInsufficientModal(true);
+            const reason = result?.reason || 'Kredit Anda tidak mencukupi.';
             setErrorMsg(reason);
             return reject(new Error(reason));
           }
@@ -843,15 +863,21 @@ export default function PromptDetailView({
 
         {/* Pure Native Shadcn AlertDialog with Compact Copy */}
         <AlertDialog open={showConfirmModal} onOpenChange={setShowConfirmModal}>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle className="font-medium text-base">Buka Prompt ini?</AlertDialogTitle>
-              <AlertDialogDescription className="text-sm font-normal text-ash-gray">
-                Gunakan {Number(promptCost).toLocaleString('id-ID')} kredit untuk membuka prompt ini. <span className="text-purple-600 font-medium">Sisa kredit Anda: {Number(userCredits).toLocaleString('id-ID')}.</span>
+          <AlertDialogContent className="rounded-3xl p-6 max-w-md bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-2xl">
+            <AlertDialogHeader className="flex flex-col items-center text-center gap-1.5">
+              <div className="w-12 h-12 rounded-2xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-1 shadow-2xs">
+                <Coins size={24} />
+              </div>
+              <AlertDialogTitle className="font-bold text-base sm:text-lg text-obsidian dark:text-white">Buka Prompt Ini?</AlertDialogTitle>
+              <AlertDialogDescription className="text-xs sm:text-sm font-normal text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                Gunakan <strong className="text-obsidian dark:text-white font-bold">{Number(promptCost).toLocaleString('id-ID')} Kredit</strong> untuk membuka prompt ini. <span className="block mt-1 text-purple-600 dark:text-purple-400 font-semibold">Sisa saldo kredit Anda: {Number(userCredits).toLocaleString('id-ID')} Kredit.</span>
               </AlertDialogDescription>
             </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel onClick={() => setShowConfirmModal(false)}>
+            <AlertDialogFooter className="flex flex-col sm:flex-row gap-2 mt-4">
+              <AlertDialogCancel 
+                onClick={() => setShowConfirmModal(false)}
+                className="rounded-full text-xs font-semibold py-2.5 px-4 cursor-pointer"
+              >
                 Batal
               </AlertDialogCancel>
               <AlertDialogAction
@@ -859,8 +885,45 @@ export default function PromptDetailView({
                   setShowConfirmModal(false);
                   await executeUnlock();
                 }}
+                className="rounded-full bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold py-2.5 px-5 cursor-pointer shadow-md"
               >
                 Setuju & Buka
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+
+        {/* Insufficient Credits Alert Dialog */}
+        <AlertDialog open={showInsufficientModal} onOpenChange={setShowInsufficientModal}>
+          <AlertDialogContent className="rounded-3xl p-6 max-w-md bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-2xl">
+            <AlertDialogHeader className="flex flex-col items-center text-center gap-1.5">
+              <div className="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-1 shadow-2xs">
+                <Coins size={24} />
+              </div>
+              <AlertDialogTitle className="font-bold text-base sm:text-lg text-obsidian dark:text-white">
+                Kredit Anda Tidak Mencukupi
+              </AlertDialogTitle>
+              <AlertDialogDescription className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                Prompt premium ini membutuhkan <strong className="text-obsidian dark:text-white font-bold">{Number(promptCost).toLocaleString('id-ID')} Kredit</strong>, sedangkan saldo Anda saat ini adalah <strong className="text-purple-600 dark:text-purple-400 font-bold">{Number(userCredits).toLocaleString('id-ID')} Kredit</strong>.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter className="flex flex-col sm:flex-row gap-2 mt-4">
+              <AlertDialogCancel 
+                onClick={() => setShowInsufficientModal(false)}
+                className="rounded-full text-xs font-semibold py-2.5 px-4 cursor-pointer"
+              >
+                Nanti Saja
+              </AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => {
+                  setShowInsufficientModal(false);
+                  if (onOpenUpgrade) onOpenUpgrade();
+                  else setShowSubscription(true);
+                }}
+                className="rounded-full bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold py-2.5 px-5 cursor-pointer shadow-md flex items-center justify-center gap-1.5"
+              >
+                <SparklesIcon size={14} className="fill-purple-200" />
+                <span>Top Up Kredit Sekarang</span>
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
