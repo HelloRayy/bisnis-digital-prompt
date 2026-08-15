@@ -514,15 +514,15 @@ export default function PromptDetailView({
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: 0.11 }}
-                    className="rounded-2xl border border-purple-200/90 dark:border-purple-800/80 bg-purple-50/50 dark:bg-purple-950/30 text-obsidian dark:text-zinc-100 overflow-hidden transition-all shadow-xs"
+                    className="rounded-xl border border-purple-200/80 dark:border-purple-800/60 bg-purple-50/30 dark:bg-purple-950/20 text-obsidian dark:text-zinc-100 overflow-hidden transition-all shadow-2xs"
                   >
                     <button
                       type="button"
                       onClick={() => setIsTutorialOpen(!isTutorialOpen)}
-                      className="w-full px-5 sm:px-6 py-4 flex items-center justify-between font-bold text-obsidian dark:text-white text-sm sm:text-base hover:bg-purple-100/60 dark:hover:bg-purple-900/40 cursor-pointer transition-colors"
+                      className="w-full px-4 py-3 flex items-center justify-between font-semibold text-obsidian dark:text-white text-xs sm:text-sm hover:bg-purple-100/50 dark:hover:bg-purple-900/30 cursor-pointer transition-colors"
                     >
-                      <div className="flex items-center gap-2.5">
-                        <InformationCircleIcon size={20} className="text-purple-600 dark:text-purple-400 shrink-0" />
+                      <div className="flex items-center gap-2">
+                        <InformationCircleIcon size={16} className="text-purple-600 dark:text-purple-400 shrink-0" />
                         <span>Cara Menggunakan Prompt Ini</span>
                       </div>
                       <motion.span 
@@ -530,7 +530,7 @@ export default function PromptDetailView({
                         transition={{ duration: 0.2 }}
                         className="text-purple-600 dark:text-purple-400 shrink-0"
                       >
-                        <ArrowDown01Icon size={18} />
+                        <ArrowDown01Icon size={16} />
                       </motion.span>
                     </button>
 
@@ -544,17 +544,17 @@ export default function PromptDetailView({
                           transition={{ duration: 0.25, ease: 'easeInOut' }}
                           className="overflow-hidden"
                         >
-                          <div className="flex flex-col gap-3.5 px-5 sm:px-6 pb-6 pt-3 border-t border-purple-200/70 dark:border-purple-800/50">
+                          <div className="flex flex-col gap-2.5 px-4 pb-4 pt-2.5 border-t border-purple-200/60 dark:border-purple-800/40">
                             
                             {/* Step 1: Copy Prompt */}
-                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-purple-100 dark:border-purple-900/60 shadow-2xs">
-                              <div className="flex items-start gap-3.5">
-                                <span className="w-7 h-7 rounded-full bg-purple-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-xl bg-white dark:bg-zinc-900 border border-purple-100/90 dark:border-purple-900/50 shadow-2xs">
+                              <div className="flex items-start gap-2.5">
+                                <span className="w-5.5 h-5.5 rounded-full bg-purple-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
                                   1
                                 </span>
                                 <div>
-                                  <h4 className="text-sm sm:text-base font-bold text-obsidian dark:text-white">Salin Teks Prompt</h4>
-                                  <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 mt-1 leading-relaxed">
+                                  <h4 className="text-xs sm:text-sm font-bold text-obsidian dark:text-white leading-tight">Salin Teks Prompt</h4>
+                                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-0.5 leading-normal">
                                     {variableKeys.length > 0 
                                       ? 'Kustomisasi variabel di bawah (jika ada), lalu salin teks prompt siap pakai.'
                                       : 'Salin teks prompt teroptimasi ke clipboard Anda.'}
@@ -565,16 +565,16 @@ export default function PromptDetailView({
                               <button
                                 type="button"
                                 onClick={copyPromptToClipboard}
-                                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-purple-50 hover:bg-purple-100 dark:bg-purple-950/70 dark:hover:bg-purple-900 border border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-300 text-xs sm:text-sm font-bold transition-all shrink-0 cursor-pointer active:scale-95 shadow-2xs self-start sm:self-auto"
+                                className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-750 text-obsidian dark:text-zinc-100 border border-zinc-200 dark:border-zinc-700 text-xs font-semibold shadow-2xs cursor-pointer active:scale-95 transition-all self-start sm:self-auto shrink-0"
                               >
                                 {copiedText ? (
                                   <>
-                                    <Tick01Icon size={16} className="text-emerald-600 shrink-0" />
-                                    <span className="text-emerald-600">Prompt Disalin!</span>
+                                    <Tick01Icon size={14} className="text-emerald-600 shrink-0" />
+                                    <span className="text-emerald-600">Disalin!</span>
                                   </>
                                 ) : (
                                   <>
-                                    <Copy01Icon size={16} className="shrink-0" />
+                                    <Copy01Icon size={14} className="shrink-0" />
                                     <span>Salin Prompt</span>
                                   </>
                                 )}
@@ -582,14 +582,14 @@ export default function PromptDetailView({
                             </div>
 
                             {/* Step 2: Open Google Gemini */}
-                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-purple-100 dark:border-purple-900/60 shadow-2xs">
-                              <div className="flex items-start gap-3.5">
-                                <span className="w-7 h-7 rounded-full bg-purple-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-xl bg-white dark:bg-zinc-900 border border-purple-100/90 dark:border-purple-900/50 shadow-2xs">
+                              <div className="flex items-start gap-2.5">
+                                <span className="w-5.5 h-5.5 rounded-full bg-purple-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
                                   2
                                 </span>
                                 <div>
-                                  <h4 className="text-sm sm:text-base font-bold text-obsidian dark:text-white">Buka Google Gemini</h4>
-                                  <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 mt-1 leading-relaxed">
+                                  <h4 className="text-xs sm:text-sm font-bold text-obsidian dark:text-white leading-tight">Buka Google Gemini</h4>
+                                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-0.5 leading-normal">
                                     Kunjungi generator AI Google Gemini untuk men-generate gambar atau visual baru.
                                   </p>
                                 </div>
@@ -599,37 +599,37 @@ export default function PromptDetailView({
                                 href="https://gemini.google.com/"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-750 text-obsidian dark:text-zinc-100 border border-zinc-200 dark:border-zinc-700 hover:border-zinc-300 dark:hover:border-zinc-600 text-xs sm:text-sm font-bold transition-all shrink-0 cursor-pointer active:scale-95 shadow-2xs group self-start sm:self-auto"
+                                className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-750 text-obsidian dark:text-zinc-100 border border-zinc-200 dark:border-zinc-700 text-xs font-semibold shadow-2xs cursor-pointer active:scale-95 transition-all self-start sm:self-auto shrink-0 group"
                               >
-                                <Sparkle className="size-4.5 text-blue-600 dark:text-blue-400 fill-blue-500 dark:fill-blue-400 shrink-0" />
+                                <Sparkle className="size-3.5 text-blue-600 dark:text-blue-400 fill-blue-500 shrink-0" />
                                 <span>Buka Gemini</span>
-                                <ArrowUpRight01Icon size={15} className="text-zinc-400 group-hover:text-zinc-700 dark:group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0" />
+                                <ArrowUpRight01Icon size={13} className="text-zinc-400 group-hover:text-zinc-700 dark:group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0" />
                               </a>
                             </div>
 
                             {/* Step 3: Paste & Generate */}
-                            <div className="flex items-start gap-3.5 p-4 sm:p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-purple-100 dark:border-purple-900/60 shadow-2xs">
-                              <span className="w-7 h-7 rounded-full bg-purple-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
+                            <div className="flex items-start gap-2.5 p-3 rounded-xl bg-white dark:bg-zinc-900 border border-purple-100/90 dark:border-purple-900/50 shadow-2xs">
+                              <span className="w-5.5 h-5.5 rounded-full bg-purple-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
                                 3
                               </span>
                               <div>
-                                <h4 className="text-sm sm:text-base font-bold text-obsidian dark:text-white">Tempel (*Paste*) & Generate</h4>
-                                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 mt-1 leading-relaxed">
-                                  Tempel (<kbd className="px-2 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-800 font-mono text-xs font-semibold border border-zinc-200 dark:border-zinc-700 text-obsidian dark:text-white">Ctrl+V</kbd> / <kbd className="px-2 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-800 font-mono text-xs font-semibold border border-zinc-200 dark:border-zinc-700 text-obsidian dark:text-white">Cmd+V</kbd>) teks prompt pada kolom chat Gemini lalu tekan Enter untuk generate visual.
+                                <h4 className="text-xs sm:text-sm font-bold text-obsidian dark:text-white leading-tight">Tempel (*Paste*) & Generate</h4>
+                                <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-0.5 leading-normal">
+                                  Tempel (<kbd className="px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 font-mono text-[11px] font-semibold border border-zinc-200 dark:border-zinc-700 text-obsidian dark:text-white">Ctrl+V</kbd> / <kbd className="px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 font-mono text-[11px] font-semibold border border-zinc-200 dark:border-zinc-700 text-obsidian dark:text-white">Cmd+V</kbd>) teks prompt pada kolom chat Gemini lalu tekan Enter.
                                 </p>
                               </div>
                             </div>
 
                             {/* PRO TIP: Image Reference Tip */}
-                            <div className="p-4.5 sm:p-5 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-2xs">
-                              <div className="flex items-start gap-3.5">
-                                <span className="text-2xl leading-none shrink-0 mt-0.5">💡</span>
+                            <div className="p-3.5 rounded-xl bg-amber-50/80 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-800/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
+                              <div className="flex items-start gap-2.5">
+                                <span className="text-base leading-none shrink-0 mt-0.5">💡</span>
                                 <div>
-                                  <h4 className="text-sm sm:text-base font-bold text-amber-950 dark:text-amber-200">
+                                  <h4 className="text-xs font-bold text-amber-950 dark:text-amber-200">
                                     Tips Hasil Maksimal:
                                   </h4>
-                                  <p className="text-xs sm:text-sm text-amber-900/90 dark:text-amber-300/90 mt-1 leading-relaxed">
-                                    Salin atau unggah <strong>gambar referensi</strong> prompt ini ke Gemini bersamaan dengan teks prompt agar hasil AI lebih akurat sesuai style, komposisi, dan visual yang diinginkan.
+                                  <p className="text-xs text-amber-800/90 dark:text-amber-400/90 mt-0.5 leading-normal">
+                                    Salin atau unggah <strong>gambar referensi</strong> prompt ini ke Gemini bersama teks prompt agar hasil AI lebih akurat sesuai style & komposisi yang diinginkan.
                                   </p>
                                 </div>
                               </div>
@@ -637,10 +637,10 @@ export default function PromptDetailView({
                               <button
                                 type="button"
                                 onClick={copyImageUrlToClipboard}
-                                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-amber-100 hover:bg-amber-200 dark:bg-amber-900/70 dark:hover:bg-amber-800/90 text-amber-950 dark:text-amber-100 text-xs sm:text-sm font-bold transition-all shrink-0 cursor-pointer active:scale-95 shadow-2xs self-start sm:self-auto"
+                                className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-100 hover:bg-amber-200 dark:bg-amber-900/60 text-amber-900 dark:text-amber-200 text-xs font-bold transition-all shrink-0 cursor-pointer active:scale-95 shadow-2xs self-start sm:self-auto"
                               >
-                                <Image01Icon size={15} className="shrink-0" />
-                                <span>{copiedImg ? 'Link Gambar Disalin!' : 'Salin Link Gambar'}</span>
+                                <Image01Icon size={13} className="shrink-0" />
+                                <span>{copiedImg ? 'Link Disalin!' : 'Salin Link Gambar'}</span>
                               </button>
                             </div>
 
