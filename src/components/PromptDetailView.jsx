@@ -122,7 +122,7 @@ export default function PromptDetailView({
   const [errorMsg, setErrorMsg] = useState('');
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [isTutorialOpen, setIsTutorialOpen] = useState(true);
+  const [isTutorialOpen, setIsTutorialOpen] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [showSubscription, setShowSubscription] = useState(false);
