@@ -142,5 +142,18 @@ function PrimaryCTAButton({
   )
 }
 
-export { Button, PrimaryButton, SecondaryButton, PrimaryCTAButton, buttonVariants }
+const KumoPrimaryButton = PrimaryButton
+const KumoSecondaryButton = SecondaryButton
+const KumoCTAButton = PrimaryCTAButton
+
+export { 
+  Button, 
+  PrimaryButton, 
+  SecondaryButton, 
+  PrimaryCTAButton,
+  KumoPrimaryButton,
+  KumoSecondaryButton,
+  KumoCTAButton,
+  buttonVariants 
+}
 
