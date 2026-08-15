@@ -766,36 +766,21 @@ export default function PromptDetailView({
                           <h3 className="text-lg sm:text-xl font-bold text-obsidian tracking-tight">Prompt Premium Terkunci</h3>
                           <p className="text-xs sm:text-sm text-ash-gray mt-1.5 leading-relaxed max-w-md">Gunakan {promptCost} kredit untuk membuka dan menyalin teks prompt ini.</p>
                         </div>
-                        <motion.button
-                          whileTap={{ scale: 0.93, y: 1 }}
-                          transition={{ type: 'spring', stiffness: 600, damping: 22 }}
+                        <button
                           onClick={handleCopyText}
-                          className="group relative inline-flex items-center justify-between pl-6 sm:pl-7 pr-2 py-2 rounded-full bg-gradient-to-b from-zinc-850 to-black text-white text-sm font-semibold border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.25),0_4px_16px_rgba(0,0,0,0.4)] hover:from-zinc-750 hover:to-zinc-900 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_6px_20px_rgba(0,0,0,0.6)] transition-all duration-300 cursor-pointer pointer-events-auto overflow-hidden select-none active:scale-[0.98]"
+                          className="group inline-flex items-center justify-between pl-7 pr-2.5 h-12 rounded-full font-bold text-sm transition-all cursor-pointer active:scale-95 bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-zinc-750 hover:to-zinc-900 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_4px_12px_0_rgba(0,0,0,0.5)] select-none pointer-events-auto"
                         >
-                          <span className="relative inline-flex items-center justify-center overflow-hidden">
-                            {/* Default Text (Locks button width, slides UP & out on hover) */}
-                            <span className="transition-all duration-300 group-hover:-translate-y-8 group-hover:opacity-0 group-active:scale-95 font-semibold">
-                              Buka Prompt ({Number(promptCost).toLocaleString('id-ID')} Kredit)
-                            </span>
-                            {/* Hover Text (Slides IN from bottom on hover, without altering button width) */}
-                            <span className="absolute inset-0 flex items-center justify-center transition-all duration-300 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 font-semibold whitespace-nowrap group-active:scale-95">
-                              Buka & Salin Sekarang
-                            </span>
+                          <span className="font-bold tracking-tight">
+                            Buka Prompt ({Number(promptCost).toLocaleString('id-ID')} Kredit)
                           </span>
 
-                          <div className="w-9 h-9 rounded-full bg-white text-obsidian group-hover:bg-zinc-100 group-hover:text-obsidian group-active:scale-85 flex items-center justify-center shrink-0 ml-4 relative overflow-hidden transition-all duration-300 shadow-xs">
-                            {/* Primary Arrow sliding up & out on hover */}
+                          <div className="w-8 h-8 rounded-full bg-white text-obsidian flex items-center justify-center shrink-0 ml-4 shadow-2xs group-hover:scale-105 transition-transform">
                             <ArrowUpRight01Icon 
-                              size={18} 
-                              className="text-obsidian stroke-[2.5] transition-all duration-300 group-hover:-translate-y-6 group-hover:translate-x-6" 
-                            />
-                            {/* Secondary Duplicate Arrow sliding in from bottom-left on hover */}
-                            <ArrowUpRight01Icon 
-                              size={18} 
-                              className="text-obsidian stroke-[2.5] absolute transition-all duration-300 translate-y-6 -translate-x-6 group-hover:translate-y-0 group-hover:translate-x-0" 
+                              size={16} 
+                              className="text-obsidian stroke-[2.5]" 
                             />
                           </div>
-                        </motion.button>
+                        </button>
                       </div>
                     )}
                   </div>

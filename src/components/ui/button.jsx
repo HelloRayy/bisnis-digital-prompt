@@ -8,11 +8,11 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        // Primary: Black Emphasis with vertical linear gradient & top specular rim -> Vibrant Purple/Indigo on Hover
+        // Primary: Black Emphasis with vertical linear gradient & top specular rim
         primary:
-          "relative overflow-hidden bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 dark:border-white/10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-purple-900 hover:via-purple-950 hover:to-zinc-950 hover:border-purple-400/40 hover:text-purple-50 hover:shadow-[inset_0_1px_0_0_rgba(216,180,254,0.4),0_4px_16px_rgba(147,51,234,0.3)] active:scale-[0.98] font-bold transition-all duration-200",
+          "relative overflow-hidden bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-zinc-750 hover:to-zinc-900 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_4px_12px_0_rgba(0,0,0,0.5)] active:scale-95 font-bold transition-all cursor-pointer",
         default:
-          "relative overflow-hidden bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 dark:border-white/10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-purple-900 hover:via-purple-950 hover:to-zinc-950 hover:border-purple-400/40 hover:text-purple-50 hover:shadow-[inset_0_1px_0_0_rgba(216,180,254,0.4),0_4px_16px_rgba(147,51,234,0.3)] active:scale-[0.98] font-bold transition-all duration-200",
+          "relative overflow-hidden bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-zinc-750 hover:to-zinc-900 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_4px_12px_0_rgba(0,0,0,0.5)] active:scale-95 font-bold transition-all cursor-pointer",
         
         // Secondary: Kumo tactile styling with crisp border -> Smooth purple brand tint & text color on Hover
         secondary:
