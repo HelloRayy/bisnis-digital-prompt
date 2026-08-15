@@ -770,7 +770,7 @@ export default function PromptDetailView({
                           whileTap={{ scale: 0.93, y: 1 }}
                           transition={{ type: 'spring', stiffness: 600, damping: 22 }}
                           onClick={handleCopyText}
-                          className="group relative inline-flex items-center justify-between pl-6 sm:pl-7 pr-2 py-2 rounded-full bg-black hover:bg-white text-white hover:text-obsidian text-sm font-semibold border border-black hover:border-zinc-300 shadow-md hover:shadow-xl active:shadow-xs transition-all duration-300 cursor-pointer pointer-events-auto overflow-hidden select-none"
+                          className="group relative inline-flex items-center justify-between pl-6 sm:pl-7 pr-2 py-2 rounded-full bg-gradient-to-b from-zinc-850 to-black text-white text-sm font-semibold border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.25),0_4px_16px_rgba(0,0,0,0.4)] hover:from-zinc-750 hover:to-zinc-900 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_6px_20px_rgba(0,0,0,0.6)] transition-all duration-300 cursor-pointer pointer-events-auto overflow-hidden select-none active:scale-[0.98]"
                         >
                           <span className="relative inline-flex items-center justify-center overflow-hidden">
                             {/* Default Text (Locks button width, slides UP & out on hover) */}
@@ -783,16 +783,16 @@ export default function PromptDetailView({
                             </span>
                           </span>
 
-                          <div className="w-9 h-9 rounded-full bg-white text-obsidian group-hover:bg-obsidian group-hover:text-white group-active:scale-85 flex items-center justify-center shrink-0 ml-4 relative overflow-hidden transition-all duration-300">
+                          <div className="w-9 h-9 rounded-full bg-white text-obsidian group-hover:bg-zinc-100 group-hover:text-obsidian group-active:scale-85 flex items-center justify-center shrink-0 ml-4 relative overflow-hidden transition-all duration-300 shadow-xs">
                             {/* Primary Arrow sliding up & out on hover */}
                             <ArrowUpRight01Icon 
                               size={18} 
-                              className="text-obsidian group-hover:text-white stroke-[2.5] transition-all duration-300 group-hover:-translate-y-6 group-hover:translate-x-6" 
+                              className="text-obsidian stroke-[2.5] transition-all duration-300 group-hover:-translate-y-6 group-hover:translate-x-6" 
                             />
                             {/* Secondary Duplicate Arrow sliding in from bottom-left on hover */}
                             <ArrowUpRight01Icon 
                               size={18} 
-                              className="text-obsidian group-hover:text-white stroke-[2.5] absolute transition-all duration-300 translate-y-6 -translate-x-6 group-hover:translate-y-0 group-hover:translate-x-0" 
+                              className="text-obsidian stroke-[2.5] absolute transition-all duration-300 translate-y-6 -translate-x-6 group-hover:translate-y-0 group-hover:translate-x-0" 
                             />
                           </div>
                         </motion.button>
@@ -805,10 +805,10 @@ export default function PromptDetailView({
                     <div className="flex items-center gap-4 pt-4 border-t border-black/5">
                       <button
                         onClick={handleCopyText}
-                        className={`h-12 px-8 rounded-full font-bold text-sm flex items-center justify-center gap-2.5 shadow-md transition-all cursor-pointer active:scale-95 ${
+                        className={`h-12 px-8 rounded-full font-bold text-sm flex items-center justify-center gap-2.5 transition-all cursor-pointer active:scale-95 ${
                           copiedText
                             ? 'bg-emerald-600 text-white shadow-emerald-600/20'
-                            : 'bg-obsidian hover:bg-purple-600 text-white shadow-obsidian/20'
+                            : 'bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-zinc-750 hover:to-zinc-900 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_4px_12px_0_rgba(0,0,0,0.5)]'
                         }`}
                       >
                         {copiedText ? <Check size={18} className="text-white stroke-[2.5]" /> : <Copy01Icon size={18} />}
@@ -885,7 +885,7 @@ export default function PromptDetailView({
                   setShowConfirmModal(false);
                   await executeUnlock();
                 }}
-                className="rounded-full bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold py-2.5 px-5 cursor-pointer shadow-md"
+                className="rounded-full bg-gradient-to-b from-zinc-850 to-black text-white text-xs font-bold py-2.5 px-5 cursor-pointer border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_rgba(0,0,0,0.4)] hover:from-zinc-750 hover:to-zinc-900 active:scale-95 transition-all"
               >
                 Setuju & Buka
               </AlertDialogAction>
@@ -920,9 +920,9 @@ export default function PromptDetailView({
                   if (onOpenUpgrade) onOpenUpgrade();
                   else setShowSubscription(true);
                 }}
-                className="rounded-full bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold py-2.5 px-5 cursor-pointer shadow-md flex items-center justify-center gap-1.5"
+                className="rounded-full bg-gradient-to-b from-zinc-850 to-black text-white text-xs font-bold py-2.5 px-5 cursor-pointer border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_rgba(0,0,0,0.4)] hover:from-zinc-750 hover:to-zinc-900 active:scale-95 transition-all flex items-center justify-center gap-1.5"
               >
-                <SparklesIcon size={14} className="fill-purple-200" />
+                <SparklesIcon size={14} className="fill-purple-200 text-purple-200" />
                 <span>Top Up Kredit Sekarang</span>
               </AlertDialogAction>
             </AlertDialogFooter>

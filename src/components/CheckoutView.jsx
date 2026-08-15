@@ -408,13 +408,13 @@ export default function CheckoutView({
 
             {/* Quick Action Navigation Buttons */}
             <div className="flex flex-col sm:flex-row items-center gap-3 w-full">
-              <Button
-                onClick={() => onNavigate('/')}
-                className="w-full py-3 rounded-full bg-obsidian hover:bg-zinc-800 dark:bg-purple-600 dark:hover:bg-purple-700 text-white text-xs sm:text-sm font-bold cursor-pointer transition-all active:scale-98 shadow-sm flex items-center justify-center gap-2"
+              <button
+                onClick={() => navigateToHome()}
+                className="w-full py-3 rounded-full bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-zinc-750 hover:to-zinc-900 text-xs sm:text-sm font-bold cursor-pointer transition-all active:scale-98 flex items-center justify-center gap-2"
               >
-                <span>Buka Galeri & Mulai Gunakan Prompt</span>
+                <span>Mulai Jelajahi & Buka Prompt</span>
                 <ArrowRight01Icon size={16} />
-              </Button>
+              </button>
 
               <button
                 onClick={() => onNavigate('/subscription')}
@@ -773,7 +773,7 @@ export default function CheckoutView({
                       <button
                         type="button"
                         onClick={handleSimulatePayment}
-                        className="w-full py-3 px-4 rounded-2xl bg-zinc-900 hover:bg-black dark:bg-purple-600 dark:hover:bg-purple-700 text-white text-xs font-bold transition-all duration-200 cursor-pointer shadow-xs active:scale-98 flex items-center justify-center gap-2 group"
+                        className="w-full py-3 px-4 rounded-2xl bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-zinc-750 hover:to-zinc-900 text-xs font-bold transition-all duration-200 cursor-pointer active:scale-98 flex items-center justify-center gap-2 group"
                       >
                         <Zap size={14} className="text-amber-400 group-hover:scale-110 transition-transform" />
                         <span>⚡ Simulasi Bayar Lunas Instan (GenPay Local Test)</span>
@@ -901,7 +901,7 @@ export default function CheckoutView({
                       <button
                         type="button"
                         onClick={handleApplyVoucher}
-                        className="h-9 px-4 rounded-xl bg-obsidian hover:bg-black dark:bg-zinc-800 dark:hover:bg-zinc-700 text-white text-xs font-bold transition-colors cursor-pointer shrink-0"
+                        className="h-9 px-4 rounded-xl bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_1px_2px_rgba(0,0,0,0.4)] hover:from-zinc-750 hover:to-zinc-900 text-xs font-bold transition-all cursor-pointer shrink-0 active:scale-95"
                       >
                         Terapkan
                       </button>

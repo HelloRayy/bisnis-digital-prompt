@@ -45,26 +45,20 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 
-/* High-Performance Lightweight Shimmer Button */
+/* High-Performance Lightweight Black Emphasis Button */
 function ShimmerButton({ children, onClick, className = "", isPopular = false }) {
   return (
     <button
       onClick={onClick}
       type="button"
-      className={`relative inline-flex w-full items-center justify-center rounded-full p-[1.5px] transition-all duration-200 cursor-pointer active:scale-98 group ${className} ${
+      className={`relative inline-flex w-full items-center justify-center rounded-full py-3 px-6 text-xs font-bold text-white transition-all duration-200 cursor-pointer active:scale-98 group overflow-hidden ${className} ${
         isPopular
-          ? 'bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 shadow-md shadow-purple-500/25 hover:shadow-purple-500/35'
-          : 'bg-zinc-300 hover:bg-zinc-400 dark:bg-zinc-700'
+          ? 'bg-gradient-to-b from-zinc-800 via-zinc-900 to-black border border-white/20 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.3),0_4px_16px_rgba(0,0,0,0.4)] hover:from-zinc-750 hover:to-zinc-900 hover:border-white/30 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.4),0_6px_20px_rgba(0,0,0,0.6)]'
+          : 'bg-gradient-to-b from-zinc-800 to-zinc-950 border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_6px_rgba(0,0,0,0.3)] hover:from-zinc-750 hover:to-zinc-900'
       }`}
     >
-      <span className={`relative z-10 w-full inline-flex items-center justify-center rounded-full py-3 px-6 text-xs font-bold transition-all duration-200 ${
-        isPopular
-          ? 'bg-purple-600 text-white hover:bg-purple-700'
-          : 'bg-zinc-900 text-white hover:bg-black dark:bg-zinc-800'
-      }`}>
-        <span className="flex items-center justify-center gap-2 tracking-wide font-sans">
-          {children}
-        </span>
+      <span className="relative z-10 flex items-center justify-center gap-2 tracking-wide font-sans">
+        {children}
       </span>
     </button>
   );
