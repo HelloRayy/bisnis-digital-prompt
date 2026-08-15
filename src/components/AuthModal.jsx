@@ -69,7 +69,7 @@ export default function AuthModal({ onClose, onAuthSuccess }) {
           type="button"
           onClick={handleGoogleSignIn}
           disabled={loading}
-          className="w-full py-3.5 px-6 rounded-2xl bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-750 text-obsidian dark:text-zinc-100 font-bold text-sm border border-zinc-200 dark:border-zinc-700 hover:border-zinc-300 dark:hover:border-zinc-600 shadow-xs hover:shadow-sm flex items-center justify-center gap-3 transition-all duration-200 cursor-pointer active:scale-98 disabled:opacity-50 group"
+          className="w-full h-12 px-6 rounded-full bg-white dark:bg-zinc-850 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-100 font-bold text-sm ring-1 ring-black/10 dark:ring-white/10 shadow-2xs hover:shadow-xs flex items-center justify-center gap-3 transition-all duration-200 cursor-pointer active:scale-95 disabled:opacity-50 group border-0"
         >
           {loading ? (
             <div className="h-5 w-5 border-2 border-purple-600 border-t-transparent rounded-full animate-spin" />

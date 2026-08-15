@@ -273,7 +273,7 @@ export default function FigmaPortfolioPreview({
               <button 
                 onClick={() => setShowSignOutConfirm(true)}
                 aria-label="Keluar akun"
-                className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-full bg-rose-50 hover:bg-rose-100/90 text-rose-600 border border-rose-200/60 text-xs font-medium transition-all cursor-pointer shadow-2xs active:scale-95 shrink-0"
+                className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-full bg-white dark:bg-zinc-850 hover:bg-rose-50 hover:text-rose-600 dark:hover:bg-rose-950/40 dark:hover:text-rose-400 text-zinc-700 dark:text-zinc-300 ring-1 ring-black/10 dark:ring-white/10 text-xs font-semibold transition-all duration-200 cursor-pointer shadow-2xs active:scale-95 shrink-0 border-0"
                 title="Keluar Akun"
               >
                 <Logout01Icon size={14} />
@@ -283,7 +283,7 @@ export default function FigmaPortfolioPreview({
               <button 
                 onClick={onOpenAuth}
                 aria-label="Login with Google"
-                className="inline-flex items-center gap-2 h-9 px-4 rounded-full bg-white hover:bg-slate-50 text-slate-700 border border-slate-200/80 text-xs font-semibold transition-all cursor-pointer shadow-xs hover:shadow-sm active:scale-95 shrink-0 group"
+                className="inline-flex items-center gap-2 h-9 px-4 rounded-full bg-white dark:bg-zinc-850 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 text-xs font-bold transition-all duration-200 cursor-pointer shadow-2xs active:scale-95 shrink-0 group border-0"
               >
                 <svg className="w-4 h-4 shrink-0 transition-transform group-hover:scale-105" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -526,7 +526,7 @@ export default function FigmaPortfolioPreview({
           <AlertDialogFooter className="w-full flex flex-row items-center justify-end gap-2.5 pt-2">
             <AlertDialogCancel
               onClick={() => setShowSignOutConfirm(false)}
-              className="rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 text-obsidian text-xs font-semibold py-2 px-4 cursor-pointer"
+              className="h-10 px-5 rounded-full text-xs font-bold"
             >
               Batal
             </AlertDialogCancel>
@@ -536,7 +536,7 @@ export default function FigmaPortfolioPreview({
                 setShowSignOutConfirm(false);
                 onSignOut();
               }}
-              className="rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold py-2 px-4 cursor-pointer border-none shadow-md shadow-rose-600/20 transition-colors"
+              className="h-10 px-5 rounded-full bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition-all active:scale-95 border-0 shadow-xs"
             >
               Keluar Akun
             </AlertDialogAction>

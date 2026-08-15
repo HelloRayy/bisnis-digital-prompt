@@ -302,7 +302,7 @@ export default function CheckoutView({
         <div className="flex items-center gap-3">
           <button
             onClick={() => onNavigate('/subscription')}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#f4f4f5] dark:bg-zinc-800 hover:bg-black/5 dark:hover:bg-zinc-700 text-obsidian dark:text-zinc-200 text-xs sm:text-sm font-semibold transition-colors cursor-pointer"
+            className="inline-flex items-center gap-2 h-9 px-4 rounded-full bg-white dark:bg-zinc-850 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer active:scale-95 border-0"
           >
             <ArrowLeft01Icon size={16} />
             <span className="hidden sm:inline">Pilihan Paket</span>
@@ -330,78 +330,51 @@ export default function CheckoutView({
         </div>
       </header>
 
-      {/* 2. MAIN CHECKOUT CONTAINER */}
-      <main className="max-w-6xl mx-auto w-full px-4 sm:px-6 md:px-8 py-8 md:py-12 flex-1">
-        
+      <main className="max-w-6xl w-full mx-auto px-4 sm:px-6 md:px-10 pt-6 sm:pt-10 flex-1">
         {status === 'paid' ? (
           /* ============================================================
-             CELEBRATORY PAYMENT SUCCESS RECEIPT SCREEN
+             SUCCESS STATE: PAYMENT CONFIRMED & BALANCE CREDITED
              ============================================================ */
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="max-w-xl mx-auto bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-10 shadow-sm flex flex-col items-center text-center"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="max-w-xl mx-auto bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-3xl p-6 sm:p-10 text-center shadow-xl shadow-purple-500/5 flex flex-col items-center gap-6"
           >
-            {/* Animated Success Checkmark */}
-            <div className="relative mb-4">
-              <div className="w-20 h-20 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shadow-lg shadow-emerald-500/20">
-                <CheckmarkCircle02Icon size={46} />
-              </div>
-              <span className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-purple-600 text-white text-[10px] font-black">
-                ✨
+            {/* Animated Celebration Icon */}
+            <div className="w-16 h-16 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shadow-sm">
+              <CheckmarkCircle02Icon size={36} />
+            </div>
+
+            <div>
+              <span className="text-xs font-bold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 uppercase tracking-wider">
+                Pembayaran Berhasil Diverifikasi
               </span>
+              <h1 className="text-2xl sm:text-3xl font-bold text-obsidian dark:text-white mt-3">
+                Saldo Kredit Berhasil Ditambahkan!
+              </h1>
+              <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-2 max-w-md">
+                Terima kasih! Pembayaran untuk <strong>{plan.name}</strong> telah berhasil. Saldo sebesar <strong>+{plan.credits.toLocaleString('id-ID')} Kredit</strong> telah aktif di akun Anda.
+              </p>
             </div>
 
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 text-xs font-bold border border-emerald-200 dark:border-emerald-800 mb-2">
-              <SparklesIcon size={13} />
-              <span>Transaksi Terkonfirmasi Lunas</span>
-            </div>
-
-            <h1 className="text-2xl sm:text-3xl font-black text-obsidian dark:text-white tracking-tight mb-2">
-              Pembayaran Berhasil!
-            </h1>
-            
-            <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mb-6 max-w-md">
-              Terima kasih! Saldo sebesar <strong className="text-purple-600 dark:text-purple-400 font-bold">+{plan.credits.toLocaleString('id-ID')} Kredit</strong> telah langsung masuk dan aktif di akun Anda.
-            </p>
-
-            {/* Official E-Receipt Box */}
-            <div className="w-full bg-zinc-50 dark:bg-zinc-950/50 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-4 sm:p-5 flex flex-col gap-3 text-xs text-left mb-6 font-mono">
-              <div className="flex justify-between items-center pb-2.5 border-b border-zinc-200 dark:border-zinc-800 font-sans">
-                <span className="font-bold text-obsidian dark:text-zinc-200 text-sm">Bukti Transaksi E-Receipt</span>
-                <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-100/50 dark:bg-emerald-900/30 px-2 py-0.5 rounded">SUKSES</span>
-              </div>
-
-              <div className="flex justify-between items-center text-zinc-600 dark:text-zinc-400">
+            {/* Receipt Card */}
+            <div className="w-full bg-zinc-50 dark:bg-zinc-950/50 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-4 sm:p-5 flex flex-col gap-3 text-xs">
+              <div className="flex justify-between items-center text-zinc-500">
                 <span>No. Transaksi</span>
-                <span className="text-obsidian dark:text-zinc-200 font-bold">{qrisData?.transactionId || `TRX-${Date.now()}`}</span>
+                <span className="font-mono text-obsidian dark:text-zinc-200 font-bold">{qrisData?.transactionId || 'ORD-GP-LOCAL'}</span>
               </div>
-
-              <div className="flex justify-between items-center text-zinc-600 dark:text-zinc-400">
-                <span>Paket Layanan</span>
-                <span className="text-obsidian dark:text-zinc-200 font-semibold">{plan.name}</span>
+              <div className="flex justify-between items-center text-zinc-500">
+                <span>Total Biaya</span>
+                <span className="font-mono text-obsidian dark:text-zinc-200 font-bold">Rp {currentFinalPrice.toLocaleString('id-ID')}</span>
               </div>
-
-              <div className="flex justify-between items-center text-zinc-600 dark:text-zinc-400">
-                <span>Kredit Didapat</span>
+              <div className="flex justify-between items-center text-zinc-500">
+                <span>Kredit Bertambah</span>
                 <span className="text-purple-600 dark:text-purple-400 font-bold">+{plan.credits.toLocaleString('id-ID')} Kredit</span>
               </div>
-
-              <div className="flex justify-between items-center text-zinc-600 dark:text-zinc-400">
-                <span>Metode Pembayaran</span>
-                <span className="text-obsidian dark:text-zinc-200 font-medium">QRIS GenPay Instant</span>
-              </div>
-
-              <div className="flex justify-between items-center text-zinc-600 dark:text-zinc-400">
-                <span>Waktu Pembayaran</span>
-                <span className="text-obsidian dark:text-zinc-200">{new Date().toLocaleString('id-ID')}</span>
-              </div>
-
-              <div className="flex justify-between items-center pt-2.5 border-t border-zinc-200 dark:border-zinc-800 text-sm font-bold font-sans">
-                <span className="text-obsidian dark:text-white">Total Terbayar</span>
-                <span className="text-purple-600 dark:text-purple-400 font-mono">
-                  Rp {currentFinalPrice.toLocaleString('id-ID')}
+              <div className="pt-2 border-t border-zinc-200/60 dark:border-zinc-800 flex justify-between items-center font-bold">
+                <span className="text-obsidian dark:text-white">Saldo Kredit Sekarang</span>
+                <span className="text-emerald-600 dark:text-emerald-400 text-sm font-mono">
+                  {Number(userCredits).toLocaleString('id-ID')} Kredit
                 </span>
               </div>
             </div>
@@ -410,7 +383,7 @@ export default function CheckoutView({
             <div className="flex flex-col sm:flex-row items-center gap-3 w-full">
               <button
                 onClick={() => navigateToHome()}
-                className="w-full py-3 rounded-full bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-zinc-750 hover:to-zinc-900 text-xs sm:text-sm font-bold cursor-pointer transition-all active:scale-98 flex items-center justify-center gap-2"
+                className="w-full h-12 px-8 rounded-full bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1.5px_3px_0_rgba(0,0,0,0.25)] hover:from-zinc-650 hover:via-zinc-850 hover:to-zinc-950 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_3px_8px_0_rgba(0,0,0,0.3)] text-sm font-bold cursor-pointer transition-all duration-200 active:scale-95 flex items-center justify-center gap-2"
               >
                 <span>Mulai Jelajahi & Buka Prompt</span>
                 <ArrowRight01Icon size={16} />
@@ -418,7 +391,7 @@ export default function CheckoutView({
 
               <button
                 onClick={() => onNavigate('/subscription')}
-                className="w-full sm:w-auto px-6 py-3 rounded-full border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-750 text-obsidian dark:text-zinc-200 text-xs sm:text-sm font-semibold transition-colors cursor-pointer"
+                className="w-full sm:w-auto h-12 px-6 rounded-full bg-white dark:bg-zinc-850 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs text-sm font-bold transition-all duration-200 cursor-pointer active:scale-95 border-0"
               >
                 Kembali ke Paket
               </button>
@@ -689,7 +662,7 @@ export default function CheckoutView({
                         <button
                           type="button"
                           onClick={() => handleCopy(qrisData.transactionId, 'trx')}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-755 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition-colors cursor-pointer"
+                          className="inline-flex items-center gap-1.5 h-8 px-3.5 rounded-full bg-white dark:bg-zinc-850 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs text-xs font-semibold transition-all duration-200 cursor-pointer active:scale-95 border-0"
                         >
                           {copiedTrx ? <Check size={13} className="text-emerald-600" /> : <Copy size={13} />}
                           <span>{copiedTrx ? 'ID Disalin' : 'Salin No. Transaksi'}</span>
@@ -698,7 +671,7 @@ export default function CheckoutView({
                         <button
                           type="button"
                           onClick={handleDownloadQr}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-755 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition-colors cursor-pointer"
+                          className="inline-flex items-center gap-1.5 h-8 px-3.5 rounded-full bg-white dark:bg-zinc-850 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs text-xs font-semibold transition-all duration-200 cursor-pointer active:scale-95 border-0"
                         >
                           <Download size={13} />
                           <span>Unduh Gambar QR</span>
@@ -773,7 +746,7 @@ export default function CheckoutView({
                       <button
                         type="button"
                         onClick={handleSimulatePayment}
-                        className="w-full py-3 px-4 rounded-2xl bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-zinc-750 hover:to-zinc-900 text-xs font-bold transition-all duration-200 cursor-pointer active:scale-98 flex items-center justify-center gap-2 group"
+                        className="w-full h-11 px-6 rounded-full bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1.5px_3px_0_rgba(0,0,0,0.25)] hover:from-zinc-650 hover:via-zinc-850 hover:to-zinc-950 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_3px_8px_0_rgba(0,0,0,0.3)] text-xs font-bold transition-all duration-200 cursor-pointer active:scale-95 flex items-center justify-center gap-2 group"
                       >
                         <Zap size={14} className="text-amber-400 group-hover:scale-110 transition-transform" />
                         <span>⚡ Simulasi Bayar Lunas Instan (GenPay Local Test)</span>
@@ -901,7 +874,7 @@ export default function CheckoutView({
                       <button
                         type="button"
                         onClick={handleApplyVoucher}
-                        className="h-9 px-4 rounded-xl bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_1px_2px_rgba(0,0,0,0.4)] hover:from-zinc-750 hover:to-zinc-900 text-xs font-bold transition-all cursor-pointer shrink-0 active:scale-95"
+                        className="h-9 px-4 rounded-xl bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1px_2px_rgba(0,0,0,0.3)] hover:from-zinc-650 hover:via-zinc-850 hover:to-zinc-950 hover:border-white/25 text-xs font-bold transition-all duration-200 cursor-pointer shrink-0 active:scale-95"
                       >
                         Terapkan
                       </button>
@@ -915,7 +888,7 @@ export default function CheckoutView({
                       <button
                         type="button"
                         onClick={handleClaimFree}
-                        className="w-full mt-3 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-500/20 transition-all cursor-pointer flex items-center justify-center gap-2"
+                        className="w-full mt-3 h-12 px-6 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold shadow-md shadow-emerald-500/20 transition-all duration-200 cursor-pointer active:scale-95 flex items-center justify-center gap-2"
                       >
                         <span>🎉 Klaim +{plan.credits.toLocaleString('id-ID')} Kredit Gratis (Rp 0)</span>
                       </button>
