@@ -9,6 +9,7 @@ import { SubscriptionCards } from './SubscriptionView';
 import PromptParameterCustomizer from './prompt-detail/PromptParameterCustomizer';
 import PromptImageGallery from './prompt-detail/PromptImageGallery';
 import { getOptimizedImageUrl } from '@/utils/image-optimizer';
+import { getPromptAspectRatioClass } from '@/utils/prompt-helpers';
 import { 
   Cancel01Icon, 
   Copy01Icon, 
@@ -90,6 +91,13 @@ export default function PromptDetailView({
   const allImages = images && images.length > 0 ? images : [image];
   const [selectedImgIndex, setSelectedImgIndex] = useState(0);
   const activeImage = allImages[selectedImgIndex] || image;
+  const [isHeroLoaded, setIsHeroLoaded] = useState(false);
+  const aspectClass = getPromptAspectRatioClass(prompt);
+
+  // Reset loading state if active image changes
+  React.useEffect(() => {
+    setIsHeroLoaded(false);
+  }, [activeImage, prompt?.id]);
 
   // Selalu mulai dari Tampilan Cover (Stage 1) terlebih dahulu saat membuka detail
   const [showProjectInfo, setShowProjectInfo] = useState(false);
@@ -315,15 +323,28 @@ export default function PromptDetailView({
               transition={{ duration: 0.2 }}
               className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
             >
-              {/* Left Image Showcase */}
-              <div className="lg:col-span-6 flex flex-col gap-4 sticky lg:top-24">
-                <div className="w-full flex items-center justify-center overflow-hidden [contain:paint]">
+              {/* Left Image Showcase with Aspect Ratio Locked Skeleton */}
+              <div className="lg:col-span-6 flex flex-col gap-4 sticky lg:top-24 items-center justify-center">
+                <div className={`relative w-full max-w-[500px] ${aspectClass} max-h-[70vh] rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/5 dark:border-white/10 shadow-md flex items-center justify-center [contain:paint]`}>
+                  {/* High-Craft Shimmer Skeleton (Preserves exact dimensions before image loads) */}
+                  {!isHeroLoaded && (
+                    <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-zinc-100 dark:bg-zinc-900 animate-pulse z-0">
+                      <div className="w-12 h-12 rounded-full bg-zinc-200/80 dark:bg-zinc-800 flex items-center justify-center text-zinc-400 mb-2">
+                        <Image01Icon size={24} className="opacity-60" />
+                      </div>
+                      <span className="text-[11px] font-medium text-zinc-400/80 tracking-wide">Memuat Preview...</span>
+                    </div>
+                  )}
+
                   <img 
                     src={getOptimizedImageUrl(activeImage, 1200, 80)} 
                     alt={title} 
                     decoding="async"
+                    onLoad={() => setIsHeroLoaded(true)}
                     onClick={() => setIsLightboxOpen(true)}
-                    className="w-full h-auto max-h-[70vh] object-contain rounded-2xl cursor-pointer shadow-sm hover:scale-[1.01] transition-transform duration-200"
+                    className={`absolute inset-0 w-full h-full object-cover rounded-2xl cursor-pointer hover:scale-[1.01] transition-all duration-300 z-10 ${
+                      isHeroLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-[0.99]'
+                    }`}
                     title="Klik untuk memperbesar gambar"
                   />
                 </div>

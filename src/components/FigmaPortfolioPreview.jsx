@@ -316,7 +316,7 @@ export default function FigmaPortfolioPreview({
                           className="group cursor-pointer flex flex-col gap-2.5 [content-visibility:auto] [contain-intrinsic-size:1px_340px]"
                         >
                           <div className={`relative w-full ${aspectClass} rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/5 dark:border-white/10 shadow-2xs group-hover:shadow-md transition-shadow duration-200 [contain:paint]`}>
-                            <PortfolioImageItem src={item.image} alt={getShortTitle(item)} isPriority={index < 6} />
+                            <PortfolioImageItem src={item.image} alt={getShortTitle(item)} isPriority={index < 12} />
 
                             {/* Top Subtle Gradient Overlay (Visible on Hover) */}
                             <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/40 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" />
