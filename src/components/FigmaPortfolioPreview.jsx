@@ -26,6 +26,7 @@ import {
 import { BanknoteArrowUp, Coins } from 'lucide-react';
 import { getCleanShortSlug } from '../utils/slug';
 import { getOptimizedImageUrl } from '../utils/image-optimizer';
+import { getPromptAspectRatioClass } from '../utils/prompt-helpers';
 import { AppSidebar } from '@/components/app-sidebar';
 import { Dock } from '@/components/ui/dock-two';
 import { AnimatedNumber } from '@/components/ui/animated-counter';
@@ -305,7 +306,7 @@ export default function FigmaPortfolioPreview({
                   <div key={`col_bucket_${colIdx}`} className="flex flex-col gap-4 sm:gap-6">
                     {columnItems.map(({ item, index }) => {
                       const isUnlocked = purchasedPromptIds.includes(item.id) || !item.isPremium;
-                      const aspectClass = aspectRatios[index % aspectRatios.length];
+                      const aspectClass = getPromptAspectRatioClass(item);
                       const customSlug = getCleanShortSlug(item);
                       const promptCost = item.cost ?? (item.prompt?.length >= 1533 ? 500 : 400);
 
