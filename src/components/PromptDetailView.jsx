@@ -117,10 +117,11 @@ export default function PromptDetailView({
   const [variables, setVariables] = useState(() => extractVariables(rawPrompt));
   const [copiedText, setCopiedText] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [copiedImg, setCopiedImg] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [isTutorialOpen, setIsTutorialOpen] = useState(false);
+  const [isTutorialOpen, setIsTutorialOpen] = useState(true);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [showSubscription, setShowSubscription] = useState(false);
@@ -196,6 +197,19 @@ export default function PromptDetailView({
     } else {
       setErrorMsg('Gagal menyalin teks. Silakan salin secara manual.');
       toast.error('Gagal menyalin teks.');
+    }
+  };
+
+  const copyImageUrlToClipboard = async () => {
+    const imgUrl = activeImage || image;
+    if (!imgUrl) return;
+    try {
+      await navigator.clipboard.writeText(imgUrl);
+      setCopiedImg(true);
+      setTimeout(() => setCopiedImg(false), 2500);
+      toast.success('Link gambar referensi berhasil disalin!');
+    } catch (e) {
+      toast.error('Gagal menyalin link gambar.');
     }
   };
 
@@ -494,27 +508,27 @@ export default function PromptDetailView({
                   </div>
                 </motion.div>
 
-                {/* Tutorial Cara Menggunakan Prompt (Collapsible Dropdown - Column Layout) */}
+                {/* Tutorial Cara Menggunakan Prompt (Collapsible Dropdown - Interactive Workflow) */}
                 {(isUnlocked || !isPremium) && (
                   <motion.div 
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: 0.11 }}
-                    className="rounded-xl border border-purple-200/60 bg-purple-50/40 text-obsidian overflow-hidden transition-all"
+                    className="rounded-2xl border border-purple-200/80 dark:border-purple-800/60 bg-purple-50/40 dark:bg-purple-950/20 text-obsidian dark:text-zinc-100 overflow-hidden transition-all shadow-xs"
                   >
                     <button
                       type="button"
                       onClick={() => setIsTutorialOpen(!isTutorialOpen)}
-                      className="w-full px-4 py-3 flex items-center justify-between font-semibold text-purple-950 text-sm hover:bg-purple-100/50 cursor-pointer transition-colors"
+                      className="w-full px-4 sm:px-5 py-3.5 flex items-center justify-between font-bold text-obsidian dark:text-white text-xs sm:text-sm hover:bg-purple-100/50 dark:hover:bg-purple-900/30 cursor-pointer transition-colors"
                     >
                       <div className="flex items-center gap-2">
-                        <InformationCircleIcon size={18} className="text-purple-600 shrink-0" />
+                        <InformationCircleIcon size={18} className="text-purple-600 dark:text-purple-400 shrink-0" />
                         <span>Cara Menggunakan Prompt Ini</span>
                       </div>
                       <motion.span 
                         animate={{ rotate: isTutorialOpen ? 180 : 0 }} 
                         transition={{ duration: 0.2 }}
-                        className="text-purple-600 shrink-0"
+                        className="text-purple-600 dark:text-purple-400 shrink-0"
                       >
                         <ArrowDown01Icon size={16} />
                       </motion.span>
@@ -530,20 +544,107 @@ export default function PromptDetailView({
                           transition={{ duration: 0.25, ease: 'easeInOut' }}
                           className="overflow-hidden"
                         >
-                          <ol className="flex flex-col gap-2.5 px-4 pb-4 pt-2 text-xs text-obsidian/85 border-t border-purple-200/50">
-                            <li className="flex items-start gap-2.5">
-                              <span className="w-5 h-5 rounded-full bg-purple-600 text-white font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">1</span>
-                              <span>{variableKeys.length > 0 ? 'Kustomisasi nilai parameter pada kolom di bawah sesuai kebutuhan Anda.' : 'Periksa detail teks prompt pada tampilan di bawah.'}</span>
-                            </li>
-                            <li className="flex items-start gap-2.5">
-                              <span className="w-5 h-5 rounded-full bg-purple-600 text-white font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">2</span>
-                              <span>Hasil teks prompt akan otomatis ter-update dan siap disalin di tombol bagian bawah.</span>
-                            </li>
-                            <li className="flex items-start gap-2.5">
-                              <span className="w-5 h-5 rounded-full bg-purple-600 text-white font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">3</span>
-                              <span>Tempel (*paste*) teks prompt ke generator AI pilihan Anda ({model || 'Midjourney'}).</span>
-                            </li>
-                          </ol>
+                          <div className="flex flex-col gap-3 px-4 sm:px-5 pb-5 pt-3 border-t border-purple-200/60 dark:border-purple-800/40 text-xs">
+                            
+                            {/* Step 1: Copy Prompt */}
+                            <div className="flex items-start justify-between gap-3 p-3 rounded-xl bg-white dark:bg-zinc-900 border border-purple-100 dark:border-purple-900/50 shadow-2xs">
+                              <div className="flex items-start gap-2.5">
+                                <span className="w-5 h-5 rounded-full bg-purple-600 text-white font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">
+                                  1
+                                </span>
+                                <div>
+                                  <p className="font-bold text-obsidian dark:text-white">Salin Teks Prompt</p>
+                                  <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">
+                                    {variableKeys.length > 0 
+                                      ? 'Kustomisasi variabel di bawah (jika ada), lalu salin teks prompt siap pakai.'
+                                      : 'Salin teks prompt teroptimasi ke clipboard Anda.'}
+                                  </p>
+                                </div>
+                              </div>
+
+                              <button
+                                type="button"
+                                onClick={copyPromptToClipboard}
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800 hover:bg-purple-100 dark:hover:bg-purple-900 text-purple-700 dark:text-purple-300 text-xs font-bold transition-all shrink-0 cursor-pointer active:scale-95 shadow-2xs"
+                              >
+                                {copiedText ? (
+                                  <>
+                                    <Tick01Icon size={14} className="text-emerald-600" />
+                                    <span className="text-emerald-600">Disalin!</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy01Icon size={14} />
+                                    <span>Salin Prompt</span>
+                                  </>
+                                )}
+                              </button>
+                            </div>
+
+                            {/* Step 2: Open Google Gemini */}
+                            <div className="flex items-start justify-between gap-3 p-3 rounded-xl bg-white dark:bg-zinc-900 border border-purple-100 dark:border-purple-900/50 shadow-2xs">
+                              <div className="flex items-start gap-2.5">
+                                <span className="w-5 h-5 rounded-full bg-purple-600 text-white font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">
+                                  2
+                                </span>
+                                <div>
+                                  <p className="font-bold text-obsidian dark:text-white">Buka Google Gemini</p>
+                                  <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">
+                                    Kunjungi Google Gemini untuk men-generate gambar / hasil visual AI.
+                                  </p>
+                                </div>
+                              </div>
+
+                              <a
+                                href="https://gemini.google.com/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold transition-all shrink-0 cursor-pointer active:scale-95 shadow-xs group"
+                              >
+                                <SparklesIcon size={13} className="fill-purple-200" />
+                                <span>Buka Gemini</span>
+                                <ArrowUpRight01Icon size={13} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                              </a>
+                            </div>
+
+                            {/* Step 3: Paste & Generate */}
+                            <div className="flex items-start gap-2.5 p-3 rounded-xl bg-white dark:bg-zinc-900 border border-purple-100 dark:border-purple-900/50 shadow-2xs">
+                              <span className="w-5 h-5 rounded-full bg-purple-600 text-white font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">
+                                3
+                              </span>
+                              <div>
+                                <p className="font-bold text-obsidian dark:text-white">Tempel (*Paste*) & Generate</p>
+                                <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">
+                                  Tempel (<kbd className="px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 font-mono text-[10px] border border-zinc-200 dark:border-zinc-700">Ctrl+V</kbd> / <kbd className="px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 font-mono text-[10px] border border-zinc-200 dark:border-zinc-700">Cmd+V</kbd>) teks prompt pada kolom chat Gemini lalu tekan Enter.
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* PRO TIP: Image Reference Tip */}
+                            <div className="p-3.5 rounded-xl bg-amber-50/80 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-800/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                              <div className="flex items-start gap-2.5">
+                                <span className="text-base leading-none mt-0.5">💡</span>
+                                <div>
+                                  <p className="font-bold text-amber-900 dark:text-amber-300 text-xs">
+                                    Tips Hasil Maksimal:
+                                  </p>
+                                  <p className="text-[11px] text-amber-800/90 dark:text-amber-400/90 mt-0.5">
+                                    Salin / unggah <strong>gambar referensi</strong> prompt ini ke Gemini bersama teks prompt agar hasil AI lebih akurat sesuai style & komposisi yang diinginkan.
+                                  </p>
+                                </div>
+                              </div>
+
+                              <button
+                                type="button"
+                                onClick={copyImageUrlToClipboard}
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-100 hover:bg-amber-200 dark:bg-amber-900/60 dark:hover:bg-amber-800/80 text-amber-900 dark:text-amber-200 text-xs font-bold transition-all shrink-0 cursor-pointer active:scale-95 shadow-2xs self-start sm:self-auto"
+                              >
+                                <Image01Icon size={13} />
+                                <span>{copiedImg ? 'Link Gambar Disalin!' : 'Salin Link Gambar'}</span>
+                              </button>
+                            </div>
+
+                          </div>
                         </motion.div>
                       )}
                     </AnimatePresence>
