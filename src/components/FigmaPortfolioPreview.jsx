@@ -296,11 +296,11 @@ export default function FigmaPortfolioPreview({
           </div>
         </header>
 
-        {/* Main Content: Masonry Grid Layout */}
-        <main className="p-4 sm:p-6 md:p-8 pt-16 w-full min-w-0 max-w-full overflow-x-hidden mx-auto pb-32">
+        {/* Main Content: Masonry Grid Layout with guaranteed header clearance */}
+        <main className="w-full min-w-0 max-w-full overflow-x-hidden mx-auto pt-24 sm:pt-28 md:pt-32 px-4 sm:px-6 md:px-8 pb-32">
           {displayedPrompts.length > 0 ? (
             <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 sm:gap-6 mt-6 items-start">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 sm:gap-6 items-start">
                 {columnBuckets.map((columnItems, colIdx) => (
                   <div key={`col_bucket_${colIdx}`} className="flex flex-col gap-4 sm:gap-6">
                     {columnItems.map(({ item, index }) => {
