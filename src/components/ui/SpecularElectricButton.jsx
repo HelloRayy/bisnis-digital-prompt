@@ -36,10 +36,10 @@ export function SpecularElectricButton({
       onClick={onClick}
       title={title}
       type="button"
-      className={`relative inline-flex items-center gap-2.5 h-9 px-3.5 sm:px-4 rounded-full bg-gradient-to-b from-[#5c1a96] via-[#380e60] to-[#1a052e] text-white border border-purple-400/30 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.38),0_1.5px_4px_0_rgba(0,0,0,0.3)] hover:from-[#6b21a8] hover:via-[#441275] hover:to-[#22073c] hover:border-purple-300/45 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.5),0_3px_8px_0_rgba(92,26,150,0.35)] font-sans text-xs font-bold transition-all duration-200 cursor-pointer shrink-0 active:scale-95 group select-none ${className}`}
+      className={`relative inline-flex items-center gap-2.5 h-9 px-3.5 sm:px-4 rounded-full bg-gradient-to-b from-purple-500 via-purple-600 to-indigo-600 text-white border border-purple-300/40 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.45),0_1.5px_4px_0_rgba(147,51,234,0.3)] hover:from-purple-400 hover:via-purple-500 hover:to-indigo-500 hover:border-purple-200/60 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.6),0_3px_8px_0_rgba(147,51,234,0.4)] font-sans text-xs font-bold transition-all duration-200 cursor-pointer shrink-0 active:scale-95 group select-none ${className}`}
     >
       {/* Frosted Circular Wallet Icon Badge */}
-      <span className="w-5.5 h-5.5 rounded-full bg-white/15 border border-white/25 flex items-center justify-center text-white shrink-0 shadow-2xs group-hover:bg-white/20 transition-colors">
+      <span className="w-5.5 h-5.5 rounded-full bg-white/20 border border-white/30 flex items-center justify-center text-white shrink-0 shadow-2xs group-hover:bg-white/25 transition-colors">
         <WalletMinimalIcon size={12} className="text-white shrink-0" />
       </span>
 
@@ -48,7 +48,7 @@ export function SpecularElectricButton({
         <strong className="font-extrabold text-xs sm:text-sm tracking-tight text-white drop-shadow-2xs">
           {formattedCredits}
         </strong>
-        <span className="text-[10px] sm:text-xs font-bold tracking-wider uppercase text-white/95">
+        <span className="text-[10px] sm:text-xs font-bold tracking-wider uppercase text-white">
           {label}
         </span>
       </span>
