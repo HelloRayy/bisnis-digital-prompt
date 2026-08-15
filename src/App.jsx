@@ -409,10 +409,10 @@ function App() {
   return (
     <>
       {/* HIGH-PERFORMANCE DEDICATED ROUTER */}
-      {currentPath.startsWith('/checkout/') ? (
-        /* ROUTE -1: Dedicated 2-Column Checkout Page (/checkout/:planId) */
+      {currentPath.startsWith('/checkout') ? (
+        /* ROUTE -1: Dedicated 2-Column Checkout Page (/checkout or /checkout/:planId) */
         <CheckoutView 
-          planId={currentPath.replace('/checkout/', '') || '10k'}
+          planId={currentPath.replace(/^\/checkout\/?/, '') || '10k'}
           userCredits={userCredits}
           currentUser={currentUser}
           onNavigate={(path) => navigateTo(path)}
@@ -421,11 +421,17 @@ function App() {
           }}
         />
       ) : currentPath === '/subscription' || currentPath === '/pricing' || currentPath === '/subs' ? (
-        /* ROUTE 0: Dedicated Subscription & Top-up Page (/subscription) */
         <SubscriptionView 
           userCredits={userCredits}
+          userRole={userRole}
+          currentUser={currentUser}
+          favoritePromptIds={favoritePromptIds}
+          purchasedPromptIds={purchasedPromptIds}
           onClose={() => navigateTo('/')}
+          onNavigate={(path) => navigateTo(path)}
           onTopUp={handleTopUp}
+          onOpenAuth={() => setShowAuthModal(true)}
+          onSignOut={handleSignOut}
         />
       ) : (
         /* BASE & DETAIL ROUTE (Preserves Gallery Grid DOM Tree & Image Cache in Memory) */

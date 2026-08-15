@@ -100,6 +100,7 @@ export function AppSidebar({
       id: 'subscription',
       label: 'Subscription',
       icon: CreditCardIcon,
+      isActive: activeCategory === 'subscription',
       onClick: () => onOpenUpgrade && onOpenUpgrade()
     }
   ];
