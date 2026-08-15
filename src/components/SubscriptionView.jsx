@@ -7,9 +7,7 @@ import {
   Cancel01Icon, 
   StarIcon,
   Logout01Icon,
-  CreditCardIcon,
-  ShieldCheck01Icon,
-  HelpCircleIcon
+  CreditCardIcon
 } from 'hugeicons-react';
 import { 
   Coins, 
@@ -19,7 +17,9 @@ import {
   ChevronUp, 
   Check, 
   Sparkles, 
-  ArrowRight 
+  ArrowRight,
+  ShieldCheck,
+  HelpCircle
 } from 'lucide-react';
 import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/app-sidebar';
@@ -415,7 +415,7 @@ export default function SubscriptionView({
 
               <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-2xs flex flex-col gap-2">
                 <div className="w-8 h-8 rounded-xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
-                  <ShieldCheck01Icon size={18} />
+                  <ShieldCheck size={18} />
                 </div>
                 <h4 className="text-xs font-bold text-obsidian dark:text-white">Kredit Permanen</h4>
                 <p className="text-[11px] text-zinc-500 dark:text-zinc-400">Saldo tidak memiliki masa berlaku dan berlaku selamanya.</p>

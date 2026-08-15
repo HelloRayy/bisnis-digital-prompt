@@ -9,7 +9,6 @@ import {
   CreditCardIcon,
   Copy01Icon,
   Download01Icon,
-  ShieldCheck01Icon,
   InformationCircleIcon,
   Tick01Icon,
   AlertCircleIcon,
@@ -27,7 +26,8 @@ import {
   Copy, 
   Download,
   HelpCircle,
-  Coins
+  Coins,
+  ShieldCheck
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { createGenPayQris, checkGenPayTransactionStatus } from '@/lib/genpay';
@@ -931,7 +931,7 @@ export default function CheckoutView({
                   </div>
 
                   <div className="flex items-center gap-2.5 text-xs text-zinc-600 dark:text-zinc-400">
-                    <ShieldCheck01Icon size={15} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
+                    <ShieldCheck size={15} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
                     <span><strong>Permanen:</strong> Kredit berlaku seumur hidup tanpa masa kedaluwarsa.</span>
                   </div>
 
