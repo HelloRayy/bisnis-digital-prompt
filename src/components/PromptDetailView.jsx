@@ -768,16 +768,16 @@ export default function PromptDetailView({
                         </div>
                         <button
                           onClick={handleCopyText}
-                          className="group inline-flex items-center justify-between pl-7 pr-2.5 h-12 rounded-full font-bold text-sm transition-all cursor-pointer active:scale-95 bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-zinc-750 hover:to-zinc-900 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_4px_12px_0_rgba(0,0,0,0.5)] select-none pointer-events-auto"
+                          className="group inline-flex items-center justify-between pl-7 pr-2.5 h-12 rounded-full font-bold text-sm transition-all cursor-pointer active:scale-95 bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-purple-600 hover:to-purple-800 hover:border-purple-300 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.45),0_6px_20px_0_rgba(147,51,234,0.4)] select-none pointer-events-auto duration-200"
                         >
                           <span className="font-bold tracking-tight">
                             Buka Prompt ({Number(promptCost).toLocaleString('id-ID')} Kredit)
                           </span>
 
-                          <div className="w-8 h-8 rounded-full bg-white text-obsidian flex items-center justify-center shrink-0 ml-4 shadow-2xs group-hover:scale-105 transition-transform">
+                          <div className="w-8 h-8 rounded-full bg-white text-obsidian flex items-center justify-center shrink-0 ml-4 shadow-2xs group-hover:scale-105 group-hover:bg-purple-50 group-hover:text-purple-700 transition-all duration-200">
                             <ArrowUpRight01Icon 
                               size={16} 
-                              className="text-obsidian stroke-[2.5]" 
+                              className="stroke-[2.5]" 
                             />
                           </div>
                         </button>
@@ -790,10 +790,10 @@ export default function PromptDetailView({
                     <div className="flex items-center gap-4 pt-4 border-t border-black/5">
                       <button
                         onClick={handleCopyText}
-                        className={`h-12 px-8 rounded-full font-bold text-sm flex items-center justify-center gap-2.5 transition-all cursor-pointer active:scale-95 ${
+                        className={`h-12 px-8 rounded-full font-bold text-sm flex items-center justify-center gap-2.5 transition-all cursor-pointer active:scale-95 duration-200 ${
                           copiedText
                             ? 'bg-emerald-600 text-white shadow-emerald-600/20'
-                            : 'bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-zinc-750 hover:to-zinc-900 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_4px_12px_0_rgba(0,0,0,0.5)]'
+                            : 'bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-purple-600 hover:to-purple-800 hover:border-purple-300 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.45),0_6px_20px_0_rgba(147,51,234,0.4)]'
                         }`}
                       >
                         {copiedText ? <Check size={18} className="text-white stroke-[2.5]" /> : <Copy01Icon size={18} />}
