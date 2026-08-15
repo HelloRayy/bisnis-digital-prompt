@@ -10,11 +10,11 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        // Primary: KUMO UI Black Obsidian with Top Light Flare on Hover
+        // Primary: KUMO UI Black Obsidian with Soft Shadows, Top Light Shine & Smooth Hover Lift
         primary:
-          "relative overflow-hidden bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-zinc-600 hover:via-zinc-850 hover:to-zinc-950 hover:border-white/30 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.5),inset_0_12px_16px_-6px_rgba(255,255,255,0.18),0_6px_16px_0_rgba(0,0,0,0.5)] active:scale-95 font-bold transition-all duration-200 cursor-pointer",
+          "relative overflow-hidden bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1.5px_3px_0_rgba(0,0,0,0.25)] hover:from-zinc-650 hover:via-zinc-800 hover:to-zinc-950 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_3px_8px_0_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:scale-[1.01] active:translate-y-0 active:scale-[0.97] font-bold transition-all duration-200 cursor-pointer",
         default:
-          "relative overflow-hidden bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-zinc-600 hover:via-zinc-850 hover:to-zinc-950 hover:border-white/30 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.5),inset_0_12px_16px_-6px_rgba(255,255,255,0.18),0_6px_16px_0_rgba(0,0,0,0.5)] active:scale-95 font-bold transition-all duration-200 cursor-pointer",
+          "relative overflow-hidden bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1.5px_3px_0_rgba(0,0,0,0.25)] hover:from-zinc-650 hover:via-zinc-800 hover:to-zinc-950 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_3px_8px_0_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:scale-[1.01] active:translate-y-0 active:scale-[0.97] font-bold transition-all duration-200 cursor-pointer",
         
         // Secondary: KUMO UI Tactile Base styling with crisp ring line & smooth hover tint
         secondary:
@@ -111,7 +111,7 @@ function PrimaryCTAButton({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "group relative inline-flex items-center justify-between pl-6 sm:pl-7 pr-2 py-2 h-12 rounded-full bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-zinc-600 hover:via-zinc-850 hover:to-zinc-950 hover:border-white/30 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.5),inset_0_12px_16px_-6px_rgba(255,255,255,0.18),0_6px_16px_0_rgba(0,0,0,0.5)] active:scale-95 transition-all duration-200 cursor-pointer pointer-events-auto overflow-hidden select-none",
+        "group relative inline-flex items-center justify-between pl-6 sm:pl-7 pr-2 py-2 h-12 rounded-full bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1.5px_3px_0_rgba(0,0,0,0.25)] hover:from-zinc-650 hover:via-zinc-800 hover:to-zinc-950 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_3px_8px_0_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:scale-[1.01] active:translate-y-0 active:scale-[0.97] transition-all duration-200 cursor-pointer pointer-events-auto overflow-hidden select-none",
         className
       )}
     >
