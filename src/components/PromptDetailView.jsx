@@ -8,6 +8,7 @@ import SpecularElectricButton from '@/components/ui/SpecularElectricButton';
 import { SubscriptionCards } from './SubscriptionView';
 import PromptParameterCustomizer from './prompt-detail/PromptParameterCustomizer';
 import PromptImageGallery from './prompt-detail/PromptImageGallery';
+import geminiLogo from '../assets/gemini-logo.png';
 import { getOptimizedImageUrl } from '@/utils/image-optimizer';
 import { getPromptAspectRatioClass } from '@/utils/prompt-helpers';
 import { 
@@ -599,11 +600,11 @@ export default function PromptDetailView({
                                 href="https://gemini.google.com/"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold transition-all shrink-0 cursor-pointer active:scale-95 shadow-xs group"
+                                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-750 text-obsidian dark:text-zinc-100 border border-zinc-200 dark:border-zinc-700 hover:border-zinc-300 dark:hover:border-zinc-600 text-xs font-bold transition-all shrink-0 cursor-pointer active:scale-95 shadow-2xs group"
                               >
-                                <SparklesIcon size={13} className="fill-purple-200" />
+                                <img src={geminiLogo} alt="Google Gemini" className="w-4 h-4 object-contain shrink-0" />
                                 <span>Buka Gemini</span>
-                                <ArrowUpRight01Icon size={13} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                                <ArrowUpRight01Icon size={13} className="text-zinc-400 group-hover:text-zinc-700 dark:group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                               </a>
                             </div>
 
