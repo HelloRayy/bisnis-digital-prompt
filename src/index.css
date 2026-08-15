@@ -39,6 +39,15 @@
   --kumo-button-emphasis-bg: #18181b;
   --kumo-button-emphasis-gradient-start: #27272a;
   --kumo-button-emphasis-gradient-end: #09090b;
+
+  /* Kumo Button Design Tokens */
+  --color-kumo-base: #ffffff;
+  --color-kumo-tint: #f4f4f5;
+  --color-kumo-line: rgba(0, 0, 0, 0.08);
+  --color-kumo-default: #18181b;
+  --color-kumo-subtle: #a1a1aa;
+  --color-kumo-brand: #aa3bff;
+  --color-kumo-focus: rgba(170, 59, 255, 0.35);
 }
 
 /* Black Kumo Emphasis Button Utility */
