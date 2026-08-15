@@ -32,17 +32,19 @@ export function NavUser({
         <DropdownMenu>
           <DropdownMenuTrigger
             render={
-              <SidebarMenuButton className="h-9 px-2 py-1 rounded-lg aria-expanded:bg-zinc-100 hover:bg-zinc-100/70 dark:hover:bg-zinc-900 transition-colors" />
+              <SidebarMenuButton className="h-13 px-2.5 py-2 rounded-xl aria-expanded:bg-zinc-100 hover:bg-zinc-100/80 dark:hover:bg-zinc-900 transition-colors gap-3" />
             }>
-            <Avatar className="h-7 w-7 rounded-full shrink-0">
+            <Avatar className="h-9.5 w-9.5 rounded-full shrink-0 shadow-2xs ring-1 ring-black/5 dark:ring-white/10">
               <AvatarImage src={user.avatar} alt={user.name} />
-              <AvatarFallback className="text-[10px] font-bold">{user.name ? user.name.slice(0, 2).toUpperCase() : 'US'}</AvatarFallback>
+              <AvatarFallback className="text-xs font-bold bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300">
+                {user.name ? user.name.slice(0, 2).toUpperCase() : 'US'}
+              </AvatarFallback>
             </Avatar>
-            <div className="grid flex-1 text-left text-xs leading-tight min-w-0">
-              <span className="truncate font-semibold text-zinc-900 dark:text-white text-xs">{user.name}</span>
-              <span className="truncate text-[10px] font-semibold text-purple-600 dark:text-purple-400">{user.planCredit || user.email}</span>
+            <div className="grid flex-1 text-left text-xs leading-normal min-w-0">
+              <span className="truncate font-bold text-zinc-950 dark:text-white text-[13px] tracking-tight">{user.name}</span>
+              <span className="truncate text-xs font-semibold text-purple-600 dark:text-purple-400">{user.planCredit || user.email}</span>
             </div>
-            <ChevronsUpDownIcon className="ml-auto size-3.5 text-zinc-400 shrink-0" />
+            <ChevronsUpDownIcon className="ml-auto size-4 text-zinc-400 shrink-0" />
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className="w-56"

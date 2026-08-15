@@ -220,7 +220,7 @@ export function AppSidebar({
       </SidebarContent>
 
       {/* Footer User */}
-      <SidebarFooter className="p-1.5 border-t border-black/5 dark:border-white/5 !bg-white dark:!bg-zinc-950">
+      <SidebarFooter className="p-2 border-t border-black/5 dark:border-white/5 !bg-white dark:!bg-zinc-950">
         <NavUser 
           user={userData} 
           currentUser={currentUser}
