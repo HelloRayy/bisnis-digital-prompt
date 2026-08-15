@@ -56,6 +56,7 @@ import {
   AlertDialogMedia,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { PrimaryButton, PrimaryCTAButton } from "@/components/ui/button";
 
 export default function PromptDetailView({
   prompt,
@@ -766,36 +767,11 @@ export default function PromptDetailView({
                           <h3 className="text-lg sm:text-xl font-bold text-obsidian tracking-tight">Prompt Premium Terkunci</h3>
                           <p className="text-xs sm:text-sm text-ash-gray mt-1.5 leading-relaxed max-w-md">Gunakan {promptCost} kredit untuk membuka dan menyalin teks prompt ini.</p>
                         </div>
-                        <motion.button
-                          whileTap={{ scale: 0.93, y: 1 }}
-                          transition={{ type: 'spring', stiffness: 600, damping: 22 }}
+                        <PrimaryCTAButton
+                          label={`Buka Prompt (${Number(promptCost).toLocaleString('id-ID')} Kredit)`}
+                          hoverLabel="Buka & Salin Sekarang"
                           onClick={handleCopyText}
-                          className="group relative inline-flex items-center justify-between pl-6 sm:pl-7 pr-2 py-2 h-12 rounded-full bg-gradient-to-b from-zinc-800 to-zinc-950 hover:from-white hover:via-white hover:to-white hover:bg-white text-white hover:text-black text-sm font-bold border border-white/15 hover:border-black/20 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:shadow-[0_10px_30px_rgba(0,0,0,0.15)] active:scale-95 transition-all duration-300 cursor-pointer pointer-events-auto overflow-hidden select-none"
-                        >
-                          <span className="relative inline-flex items-center justify-center overflow-hidden">
-                            {/* Default Text (Locks button width, slides UP & out on hover) */}
-                            <span className="transition-all duration-300 group-hover:-translate-y-8 group-hover:opacity-0 group-active:scale-95 font-bold tracking-tight text-white group-hover:text-black">
-                              Buka Prompt ({Number(promptCost).toLocaleString('id-ID')} Kredit)
-                            </span>
-                            {/* Hover Text (Slides IN from bottom on hover, without altering button width) */}
-                            <span className="absolute inset-0 flex items-center justify-center transition-all duration-300 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 font-bold whitespace-nowrap group-active:scale-95 tracking-tight text-black">
-                              Buka & Salin Sekarang
-                            </span>
-                          </span>
-
-                          <div className="w-8 h-8 rounded-full bg-white group-hover:bg-black text-black group-hover:text-white flex items-center justify-center shrink-0 ml-4 relative overflow-hidden transition-all duration-300 shadow-2xs">
-                            {/* Primary Arrow sliding up & out on hover */}
-                            <ArrowUpRight01Icon 
-                              size={16} 
-                              className="text-black group-hover:text-white stroke-[2.5] transition-all duration-300 group-hover:-translate-y-6 group-hover:translate-x-6" 
-                            />
-                            {/* Secondary Duplicate Arrow sliding in from bottom-left on hover */}
-                            <ArrowUpRight01Icon 
-                              size={16} 
-                              className="text-white stroke-[2.5] absolute transition-all duration-300 translate-y-6 -translate-x-6 group-hover:translate-y-0 group-hover:translate-x-0" 
-                            />
-                          </div>
-                        </motion.button>
+                        />
                       </div>
                     )}
                   </div>

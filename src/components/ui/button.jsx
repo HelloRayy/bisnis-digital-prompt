@@ -2,17 +2,19 @@ import * as React from "react"
 import { Button as ButtonPrimitive } from "@base-ui/react/button"
 import { cva } from "class-variance-authority"
 import { cn } from "@/lib/utils"
+import { ArrowUpRight01Icon } from "hugeicons-react"
+import { motion } from "framer-motion"
 
 const buttonVariants = cva(
   "group/button inline-flex shrink-0 items-center justify-center font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50 disabled:pointer-events-none disabled:opacity-50 active:not-aria-[haspopup]:scale-[0.98] [&_svg]:pointer-events-none [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        // Primary: Black Emphasis with vertical linear gradient & top specular rim -> Vibrant Purple on Hover
+        // Primary: Black Obsidian Gradient in Default -> Crisp Pure White Background with Black Text on Hover
         primary:
-          "relative overflow-hidden bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-purple-600 hover:to-purple-800 hover:border-purple-300 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.45),0_6px_20px_0_rgba(147,51,234,0.4)] active:scale-95 font-bold transition-all duration-200 cursor-pointer",
+          "relative overflow-hidden bg-gradient-to-b from-zinc-800 to-zinc-950 hover:from-white hover:via-white hover:to-white hover:bg-white text-white hover:text-black border border-white/15 hover:border-black/20 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:shadow-[0_10px_30px_rgba(0,0,0,0.15)] active:scale-95 font-bold transition-all duration-300 cursor-pointer",
         default:
-          "relative overflow-hidden bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-purple-600 hover:to-purple-800 hover:border-purple-300 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.45),0_6px_20px_0_rgba(147,51,234,0.4)] active:scale-95 font-bold transition-all duration-200 cursor-pointer",
+          "relative overflow-hidden bg-gradient-to-b from-zinc-800 to-zinc-950 hover:from-white hover:via-white hover:to-white hover:bg-white text-white hover:text-black border border-white/15 hover:border-black/20 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:shadow-[0_10px_30px_rgba(0,0,0,0.15)] active:scale-95 font-bold transition-all duration-300 cursor-pointer",
         
         // Secondary: Kumo tactile styling with crisp border -> Smooth purple brand tint & text color on Hover
         secondary:
@@ -39,7 +41,7 @@ const buttonVariants = cva(
         lg:
           "h-11 gap-2 rounded-2xl px-6 text-sm sm:text-base font-semibold [&_svg:not([class*='size-'])]:size-4.5",
         pill:
-          "h-10 gap-2 rounded-full px-6 text-xs sm:text-sm font-semibold [&_svg:not([class*='size-'])]:size-4",
+          "h-12 gap-2.5 rounded-full px-8 text-sm font-bold [&_svg:not([class*='size-'])]:size-4",
         icon:
           "size-9 rounded-xl p-0",
         "icon-sm":
@@ -70,17 +72,75 @@ const Button = React.forwardRef(function Button(
 })
 
 const PrimaryButton = React.forwardRef(function PrimaryButton(
-  { className, size = "default", ...props },
+  { className, size = "pill", children, ...props },
   ref
 ) {
-  return <Button ref={ref} variant="primary" size={size} className={className} {...props} />
+  return (
+    <Button ref={ref} variant="primary" size={size} className={className} {...props}>
+      {children}
+    </Button>
+  )
 })
 
 const SecondaryButton = React.forwardRef(function SecondaryButton(
-  { className, size = "default", ...props },
+  { className, size = "default", children, ...props },
   ref
 ) {
-  return <Button ref={ref} variant="secondary" size={size} className={className} {...props} />
+  return (
+    <Button ref={ref} variant="secondary" size={size} className={className} {...props}>
+      {children}
+    </Button>
+  )
 })
 
-export { Button, PrimaryButton, SecondaryButton, buttonVariants }
+/**
+ * High-Craft Primary CTA Button with Smooth Motion Text Slide & Arrow Color Inversion
+ */
+function PrimaryCTAButton({
+  label = "Buka Prompt",
+  hoverLabel = "Buka & Salin Sekarang",
+  onClick,
+  className = "",
+  disabled = false,
+}) {
+  return (
+    <motion.button
+      type="button"
+      whileTap={{ scale: 0.93, y: 1 }}
+      transition={{ type: "spring", stiffness: 600, damping: 22 }}
+      onClick={onClick}
+      disabled={disabled}
+      className={cn(
+        "group relative inline-flex items-center justify-between pl-6 sm:pl-7 pr-2 py-2 h-12 rounded-full bg-gradient-to-b from-zinc-800 to-zinc-950 hover:from-white hover:via-white hover:to-white hover:bg-white text-white hover:text-black text-sm font-bold border border-white/15 hover:border-black/20 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:shadow-[0_10px_30px_rgba(0,0,0,0.15)] active:scale-95 transition-all duration-300 cursor-pointer pointer-events-auto overflow-hidden select-none",
+        className
+      )}
+    >
+      <span className="relative inline-flex items-center justify-center overflow-hidden">
+        {/* Default Text (Slides UP & out on hover) */}
+        <span className="transition-all duration-300 group-hover:-translate-y-8 group-hover:opacity-0 group-active:scale-95 font-bold tracking-tight text-white group-hover:text-black">
+          {label}
+        </span>
+        {/* Hover Text (Slides IN from bottom on hover) */}
+        <span className="absolute inset-0 flex items-center justify-center transition-all duration-300 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 font-bold whitespace-nowrap group-active:scale-95 tracking-tight text-black">
+          {hoverLabel}
+        </span>
+      </span>
+
+      <div className="w-8 h-8 rounded-full bg-white group-hover:bg-black text-black group-hover:text-white flex items-center justify-center shrink-0 ml-4 relative overflow-hidden transition-all duration-300 shadow-2xs">
+        {/* Primary Arrow sliding up & out on hover */}
+        <ArrowUpRight01Icon
+          size={16}
+          className="text-black group-hover:text-white stroke-[2.5] transition-all duration-300 group-hover:-translate-y-6 group-hover:translate-x-6"
+        />
+        {/* Secondary Duplicate Arrow sliding in from bottom-left on hover */}
+        <ArrowUpRight01Icon
+          size={16}
+          className="text-white stroke-[2.5] absolute transition-all duration-300 translate-y-6 -translate-x-6 group-hover:translate-y-0 group-hover:translate-x-0"
+        />
+      </div>
+    </motion.button>
+  )
+}
+
+export { Button, PrimaryButton, SecondaryButton, PrimaryCTAButton, buttonVariants }
+
