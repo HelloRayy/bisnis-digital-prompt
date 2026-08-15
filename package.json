@@ -8,7 +8,13 @@
     "build": "vite build",
     "lint": "oxlint",
     "preview": "vite preview",
+    "web-scrap": "node js/cli.js",
+    "rag-system": "node js/generator_cli.js",
+    "gen": "node js/generator_cli.js",
+    "viz": "node js/cli.js",
     "scrape": "node scripts/scrape_prompts.js",
+    "scrape:visualize": "node js/cli.js",
+    "generate:prompt": "node js/generator_cli.js",
     "discover": "node scripts/discover_prompts.js",
     "review": "node scripts/review_candidates.js",
     "sync": "git add . && git commit -m \"update: auto commit & push\" && git push origin main"

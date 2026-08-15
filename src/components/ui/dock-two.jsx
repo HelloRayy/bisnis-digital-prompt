@@ -20,24 +20,15 @@ const DockIconButton = React.forwardRef(
         onMouseLeave={() => setIsHovered(false)}
         whileTap={disabled ? {} : { scale: 0.92 }}
         className={cn(
-          "relative group w-11 h-11 rounded-xl flex items-center justify-center transition-colors duration-150 select-none shrink-0",
+          "relative group w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-150 select-none shrink-0",
           disabled
             ? "opacity-45 cursor-not-allowed text-zinc-400"
             : isActive 
-              ? "text-obsidian font-bold" 
-              : "text-obsidian/70 hover:text-obsidian",
+              ? "text-obsidian font-bold bg-[#f0f0f0] border border-black/5 shadow-2xs" 
+              : "text-obsidian/70 hover:text-obsidian hover:bg-black/5",
           className
         )}
       >
-        {/* Sliding Active Background Pill via Framer Motion layoutId */}
-        {isActive && !disabled && !['Favorit', 'Disukai', 'Suka', 'Bookmark', 'Simpan', 'Tersimpan'].includes(label) && (
-          <motion.div
-            layoutId="dock-active-pill"
-            transition={{ type: "spring", stiffness: 380, damping: 30 }}
-            style={{ transform: "translateZ(0)", willChange: "transform" }}
-            className="absolute inset-0 rounded-xl bg-[#f0f0f0] border border-black/5 shadow-2xs z-0"
-          />
-        )}
         {/* Tooltip Spring Pop Entrance & Exit */}
         <AnimatePresence>
           {isHovered && label && (

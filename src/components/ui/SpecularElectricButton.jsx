@@ -1,7 +1,6 @@
 import React from 'react';
-import { AnimatedNumber } from './animated-counter';
 
-// Wallet Minimal Icon matching user SVG specification
+// Wallet Minimal Icon
 export function WalletMinimalIcon({ size = 13, className = "" }) {
   return (
     <svg 
@@ -29,31 +28,31 @@ export function SpecularElectricButton({
   title = 'Klik untuk Top Up Kredit',
   className = ''
 }) {
+  const formattedCredits = Number(credits || 0).toLocaleString('id-ID');
+
   return (
     <button
       onClick={onClick}
       title={title}
       type="button"
-      className={`relative inline-flex items-center justify-center p-[1.5px] rounded-full overflow-hidden
-        shadow-[0_2px_12px_rgba(37,99,235,0.15)] hover:shadow-[0_4px_20px_rgba(37,99,235,0.3)]
-        transition-all duration-300 cursor-pointer shrink-0 active:scale-95 group ${className}`}
+      className={`relative inline-flex items-center justify-center p-[1px] rounded-full overflow-hidden
+        bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 hover:from-blue-600 hover:to-purple-600
+        shadow-[0_2px_10px_rgba(59,130,246,0.15)] hover:shadow-[0_4px_16px_rgba(59,130,246,0.25)]
+        transition-all duration-200 cursor-pointer shrink-0 active:scale-95 group ${className}`}
     >
-      {/* Animated Rotating Shiny Gradient Border Layer */}
-      <span className="absolute inset-[-150%] animate-[spin_3.5s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#3b82f6_0%,#1d4ed8_28%,transparent_50%,#60a5fa_78%,#3b82f6_100%)] opacity-90 group-hover:opacity-100 transition-opacity" />
-
-      {/* Inner White Button Container (No Grid Effect, Pure White BG) */}
-      <span className="relative z-10 inline-flex items-center gap-2 h-[34px] px-3.5 rounded-full bg-white text-slate-900 font-sans text-xs font-bold w-full transition-colors group-hover:bg-slate-50/95">
+      {/* Inner White Button Container */}
+      <span className="relative z-10 inline-flex items-center gap-2 h-[32px] px-3 rounded-full bg-white text-slate-900 font-sans text-xs font-bold w-full transition-colors group-hover:bg-slate-50">
         {/* Icon Badge */}
-        <span className="p-0.5 rounded-full bg-blue-50 border border-blue-200 group-hover:bg-blue-100 group-hover:scale-105 transition-all flex items-center justify-center">
-          <WalletMinimalIcon size={13} className="text-blue-600 shrink-0 group-hover:rotate-6 transition-transform" />
+        <span className="p-0.5 rounded-full bg-blue-50 border border-blue-200 group-hover:bg-blue-100 flex items-center justify-center">
+          <WalletMinimalIcon size={12} className="text-blue-600 shrink-0" />
         </span>
 
         {/* Label & Number */}
         <span className="whitespace-nowrap flex items-center gap-1">
-          <strong className="text-blue-700 font-extrabold text-xs sm:text-sm">
-            <AnimatedNumber value={credits} />
+          <strong className="text-blue-700 font-extrabold text-xs">
+            {formattedCredits}
           </strong>
-          <span className="text-slate-700 text-xs font-semibold">{label}</span>
+          <span className="text-slate-600 text-xs font-medium">{label}</span>
         </span>
       </span>
     </button>

@@ -1,11 +1,14 @@
 import React, { useState, useRef } from 'react';
-import { motion, LayoutGroup, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Check, Coins } from 'lucide-react';
 import { toast } from 'sonner';
 import { Dock } from '@/components/ui/dock-two';
 import { AnimatedNumber } from '@/components/ui/animated-counter';
 import SpecularElectricButton from '@/components/ui/SpecularElectricButton';
 import { SubscriptionCards } from './SubscriptionView';
+import PromptParameterCustomizer from './prompt-detail/PromptParameterCustomizer';
+import PromptImageGallery from './prompt-detail/PromptImageGallery';
+import { getOptimizedImageUrl } from '@/utils/image-optimizer';
 import { 
   Cancel01Icon, 
   Copy01Icon, 
@@ -130,48 +133,6 @@ export default function PromptDetailView({
   }, [isLightboxOpen, allImages.length]);
 
   const containerRef = useRef(null);
-  const lastScrollTime = useRef(0);
-  const touchStartY = useRef(0);
-
-  const handleWheelScroll = (e) => {
-    const now = Date.now();
-    if (now - lastScrollTime.current < 400) return;
-
-    if (!showProjectInfo && Math.abs(e.deltaY) > 10) {
-      lastScrollTime.current = now;
-      setShowProjectInfo(true);
-    } else if (showProjectInfo && e.deltaY < -15) {
-      if (containerRef.current && containerRef.current.scrollTop <= 20) {
-        lastScrollTime.current = now;
-        setShowProjectInfo(false);
-      }
-    }
-  };
-
-  const handleTouchStart = (e) => {
-    if (e.touches && e.touches[0]) {
-      touchStartY.current = e.touches[0].clientY;
-    }
-  };
-
-  const handleTouchMove = (e) => {
-    if (!e.touches || !e.touches[0]) return;
-    const now = Date.now();
-    if (now - lastScrollTime.current < 400) return;
-
-    const touchCurrentY = e.touches[0].clientY;
-    const diffY = touchStartY.current - touchCurrentY;
-
-    if (!showProjectInfo && Math.abs(diffY) > 25) {
-      lastScrollTime.current = now;
-      setShowProjectInfo(true);
-    } else if (showProjectInfo && diffY < -35) {
-      if (containerRef.current && containerRef.current.scrollTop <= 20) {
-        lastScrollTime.current = now;
-        setShowProjectInfo(false);
-      }
-    }
-  };
 
   const compilePrompt = () => {
     if (!rawPrompt || typeof rawPrompt !== 'string') return '';
@@ -292,91 +253,81 @@ export default function PromptDetailView({
   const smoothPhysics = { type: 'spring', stiffness: 180, damping: 24, mass: 0.8 };
 
   return (
-    <LayoutGroup id="prompt-detail-view-group">
-      <div 
-        ref={containerRef}
-        onWheel={handleWheelScroll}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        className="fixed inset-0 z-50 bg-white text-obsidian overflow-y-auto font-sans flex flex-col justify-between selection:bg-purple-100 selection:text-purple-900 pb-24"
-      >
-        {/* Top Header Bar */}
-        <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-black/5 py-4 px-6 md:px-10 flex items-center justify-between gap-4">
-          {/* Brand Name */}
-          <div 
-            onClick={onClose}
-            className="flex items-center gap-3 cursor-pointer group shrink-0"
+    <div 
+      ref={containerRef}
+      className="fixed inset-0 z-50 bg-white text-obsidian overflow-y-auto font-sans flex flex-col justify-between selection:bg-purple-100 selection:text-purple-900 pb-24"
+    >
+      {/* Top Header Bar */}
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-black/5 py-4 px-6 md:px-10 flex items-center justify-between gap-4">
+        {/* Brand Name */}
+        <div 
+          onClick={onClose}
+          className="flex items-center gap-3 cursor-pointer group shrink-0"
+        >
+          <div className="w-8 h-8 rounded-full bg-[#f2f2f2] border border-black/5 flex items-center justify-center font-bold text-xs">
+            {author ? author.slice(0, 2).toUpperCase() : 'DT'}
+          </div>
+          <span className="font-sans text-base font-bold text-obsidian tracking-tight group-hover:text-purple-600 transition-colors">
+            {author || "Daniel Triendl"}
+          </span>
+        </div>
+
+        {/* Action Controls: Credits, Share, Close */}
+        <div className="flex items-center gap-3">
+          <SpecularElectricButton 
+            onClick={() => setShowSubscription(true)} 
+            credits={userCredits} 
+          />
+
+          <button
+            onClick={handleShareLink}
+            className="p-2 rounded-full bg-[#f2f2f2] hover:bg-black/5 text-black transition-all cursor-pointer border border-black/5"
+            title="Bagikan Tautan"
           >
-            <div className="w-8 h-8 rounded-full bg-[#f2f2f2] border border-black/5 flex items-center justify-center font-bold text-xs">
-              {author ? author.slice(0, 2).toUpperCase() : 'DT'}
+            {copiedLink ? <CheckmarkCircle02Icon size={16} className="text-emerald-600" /> : <Share01Icon size={16} />}
+          </button>
+        </div>
+      </header>
+
+      {/* Main Content Area */}
+      <main className="max-w-6xl mx-auto w-full px-6 md:px-10 py-6 sm:py-8 flex-1 flex flex-col justify-center my-auto relative">
+        {/* Top Left Close Button inside Main Container */}
+        <div className="mb-6 sm:mb-8 flex items-center justify-start">
+          <button 
+            onClick={onClose}
+            className="inline-flex items-center gap-2.5 text-obsidian text-xs font-semibold hover:text-purple-600 transition-colors cursor-pointer group"
+            title="Tutup Preview"
+          >
+            <div className="w-8 h-8 rounded-full bg-[#f2f2f2] group-hover:bg-purple-100 border border-black/5 text-obsidian group-hover:text-purple-600 flex items-center justify-center transition-colors shadow-2xs">
+              <Cancel01Icon size={16} className="group-hover:rotate-90 transition-transform duration-200" />
             </div>
-            <span className="font-sans text-base font-bold text-obsidian tracking-tight group-hover:text-purple-600 transition-colors">
-              {author || "Daniel Triendl"}
-            </span>
-          </div>
-
-          {/* Action Controls: Credits, Share, Close */}
-          <div className="flex items-center gap-3">
-            <SpecularElectricButton 
-              onClick={() => setShowSubscription(true)} 
-              credits={userCredits} 
-            />
-
-            <button
-              onClick={handleShareLink}
-              className="p-2 rounded-full bg-[#f2f2f2] hover:bg-black/5 text-black transition-all cursor-pointer border border-black/5"
-              title="Bagikan Tautan"
+            <span>Tutup</span>
+          </button>
+        </div>
+        <AnimatePresence mode="wait">
+          {!showProjectInfo ? (
+            /* STAGE 1: Visual Cover View */
+            <motion.div 
+              key="stage-cover"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
             >
-              {copiedLink ? <CheckmarkCircle02Icon size={16} className="text-emerald-600" /> : <Share01Icon size={16} />}
-            </button>
-          </div>
-        </header>
-
-        {/* Main Content Area */}
-        <main className="max-w-6xl mx-auto w-full px-6 md:px-10 py-6 sm:py-8 flex-1 flex flex-col justify-center my-auto relative">
-          {/* Top Left Close Button inside Main Container */}
-          <div className="mb-6 sm:mb-8 flex items-center justify-start">
-            <button 
-              onClick={onClose}
-              className="inline-flex items-center gap-2.5 text-obsidian text-xs font-semibold hover:text-purple-600 transition-colors cursor-pointer group"
-              title="Tutup Preview"
-            >
-              <div className="w-8 h-8 rounded-full bg-[#f2f2f2] group-hover:bg-purple-100 border border-black/5 text-obsidian group-hover:text-purple-600 flex items-center justify-center transition-colors shadow-2xs">
-                <Cancel01Icon size={16} className="group-hover:rotate-90 transition-transform duration-200" />
-              </div>
-              <span>Tutup</span>
-            </button>
-          </div>
-          <AnimatePresence mode="wait">
-            {!showProjectInfo ? (
-              /* STAGE 1: Visual Cover View */
-              <motion.div 
-                key="stage-cover"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.25 }}
-                className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
-              >
-                {/* Left Image Showcase */}
-                <div className="lg:col-span-6 flex flex-col gap-4 sticky lg:top-24">
-                  <motion.div 
-                    layoutId="prompt-hero-image-box"
-                    transition={smoothPhysics}
-                    style={{ transform: 'translateZ(0)', willChange: 'transform' }}
-                    className="w-full flex items-center justify-center overflow-hidden"
-                  >
-                    <motion.img 
-                      layoutId="prompt-hero-image"
-                      transition={smoothPhysics}
-                      src={activeImage} 
-                      alt={title} 
-                      onClick={() => setIsLightboxOpen(true)}
-                      className="w-full h-auto max-h-[70vh] object-contain rounded-2xl cursor-pointer"
-                      title="Klik untuk memperbesar gambar"
-                    />
-                  </motion.div>
+              {/* Left Image Showcase */}
+              <div className="lg:col-span-6 flex flex-col gap-4 sticky lg:top-24">
+                <div className="w-full flex items-center justify-center overflow-hidden [contain:paint]">
+                  <img 
+                    src={getOptimizedImageUrl(activeImage, 1200, 80)} 
+                    alt={title} 
+                    decoding="async"
+                    onClick={() => setIsLightboxOpen(true)}
+                    className="w-full h-auto max-h-[70vh] object-contain rounded-2xl cursor-pointer shadow-sm hover:scale-[1.01] transition-transform duration-200"
+                    title="Klik untuk memperbesar gambar"
+                  />
                 </div>
+              </div>
 
                 {/* Right Details & CTA OR Subscription Panel */}
                 {showSubscription ? (
@@ -484,8 +435,9 @@ export default function PromptDetailView({
                       title={`Klik untuk memperbesar gambar ${idx + 1}`}
                     >
                       <img 
-                        src={imgUrl} 
+                        src={getOptimizedImageUrl(imgUrl, 240, 75)} 
                         alt={`Thumbnail ${idx}`} 
+                        decoding="async"
                         className="h-auto max-h-36 w-auto object-contain rounded-lg group-hover/thumb:scale-105 transition-transform duration-300" 
                       />
                     </div>
@@ -828,14 +780,11 @@ export default function PromptDetailView({
 
               {/* Expanded Image & Counter */}
               <div className="flex flex-col items-center gap-4 max-w-full max-h-full mx-auto" onClick={(e) => e.stopPropagation()}>
-                <motion.img
+                <img
                   key={selectedImgIndex}
-                  initial={{ scale: 0.92, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.92, opacity: 0 }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-                  src={activeImage}
+                  src={getOptimizedImageUrl(activeImage, 1600, 85)}
                   alt={title}
+                  decoding="async"
                   className="max-w-full max-h-[80vh] object-contain rounded-2xl shadow-2xl"
                 />
                 {allImages.length > 1 && (
@@ -862,6 +811,5 @@ export default function PromptDetailView({
           )}
         </AnimatePresence>
       </div>
-    </LayoutGroup>
   );
 }

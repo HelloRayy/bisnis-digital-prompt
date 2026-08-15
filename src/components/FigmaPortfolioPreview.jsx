@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import promptsData from '../data/prompts.json';
 import { 
   ArrowUpRight01Icon, 
+  ArrowLeft01Icon,
+  ArrowRight01Icon,
   SparklesIcon, 
   Logout01Icon, 
   Login01Icon, 
@@ -51,36 +53,22 @@ const shuffleArray = (array) => {
   return shuffled;
 };
 
-function PortfolioImageItem({ src, alt, isPriority = false }) {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const optimizedSrc = useMemo(() => getOptimizedImageUrl(src, 500, 75), [src]);
-
-  // Reset loading state if image URL changes
-  useEffect(() => {
-    setIsLoaded(false);
-  }, [src]);
+const PortfolioImageItem = React.memo(function PortfolioImageItem({ src, alt, isPriority = false }) {
+  const optimizedSrc = getOptimizedImageUrl(src, 480, 75);
 
   return (
-    <>
-      {!isLoaded && (
-        <div className="absolute inset-0 bg-zinc-200 overflow-hidden z-0">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent animate-shimmer" />
-        </div>
-      )}
+    <div className="absolute inset-0 w-full h-full bg-zinc-100 dark:bg-zinc-850 overflow-hidden [contain:paint]">
       <img
         src={optimizedSrc}
         alt={alt}
         loading={isPriority ? "eager" : "lazy"}
         fetchPriority={isPriority ? "high" : "low"}
         decoding="async"
-        onLoad={() => setIsLoaded(true)}
-        className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 group-hover:scale-105 z-10 ${
-          isLoaded ? 'opacity-100 blur-0 scale-100' : 'opacity-0 blur-md scale-105'
-        }`}
+        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
       />
-    </>
+    </div>
   );
-}
+});
 
 export default function FigmaPortfolioPreview({ 
   onOpenDetail = () => {},
@@ -94,81 +82,105 @@ export default function FigmaPortfolioPreview({
   onOpenUpgrade = () => {},
   onSignOut = () => {}
 }) {
-  // Default selected category: Image
+  // Default selected category & search state
   const [activeCategory, setActiveCategory] = useState('image');
   const [searchQuery, setSearchQuery] = useState('');
-  const [visibleCount, setVisibleCount] = useState(30);
+  const [currentPage, setCurrentPage] = useState(1);
   const [showSignOutConfirm, setShowSignOutConfirm] = useState(false);
-  const loadMoreRef = useRef(null);
+  const ITEMS_PER_PAGE = 24;
 
-  // Load all 399 prompts from dataset with random shuffle on page refresh
+  // Load all prompts from dataset
   const [allPrompts] = useState(() => {
     return shuffleArray(promptsData).map((item, idx) => ({
       ...item,
-      _stableId: item.id ? `prompt_${item.id}_${idx}` : `prompt_idx_${idx}`
+      _stableId: item.id ? `prompt_${item.id}__${idx}` : `prompt_idx_${idx}`
     }));
   });
 
-  // Filter items based on active category & search query
-  const rawFiltered = allPrompts.filter((item) => {
-    const promptText = (item.prompt || '').toLowerCase();
-    const authorText = (item.author || '').toLowerCase();
-    const matchesSearch = searchQuery === '' || promptText.includes(searchQuery.toLowerCase()) || authorText.includes(searchQuery.toLowerCase());
-    
-    if (!matchesSearch) return false;
-
-    const catLower = (item.categories || []).join(' ').toLowerCase();
-    if (activeCategory === 'image') {
-      return catLower.includes('image') || catLower.includes('graphic') || catLower.includes('illustration') || catLower.includes('3d') || catLower.includes('poster') || catLower.includes('photography');
-    }
-    if (activeCategory === 'video') {
-      return catLower.includes('video') || catLower.includes('motion') || catLower.includes('animation');
-    }
-    if (activeCategory === 'website') {
-      return catLower.includes('web') || catLower.includes('ui') || catLower.includes('brand') || catLower.includes('product');
-    }
-    if (activeCategory === 'favorite') {
-      return favoritePromptIds.includes(item.id);
-    }
-    if (activeCategory === 'unlocked') {
-      return purchasedPromptIds.includes(item.id);
-    }
-    return true;
-  });
-
-  // Susun: 10 Prompt Gratis teratas ditaruh paling depan, lalu tampilkan seluruh prompt sisa di bawahnya
-  const freePrompts = rawFiltered.filter(p => !p.isPremium);
-  const premiumPrompts = rawFiltered.filter(p => p.isPremium);
-
-  const top10Free = freePrompts.slice(0, 10);
-  const remainingFree = freePrompts.slice(10);
-
-  // Full dataset containing all available items (10 Free prompts at top, remaining below)
+  // Strictly memoized filtered dataset: Only recalculated when filters actually change!
   const filteredPrompts = useMemo(() => {
-    return [...top10Free, ...premiumPrompts, ...remainingFree];
-  }, [rawFiltered]);
+    const rawFiltered = allPrompts.filter((item) => {
+      const promptText = (item.prompt || '').toLowerCase();
+      const authorText = (item.author || '').toLowerCase();
+      const matchesSearch = searchQuery === '' || promptText.includes(searchQuery.toLowerCase()) || authorText.includes(searchQuery.toLowerCase());
+      
+      if (!matchesSearch) return false;
 
-  // Reset visible count when category or search changes
+      const catLower = (item.categories || []).join(' ').toLowerCase();
+      if (activeCategory === 'image') {
+        return catLower.includes('image') || catLower.includes('graphic') || catLower.includes('illustration') || catLower.includes('3d') || catLower.includes('poster') || catLower.includes('photography');
+      }
+      if (activeCategory === 'video') {
+        return catLower.includes('video') || catLower.includes('motion') || catLower.includes('animation');
+      }
+      if (activeCategory === 'website') {
+        return catLower.includes('web') || catLower.includes('ui') || catLower.includes('brand') || catLower.includes('product');
+      }
+      if (activeCategory === 'favorite') {
+        return favoritePromptIds.includes(item.id);
+      }
+      if (activeCategory === 'unlocked') {
+        return purchasedPromptIds.includes(item.id);
+      }
+      return true;
+    });
+
+    const freePrompts = rawFiltered.filter(p => !p.isPremium);
+    const premiumPrompts = rawFiltered.filter(p => p.isPremium);
+
+    const top10Free = freePrompts.slice(0, 10);
+    const remainingFree = freePrompts.slice(10);
+
+    return [...top10Free, ...premiumPrompts, ...remainingFree];
+  }, [allPrompts, activeCategory, searchQuery, favoritePromptIds, purchasedPromptIds]);
+
+  // Reset page to 1 when category or search query changes
   useEffect(() => {
-    setVisibleCount(30);
+    setCurrentPage(1);
   }, [activeCategory, searchQuery]);
 
-  // Progressive batch rendering observer (loads +30 cards as user scrolls near bottom)
+  // Instant 0ms scroll jump to top on page change (eliminates smooth scroll thread lag)
   useEffect(() => {
-    if (!loadMoreRef.current) return;
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        setVisibleCount((prev) => Math.min(prev + 30, filteredPrompts.length));
-      }
-    }, { rootMargin: '400px' });
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+  }, [currentPage]);
 
-    observer.observe(loadMoreRef.current);
-    return () => observer.disconnect();
-  }, [filteredPrompts.length]);
+  const totalPages = Math.ceil(filteredPrompts.length / ITEMS_PER_PAGE) || 1;
 
+  // Paginated Prompts (Exactly 24 items per page in DOM -> Zero Lag, 60 FPS)
   const displayedPrompts = useMemo(() => {
-    return filteredPrompts.slice(0, visibleCount);
-  }, [filteredPrompts, visibleCount]);
+    return filteredPrompts.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+  }, [filteredPrompts, currentPage]);
+
+  // Dynamic Column Count detection matching Tailwind breakpoints (1, 2, 3, 4, 5, 6 cols)
+  const [columnCount, setColumnCount] = useState(6);
+
+  useEffect(() => {
+    const updateColumnCount = () => {
+      if (typeof window === 'undefined') return;
+      const w = window.innerWidth;
+      if (w >= 1536) setColumnCount(6);       // 2xl
+      else if (w >= 1280) setColumnCount(5);  // xl
+      else if (w >= 1024) setColumnCount(4);  // lg
+      else if (w >= 768) setColumnCount(3);   // md
+      else if (w >= 640) setColumnCount(2);   // sm
+      else setColumnCount(1);                 // base
+    };
+
+    updateColumnCount();
+    window.addEventListener('resize', updateColumnCount);
+    return () => window.removeEventListener('resize', updateColumnCount);
+  }, []);
+
+  // Stable Column Buckets
+  const columnBuckets = useMemo(() => {
+    const cols = Array.from({ length: columnCount }, () => []);
+    displayedPrompts.forEach((item, index) => {
+      cols[index % columnCount].push({ item, index });
+    });
+    return cols;
+  }, [displayedPrompts, columnCount]);
 
   // Diverse Organic Asymmetric Aspect Ratios for dynamic Masonry layout
   const aspectRatios = [
@@ -198,19 +210,25 @@ export default function FigmaPortfolioPreview({
   };
 
   return (
-    <SidebarProvider>
+    <SidebarProvider className="bg-white dark:bg-zinc-950">
       <AppSidebar 
         currentUser={currentUser}
         userCredits={userCredits}
         userRole={userRole}
+        activeCategory={activeCategory}
+        searchQuery={searchQuery}
+        favoritePromptIds={favoritePromptIds}
+        purchasedPromptIds={purchasedPromptIds}
+        onSearchChange={setSearchQuery}
         onOpenAuth={onOpenAuth}
         onOpenUpgrade={onOpenUpgrade}
         onSignOut={onSignOut}
         onSelectCategory={setActiveCategory}
       />
-      <SidebarInset>
-        {/* Fixed Glassmorphism Navbar Header */}
-        <header className="fixed top-0 right-0 left-0 md:left-[var(--sidebar-width)] group-data-[state=collapsed]/sidebar-wrapper:md:left-[var(--sidebar-width-icon)] z-40 flex h-16 shrink-0 items-center justify-between gap-3 sm:gap-4 px-4 sm:px-6 md:px-8 bg-white/95 backdrop-blur-xl transition-all">
+      <SidebarInset className="bg-white dark:bg-zinc-950 transition-all">
+        <div className="relative min-h-screen w-full bg-white dark:bg-zinc-950 flex flex-col">
+          {/* Fixed Glassmorphism Navbar Header - Pinned at top of viewport */}
+          <header className="fixed top-0 right-0 left-0 md:left-[var(--sidebar-width)] group-data-[state=collapsed]/sidebar-wrapper:md:left-[var(--sidebar-width-icon)] z-40 flex h-16 shrink-0 items-center justify-between gap-3 sm:gap-4 px-4 sm:px-6 md:px-8 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md border-b border-black/5 dark:border-white/5 transform-gpu transition-all">
           {/* Left: Sidebar trigger, separator, breadcrumbs */}
           <div className="flex items-center gap-2 sm:gap-3 min-w-0 shrink-0">
             <SidebarTrigger aria-label="Buka Menu Sidebar" className="-ml-1 text-obsidian hover:bg-black/5 rounded-lg p-1.5 transition-colors shrink-0" />
@@ -279,78 +297,137 @@ export default function FigmaPortfolioPreview({
         </header>
 
         {/* Main Content: Masonry Grid Layout */}
-        <main className="p-4 sm:p-6 md:p-8 pt-20 sm:pt-24 w-full min-w-0 max-w-full overflow-x-hidden mx-auto pb-32">
+        <main className="p-4 sm:p-6 md:p-8 pt-16 w-full min-w-0 max-w-full overflow-x-hidden mx-auto pb-32">
           {displayedPrompts.length > 0 ? (
             <>
-              <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 2xl:columns-6 gap-4 sm:gap-6 space-y-4 sm:space-y-6 mt-8 sm:mt-10 md:mt-12">
-                {displayedPrompts.map((item, index) => {
-                  const isUnlocked = purchasedPromptIds.includes(item.id) || !item.isPremium;
-                  const aspectClass = aspectRatios[index % aspectRatios.length];
-                  const customSlug = getCleanShortSlug(item);
-                  const promptCost = item.cost ?? (item.prompt?.length >= 1533 ? 500 : 400);
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 sm:gap-6 mt-6 items-start">
+                {columnBuckets.map((columnItems, colIdx) => (
+                  <div key={`col_bucket_${colIdx}`} className="flex flex-col gap-4 sm:gap-6">
+                    {columnItems.map(({ item, index }) => {
+                      const isUnlocked = purchasedPromptIds.includes(item.id) || !item.isPremium;
+                      const aspectClass = aspectRatios[index % aspectRatios.length];
+                      const customSlug = getCleanShortSlug(item);
+                      const promptCost = item.cost ?? (item.prompt?.length >= 1533 ? 500 : 400);
 
-                  return (
-                    <div 
-                      key={item._stableId}
-                      onClick={() => onOpenDetail(item, customSlug)}
-                      className="break-inside-avoid group cursor-pointer flex flex-col gap-2.5 mb-6 gpu-accelerated"
-                    >
-                      <div className={`relative w-full ${aspectClass} rounded-2xl overflow-hidden bg-plaster-gray border border-black/5 shadow-xs group-hover:shadow-xl transition-shadow duration-300`}>
-                        <PortfolioImageItem src={item.image} alt={getShortTitle(item)} isPriority={index < 6} />
+                      return (
+                        <div 
+                          key={item._stableId}
+                          onClick={() => onOpenDetail(item, customSlug)}
+                          className="group cursor-pointer flex flex-col gap-2.5 [content-visibility:auto] [contain-intrinsic-size:1px_340px]"
+                        >
+                          <div className={`relative w-full ${aspectClass} rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/5 dark:border-white/10 shadow-2xs group-hover:shadow-md transition-shadow duration-200 [contain:paint]`}>
+                            <PortfolioImageItem src={item.image} alt={getShortTitle(item)} isPriority={index < 6} />
 
-                        {/* Top Subtle Gradient Overlay (Visible on Hover) */}
-                        <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/40 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
+                            {/* Top Subtle Gradient Overlay (Visible on Hover) */}
+                            <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/40 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" />
 
-                        {/* Top Overlay Badge (Price / Status - Revealed on Hover) */}
-                        <div className="absolute top-3 right-3 z-20 opacity-0 group-hover:opacity-100 transition-all duration-300 transform -translate-y-1 group-hover:translate-y-0">
-                          {item.isPremium ? (
-                            <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-semibold shadow-md backdrop-blur-md ${
-                              isUnlocked 
-                                ? 'bg-emerald-500/90 text-white border border-emerald-400/50' 
-                                : 'bg-black/80 text-white border border-white/20'
-                            }`}>
-                              {isUnlocked ? 'Terbuka' : `${promptCost} Kredit`}
-                            </span>
-                          ) : (
-                            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-white/95 text-obsidian border border-black/10 shadow-md backdrop-blur-md">
-                              Gratis
-                            </span>
-                          )}
-                        </div>
+                            {/* Top Overlay Badge (Price / Status - Revealed on Hover) */}
+                            <div className="absolute top-3 right-3 z-20 opacity-0 group-hover:opacity-100 transition-all duration-200 transform -translate-y-1 group-hover:translate-y-0">
+                              {item.isPremium ? (
+                                <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-semibold shadow-xs ${
+                                  isUnlocked 
+                                    ? 'bg-emerald-600 text-white border border-emerald-400/50' 
+                                    : 'bg-zinc-900/95 text-white border border-white/20'
+                                }`}>
+                                  {isUnlocked ? 'Terbuka' : `${promptCost} Kredit`}
+                                </span>
+                              ) : (
+                                <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-white/95 text-zinc-900 border border-black/10 shadow-xs">
+                                  Gratis
+                                </span>
+                              )}
+                            </div>
 
-                        {/* Hover Arrow Overlay */}
-                        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
-                          <div className="w-11 h-11 rounded-full aspect-square bg-white text-obsidian flex items-center justify-center shadow-xl transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-                            <ArrowUpRight01Icon size={20} />
+                            {/* Hover Arrow Overlay */}
+                            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center z-10">
+                              <div className="w-11 h-11 rounded-full aspect-square bg-white text-obsidian flex items-center justify-center shadow-md transform translate-y-2 group-hover:translate-y-0 transition-transform duration-200">
+                                <ArrowUpRight01Icon size={20} />
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Meta Card Info */}
+                          <div className="flex flex-col gap-1 px-1">
+                            <div className="flex items-center justify-between gap-2">
+                              <h3 className="text-xs font-bold text-obsidian group-hover:text-purple-600 transition-colors truncate">
+                                {getShortTitle(item)}
+                              </h3>
+                            </div>
+                            <div className="flex items-center justify-between gap-2 text-[11px] text-ash-gray font-medium">
+                              <span className="truncate">@{item.author?.startsWith('@') ? item.author.slice(1) : (item.author || 'Daniel Triendl')}</span>
+                              {item.isPremium && (
+                                <SpecularButton isUnlocked={isUnlocked}>
+                                  {isUnlocked ? 'Unlocked' : 'Premium'}
+                                </SpecularButton>
+                              )}
+                            </div>
                           </div>
                         </div>
-                      </div>
-
-                      {/* Meta Card Info */}
-                      <div className="flex flex-col gap-1 px-1">
-                        <div className="flex items-center justify-between gap-2">
-                          <h3 className="text-xs font-bold text-obsidian group-hover:text-purple-600 transition-colors truncate">
-                            {getShortTitle(item)}
-                          </h3>
-                        </div>
-                        <div className="flex items-center justify-between gap-2 text-[11px] text-ash-gray font-medium">
-                          <span className="truncate">@{item.author?.startsWith('@') ? item.author.slice(1) : (item.author || 'Daniel Triendl')}</span>
-                          {item.isPremium && (
-                            <SpecularButton isUnlocked={isUnlocked}>
-                              {isUnlocked ? 'Unlocked' : 'Premium'}
-                            </SpecularButton>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+                      );
+                    })}
+                  </div>
+                ))}
               </div>
 
-              {/* Progressive Batch Loading Sentinel */}
-              {visibleCount < filteredPrompts.length && (
-                <div ref={loadMoreRef} className="py-8 flex justify-center items-center">
-                  <div className="w-6 h-6 border-2 border-purple-600 border-t-transparent rounded-full animate-spin" />
+              {/* Split-Bar Balanced Pagination (Left: Items Info | Right: Minimalist Controls) */}
+              {totalPages > 1 && (
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-12 mb-6 pt-6 border-t border-black/5 dark:border-white/10 w-full font-sans px-1 text-xs">
+                  {/* Left Info Text */}
+                  <div className="text-zinc-500 dark:text-zinc-400 font-medium">
+                    Menampilkan <span className="font-bold text-obsidian dark:text-white">{(currentPage - 1) * ITEMS_PER_PAGE + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, filteredPrompts.length)}</span> dari <span className="font-bold text-obsidian dark:text-white">{filteredPrompts.length}</span> Prompt
+                  </div>
+
+                  {/* Right Controls: Chevrons & Page Numbers */}
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    {/* Previous Page Chevron Button */}
+                    <button
+                      disabled={currentPage === 1}
+                      onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                      className="p-2.5 sm:p-2.5 rounded-xl bg-white dark:bg-zinc-900/90 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-800 border border-zinc-200/80 dark:border-white/10 shadow-xs disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
+                      aria-label="Previous Page"
+                    >
+                      <ArrowLeft01Icon size={18} />
+                    </button>
+
+                    {/* Page Numbers */}
+                    <div className="flex items-center gap-1 sm:gap-2">
+                      {Array.from({ length: totalPages }, (_, i) => i + 1)
+                        .filter(page => page === 1 || page === totalPages || Math.abs(page - currentPage) <= 2)
+                        .map((page, idx, arr) => {
+                          const prevPage = arr[idx - 1];
+                          const showEllipsis = prevPage && page - prevPage > 1;
+                          const isActive = currentPage === page;
+
+                          return (
+                            <React.Fragment key={page}>
+                              {showEllipsis && (
+                                <span className="px-1 text-xs text-zinc-400 font-medium select-none">...</span>
+                              )}
+                              <button
+                                onClick={() => setCurrentPage(page)}
+                                className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl text-xs sm:text-sm font-normal transition-all duration-200 cursor-pointer flex items-center justify-center ${
+                                  isActive
+                                    ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-white shadow-xs scale-105 border border-zinc-300 dark:border-zinc-600'
+                                    : 'bg-white dark:bg-zinc-900/90 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-800 border border-zinc-200/80 dark:border-white/10 shadow-xs'
+                                }`}
+                              >
+                                {page}
+                              </button>
+                            </React.Fragment>
+                          );
+                        })}
+                    </div>
+
+                    {/* Next Page Chevron Button */}
+                    <button
+                      disabled={currentPage === totalPages}
+                      onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                      className="p-2.5 sm:p-2.5 rounded-xl bg-white dark:bg-zinc-900/90 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-800 border border-zinc-200/80 dark:border-white/10 shadow-xs disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
+                      aria-label="Next Page"
+                    >
+                      <ArrowRight01Icon size={18} />
+                    </button>
+                  </div>
                 </div>
               )}
             </>
@@ -427,6 +504,7 @@ export default function FigmaPortfolioPreview({
             />
           );
         })()}
+        </div>
       </SidebarInset>
 
       {/* Sign Out Confirmation Modal (Red Destructive Style with Prominent Red Logout Icon) */}
