@@ -784,7 +784,7 @@ export default function PromptDetailView({
                         className={`h-12 px-8 rounded-full font-bold text-sm flex items-center justify-center gap-2.5 transition-all cursor-pointer active:scale-95 duration-200 ${
                           copiedText
                             ? 'bg-emerald-600 text-white shadow-emerald-600/20'
-                            : 'bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-zinc-750 hover:to-zinc-900 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_4px_12px_0_rgba(0,0,0,0.5)]'
+                            : 'bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-zinc-600 hover:via-zinc-850 hover:to-zinc-950 hover:border-white/30 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.5),inset_0_12px_16px_-6px_rgba(255,255,255,0.18),0_6px_16px_0_rgba(0,0,0,0.5)]'
                         }`}
                       >
                         {copiedText ? <Check size={18} className="text-white stroke-[2.5]" /> : <Copy01Icon size={18} />}
@@ -861,7 +861,7 @@ export default function PromptDetailView({
                   setShowConfirmModal(false);
                   await executeUnlock();
                 }}
-                className="h-12 px-8 rounded-full font-bold text-sm flex items-center justify-center gap-2.5 transition-all cursor-pointer active:scale-95 bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-zinc-750 hover:to-zinc-900 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_4px_12px_0_rgba(0,0,0,0.5)]"
+                className="h-12 px-8 rounded-full font-bold text-sm flex items-center justify-center gap-2.5 transition-all cursor-pointer active:scale-95 bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-zinc-600 hover:via-zinc-850 hover:to-zinc-950 hover:border-white/30 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.5),inset_0_12px_16px_-6px_rgba(255,255,255,0.18),0_6px_16px_0_rgba(0,0,0,0.5)]"
               >
                 Setuju & Buka
               </AlertDialogAction>
@@ -896,7 +896,7 @@ export default function PromptDetailView({
                   if (onOpenUpgrade) onOpenUpgrade();
                   else setShowSubscription(true);
                 }}
-                className="h-12 px-8 rounded-full font-bold text-sm flex items-center justify-center gap-2.5 transition-all cursor-pointer active:scale-95 bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-zinc-750 hover:to-zinc-900 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_4px_12px_0_rgba(0,0,0,0.5)]"
+                className="h-12 px-8 rounded-full font-bold text-sm flex items-center justify-center gap-2.5 transition-all cursor-pointer active:scale-95 bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-zinc-600 hover:via-zinc-850 hover:to-zinc-950 hover:border-white/30 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.5),inset_0_12px_16px_-6px_rgba(255,255,255,0.18),0_6px_16px_0_rgba(0,0,0,0.5)]"
               >
                 <SparklesIcon size={14} className="fill-purple-200 text-purple-200" />
                 <span>Top Up Kredit Sekarang</span>
