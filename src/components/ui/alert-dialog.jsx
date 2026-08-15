@@ -134,15 +134,17 @@ function AlertDialogDescription({
 
 function AlertDialogAction({
   className,
+  variant = "primary",
+  size = "pill",
   ...props
 }) {
-  return (<Button data-slot="alert-dialog-action" className={cn(className)} {...props} />);
+  return (<Button data-slot="alert-dialog-action" variant={variant} size={size} className={cn(className)} {...props} />);
 }
 
 function AlertDialogCancel({
   className,
-  variant = "outline",
-  size = "default",
+  variant = "secondary",
+  size = "pill",
   ...props
 }) {
   return (

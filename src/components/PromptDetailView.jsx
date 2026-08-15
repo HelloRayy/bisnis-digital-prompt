@@ -849,10 +849,10 @@ export default function PromptDetailView({
                 Gunakan <strong className="text-obsidian dark:text-white font-bold">{Number(promptCost).toLocaleString('id-ID')} Kredit</strong> untuk membuka prompt ini. <span className="block mt-1 text-purple-600 dark:text-purple-400 font-semibold">Sisa saldo kredit Anda: {Number(userCredits).toLocaleString('id-ID')} Kredit.</span>
               </AlertDialogDescription>
             </AlertDialogHeader>
-            <AlertDialogFooter className="flex flex-col sm:flex-row gap-2 mt-4">
+            <AlertDialogFooter className="flex flex-row items-center justify-end gap-3 mt-5">
               <AlertDialogCancel 
                 onClick={() => setShowConfirmModal(false)}
-                className="rounded-full text-xs font-semibold py-2.5 px-5 cursor-pointer bg-white dark:bg-zinc-850 text-zinc-800 dark:text-zinc-200 ring-1 ring-black/10 dark:ring-white/10 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all shadow-2xs active:scale-95 border-0"
+                className="h-12 px-6 rounded-full font-bold text-sm"
               >
                 Batal
               </AlertDialogCancel>
@@ -861,7 +861,7 @@ export default function PromptDetailView({
                   setShowConfirmModal(false);
                   await executeUnlock();
                 }}
-                className="h-12 px-8 rounded-full font-bold text-sm flex items-center justify-center gap-2.5 transition-all cursor-pointer bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1.5px_3px_0_rgba(0,0,0,0.25)] hover:from-zinc-650 hover:via-zinc-800 hover:to-zinc-950 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_3px_8px_0_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:scale-[1.01] active:translate-y-0 active:scale-[0.97] duration-200"
+                className="h-12 px-8 rounded-full font-bold text-sm"
               >
                 Setuju & Buka
               </AlertDialogAction>
@@ -883,10 +883,10 @@ export default function PromptDetailView({
                 Prompt premium ini membutuhkan <strong className="text-obsidian dark:text-white font-bold">{Number(promptCost).toLocaleString('id-ID')} Kredit</strong>, sedangkan saldo Anda saat ini adalah <strong className="text-purple-600 dark:text-purple-400 font-bold">{Number(userCredits).toLocaleString('id-ID')} Kredit</strong>.
               </AlertDialogDescription>
             </AlertDialogHeader>
-            <AlertDialogFooter className="flex flex-col sm:flex-row gap-2 mt-4">
+            <AlertDialogFooter className="flex flex-row items-center justify-end gap-3 mt-5">
               <AlertDialogCancel 
                 onClick={() => setShowInsufficientModal(false)}
-                className="rounded-full text-xs font-semibold py-2.5 px-5 cursor-pointer bg-white dark:bg-zinc-850 text-zinc-800 dark:text-zinc-200 ring-1 ring-black/10 dark:ring-white/10 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all shadow-2xs active:scale-95 border-0"
+                className="h-12 px-6 rounded-full font-bold text-sm"
               >
                 Nanti Saja
               </AlertDialogCancel>
@@ -896,9 +896,9 @@ export default function PromptDetailView({
                   if (onOpenUpgrade) onOpenUpgrade();
                   else setShowSubscription(true);
                 }}
-                className="h-12 px-8 rounded-full font-bold text-sm flex items-center justify-center gap-2.5 transition-all cursor-pointer bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1.5px_3px_0_rgba(0,0,0,0.25)] hover:from-zinc-650 hover:via-zinc-800 hover:to-zinc-950 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_3px_8px_0_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:scale-[1.01] active:translate-y-0 active:scale-[0.97] duration-200"
+                className="h-12 px-8 rounded-full font-bold text-sm flex items-center justify-center gap-2"
               >
-                <SparklesIcon size={14} className="fill-purple-200 text-purple-200" />
+                <SparklesIcon size={16} className="fill-purple-200 text-purple-200" />
                 <span>Top Up Kredit Sekarang</span>
               </AlertDialogAction>
             </AlertDialogFooter>
