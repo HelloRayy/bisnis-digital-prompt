@@ -852,7 +852,7 @@ export default function PromptDetailView({
             <AlertDialogFooter className="flex flex-col sm:flex-row gap-2 mt-4">
               <AlertDialogCancel 
                 onClick={() => setShowConfirmModal(false)}
-                className="rounded-full text-xs font-semibold py-2.5 px-4 cursor-pointer"
+                className="rounded-full text-xs font-semibold py-2.5 px-5 cursor-pointer bg-white dark:bg-zinc-850 text-zinc-800 dark:text-zinc-200 ring-1 ring-black/10 dark:ring-white/10 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all shadow-2xs active:scale-95 border-0"
               >
                 Batal
               </AlertDialogCancel>
@@ -886,7 +886,7 @@ export default function PromptDetailView({
             <AlertDialogFooter className="flex flex-col sm:flex-row gap-2 mt-4">
               <AlertDialogCancel 
                 onClick={() => setShowInsufficientModal(false)}
-                className="rounded-full text-xs font-semibold py-2.5 px-4 cursor-pointer"
+                className="rounded-full text-xs font-semibold py-2.5 px-5 cursor-pointer bg-white dark:bg-zinc-850 text-zinc-800 dark:text-zinc-200 ring-1 ring-black/10 dark:ring-white/10 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all shadow-2xs active:scale-95 border-0"
               >
                 Nanti Saja
               </AlertDialogCancel>
