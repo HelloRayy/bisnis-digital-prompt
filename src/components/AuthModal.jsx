@@ -52,7 +52,7 @@ export default function AuthModal({ onClose, onAuthSuccess }) {
           Welcome to Prompt Hub!
         </h3>
         
-        <p className="text-zinc-500 dark:text-zinc-400 text-xs sm:text-[13px] mt-2 mb-7 px-1 font-normal leading-relaxed">
+        <p className="text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm mt-2 mb-7 px-1 font-medium leading-relaxed">
           Discover the world's best AI prompt collection & visual creative assets
         </p>
 
@@ -87,7 +87,7 @@ export default function AuthModal({ onClose, onAuthSuccess }) {
         </button>
 
         {/* Minimal Legal Note */}
-        <p className="mt-6 text-[11px] text-zinc-400 font-normal leading-relaxed">
+        <p className="mt-6 text-xs text-zinc-500 dark:text-zinc-400 font-medium leading-relaxed">
           By continuing, you agree to our Terms of Service & Privacy Policy.
         </p>
       </motion.div>

@@ -117,7 +117,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
               <span className="text-2xl sm:text-3xl font-semibold text-obsidian dark:text-white tracking-tight">Rp 0</span>
               <span className="text-zinc-500 text-xs font-medium"> / gratis</span>
             </div>
-            <p className="text-[11px] text-zinc-400 mb-5 font-medium">Saldo awal gratis untuk eksplorasi platform</p>
+            <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-5 font-medium">Saldo awal gratis untuk eksplorasi platform</p>
 
             <ul className="space-y-2.5 text-xs text-zinc-700 dark:text-zinc-300 mb-6 font-medium">
               <li className="flex items-center gap-2">
@@ -138,11 +138,11 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
           <div>
             <button
               disabled={true}
-              className="w-full py-2.5 px-4 rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-800/60 text-zinc-500 dark:text-zinc-400 text-xs font-semibold cursor-default"
+              className="w-full py-2.5 px-4 rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-800/60 text-zinc-600 dark:text-zinc-400 text-xs font-semibold cursor-default"
             >
               Paket Aktif (Default)
             </button>
-            <p className="text-[10px] text-zinc-400 text-center mt-2 font-medium">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 text-center mt-2 font-medium">
               Otomatis aktif untuk semua pengguna baru
             </p>
           </div>
@@ -200,7 +200,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
               <span>Beli Rp 10.000</span>
               <SparklesIcon size={14} className="text-purple-200 fill-purple-200" />
             </ShimmerButton>
-            <p className="text-[10px] text-zinc-500 dark:text-zinc-400 font-medium text-center mt-2">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 font-medium text-center mt-2">
               Pilihan terbaik untuk kreator & desainer aktif
             </p>
           </div>
@@ -222,7 +222,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
               <span className="text-2xl sm:text-3xl font-semibold text-obsidian dark:text-white tracking-tight">Rp 5.000</span>
               <span className="text-zinc-500 text-xs font-medium"> / top-up</span>
             </div>
-            <p className="text-[11px] text-zinc-400 mb-5 font-medium">Pengisian saldo hemat dan terjangkau</p>
+            <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-5 font-medium">Pengisian saldo hemat dan terjangkau</p>
 
             <ul className="space-y-2.5 text-xs text-zinc-700 dark:text-zinc-300 mb-6 font-medium">
               <li className="flex items-center gap-2">
@@ -247,7 +247,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
             >
               Beli Rp 5.000
             </button>
-            <p className="text-[10px] text-zinc-400 text-center mt-2 font-medium">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 text-center mt-2 font-medium">
               Pengisian saldo cepat untuk kebutuhan dasar
             </p>
           </div>
@@ -405,36 +405,36 @@ export default function SubscriptionView({
 
             {/* Value Pillars Banner */}
             <div className="mt-14 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-2xs flex flex-col gap-2">
+              <div className="p-4.5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-2xs flex flex-col gap-2">
                 <div className="w-8 h-8 rounded-xl bg-purple-50 dark:bg-purple-950 text-purple-600 dark:text-purple-400 flex items-center justify-center">
                   <Zap size={18} />
                 </div>
                 <h4 className="text-xs font-bold text-obsidian dark:text-white">Aktivasi Instan</h4>
-                <p className="text-[11px] text-zinc-500 dark:text-zinc-400">Saldo kredit otomatis masuk detik itu juga setelah pembayaran.</p>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">Saldo kredit otomatis masuk detik itu juga setelah pembayaran.</p>
               </div>
 
-              <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-2xs flex flex-col gap-2">
+              <div className="p-4.5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-2xs flex flex-col gap-2">
                 <div className="w-8 h-8 rounded-xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
                   <ShieldCheck size={18} />
                 </div>
                 <h4 className="text-xs font-bold text-obsidian dark:text-white">Kredit Permanen</h4>
-                <p className="text-[11px] text-zinc-500 dark:text-zinc-400">Saldo tidak memiliki masa berlaku dan berlaku selamanya.</p>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">Saldo tidak memiliki masa berlaku dan berlaku selamanya.</p>
               </div>
 
-              <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-2xs flex flex-col gap-2">
+              <div className="p-4.5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-2xs flex flex-col gap-2">
                 <div className="w-8 h-8 rounded-xl bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center">
                   <CreditCardIcon size={18} />
                 </div>
                 <h4 className="text-xs font-bold text-obsidian dark:text-white">QRIS Nasional</h4>
-                <p className="text-[11px] text-zinc-500 dark:text-zinc-400">Mendukung GoPay, OVO, DANA, ShopeePay, dan seluruh m-Banking.</p>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">Mendukung GoPay, OVO, DANA, ShopeePay, dan seluruh m-Banking.</p>
               </div>
 
-              <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-2xs flex flex-col gap-2">
+              <div className="p-4.5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-2xs flex flex-col gap-2">
                 <div className="w-8 h-8 rounded-xl bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center">
                   <Lock size={18} />
                 </div>
                 <h4 className="text-xs font-bold text-obsidian dark:text-white">Bebas Biaya Admin</h4>
-                <p className="text-[11px] text-zinc-500 dark:text-zinc-400">Harga final tanpa potongan atau biaya tersembunyi apapun.</p>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">Harga final tanpa potongan atau biaya tersembunyi apapun.</p>
               </div>
             </div>
 

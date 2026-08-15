@@ -604,7 +604,7 @@ export default function CheckoutView({
                     </h2>
                   </div>
 
-                  <span className="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800 self-start sm:self-auto">
+                  <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800 self-start sm:self-auto">
                     Verifikasi Otomatis
                   </span>
                 </div>
@@ -615,7 +615,7 @@ export default function CheckoutView({
                     <p className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
                       Menghubungkan ke Gateway GenPay & Menyiapkan QRIS...
                     </p>
-                    <span className="text-[11px] text-zinc-400">Harap tunggu beberapa detik</span>
+                    <span className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">Harap tunggu beberapa detik</span>
                   </div>
                 ) : status === 'expired' ? (
                   <div className="py-12 px-6 rounded-2xl border border-rose-200 dark:border-rose-900/40 bg-rose-50/40 dark:bg-rose-950/20 flex flex-col items-center justify-center gap-3 text-center">
@@ -642,7 +642,7 @@ export default function CheckoutView({
                         <span>Selesaikan sebelum: <strong className="font-mono font-bold text-obsidian dark:text-white text-sm">{formatTimer(timeLeft)}</strong></span>
                       </div>
 
-                      <div className="flex items-center gap-1.5 text-[11px] font-semibold text-purple-700 dark:text-purple-300">
+                      <div className="flex items-center gap-1.5 text-xs font-semibold text-purple-700 dark:text-purple-300">
                         <span className="relative flex h-2 w-2">
                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                           <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -663,7 +663,7 @@ export default function CheckoutView({
                             <span className="font-black text-xs text-obsidian tracking-tighter">QRIS</span>
                             <span className="text-[9px] font-bold text-red-600 bg-red-50 px-1 py-0.2 rounded">NASIONAL</span>
                           </div>
-                          <span className="text-[10px] text-zinc-400 font-mono">GenPay Gateway</span>
+                          <span className="text-xs text-zinc-500 font-mono">GenPay Gateway</span>
                         </div>
 
                         {/* Actual QR Image Container */}
