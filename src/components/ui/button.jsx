@@ -10,11 +10,11 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        // Primary: Black Obsidian Gradient in Default -> Crisp Pure White Background with Black Text on Hover
+        // Primary: Exact Black Obsidian Styling Code
         primary:
-          "relative overflow-hidden bg-gradient-to-b from-zinc-800 to-zinc-950 hover:from-white hover:via-white hover:to-white hover:bg-white text-white hover:text-black border border-white/15 hover:border-black/20 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:shadow-[0_10px_30px_rgba(0,0,0,0.15)] active:scale-95 font-bold transition-all duration-300 cursor-pointer",
+          "relative overflow-hidden bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-zinc-750 hover:to-zinc-900 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_4px_12px_0_rgba(0,0,0,0.5)] active:scale-95 font-bold transition-all duration-200 cursor-pointer",
         default:
-          "relative overflow-hidden bg-gradient-to-b from-zinc-800 to-zinc-950 hover:from-white hover:via-white hover:to-white hover:bg-white text-white hover:text-black border border-white/15 hover:border-black/20 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:shadow-[0_10px_30px_rgba(0,0,0,0.15)] active:scale-95 font-bold transition-all duration-300 cursor-pointer",
+          "relative overflow-hidden bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-zinc-750 hover:to-zinc-900 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_4px_12px_0_rgba(0,0,0,0.5)] active:scale-95 font-bold transition-all duration-200 cursor-pointer",
         
         // Secondary: Kumo tactile styling with crisp border -> Smooth purple brand tint & text color on Hover
         secondary:
@@ -94,7 +94,7 @@ const SecondaryButton = React.forwardRef(function SecondaryButton(
 })
 
 /**
- * High-Craft Primary CTA Button with Smooth Motion Text Slide & Arrow Color Inversion
+ * High-Craft Primary CTA Button with Smooth Motion Text Slide & Arrow
  */
 function PrimaryCTAButton({
   label = "Buka Prompt",
@@ -111,31 +111,31 @@ function PrimaryCTAButton({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "group relative inline-flex items-center justify-between pl-6 sm:pl-7 pr-2 py-2 h-12 rounded-full bg-gradient-to-b from-zinc-800 to-zinc-950 hover:from-white hover:via-white hover:to-white hover:bg-white text-white hover:text-black text-sm font-bold border border-white/15 hover:border-black/20 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:shadow-[0_10px_30px_rgba(0,0,0,0.15)] active:scale-95 transition-all duration-300 cursor-pointer pointer-events-auto overflow-hidden select-none",
+        "group relative inline-flex items-center justify-between pl-6 sm:pl-7 pr-2 py-2 h-12 rounded-full bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_2px_4px_0_rgba(0,0,0,0.4)] hover:from-zinc-750 hover:to-zinc-900 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_4px_12px_0_rgba(0,0,0,0.5)] active:scale-95 transition-all duration-200 cursor-pointer pointer-events-auto overflow-hidden select-none",
         className
       )}
     >
       <span className="relative inline-flex items-center justify-center overflow-hidden">
         {/* Default Text (Slides UP & out on hover) */}
-        <span className="transition-all duration-300 group-hover:-translate-y-8 group-hover:opacity-0 group-active:scale-95 font-bold tracking-tight text-white group-hover:text-black">
+        <span className="transition-all duration-300 group-hover:-translate-y-8 group-hover:opacity-0 group-active:scale-95 font-bold tracking-tight text-white">
           {label}
         </span>
         {/* Hover Text (Slides IN from bottom on hover) */}
-        <span className="absolute inset-0 flex items-center justify-center transition-all duration-300 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 font-bold whitespace-nowrap group-active:scale-95 tracking-tight text-black">
+        <span className="absolute inset-0 flex items-center justify-center transition-all duration-300 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 font-bold whitespace-nowrap group-active:scale-95 tracking-tight text-white">
           {hoverLabel}
         </span>
       </span>
 
-      <div className="w-8 h-8 rounded-full bg-white group-hover:bg-black text-black group-hover:text-white flex items-center justify-center shrink-0 ml-4 relative overflow-hidden transition-all duration-300 shadow-2xs">
+      <div className="w-8 h-8 rounded-full bg-white text-black group-active:scale-85 flex items-center justify-center shrink-0 ml-4 relative overflow-hidden transition-all duration-300 shadow-2xs group-hover:scale-105">
         {/* Primary Arrow sliding up & out on hover */}
         <ArrowUpRight01Icon
           size={16}
-          className="text-black group-hover:text-white stroke-[2.5] transition-all duration-300 group-hover:-translate-y-6 group-hover:translate-x-6"
+          className="text-black stroke-[2.5] transition-all duration-300 group-hover:-translate-y-6 group-hover:translate-x-6"
         />
         {/* Secondary Duplicate Arrow sliding in from bottom-left on hover */}
         <ArrowUpRight01Icon
           size={16}
-          className="text-white stroke-[2.5] absolute transition-all duration-300 translate-y-6 -translate-x-6 group-hover:translate-y-0 group-hover:translate-x-0"
+          className="text-black absolute transition-all duration-300 translate-y-6 -translate-x-6 group-hover:translate-y-0 group-hover:translate-x-0 stroke-[2.5]"
         />
       </div>
     </motion.button>
