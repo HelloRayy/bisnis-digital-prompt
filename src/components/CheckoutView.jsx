@@ -34,6 +34,7 @@ import { createGenPayQris, checkGenPayTransactionStatus } from '@/lib/genpay';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import SpecularElectricButton from '@/components/ui/SpecularElectricButton';
 
 const PLANS_MAP = {
   '10k': {
@@ -323,10 +324,10 @@ export default function CheckoutView({
 
         {/* Right: Current Balance Badge */}
         <div className="flex items-center gap-3">
-          <div className="px-3.5 py-1.5 rounded-full bg-purple-50 dark:bg-purple-950/50 border border-purple-200/80 dark:border-purple-800/80 text-purple-700 dark:text-purple-300 text-xs font-bold flex items-center gap-1.5 shadow-2xs">
-            <SparklesIcon size={14} className="text-purple-600 dark:text-purple-400 fill-purple-200 dark:fill-purple-900" />
-            <span>Kredit Anda: <strong className="font-mono">{Number(userCredits).toLocaleString('id-ID')}</strong></span>
-          </div>
+          <SpecularElectricButton 
+            onClick={() => onNavigate('/subscription')} 
+            credits={userCredits} 
+          />
         </div>
       </header>
 

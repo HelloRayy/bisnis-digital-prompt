@@ -24,49 +24,32 @@ export function WalletMinimalIcon({ size = 13, className = "" }) {
 export function SpecularElectricButton({ 
   onClick, 
   credits = 0, 
-  label = 'Kredit', 
+  label = 'KREDIT', 
   title = 'Klik untuk Top Up Kredit',
   className = ''
 }) {
   const numericCredits = Number(credits || 0);
   const formattedCredits = numericCredits.toLocaleString('id-ID');
-  const isHighTier = numericCredits > 10000;
 
   return (
     <button
       onClick={onClick}
       title={title}
       type="button"
-      className={`relative inline-flex items-center justify-center p-[1.5px] rounded-full overflow-hidden
-        ${isHighTier 
-          ? 'bg-gradient-to-r from-purple-600 via-fuchsia-500 to-indigo-600 shadow-[0_0_20px_rgba(168,85,247,0.5)] ring-2 ring-purple-400/40 hover:shadow-[0_0_25px_rgba(168,85,247,0.7)]' 
-          : 'bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 shadow-[0_2px_10px_rgba(59,130,246,0.15)] hover:shadow-[0_4px_16px_rgba(59,130,246,0.25)]'
-        }
-        transition-all duration-200 cursor-pointer shrink-0 active:scale-95 group ${className}`}
+      className={`relative inline-flex items-center gap-2 h-9 px-3.5 sm:px-4 rounded-full bg-gradient-to-b from-purple-900 via-purple-950 to-zinc-950 text-white border border-purple-400/20 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),0_1.5px_3px_0_rgba(0,0,0,0.25)] hover:from-purple-800 hover:via-purple-900 hover:to-zinc-950 hover:border-purple-400/35 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_3px_8px_0_rgba(0,0,0,0.3)] font-sans text-xs font-bold transition-all duration-200 cursor-pointer shrink-0 active:scale-95 group select-none ${className}`}
     >
-      {/* Inner Button Box with dynamic purple tier styling */}
-      <span className={`relative z-10 inline-flex items-center gap-2 h-[32px] px-3.5 rounded-full font-sans text-xs font-bold w-full transition-colors ${
-        isHighTier 
-          ? 'bg-gradient-to-r from-purple-950 via-purple-900 to-indigo-950 text-white group-hover:from-purple-900 group-hover:to-indigo-900' 
-          : 'bg-white text-slate-900 group-hover:bg-slate-50 dark:bg-zinc-900 dark:text-white'
-      }`}>
-        {/* Icon Badge */}
-        <span className={`p-1 rounded-full flex items-center justify-center ${
-          isHighTier 
-            ? 'bg-purple-500/30 border border-purple-400/60 shadow-xs' 
-            : 'bg-blue-50 border border-blue-200 group-hover:bg-blue-100'
-        }`}>
-          <WalletMinimalIcon size={12} className={isHighTier ? "text-purple-200 shrink-0" : "text-blue-600 shrink-0"} />
-        </span>
+      {/* Subtle Wallet Icon Badge */}
+      <span className="w-5.5 h-5.5 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-purple-200 shrink-0 shadow-2xs group-hover:bg-white/15 transition-colors">
+        <WalletMinimalIcon size={12} className="text-purple-200 shrink-0" />
+      </span>
 
-        {/* Label & Number */}
-        <span className="whitespace-nowrap flex items-center gap-1.5">
-          <strong className={`font-black text-xs tracking-tight ${isHighTier ? 'text-purple-100 drop-shadow-xs' : 'text-blue-700 dark:text-blue-400'}`}>
-            {formattedCredits}
-          </strong>
-          <span className={`text-xs font-bold tracking-wide uppercase text-[10px] ${isHighTier ? 'text-purple-300' : 'text-slate-700 dark:text-zinc-300'}`}>
-            {label}
-          </span>
+      {/* Label & Dynamic Number */}
+      <span className="whitespace-nowrap flex items-center gap-1.5">
+        <strong className="font-extrabold text-xs sm:text-sm tracking-tight text-white drop-shadow-2xs">
+          {formattedCredits}
+        </strong>
+        <span className="text-[10px] sm:text-xs font-bold tracking-wider uppercase text-purple-200/90">
+          {label}
         </span>
       </span>
     </button>
