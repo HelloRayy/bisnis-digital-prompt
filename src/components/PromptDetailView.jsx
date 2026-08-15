@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, Coins } from 'lucide-react';
+import { Check, Coins, Sparkle } from 'lucide-react';
 import { toast } from 'sonner';
 import { Dock } from '@/components/ui/dock-two';
 import { AnimatedNumber } from '@/components/ui/animated-counter';
@@ -8,7 +8,6 @@ import SpecularElectricButton from '@/components/ui/SpecularElectricButton';
 import { SubscriptionCards } from './SubscriptionView';
 import PromptParameterCustomizer from './prompt-detail/PromptParameterCustomizer';
 import PromptImageGallery from './prompt-detail/PromptImageGallery';
-import geminiLogo from '../assets/gemini-logo.png';
 import { getOptimizedImageUrl } from '@/utils/image-optimizer';
 import { getPromptAspectRatioClass } from '@/utils/prompt-helpers';
 import { 
@@ -602,7 +601,7 @@ export default function PromptDetailView({
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-750 text-obsidian dark:text-zinc-100 border border-zinc-200 dark:border-zinc-700 hover:border-zinc-300 dark:hover:border-zinc-600 text-xs sm:text-sm font-bold transition-all shrink-0 cursor-pointer active:scale-95 shadow-2xs group self-start sm:self-auto"
                               >
-                                <img src={geminiLogo} alt="Google Gemini" className="w-4.5 h-4.5 object-contain shrink-0" />
+                                <Sparkle className="size-4.5 text-blue-600 dark:text-blue-400 fill-blue-500 dark:fill-blue-400 shrink-0" />
                                 <span>Buka Gemini</span>
                                 <ArrowUpRight01Icon size={15} className="text-zinc-400 group-hover:text-zinc-700 dark:group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0" />
                               </a>
