@@ -28,31 +28,45 @@ export function SpecularElectricButton({
   title = 'Klik untuk Top Up Kredit',
   className = ''
 }) {
-  const formattedCredits = Number(credits || 0).toLocaleString('id-ID');
+  const numericCredits = Number(credits || 0);
+  const formattedCredits = numericCredits.toLocaleString('id-ID');
+  const isHighTier = numericCredits > 10000;
 
   return (
     <button
       onClick={onClick}
       title={title}
       type="button"
-      className={`relative inline-flex items-center justify-center p-[1px] rounded-full overflow-hidden
-        bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 hover:from-blue-600 hover:to-purple-600
-        shadow-[0_2px_10px_rgba(59,130,246,0.15)] hover:shadow-[0_4px_16px_rgba(59,130,246,0.25)]
+      className={`relative inline-flex items-center justify-center p-[1.5px] rounded-full overflow-hidden
+        ${isHighTier 
+          ? 'bg-gradient-to-r from-purple-600 via-fuchsia-500 to-indigo-600 shadow-[0_0_20px_rgba(168,85,247,0.5)] ring-2 ring-purple-400/40 hover:shadow-[0_0_25px_rgba(168,85,247,0.7)]' 
+          : 'bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 shadow-[0_2px_10px_rgba(59,130,246,0.15)] hover:shadow-[0_4px_16px_rgba(59,130,246,0.25)]'
+        }
         transition-all duration-200 cursor-pointer shrink-0 active:scale-95 group ${className}`}
     >
-      {/* Inner White Button Container */}
-      <span className="relative z-10 inline-flex items-center gap-2 h-[32px] px-3 rounded-full bg-white text-slate-900 font-sans text-xs font-bold w-full transition-colors group-hover:bg-slate-50">
+      {/* Inner Button Box with dynamic purple tier styling */}
+      <span className={`relative z-10 inline-flex items-center gap-2 h-[32px] px-3.5 rounded-full font-sans text-xs font-bold w-full transition-colors ${
+        isHighTier 
+          ? 'bg-gradient-to-r from-purple-950 via-purple-900 to-indigo-950 text-white group-hover:from-purple-900 group-hover:to-indigo-900' 
+          : 'bg-white text-slate-900 group-hover:bg-slate-50 dark:bg-zinc-900 dark:text-white'
+      }`}>
         {/* Icon Badge */}
-        <span className="p-0.5 rounded-full bg-blue-50 border border-blue-200 group-hover:bg-blue-100 flex items-center justify-center">
-          <WalletMinimalIcon size={12} className="text-blue-600 shrink-0" />
+        <span className={`p-1 rounded-full flex items-center justify-center ${
+          isHighTier 
+            ? 'bg-purple-500/30 border border-purple-400/60 shadow-xs' 
+            : 'bg-blue-50 border border-blue-200 group-hover:bg-blue-100'
+        }`}>
+          <WalletMinimalIcon size={12} className={isHighTier ? "text-purple-200 shrink-0" : "text-blue-600 shrink-0"} />
         </span>
 
         {/* Label & Number */}
-        <span className="whitespace-nowrap flex items-center gap-1">
-          <strong className="text-blue-700 font-extrabold text-xs">
+        <span className="whitespace-nowrap flex items-center gap-1.5">
+          <strong className={`font-black text-xs tracking-tight ${isHighTier ? 'text-purple-100 drop-shadow-xs' : 'text-blue-700 dark:text-blue-400'}`}>
             {formattedCredits}
           </strong>
-          <span className="text-slate-600 text-xs font-medium">{label}</span>
+          <span className={`text-xs font-bold tracking-wide uppercase text-[10px] ${isHighTier ? 'text-purple-300' : 'text-slate-700 dark:text-zinc-300'}`}>
+            {label}
+          </span>
         </span>
       </span>
     </button>

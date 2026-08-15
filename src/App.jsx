@@ -358,7 +358,7 @@ function App() {
     }
   };
 
-  // Deduct Credits function
+  // Deduct Credits function (Optimistic UI Update 0ms)
   const handleDeductCredits = async (costAmount, promptId, promptTitle) => {
     if (!currentUser) {
       setShowAuthModal(true);
@@ -375,11 +375,22 @@ function App() {
       return { success: false, reason: 'Kredit Anda tidak mencukupi.' };
     }
 
+    // 1. Optimistic Real-Time UI state update
     const newBal = Math.max(0, userCredits - costAmount);
     setUserCredits(newBal);
-    localStorage.setItem(`user_credits_${currentUser.id}`, newBal.toString());
-    await persistPurchaseRecord(currentUser, strPromptId);
-    await syncCreditsToDB(currentUser.id, currentUser.email, newBal);
+    setPurchasedPromptIds(prev => Array.from(new Set([...prev, strPromptId])));
+
+    // 2. Immediate Local Storage Sync
+    try {
+      localStorage.setItem(`user_credits_${currentUser.id}`, newBal.toString());
+      const existing = JSON.parse(localStorage.getItem(`purchased_prompts_${currentUser.id}`) || '[]');
+      const nextPurchases = Array.from(new Set([...existing, strPromptId]));
+      localStorage.setItem(`purchased_prompts_${currentUser.id}`, JSON.stringify(nextPurchases));
+    } catch (e) {}
+
+    // 3. Background async database sync
+    persistPurchaseRecord(currentUser, strPromptId).catch(() => {});
+    syncCreditsToDB(currentUser.id, currentUser.email, newBal).catch(() => {});
 
     return { success: true };
   };

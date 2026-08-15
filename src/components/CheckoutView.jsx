@@ -56,6 +56,9 @@ export default function CheckoutView({
   const [status, setStatus] = useState('pending'); // 'pending' | 'paid' | 'expired'
   const [timeLeft, setTimeLeft] = useState(15 * 60);
   const [lastCheckTime, setLastCheckTime] = useState(null);
+  const [voucherCode, setVoucherCode] = useState('');
+  const [isVoucherApplied, setIsVoucherApplied] = useState(false);
+  const [voucherError, setVoucherError] = useState('');
   
   const pollingRef = useRef(null);
   const timerRef = useRef(null);
@@ -134,6 +137,22 @@ export default function CheckoutView({
   };
 
   const handleSimulatePayment = () => {
+    setStatus('paid');
+    if (pollingRef.current) clearInterval(pollingRef.current);
+    onPaymentSuccess(plan.credits);
+  };
+
+  const handleApplyVoucher = (e) => {
+    if (e) e.preventDefault();
+    setVoucherError('');
+    if (voucherCode.trim().toUpperCase() === 'KEPAL2') {
+      setIsVoucherApplied(true);
+    } else {
+      setVoucherError('Kode voucher tidak valid.');
+    }
+  };
+
+  const handleClaimFree = () => {
     setStatus('paid');
     if (pollingRef.current) clearInterval(pollingRef.current);
     onPaymentSuccess(plan.credits);
@@ -329,14 +348,52 @@ export default function CheckoutView({
                     <span className="text-emerald-600 font-semibold">Rp 0 (Gratis)</span>
                   </div>
 
+                  {isVoucherApplied && (
+                    <div className="flex justify-between items-center text-emerald-600 font-bold bg-emerald-50 p-2 rounded-lg border border-emerald-200">
+                      <span>Voucher KEPAL2 (100% Free)</span>
+                      <span>- Rp {plan.priceIdr.toLocaleString('id-ID')}</span>
+                    </div>
+                  )}
+
                   <Separator className="my-1 bg-zinc-200" />
 
                   <div className="flex justify-between items-center text-sm pt-1">
                     <span className="font-bold text-obsidian">Total Pembayaran</span>
-                    <span className="font-bold text-lg text-purple-700 font-mono">
-                      Rp {plan.priceIdr.toLocaleString('id-ID')}
+                    <span className={`font-bold text-lg font-mono ${isVoucherApplied ? 'text-emerald-600' : 'text-purple-700'}`}>
+                      Rp {isVoucherApplied ? '0' : plan.priceIdr.toLocaleString('id-ID')}
                     </span>
                   </div>
+                </div>
+
+                {/* Voucher Input Form in Checkout */}
+                <div className="mt-5 pt-4 border-t border-zinc-200 flex flex-col gap-2">
+                  <span className="text-xs font-bold text-obsidian">Kode Voucher Promo</span>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      value={voucherCode}
+                      onChange={(e) => setVoucherCode(e.target.value)}
+                      placeholder="Masukkan kode (ex: KEPAL2)"
+                      className="h-8 px-3 text-xs bg-white text-obsidian border border-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/30 uppercase font-mono font-bold flex-1"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleApplyVoucher}
+                      className="h-8 px-3 rounded-lg bg-zinc-900 hover:bg-black text-white text-xs font-bold transition-colors cursor-pointer shrink-0"
+                    >
+                      Terapkan
+                    </button>
+                  </div>
+                  {voucherError && <span className="text-[11px] text-rose-600 font-semibold">{voucherError}</span>}
+                  {isVoucherApplied && (
+                    <button
+                      type="button"
+                      onClick={handleClaimFree}
+                      className="w-full mt-2 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-500/20 transition-all cursor-pointer"
+                    >
+                      🎉 Klaim +{plan.credits.toLocaleString('id-ID')} Kredit Gratis (Rp 0)
+                    </button>
+                  )}
                 </div>
               </div>
 
