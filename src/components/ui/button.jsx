@@ -94,7 +94,7 @@ const SecondaryButton = React.forwardRef(function SecondaryButton(
 })
 
 /**
- * High-Craft Primary CTA Button with Smooth Motion Text Slide & Arrow
+ * High-Craft Primary CTA Button with Expanding White Fill & Inverted Arrow Motion
  */
 function PrimaryCTAButton({
   label = "Buka Prompt",
@@ -106,36 +106,44 @@ function PrimaryCTAButton({
   return (
     <motion.button
       type="button"
-      whileTap={{ scale: 0.93, y: 1 }}
-      transition={{ type: "spring", stiffness: 600, damping: 22 }}
+      whileTap={{ scale: 0.95 }}
+      transition={{ type: "spring", stiffness: 500, damping: 25 }}
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "group relative inline-flex items-center justify-between pl-6 sm:pl-7 pr-2 py-2 h-12 rounded-full bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1.5px_3px_0_rgba(0,0,0,0.25)] hover:from-zinc-700 hover:via-zinc-800 hover:to-zinc-950 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_3px_8px_0_rgba(0,0,0,0.3)] active:scale-95 transition-all duration-200 cursor-pointer pointer-events-auto overflow-hidden select-none",
+        "group relative inline-flex items-center justify-between pl-6 sm:pl-7 pr-2 py-2 h-12 rounded-full bg-zinc-950 text-white border border-white/15 shadow-[0_2px_10px_rgba(0,0,0,0.2)] active:scale-95 transition-all duration-300 cursor-pointer pointer-events-auto overflow-hidden select-none",
         className
       )}
     >
-      <span className="relative inline-flex items-center justify-center overflow-hidden">
+      {/* Expanding White Fill Circle from Arrow Button on Hover */}
+      <span 
+        aria-hidden="true" 
+        className="absolute right-2 top-2 w-8 h-8 rounded-full bg-white transition-transform duration-500 ease-out origin-center scale-0 group-hover:scale-[18] pointer-events-none z-0" 
+      />
+
+      {/* Sliding Text Container */}
+      <span className="relative z-10 inline-flex items-center justify-center overflow-hidden">
         {/* Default Text (Slides UP & out on hover) */}
-        <span className="transition-all duration-300 group-hover:-translate-y-8 group-hover:opacity-0 group-active:scale-95 font-bold tracking-tight text-white">
+        <span className="transition-all duration-300 group-hover:-translate-y-8 group-hover:opacity-0 font-bold tracking-tight text-white group-hover:text-zinc-950">
           {label}
         </span>
         {/* Hover Text (Slides IN from bottom on hover) */}
-        <span className="absolute inset-0 flex items-center justify-center transition-all duration-300 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 font-bold whitespace-nowrap group-active:scale-95 tracking-tight text-white">
+        <span className="absolute inset-0 flex items-center justify-center transition-all duration-300 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 font-bold whitespace-nowrap tracking-tight text-white group-hover:text-zinc-950">
           {hoverLabel}
         </span>
       </span>
 
-      <div className="w-8 h-8 rounded-full bg-white text-black group-active:scale-85 flex items-center justify-center shrink-0 ml-4 relative overflow-hidden transition-all duration-300 shadow-2xs group-hover:scale-105">
-        {/* Primary Arrow sliding up & out on hover */}
+      {/* Arrow Circle Container: White by default -> Smoothly inverts to Black on hover */}
+      <div className="relative z-10 w-8 h-8 rounded-full bg-white text-zinc-950 group-hover:bg-zinc-950 group-hover:text-white flex items-center justify-center shrink-0 ml-4 overflow-hidden transition-colors duration-300 shadow-2xs">
+        {/* Primary Arrow sliding up-right & out on hover */}
         <ArrowUpRight01Icon
           size={16}
-          className="text-black stroke-[2.5] transition-all duration-300 group-hover:-translate-y-6 group-hover:translate-x-6"
+          className="text-zinc-950 group-hover:text-white stroke-[2.5] transition-all duration-300 group-hover:-translate-y-6 group-hover:translate-x-6"
         />
         {/* Secondary Duplicate Arrow sliding in from bottom-left on hover */}
         <ArrowUpRight01Icon
           size={16}
-          className="text-black absolute transition-all duration-300 translate-y-6 -translate-x-6 group-hover:translate-y-0 group-hover:translate-x-0 stroke-[2.5]"
+          className="text-zinc-950 group-hover:text-white absolute transition-all duration-300 translate-y-6 -translate-x-6 group-hover:translate-y-0 group-hover:translate-x-0 stroke-[2.5]"
         />
       </div>
     </motion.button>
