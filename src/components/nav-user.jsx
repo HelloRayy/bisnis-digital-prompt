@@ -50,11 +50,11 @@ export function NavUser({
             <ChevronsUpDownIcon className="ml-auto size-4 text-zinc-400 shrink-0" />
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-64 rounded-2xl p-2 shadow-2xl border border-zinc-200/90 dark:border-zinc-800 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md"
-            side={isMobile ? "bottom" : "right"}
-            align="end"
-            sideOffset={16}
-            alignOffset={-4}>
+            className="w-68 rounded-2xl p-2 shadow-2xl border border-zinc-200/90 dark:border-zinc-800 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md"
+            side={isMobile ? "bottom" : "top"}
+            align={isMobile ? "end" : "start"}
+            sideOffset={10}
+            alignOffset={6}>
             <DropdownMenuGroup>
               <DropdownMenuLabel className="p-0 font-normal">
                 <div className="flex items-center gap-2.5 px-2 py-2 text-left text-sm bg-zinc-50 dark:bg-zinc-800 rounded-xl mb-1 border border-black/5 dark:border-white/5">
