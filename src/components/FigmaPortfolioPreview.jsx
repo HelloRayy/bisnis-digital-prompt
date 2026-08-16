@@ -350,15 +350,18 @@ export default function FigmaPortfolioPreview({
                             {/* Top Overlay Badge (Price / Status - Revealed on Hover) */}
                             <div className="absolute top-3 right-3 z-20 opacity-0 group-hover:opacity-100 transition-all duration-200 transform -translate-y-1 group-hover:translate-y-0">
                               {item.isPremium ? (
-                                <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-semibold shadow-xs ${
-                                  isUnlocked 
-                                    ? 'bg-emerald-600 text-white border border-emerald-400/50' 
-                                    : 'bg-zinc-900/95 text-white border border-white/20'
-                                }`}>
-                                  {isUnlocked ? 'Terbuka' : `${promptCost} Kredit`}
-                                </span>
+                                isUnlocked ? (
+                                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-white bg-gradient-to-b from-emerald-500 to-emerald-600 border border-emerald-400/50 shadow-[inset_0_1px_0_rgba(255,255,255,0.3),0_2px_6px_rgba(0,0,0,0.25)] backdrop-blur-md tracking-tight">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                                    <span>Terbuka</span>
+                                  </span>
+                                ) : (
+                                  <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-bold text-white bg-gradient-to-b from-zinc-800 to-zinc-950 border border-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_2px_6px_rgba(0,0,0,0.3)] backdrop-blur-md tracking-tight">
+                                    <span>{promptCost} Kredit</span>
+                                  </span>
+                                )
                               ) : (
-                                <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-white/95 text-zinc-900 border border-black/10 shadow-xs">
+                                <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold text-zinc-900 dark:text-zinc-100 bg-white/95 dark:bg-zinc-800/95 border border-black/10 dark:border-white/10 shadow-2xs backdrop-blur-md tracking-tight">
                                   Gratis
                                 </span>
                               )}

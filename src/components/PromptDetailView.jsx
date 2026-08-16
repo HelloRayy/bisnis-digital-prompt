@@ -438,10 +438,12 @@ export default function PromptDetailView({
                         Author: @{author || 'Daniel Triendl'}
                       </span>
                       {isPremium && (
-                        <span className={`px-3 py-1 rounded-full font-bold ${
-                          isUnlocked ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-700'
+                        <span className={`px-3 py-1 rounded-full font-bold text-xs border shadow-2xs ${
+                          isUnlocked 
+                            ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800' 
+                            : 'bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800'
                         }`}>
-                          {isUnlocked ? 'Unlocked' : `Premium (${promptCost} Kredit)`}
+                          {isUnlocked ? 'Terbuka' : `Premium (${promptCost} Kredit)`}
                         </span>
                       )}
                     </div>
