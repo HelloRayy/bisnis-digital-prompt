@@ -28,23 +28,31 @@ import {
   ArrowRight01Icon
 } from 'hugeicons-react';
 
-/* High-craft SVG Unlock Icon */
-const UnlockIconSVG = ({ size = 32, className = "" }) => (
+/* High-craft SVG Animated Draw Checkmark (Stroke-by-Stroke Path Drawing Motion) */
+const AnimatedCheckmarkSVG = ({ size = 18, strokeWidth = 2.5, className = "text-white" }) => (
   <svg 
     width={size} 
     height={size} 
     viewBox="0 0 24 24" 
     fill="none" 
     stroke="currentColor" 
-    strokeWidth="2" 
+    strokeWidth={strokeWidth} 
     strokeLinecap="round" 
     strokeLinejoin="round" 
     className={className}
   >
-    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-    <path d="M7 11V7a5 5 0 0 1 9.9-1" />
+    <motion.path
+      d="M4.5 12.75L9.5 17.5L19.5 6.5"
+      initial={{ pathLength: 0 }}
+      animate={{ pathLength: 1 }}
+      transition={{
+        duration: 0.38,
+        ease: [0.16, 1, 0.3, 1], // Snappy Apple-style spring ease
+      }}
+    />
   </svg>
 );
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -607,8 +615,8 @@ export default function PromptDetailView({
                               >
                                 {copiedText ? (
                                   <>
-                                    <Tick01Icon size={14} className="text-emerald-600 shrink-0" />
-                                    <span className="text-emerald-600">Disalin!</span>
+                                    <AnimatedCheckmarkSVG size={14} strokeWidth={2.5} className="text-emerald-600 shrink-0" />
+                                    <span className="text-emerald-600 font-semibold">Disalin!</span>
                                   </>
                                 ) : (
                                   <>
@@ -738,12 +746,12 @@ export default function PromptDetailView({
                     {(isUnlocked || !isPremium) && (
                       <motion.button
                         whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                        whileTap={{ scale: 0.92 }}
                         onClick={handleCopyText}
                         className={`absolute top-0 right-0 z-10 p-3 rounded-full border transition-all cursor-pointer shadow-sm flex items-center justify-center ${
                           copiedText 
-                            ? 'bg-emerald-500 border-emerald-400 text-white scale-110 shadow-emerald-500/30' 
-                            : 'bg-white/90 backdrop-blur-md border-black/10 text-obsidian hover:bg-obsidian hover:text-white'
+                            ? 'bg-emerald-500 border-emerald-400 text-white shadow-emerald-500/30' 
+                            : 'bg-white/90 dark:bg-zinc-800/90 backdrop-blur-md border-black/10 dark:border-white/10 text-obsidian dark:text-white hover:bg-zinc-100 dark:hover:bg-zinc-700'
                         }`}
                         title="Salin Cepat Teks Prompt"
                       >
@@ -751,19 +759,19 @@ export default function PromptDetailView({
                           {copiedText ? (
                             <motion.div
                               key="check"
-                              initial={{ scale: 0, rotate: -60 }}
-                              animate={{ scale: 1, rotate: 0 }}
-                              exit={{ scale: 0, rotate: 60 }}
-                              transition={{ type: 'spring', stiffness: 350, damping: 20 }}
+                              initial={{ scale: 0.8, opacity: 0 }}
+                              animate={{ scale: 1, opacity: 1 }}
+                              exit={{ scale: 0.8, opacity: 0 }}
+                              transition={{ duration: 0.15 }}
                             >
-                              <Check size={18} className="text-white stroke-[2.5]" />
+                              <AnimatedCheckmarkSVG size={18} strokeWidth={2.5} className="text-white" />
                             </motion.div>
                           ) : (
                             <motion.div
                               key="copy"
-                              initial={{ scale: 0 }}
-                              animate={{ scale: 1 }}
-                              exit={{ scale: 0 }}
+                              initial={{ scale: 0.8, opacity: 0 }}
+                              animate={{ scale: 1, opacity: 1 }}
+                              exit={{ scale: 0.8, opacity: 0 }}
                               transition={{ duration: 0.15 }}
                             >
                               <Copy01Icon size={18} />
@@ -804,7 +812,7 @@ export default function PromptDetailView({
                             : 'bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1.5px_3px_0_rgba(0,0,0,0.25)] hover:from-zinc-700 hover:via-zinc-800 hover:to-zinc-950 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_3px_8px_0_rgba(0,0,0,0.3)]'
                         }`}
                       >
-                        {copiedText ? <Check size={18} className="text-white stroke-[2.5]" /> : <Copy01Icon size={18} />}
+                        {copiedText ? <AnimatedCheckmarkSVG size={18} strokeWidth={2.5} className="text-white" /> : <Copy01Icon size={18} />}
                         <span>{copiedText ? 'Teks Prompt Berhasil Disalin!' : 'Salin Teks Prompt'}</span>
                       </button>
 

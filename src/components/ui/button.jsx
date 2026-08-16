@@ -94,7 +94,7 @@ const SecondaryButton = React.forwardRef(function SecondaryButton(
 })
 
 /**
- * High-Craft Primary CTA Button with Liquid Melting White Fill & Inverted Arrow Motion
+ * High-Craft Primary CTA Button with Expanding White Fill & Inverted Arrow Motion
  */
 function PrimaryCTAButton({
   label = "Buka Prompt",
@@ -106,50 +106,44 @@ function PrimaryCTAButton({
   return (
     <motion.button
       type="button"
-      whileTap={{ scale: 0.96 }}
-      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+      whileTap={{ scale: 0.95 }}
+      transition={{ type: "spring", stiffness: 500, damping: 25 }}
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "group relative inline-flex items-center justify-between pl-6 sm:pl-7 pr-2 py-2 h-12 rounded-full bg-zinc-950 text-white border border-zinc-400/40 dark:border-zinc-700 shadow-[0_2px_8px_rgba(0,0,0,0.12)] active:scale-95 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] cursor-pointer pointer-events-auto overflow-hidden select-none",
+        "group relative inline-flex items-center justify-between pl-6 sm:pl-7 pr-2 py-2 h-12 rounded-full bg-zinc-950 text-white border border-white/15 shadow-[0_2px_10px_rgba(0,0,0,0.2)] active:scale-95 transition-all duration-300 cursor-pointer pointer-events-auto overflow-hidden select-none",
         className
       )}
     >
-      {/* 1. Liquid Melting Wave (Subtle Outer Fluid Layer) */}
+      {/* Expanding White Fill Circle from Arrow Button on Hover */}
       <span 
         aria-hidden="true" 
-        className="absolute right-0 top-1/2 -translate-y-1/2 w-10 h-10 rounded-[45%_55%_65%_35%/55%_45%_35%_65%] bg-zinc-200/90 transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] origin-center scale-0 group-hover:scale-[24] group-hover:rotate-180 pointer-events-none z-0" 
+        className="absolute right-2 top-2 w-8 h-8 rounded-full bg-white transition-transform duration-500 ease-out origin-center scale-0 group-hover:scale-[18] pointer-events-none z-0" 
       />
 
-      {/* 2. Liquid Main White Fill (Organic Morphing Blob) */}
-      <span 
-        aria-hidden="true" 
-        className="absolute right-1 top-1/2 -translate-y-1/2 w-10 h-10 rounded-[60%_40%_30%_70%/60%_30%_70%_40%] bg-white transition-all duration-800 ease-[cubic-bezier(0.22,1,0.36,1)] origin-center scale-0 group-hover:scale-[22] group-hover:-rotate-90 pointer-events-none z-0" 
-      />
-
-      {/* Sliding Text Container with Fluid Physics */}
+      {/* Sliding Text Container */}
       <span className="relative z-10 inline-flex items-center justify-center overflow-hidden">
-        {/* Default Text (Slides UP & out smoothly on hover) */}
-        <span className="transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-8 group-hover:opacity-0 font-bold tracking-tight text-white group-hover:text-zinc-950">
+        {/* Default Text (Slides UP & out on hover) */}
+        <span className="transition-all duration-300 group-hover:-translate-y-8 group-hover:opacity-0 font-bold tracking-tight text-white group-hover:text-zinc-950">
           {label}
         </span>
-        {/* Hover Text (Slides IN from bottom smoothly on hover) */}
-        <span className="absolute inset-0 flex items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 font-bold whitespace-nowrap tracking-tight text-white group-hover:text-zinc-950">
+        {/* Hover Text (Slides IN from bottom on hover) */}
+        <span className="absolute inset-0 flex items-center justify-center transition-all duration-300 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 font-bold whitespace-nowrap tracking-tight text-white group-hover:text-zinc-950">
           {hoverLabel}
         </span>
       </span>
 
-      {/* Arrow Circle: White by default -> Smoothly inverts to Black with gray border */}
-      <div className="relative z-10 w-8 h-8 rounded-full bg-white text-zinc-950 group-hover:bg-zinc-950 group-hover:text-white flex items-center justify-center shrink-0 ml-4 overflow-hidden border border-zinc-200 dark:border-zinc-700 group-hover:border-zinc-800 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] shadow-2xs">
-        {/* Primary Arrow sliding up-right smoothly on hover */}
+      {/* Arrow Circle Container: White by default -> Smoothly inverts to Black on hover */}
+      <div className="relative z-10 w-8 h-8 rounded-full bg-white text-zinc-950 group-hover:bg-zinc-950 group-hover:text-white flex items-center justify-center shrink-0 ml-4 overflow-hidden transition-colors duration-300 shadow-2xs">
+        {/* Primary Arrow sliding up-right & out on hover */}
         <ArrowUpRight01Icon
           size={16}
-          className="text-zinc-950 group-hover:text-white stroke-[2.5] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-6 group-hover:translate-x-6"
+          className="text-zinc-950 group-hover:text-white stroke-[2.5] transition-all duration-300 group-hover:-translate-y-6 group-hover:translate-x-6"
         />
-        {/* Secondary Duplicate Arrow sliding in smoothly from bottom-left on hover */}
+        {/* Secondary Duplicate Arrow sliding in from bottom-left on hover */}
         <ArrowUpRight01Icon
           size={16}
-          className="text-zinc-950 group-hover:text-white absolute transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] translate-y-6 -translate-x-6 group-hover:translate-y-0 group-hover:translate-x-0 stroke-[2.5]"
+          className="text-zinc-950 group-hover:text-white absolute transition-all duration-300 translate-y-6 -translate-x-6 group-hover:translate-y-0 group-hover:translate-x-0 stroke-[2.5]"
         />
       </div>
     </motion.button>
