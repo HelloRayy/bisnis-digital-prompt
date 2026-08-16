@@ -864,22 +864,34 @@ export default function PromptDetailView({
           ]} 
         />
 
-        {/* Pure Native Shadcn AlertDialog with Compact Copy */}
+        {/* Confirmation Modal */}
         <AlertDialog open={showConfirmModal} onOpenChange={setShowConfirmModal}>
-          <AlertDialogContent className="rounded-3xl p-6 max-w-md bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-2xl">
-            <AlertDialogHeader className="flex flex-col items-center text-center gap-1.5">
-              <div className="w-12 h-12 rounded-2xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-1 shadow-2xs">
-                <Coins size={24} />
-              </div>
-              <AlertDialogTitle className="font-bold text-base sm:text-lg text-obsidian dark:text-white">Buka Prompt Ini?</AlertDialogTitle>
-              <AlertDialogDescription className="text-xs sm:text-sm font-normal text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                Gunakan <strong className="text-obsidian dark:text-white font-bold">{Number(promptCost).toLocaleString('id-ID')} Kredit</strong> untuk membuka prompt ini. <span className="block mt-1 text-purple-600 dark:text-purple-400 font-semibold">Sisa saldo kredit Anda: {Number(userCredits).toLocaleString('id-ID')} Kredit.</span>
+          <AlertDialogContent className="rounded-[28px] p-6 sm:p-8 max-w-[400px] bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-2xl flex flex-col items-center text-center gap-0">
+            {/* Top Icon Badge */}
+            <div className="w-14 h-14 rounded-2xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-4 shadow-2xs border border-purple-100 dark:border-purple-900/40">
+              <Coins size={26} className="stroke-[2.2]" />
+            </div>
+
+            <AlertDialogHeader className="flex flex-col items-center text-center gap-2 w-full p-0">
+              <AlertDialogTitle className="font-bold text-lg sm:text-xl text-obsidian dark:text-white tracking-tight">
+                Buka Prompt Ini?
+              </AlertDialogTitle>
+              <AlertDialogDescription className="text-xs sm:text-sm font-normal text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-[280px]">
+                Gunakan <strong className="text-obsidian dark:text-white font-bold">{Number(promptCost).toLocaleString('id-ID')} Kredit</strong> untuk membuka akses prompt ini.
               </AlertDialogDescription>
             </AlertDialogHeader>
-            <AlertDialogFooter className="flex flex-row items-center justify-end gap-3 mt-5">
+
+            {/* Clean Balance Status Pill */}
+            <div className="mt-4 mb-2 w-full py-2 px-3 rounded-xl bg-purple-50/70 dark:bg-purple-950/40 border border-purple-100/80 dark:border-purple-900/40 text-xs font-semibold text-purple-700 dark:text-purple-300 flex items-center justify-center gap-1.5">
+              <span>Sisa saldo kredit Anda:</span>
+              <strong className="font-bold font-mono">{Number(userCredits).toLocaleString('id-ID')} Kredit</strong>
+            </div>
+
+            {/* Action Buttons: Harmonious 2-Column Equal Width Grid */}
+            <AlertDialogFooter className="grid grid-cols-2 gap-2.5 w-full mt-5 pt-0">
               <AlertDialogCancel 
                 onClick={() => setShowConfirmModal(false)}
-                className="h-12 px-6 rounded-full font-bold text-sm"
+                className="w-full h-11 rounded-full font-bold text-xs sm:text-sm"
               >
                 Batal
               </AlertDialogCancel>
@@ -888,7 +900,7 @@ export default function PromptDetailView({
                   setShowConfirmModal(false);
                   await executeUnlock();
                 }}
-                className="h-12 px-8 rounded-full font-bold text-sm"
+                className="w-full h-11 rounded-full font-bold text-xs sm:text-sm"
               >
                 Setuju & Buka
               </AlertDialogAction>
@@ -898,22 +910,26 @@ export default function PromptDetailView({
 
         {/* Insufficient Credits Alert Dialog */}
         <AlertDialog open={showInsufficientModal} onOpenChange={setShowInsufficientModal}>
-          <AlertDialogContent className="rounded-3xl p-6 max-w-md bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-2xl">
-            <AlertDialogHeader className="flex flex-col items-center text-center gap-1.5">
-              <div className="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-1 shadow-2xs">
-                <Coins size={24} />
-              </div>
-              <AlertDialogTitle className="font-bold text-base sm:text-lg text-obsidian dark:text-white">
+          <AlertDialogContent className="rounded-[28px] p-6 sm:p-8 max-w-[420px] bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-2xl flex flex-col items-center text-center gap-0">
+            {/* Top Warning Icon Badge */}
+            <div className="w-14 h-14 rounded-2xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-4 shadow-2xs border border-amber-100 dark:border-amber-900/40">
+              <Coins size={26} className="stroke-[2.2]" />
+            </div>
+
+            <AlertDialogHeader className="flex flex-col items-center text-center gap-2 w-full p-0">
+              <AlertDialogTitle className="font-bold text-lg sm:text-xl text-obsidian dark:text-white tracking-tight">
                 Kredit Anda Tidak Mencukupi
               </AlertDialogTitle>
-              <AlertDialogDescription className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                Prompt premium ini membutuhkan <strong className="text-obsidian dark:text-white font-bold">{Number(promptCost).toLocaleString('id-ID')} Kredit</strong>, sedangkan saldo Anda saat ini adalah <strong className="text-purple-600 dark:text-purple-400 font-bold">{Number(userCredits).toLocaleString('id-ID')} Kredit</strong>.
+              <AlertDialogDescription className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-[320px]">
+                Prompt ini membutuhkan <strong className="text-obsidian dark:text-white font-bold">{Number(promptCost).toLocaleString('id-ID')} Kredit</strong>, sedangkan saldo Anda saat ini <strong className="text-purple-600 dark:text-purple-400 font-bold">{Number(userCredits).toLocaleString('id-ID')} Kredit</strong>.
               </AlertDialogDescription>
             </AlertDialogHeader>
-            <AlertDialogFooter className="flex flex-row items-center justify-end gap-3 mt-5">
+
+            {/* Action Buttons: 2-Column Equal Width Grid */}
+            <AlertDialogFooter className="grid grid-cols-2 gap-2.5 w-full mt-6 pt-0">
               <AlertDialogCancel 
                 onClick={() => setShowInsufficientModal(false)}
-                className="h-12 px-6 rounded-full font-bold text-sm"
+                className="w-full h-11 rounded-full font-bold text-xs sm:text-sm"
               >
                 Nanti Saja
               </AlertDialogCancel>
@@ -923,10 +939,9 @@ export default function PromptDetailView({
                   if (onOpenUpgrade) onOpenUpgrade();
                   else setShowSubscription(true);
                 }}
-                className="h-12 px-8 rounded-full font-bold text-sm flex items-center justify-center gap-2"
+                className="w-full h-11 rounded-full font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5"
               >
-                <SparklesIcon size={16} className="fill-purple-200 text-purple-200" />
-                <span>Top Up Kredit Sekarang</span>
+                <span>Top Up Kredit</span>
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
