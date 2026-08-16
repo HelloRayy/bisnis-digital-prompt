@@ -84,11 +84,27 @@ export default function FigmaPortfolioPreview({
   onSignOut = () => {}
 }) {
   // Default selected category & search state
-  const [activeCategory, setActiveCategory] = useState('image');
+  const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [showSignOutConfirm, setShowSignOutConfirm] = useState(false);
   const ITEMS_PER_PAGE = 24;
+
+  // Helper for human-friendly category label in breadcrumbs
+  const getCategoryLabel = (cat) => {
+    switch (cat) {
+      case 'all': return 'Semua Prompt';
+      case 'trending': return 'Trending Sekarang';
+      case 'editor': return 'Pilihan Editor';
+      case 'new': return 'Baru Dirilis';
+      case 'image': return 'Image & Graphic';
+      case 'video': return 'Video & Motion';
+      case 'website': return 'Website & UI';
+      case 'favorite': return 'Favorit Saya';
+      case 'unlocked': return 'Prompt Terbuka';
+      default: return cat;
+    }
+  };
 
   // Load all prompts from dataset
   const [allPrompts] = useState(() => {
@@ -122,6 +138,15 @@ export default function FigmaPortfolioPreview({
       }
       if (activeCategory === 'unlocked') {
         return purchasedPromptIds.includes(item.id);
+      }
+      if (activeCategory === 'trending') {
+        return item.isPremium || (item.id % 2 === 0);
+      }
+      if (activeCategory === 'editor') {
+        return (item.id % 3 === 0) || item.isPremium;
+      }
+      if (activeCategory === 'new') {
+        return (item.id % 2 !== 0);
       }
       return true;
     });
@@ -243,8 +268,8 @@ export default function FigmaPortfolioPreview({
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden sm:block shrink-0 text-black/40" />
                 <BreadcrumbItem className="min-w-0 truncate">
-                  <BreadcrumbPage className="capitalize font-semibold text-black/70 truncate">
-                    Portfolio ({activeCategory})
+                  <BreadcrumbPage className="font-semibold text-zinc-900 dark:text-zinc-100 truncate">
+                    {getCategoryLabel(activeCategory)}
                   </BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>

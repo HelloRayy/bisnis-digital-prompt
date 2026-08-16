@@ -11,26 +11,28 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarGroup,
+  SidebarGroupLabel,
 } from "@/components/ui/sidebar"
 import { NavUser } from "@/components/nav-user"
 import { 
-  Folder01Icon,
-  Search01Icon,
-  ArrowDown01Icon,
-  ArrowRight01Icon,
-  FavouriteIcon,
-  CircleUnlock01Icon,
-  Layout01Icon,
-  SparklesIcon,
-  Cancel01Icon,
-  CreditCardIcon
-} from "hugeicons-react"
+  Sparkles, 
+  Flame, 
+  Award, 
+  Zap, 
+  Image as ImageIcon, 
+  Film, 
+  Layout, 
+  Heart, 
+  Unlock, 
+  CreditCard,
+  Layers
+} from "lucide-react"
 
 export function AppSidebar({
   currentUser,
   userCredits = 0,
   userRole = "Starter Plan",
-  activeCategory = "image",
+  activeCategory = "all",
   searchQuery = "",
   favoritePromptIds = [],
   purchasedPromptIds = [],
@@ -42,8 +44,6 @@ export function AppSidebar({
   onSelectCategory,
   ...props
 }) {
-  const [isCategoryOpen, setIsCategoryOpen] = React.useState(true);
-
   const getRoleTitle = (role) => {
     if (!role) return "Starter Plan";
     const lower = String(role).toLowerCase();
@@ -64,114 +64,213 @@ export function AppSidebar({
     avatar: currentUser?.user_metadata?.avatar_url || "",
   };
 
-  // Navigasi Utama: Menu Esensial & Subscription
-  const mainNavLinks = [
+  // 1. Curated Discovery Feeds
+  const discoveryItems = [
     {
       id: 'all',
       label: 'Semua Prompt',
-      icon: SparklesIcon,
-      isActive: (activeCategory === 'image' || activeCategory === 'all') && searchQuery === '',
+      icon: Sparkles,
+      isActive: (activeCategory === 'all' || activeCategory === 'image') && searchQuery === '',
+      onClick: () => {
+        onSearchChange('');
+        onSelectCategory && onSelectCategory('all');
+      }
+    },
+    {
+      id: 'trending',
+      label: 'Trending Sekarang',
+      icon: Flame,
+      isActive: activeCategory === 'trending',
+      onClick: () => {
+        onSearchChange('');
+        onSelectCategory && onSelectCategory('trending');
+      }
+    },
+    {
+      id: 'editor',
+      label: 'Pilihan Editor',
+      icon: Award,
+      isActive: activeCategory === 'editor',
+      onClick: () => {
+        onSearchChange('');
+        onSelectCategory && onSelectCategory('editor');
+      }
+    },
+    {
+      id: 'new',
+      label: 'Baru Dirilis',
+      icon: Zap,
+      isActive: activeCategory === 'new',
+      onClick: () => {
+        onSearchChange('');
+        onSelectCategory && onSelectCategory('new');
+      }
+    }
+  ];
+
+  // 2. Visual Categories
+  const categoryItems = [
+    {
+      id: 'image',
+      label: 'Image & Graphic',
+      icon: ImageIcon,
+      isActive: activeCategory === 'image',
       onClick: () => {
         onSearchChange('');
         onSelectCategory && onSelectCategory('image');
       }
     },
     {
+      id: 'video',
+      label: 'Video & Motion',
+      icon: Film,
+      isActive: activeCategory === 'video',
+      onClick: () => {
+        onSearchChange('');
+        onSelectCategory && onSelectCategory('video');
+      }
+    },
+    {
+      id: 'website',
+      label: 'Website & UI',
+      icon: Layout,
+      isActive: activeCategory === 'website',
+      onClick: () => {
+        onSearchChange('');
+        onSelectCategory && onSelectCategory('website');
+      }
+    }
+  ];
+
+  // 3. User Personal Library
+  const libraryItems = [
+    {
       id: 'favorite',
       label: 'Favorit Saya',
-      icon: FavouriteIcon,
+      icon: Heart,
       badge: favoritePromptIds.length > 0 ? favoritePromptIds.length : null,
       isActive: activeCategory === 'favorite',
       onClick: () => {
-        onSelectCategory && onSelectCategory(activeCategory === 'favorite' ? 'image' : 'favorite');
+        onSelectCategory && onSelectCategory(activeCategory === 'favorite' ? 'all' : 'favorite');
       }
     },
     {
       id: 'unlocked',
       label: 'Prompt Terbuka',
-      icon: CircleUnlock01Icon,
+      icon: Unlock,
       badge: purchasedPromptIds.length > 0 ? purchasedPromptIds.length : null,
       isActive: activeCategory === 'unlocked',
       onClick: () => {
-        onSelectCategory && onSelectCategory(activeCategory === 'unlocked' ? 'image' : 'unlocked');
+        onSelectCategory && onSelectCategory(activeCategory === 'unlocked' ? 'all' : 'unlocked');
       }
-    },
-    {
-      id: 'subscription',
-      label: 'Subscription',
-      icon: CreditCardIcon,
-      isActive: activeCategory === 'subscription',
-      onClick: () => onOpenUpgrade && onOpenUpgrade()
     }
-  ];
-
-  // Kategori Visual: Bersih & Terfokus
-  const categoryFolders = [
-    { id: 'image', name: 'Image & Graphic', icon: Folder01Icon },
-    { id: 'video', name: 'Video & Motion', icon: Folder01Icon },
-    { id: 'website', name: 'Website & UI', icon: Folder01Icon }
   ];
 
   return (
     <Sidebar collapsible="icon" className="border-r border-black/5 dark:border-white/10 !bg-white dark:!bg-zinc-950 font-sans" {...props}>
       {/* Brand Header */}
-      <SidebarHeader className="p-2.5 pb-1 !bg-white dark:!bg-zinc-950">
-        <div className="flex items-center gap-2 px-1.5 py-0.5">
-          <div className="w-6.5 h-6.5 rounded-lg bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 flex items-center justify-center shadow-2xs shrink-0">
-            <Layout01Icon size={14} />
+      <SidebarHeader className="p-3 pb-2 !bg-white dark:!bg-zinc-950 border-b border-black/5 dark:border-white/5">
+        <div className="flex items-center gap-2.5 px-1 py-1">
+          <div className="w-7 h-7 rounded-xl bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 flex items-center justify-center shadow-xs shrink-0">
+            <Layers size={15} className="stroke-[2.2]" />
           </div>
-          <span className="font-bold text-zinc-900 dark:text-white text-sm tracking-tight truncate">
-            Prompt Hub
-          </span>
-        </div>
-
-        {/* Realtime Search Input */}
-        <div className="mt-2 relative w-full">
-          <div className="flex items-center gap-2 h-7.5 bg-zinc-100/80 dark:bg-zinc-900/90 rounded-lg px-2.5 text-xs border border-black/5 dark:border-white/10 transition-all focus-within:ring-1 focus-within:ring-purple-500/50">
-            <Search01Icon size={13} className="text-zinc-400 shrink-0" />
-            <input 
-              type="text"
-              placeholder="Cari prompt..."
-              value={searchQuery}
-              onChange={(e) => onSearchChange(e.target.value)}
-              className="w-full bg-transparent text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 focus:outline-none text-[11px] font-normal"
-            />
-            {searchQuery && (
-              <button 
-                onClick={() => onSearchChange('')}
-                className="text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 cursor-pointer shrink-0"
-              >
-                <Cancel01Icon size={12} />
-              </button>
-            )}
+          <div className="flex flex-col min-w-0">
+            <span className="font-bold text-zinc-900 dark:text-white text-sm tracking-tight truncate leading-tight">
+              Prompt Hub
+            </span>
+            <span className="text-[10px] text-zinc-400 font-medium tracking-wide uppercase">
+              Curated Discovery
+            </span>
           </div>
         </div>
       </SidebarHeader>
 
       {/* Main Navigation Content */}
-      <SidebarContent className="px-2 py-1.5 gap-2 !bg-white dark:!bg-zinc-950">
-        {/* Main Nav Links */}
+      <SidebarContent className="px-2 py-3 gap-4 !bg-white dark:!bg-zinc-950">
+        
+        {/* Section 1: Discovery Feeds */}
         <SidebarGroup className="py-0">
+          <SidebarGroupLabel className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider px-2.5 pb-1">
+            Discovery
+          </SidebarGroupLabel>
           <SidebarMenu className="gap-0.5">
-            {mainNavLinks.map((link) => {
-              const IconComp = link.icon;
+            {discoveryItems.map((item) => {
+              const IconComp = item.icon;
               return (
-                <SidebarMenuItem key={link.id}>
+                <SidebarMenuItem key={item.id}>
                   <SidebarMenuButton
-                    onClick={link.onClick}
-                    className={`w-full flex items-center justify-between h-8 px-2.5 rounded-lg text-xs transition-all cursor-pointer ${
-                      link.isActive
-                        ? 'bg-zinc-100 dark:bg-zinc-800/90 text-zinc-950 dark:text-white font-medium border border-black/5 dark:border-white/10 shadow-2xs'
-                        : 'text-zinc-600 dark:text-zinc-400 font-normal hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-100/60 dark:hover:bg-zinc-900'
+                    onClick={item.onClick}
+                    className={`w-full flex items-center justify-between h-8.5 px-2.5 rounded-lg text-xs transition-all cursor-pointer ${
+                      item.isActive
+                        ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-950 dark:text-white font-semibold border border-black/5 dark:border-white/10 shadow-2xs'
+                        : 'text-zinc-600 dark:text-zinc-400 font-medium hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-100/70 dark:hover:bg-zinc-900'
                     }`}
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
-                      <IconComp size={15} className={link.isActive ? 'text-zinc-950 dark:text-white' : 'text-zinc-400'} />
-                      <span className="truncate text-xs">{link.label}</span>
+                      <IconComp size={15} className={item.isActive ? 'text-purple-600 dark:text-purple-400 stroke-[2.2]' : 'text-zinc-400'} />
+                      <span className="truncate text-xs">{item.label}</span>
                     </div>
-                    {link.badge !== null && link.badge !== undefined && (
-                      <span className="px-1.5 py-0.2 rounded-md bg-purple-100 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 text-[10px] font-semibold shrink-0">
-                        {link.badge}
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              );
+            })}
+          </SidebarMenu>
+        </SidebarGroup>
+
+        {/* Section 2: Visual Categories */}
+        <SidebarGroup className="py-0">
+          <SidebarGroupLabel className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider px-2.5 pb-1">
+            Kategori Visual
+          </SidebarGroupLabel>
+          <SidebarMenu className="gap-0.5">
+            {categoryItems.map((item) => {
+              const IconComp = item.icon;
+              return (
+                <SidebarMenuItem key={item.id}>
+                  <SidebarMenuButton
+                    onClick={item.onClick}
+                    className={`w-full flex items-center justify-between h-8.5 px-2.5 rounded-lg text-xs transition-all cursor-pointer ${
+                      item.isActive
+                        ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-950 dark:text-white font-semibold border border-black/5 dark:border-white/10 shadow-2xs'
+                        : 'text-zinc-600 dark:text-zinc-400 font-medium hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-100/70 dark:hover:bg-zinc-900'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <IconComp size={15} className={item.isActive ? 'text-purple-600 dark:text-purple-400 stroke-[2.2]' : 'text-zinc-400'} />
+                      <span className="truncate text-xs">{item.label}</span>
+                    </div>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              );
+            })}
+          </SidebarMenu>
+        </SidebarGroup>
+
+        {/* Section 3: User Personal Library */}
+        <SidebarGroup className="py-0">
+          <SidebarGroupLabel className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider px-2.5 pb-1">
+            Koleksi Saya
+          </SidebarGroupLabel>
+          <SidebarMenu className="gap-0.5">
+            {libraryItems.map((item) => {
+              const IconComp = item.icon;
+              return (
+                <SidebarMenuItem key={item.id}>
+                  <SidebarMenuButton
+                    onClick={item.onClick}
+                    className={`w-full flex items-center justify-between h-8.5 px-2.5 rounded-lg text-xs transition-all cursor-pointer ${
+                      item.isActive
+                        ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-950 dark:text-white font-semibold border border-black/5 dark:border-white/10 shadow-2xs'
+                        : 'text-zinc-600 dark:text-zinc-400 font-medium hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-100/70 dark:hover:bg-zinc-900'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <IconComp size={15} className={item.isActive ? 'text-purple-600 dark:text-purple-400 stroke-[2.2]' : 'text-zinc-400'} />
+                      <span className="truncate text-xs">{item.label}</span>
+                    </div>
+                    {item.badge !== null && item.badge !== undefined && (
+                      <span className="px-2 py-0.5 rounded-full bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300 text-[10px] font-bold shrink-0 border border-purple-200/60 dark:border-purple-800/60">
+                        {item.badge}
                       </span>
                     )}
                   </SidebarMenuButton>
@@ -181,42 +280,23 @@ export function AppSidebar({
           </SidebarMenu>
         </SidebarGroup>
 
-        {/* Collapsible Categories */}
-        <SidebarGroup className="py-0">
-          <div className="flex items-center justify-between px-2.5 py-1 text-[10px] font-bold text-zinc-400 uppercase tracking-wider">
-            <button 
-              onClick={() => setIsCategoryOpen(!isCategoryOpen)}
-              className="flex items-center gap-1.5 hover:text-zinc-800 dark:hover:text-white transition-colors cursor-pointer"
-            >
-              {isCategoryOpen ? <ArrowDown01Icon size={12} /> : <ArrowRight01Icon size={12} />}
-              <span>Kategori</span>
-            </button>
-          </div>
-
-          {isCategoryOpen && (
-            <SidebarMenu className="gap-0.5 mt-0.5">
-              {categoryFolders.map((folder) => {
-                const FolderIconComp = folder.icon;
-                const isSelected = activeCategory === folder.id;
-                return (
-                  <SidebarMenuItem key={folder.id}>
-                    <SidebarMenuButton
-                      onClick={() => onSelectCategory && onSelectCategory(folder.id)}
-                      className={`w-full flex items-center gap-2.5 h-7.5 px-2.5 rounded-lg text-xs transition-all cursor-pointer ${
-                        isSelected
-                          ? 'bg-zinc-100/90 dark:bg-zinc-800/80 text-zinc-950 dark:text-white font-medium border border-black/5 dark:border-white/10'
-                          : 'text-zinc-600 dark:text-zinc-400 font-normal hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-100/60 dark:hover:bg-zinc-900'
-                      }`}
-                    >
-                      <FolderIconComp size={14} className={isSelected ? 'text-purple-600' : 'text-zinc-400'} />
-                      <span className="truncate text-xs">{folder.name}</span>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                );
-              })}
-            </SidebarMenu>
-          )}
+        {/* Section 4: Subscription & Billing */}
+        <SidebarGroup className="py-0 mt-auto">
+          <SidebarMenu className="gap-0.5">
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                onClick={() => onOpenUpgrade && onOpenUpgrade()}
+                className="w-full flex items-center justify-between h-9 px-2.5 rounded-lg text-xs transition-all cursor-pointer text-zinc-700 dark:text-zinc-300 hover:text-purple-700 dark:hover:text-purple-300 hover:bg-purple-50/80 dark:hover:bg-purple-950/40 border border-transparent hover:border-purple-200 dark:hover:border-purple-800/60 font-semibold"
+              >
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <CreditCard size={15} className="text-purple-600 dark:text-purple-400 stroke-[2.2]" />
+                  <span className="truncate text-xs">Langganan & Top Up</span>
+                </div>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
         </SidebarGroup>
+
       </SidebarContent>
 
       {/* Footer User */}
