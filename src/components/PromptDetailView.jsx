@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, Coins, Sparkle } from 'lucide-react';
+import { Check, Coins, Sparkle, Share2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Dock } from '@/components/ui/dock-two';
 import { AnimatedNumber } from '@/components/ui/animated-counter';
@@ -438,8 +438,8 @@ export default function PromptDetailView({
                       )}
                     </div>
 
-                    {/* CTA Buy / Unlock Button */}
-                    <div className="pt-4 flex items-center justify-between border-t border-black/5 mt-2">
+                    {/* CTA Buy / Unlock Button & Actions */}
+                    <div className="pt-4 flex flex-wrap items-center justify-between gap-3 border-t border-black/5 mt-2">
                       <button 
                         onClick={() => setShowProjectInfo(true)}
                         className="flex items-center gap-2.5 text-sm font-semibold text-obsidian hover:text-purple-600 transition-colors duration-200 group cursor-pointer"
@@ -451,15 +451,32 @@ export default function PromptDetailView({
                         </span>
                       </button>
 
-                      <button
-                        onClick={() => onToggleFavorite(prompt.id)}
-                        className={`flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-full border transition-all cursor-pointer ${
-                          isFavorite ? 'bg-red-50 text-red-600 border-red-200' : 'bg-white text-black border-black/10 hover:bg-black/5'
-                        }`}
-                      >
-                        <FavouriteIcon size={14} className={isFavorite ? 'fill-red-600' : ''} />
-                        <span>{likes + (isFavorite ? 1 : 0)}</span>
-                      </button>
+                      <div className="flex items-center gap-2">
+                        {/* Share Button */}
+                        <button
+                          type="button"
+                          onClick={handleShareLink}
+                          className="flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-full bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs transition-all duration-200 cursor-pointer active:scale-95 border-0"
+                          title="Bagikan Tautan Prompt"
+                        >
+                          {copiedLink ? <Check size={14} className="text-emerald-600 stroke-[2.5]" /> : <Share2 size={14} className="stroke-[2]" />}
+                          <span>{copiedLink ? 'Link Disalin!' : 'Bagikan'}</span>
+                        </button>
+
+                        {/* Favorite Button */}
+                        <button
+                          type="button"
+                          onClick={() => onToggleFavorite(prompt.id)}
+                          className={`flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-full ring-1 transition-all duration-200 cursor-pointer active:scale-95 shadow-2xs border-0 ${
+                            isFavorite 
+                              ? 'bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 ring-red-200 dark:ring-red-800' 
+                              : 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 ring-black/10 dark:ring-white/10 hover:bg-zinc-100 dark:hover:bg-zinc-700'
+                          }`}
+                        >
+                          <FavouriteIcon size={14} className={isFavorite ? 'fill-red-600' : ''} />
+                          <span>{likes + (isFavorite ? 1 : 0)}</span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -776,9 +793,9 @@ export default function PromptDetailView({
                     )}
                   </div>
 
-                  {/* Primary CTA Action Toolbar (HIG Compliant - Single Primary CTA) */}
+                  {/* Primary CTA Action Toolbar */}
                   {(isUnlocked || !isPremium) && (
-                    <div className="flex items-center gap-4 pt-4 border-t border-black/5">
+                    <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-black/5">
                       <button
                         onClick={handleCopyText}
                         className={`h-12 px-8 rounded-full font-bold text-sm flex items-center justify-center gap-2.5 transition-all cursor-pointer active:scale-95 duration-200 ${
@@ -789,6 +806,16 @@ export default function PromptDetailView({
                       >
                         {copiedText ? <Check size={18} className="text-white stroke-[2.5]" /> : <Copy01Icon size={18} />}
                         <span>{copiedText ? 'Teks Prompt Berhasil Disalin!' : 'Salin Teks Prompt'}</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={handleShareLink}
+                        className="h-12 px-6 rounded-full bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs font-bold text-sm flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer active:scale-95 border-0"
+                        title="Bagikan Tautan Prompt"
+                      >
+                        {copiedLink ? <Check size={16} className="text-emerald-600 stroke-[2.5]" /> : <Share2 size={16} className="stroke-[2]" />}
+                        <span>{copiedLink ? 'Link Disalin!' : 'Bagikan'}</span>
                       </button>
 
                       {errorMsg && (
