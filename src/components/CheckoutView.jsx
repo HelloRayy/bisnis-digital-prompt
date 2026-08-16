@@ -303,7 +303,7 @@ export default function CheckoutView({
         <div className="flex items-center gap-3">
           <button
             onClick={() => onNavigate('/subscription')}
-            className="inline-flex items-center gap-2 h-9 px-4 rounded-full bg-white dark:bg-zinc-850 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer active:scale-95 border-0"
+            className="inline-flex items-center gap-2 h-9 px-4 rounded-full bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer active:scale-95 border-0"
           >
             <ArrowLeft01Icon size={16} />
             <span className="hidden sm:inline">Pilihan Paket</span>
@@ -384,7 +384,7 @@ export default function CheckoutView({
             <div className="flex flex-col sm:flex-row items-center gap-3 w-full">
               <button
                 onClick={() => navigateToHome()}
-                className="w-full h-12 px-8 rounded-full bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1.5px_3px_0_rgba(0,0,0,0.25)] hover:from-zinc-650 hover:via-zinc-850 hover:to-zinc-950 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_3px_8px_0_rgba(0,0,0,0.3)] text-sm font-bold cursor-pointer transition-all duration-200 active:scale-95 flex items-center justify-center gap-2"
+                className="w-full h-12 px-8 rounded-full bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1.5px_3px_0_rgba(0,0,0,0.25)] hover:from-zinc-700 hover:via-zinc-800 hover:to-zinc-950 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_3px_8px_0_rgba(0,0,0,0.3)] text-sm font-bold cursor-pointer transition-all duration-200 active:scale-95 flex items-center justify-center gap-2"
               >
                 <span>Mulai Jelajahi & Buka Prompt</span>
                 <ArrowRight01Icon size={16} />
@@ -392,7 +392,7 @@ export default function CheckoutView({
 
               <button
                 onClick={() => onNavigate('/subscription')}
-                className="w-full sm:w-auto h-12 px-6 rounded-full bg-white dark:bg-zinc-850 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs text-sm font-bold transition-all duration-200 cursor-pointer active:scale-95 border-0"
+                className="w-full sm:w-auto h-12 px-6 rounded-full bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs text-sm font-bold transition-all duration-200 cursor-pointer active:scale-95 border-0"
               >
                 Kembali ke Paket
               </button>
@@ -663,7 +663,7 @@ export default function CheckoutView({
                         <button
                           type="button"
                           onClick={() => handleCopy(qrisData.transactionId, 'trx')}
-                          className="inline-flex items-center gap-1.5 h-8 px-3.5 rounded-full bg-white dark:bg-zinc-850 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs text-xs font-semibold transition-all duration-200 cursor-pointer active:scale-95 border-0"
+                          className="inline-flex items-center gap-1.5 h-8 px-3.5 rounded-full bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs text-xs font-semibold transition-all duration-200 cursor-pointer active:scale-95 border-0"
                         >
                           {copiedTrx ? <Check size={13} className="text-emerald-600" /> : <Copy size={13} />}
                           <span>{copiedTrx ? 'ID Disalin' : 'Salin No. Transaksi'}</span>
@@ -672,7 +672,7 @@ export default function CheckoutView({
                         <button
                           type="button"
                           onClick={handleDownloadQr}
-                          className="inline-flex items-center gap-1.5 h-8 px-3.5 rounded-full bg-white dark:bg-zinc-850 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs text-xs font-semibold transition-all duration-200 cursor-pointer active:scale-95 border-0"
+                          className="inline-flex items-center gap-1.5 h-8 px-3.5 rounded-full bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs text-xs font-semibold transition-all duration-200 cursor-pointer active:scale-95 border-0"
                         >
                           <Download size={13} />
                           <span>Unduh Gambar QR</span>
@@ -747,7 +747,7 @@ export default function CheckoutView({
                       <button
                         type="button"
                         onClick={handleSimulatePayment}
-                        className="w-full h-11 px-6 rounded-full bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1.5px_3px_0_rgba(0,0,0,0.25)] hover:from-zinc-650 hover:via-zinc-850 hover:to-zinc-950 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_3px_8px_0_rgba(0,0,0,0.3)] text-xs font-bold transition-all duration-200 cursor-pointer active:scale-95 flex items-center justify-center gap-2 group"
+                        className="w-full h-11 px-6 rounded-full bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1.5px_3px_0_rgba(0,0,0,0.25)] hover:from-zinc-700 hover:via-zinc-800 hover:to-zinc-950 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_3px_8px_0_rgba(0,0,0,0.3)] text-xs font-bold transition-all duration-200 cursor-pointer active:scale-95 flex items-center justify-center gap-2 group"
                       >
                         <Zap size={14} className="text-amber-400 group-hover:scale-110 transition-transform" />
                         <span>⚡ Simulasi Bayar Lunas Instan (GenPay Local Test)</span>
@@ -875,7 +875,7 @@ export default function CheckoutView({
                       <button
                         type="button"
                         onClick={handleApplyVoucher}
-                        className="h-9 px-4 rounded-xl bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1px_2px_rgba(0,0,0,0.3)] hover:from-zinc-650 hover:via-zinc-850 hover:to-zinc-950 hover:border-white/25 text-xs font-bold transition-all duration-200 cursor-pointer shrink-0 active:scale-95"
+                        className="h-9 px-4 rounded-xl bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1px_2px_rgba(0,0,0,0.3)] hover:from-zinc-700 hover:via-zinc-800 hover:to-zinc-950 hover:border-white/25 text-xs font-bold transition-all duration-200 cursor-pointer shrink-0 active:scale-95"
                       >
                         Terapkan
                       </button>

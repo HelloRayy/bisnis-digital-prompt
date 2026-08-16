@@ -51,7 +51,7 @@ function ShimmerButton({ children, onClick, className = "", isPopular = false })
     <button
       onClick={onClick}
       type="button"
-      className={`relative inline-flex w-full items-center justify-center rounded-full h-12 px-6 text-sm font-bold text-white bg-gradient-to-b from-zinc-800 to-zinc-950 border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1.5px_3px_0_rgba(0,0,0,0.25)] hover:from-zinc-650 hover:via-zinc-850 hover:to-zinc-950 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_3px_8px_0_rgba(0,0,0,0.3)] active:scale-95 transition-all duration-200 cursor-pointer ${className}`}
+      className={`relative inline-flex w-full items-center justify-center rounded-full h-12 px-6 text-sm font-bold text-white bg-gradient-to-b from-zinc-800 to-zinc-950 border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1.5px_3px_0_rgba(0,0,0,0.25)] hover:from-zinc-700 hover:via-zinc-800 hover:to-zinc-950 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_3px_8px_0_rgba(0,0,0,0.3)] active:scale-95 transition-all duration-200 cursor-pointer ${className}`}
     >
       <span className="relative z-10 flex items-center justify-center gap-2 tracking-wide font-sans">
         {children}
@@ -223,7 +223,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
           <div>
             <button
               onClick={() => navigateToCheckout('5k')}
-              className="w-full h-12 px-6 rounded-full bg-white dark:bg-zinc-850 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-100 text-sm font-bold ring-1 ring-black/10 dark:ring-white/10 shadow-2xs hover:shadow-xs transition-all duration-200 cursor-pointer active:scale-95 border-0"
+              className="w-full h-12 px-6 rounded-full bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-100 text-sm font-bold ring-1 ring-black/10 dark:ring-white/10 shadow-2xs hover:shadow-xs transition-all duration-200 cursor-pointer active:scale-95 border-0"
             >
               Beli Rp 5.000
             </button>

@@ -57,7 +57,7 @@ export function NavUser({
             alignOffset={-4}>
             <DropdownMenuGroup>
               <DropdownMenuLabel className="p-0 font-normal">
-                <div className="flex items-center gap-2.5 px-2 py-2 text-left text-sm bg-zinc-50 dark:bg-zinc-850 rounded-xl mb-1 border border-black/5 dark:border-white/5">
+                <div className="flex items-center gap-2.5 px-2 py-2 text-left text-sm bg-zinc-50 dark:bg-zinc-800 rounded-xl mb-1 border border-black/5 dark:border-white/5">
                   <Avatar className="h-8.5 w-8.5 rounded-full shadow-xs">
                     <AvatarImage src={user.avatar} alt={user.name} />
                     <AvatarFallback className="text-xs font-bold bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300">

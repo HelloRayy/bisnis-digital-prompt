@@ -120,7 +120,7 @@ export default function QrisPaymentModal({
               </div>
               <button
                 onClick={onClose}
-                className="mt-4 h-11 px-7 rounded-full bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1.5px_3px_0_rgba(0,0,0,0.25)] hover:from-zinc-650 hover:via-zinc-850 hover:to-zinc-950 hover:border-white/25 text-xs font-bold transition-all duration-200 cursor-pointer active:scale-95"
+                className="mt-4 h-11 px-7 rounded-full bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1.5px_3px_0_rgba(0,0,0,0.25)] hover:from-zinc-700 hover:via-zinc-800 hover:to-zinc-950 hover:border-white/25 text-xs font-bold transition-all duration-200 cursor-pointer active:scale-95"
               >
                 Tutup & Mulai Gunakan
               </button>
@@ -193,7 +193,7 @@ export default function QrisPaymentModal({
               <div className="mt-5 pt-3 border-t border-zinc-100">
                 <button
                   onClick={handleSimulateLocalPayment}
-                  className="w-full h-11 px-6 rounded-full bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1.5px_3px_0_rgba(0,0,0,0.25)] hover:from-zinc-650 hover:via-zinc-850 hover:to-zinc-950 hover:border-white/25 text-xs font-bold transition-all duration-200 cursor-pointer active:scale-95"
+                  className="w-full h-11 px-6 rounded-full bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1.5px_3px_0_rgba(0,0,0,0.25)] hover:from-zinc-700 hover:via-zinc-800 hover:to-zinc-950 hover:border-white/25 text-xs font-bold transition-all duration-200 cursor-pointer active:scale-95"
                 >
                   ⚡ Simulasi Bayar Lunas Instan (GenPay Local)
                 </button>

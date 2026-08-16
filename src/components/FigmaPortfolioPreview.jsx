@@ -58,7 +58,7 @@ const PortfolioImageItem = React.memo(function PortfolioImageItem({ src, alt, is
   const optimizedSrc = getOptimizedImageUrl(src, 480, 75);
 
   return (
-    <div className="absolute inset-0 w-full h-full bg-zinc-100 dark:bg-zinc-850 overflow-hidden [contain:paint]">
+    <div className="absolute inset-0 w-full h-full bg-zinc-100 dark:bg-zinc-800 overflow-hidden [contain:paint]">
       <img
         src={optimizedSrc}
         alt={alt}
@@ -273,7 +273,7 @@ export default function FigmaPortfolioPreview({
               <button 
                 onClick={() => setShowSignOutConfirm(true)}
                 aria-label="Keluar akun"
-                className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-full bg-white dark:bg-zinc-850 hover:bg-rose-50 hover:text-rose-600 dark:hover:bg-rose-950/40 dark:hover:text-rose-400 text-zinc-700 dark:text-zinc-300 ring-1 ring-black/10 dark:ring-white/10 text-xs font-semibold transition-all duration-200 cursor-pointer shadow-2xs active:scale-95 shrink-0 border-0"
+                className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-full bg-white dark:bg-zinc-800 hover:bg-rose-50 hover:text-rose-600 dark:hover:bg-rose-950/40 dark:hover:text-rose-400 text-zinc-700 dark:text-zinc-300 ring-1 ring-black/10 dark:ring-white/10 text-xs font-semibold transition-all duration-200 cursor-pointer shadow-2xs active:scale-95 shrink-0 border-0"
                 title="Keluar Akun"
               >
                 <Logout01Icon size={14} />
@@ -283,7 +283,7 @@ export default function FigmaPortfolioPreview({
               <button 
                 onClick={onOpenAuth}
                 aria-label="Login with Google"
-                className="inline-flex items-center gap-2 h-9 px-4 rounded-full bg-white dark:bg-zinc-850 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 text-xs font-bold transition-all duration-200 cursor-pointer shadow-2xs active:scale-95 shrink-0 group border-0"
+                className="inline-flex items-center gap-2 h-9 px-4 rounded-full bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 text-xs font-bold transition-all duration-200 cursor-pointer shadow-2xs active:scale-95 shrink-0 group border-0"
               >
                 <svg className="w-4 h-4 shrink-0 transition-transform group-hover:scale-105" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
