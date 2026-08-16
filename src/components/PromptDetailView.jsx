@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, Coins, Sparkle, Share2 } from 'lucide-react';
+import { Check, Coins, Sparkle, Share2, Unlock } from 'lucide-react';
 import { toast } from 'sonner';
 import { Dock } from '@/components/ui/dock-two';
 import { AnimatedNumber } from '@/components/ui/animated-counter';
@@ -888,9 +888,10 @@ export default function PromptDetailView({
                   setShowConfirmModal(false);
                   await executeUnlock();
                 }}
-                className="h-9 px-4 rounded-xl font-bold text-xs"
+                className="h-9 px-4 rounded-xl font-bold text-xs flex items-center gap-1.5"
               >
-                Setuju & Buka
+                <Unlock size={13} className="stroke-[2.5]" />
+                <span>Setuju & Buka</span>
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
@@ -921,9 +922,10 @@ export default function PromptDetailView({
                   if (onOpenUpgrade) onOpenUpgrade();
                   else setShowSubscription(true);
                 }}
-                className="h-9 px-4 rounded-xl font-bold text-xs"
+                className="h-9 px-4 rounded-xl font-bold text-xs flex items-center gap-1.5"
               >
-                Top Up Kredit
+                <Coins size={13} className="stroke-[2.5]" />
+                <span>Top Up Kredit</span>
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
