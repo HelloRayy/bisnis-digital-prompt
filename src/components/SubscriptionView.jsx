@@ -85,8 +85,8 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
         
         {/* 1. FREE PLAN CARD (Default Active Plan) */}
-        <div className="relative rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between hover:border-purple-300 dark:hover:border-purple-800/60 hover:bg-purple-50/10 transition-all duration-200 shadow-xs">
-          <div>
+        <div className="relative rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between hover:border-purple-300 dark:hover:border-purple-800/60 hover:bg-purple-50/10 transition-all duration-200 shadow-xs h-full">
+          <div className="flex-1 flex flex-col">
             <div className="flex justify-between items-center mb-3">
               <h3 className="text-xs font-bold tracking-wider text-zinc-700 dark:text-zinc-300 uppercase">
                 Starter (Free)
@@ -102,7 +102,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
             </div>
             <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-5 font-medium">Akses koleksi awal tanpa biaya</p>
 
-            <ul className="space-y-2.5 text-xs text-zinc-700 dark:text-zinc-300 mb-6 font-medium">
+            <ul className="space-y-2.5 text-xs text-zinc-700 dark:text-zinc-300 mb-6 font-medium min-h-[148px] flex flex-col justify-start">
               <li className="flex items-center gap-2">
                 <CheckmarkCircle02Icon size={15} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
                 <span>1.000 Kredit gratis saat mendaftar</span>
@@ -118,7 +118,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
             </ul>
           </div>
 
-          <div>
+          <div className="mt-auto pt-2">
             <button
               disabled={true}
               className="w-full h-12 px-6 rounded-full border-0 bg-zinc-100 dark:bg-zinc-800/60 text-zinc-500 dark:text-zinc-400 text-sm font-semibold cursor-default"
@@ -132,14 +132,14 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
         </div>
 
         {/* 2. 10K PLAN CARD (Center Card / Paling Populer) */}
-        <div className="relative rounded-3xl border-2 border-purple-600 dark:border-purple-500 shadow-purple-500/10 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-lg transition-colors duration-200 ring-2 ring-purple-500/20">
+        <div className="relative rounded-3xl border-2 border-purple-600 dark:border-purple-500 shadow-purple-500/10 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-lg transition-colors duration-200 ring-2 ring-purple-500/20 h-full">
           {/* Top Right Popular Badge */}
           <div className="absolute -top-3.5 right-5 bg-purple-600 text-white text-[11px] font-bold px-3.5 py-0.5 rounded-full flex items-center gap-1 shadow-sm">
             <StarIcon size={12} className="fill-white text-white" />
             <span>Paling Populer</span>
           </div>
 
-          <div>
+          <div className="flex-1 flex flex-col">
             <div className="flex justify-between items-center mb-3">
               <h3 className="text-xs font-bold tracking-wider text-purple-700 dark:text-purple-300 uppercase">
                 Best Value (10k)
@@ -155,7 +155,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
             </div>
             <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-5 font-medium">Nilai kredit terbanyak & paling hemat</p>
 
-            <ul className="space-y-2.5 text-xs text-zinc-700 dark:text-zinc-300 mb-6 font-medium">
+            <ul className="space-y-2.5 text-xs text-zinc-700 dark:text-zinc-300 mb-6 font-medium min-h-[148px] flex flex-col justify-start">
               <li className="flex items-center gap-2">
                 <CheckmarkCircle02Icon size={15} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
                 <span className="font-semibold text-obsidian dark:text-white">4.000 Kredit tanpa kedaluwarsa</span>
@@ -175,7 +175,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
             </ul>
           </div>
 
-          <div>
+          <div className="mt-auto pt-2">
             <ShimmerButton
               isPopular={true}
               onClick={() => navigateToCheckout('10k')}
@@ -183,12 +183,15 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
               <span>Beli Rp 10.000</span>
               <SparklesIcon size={14} className="text-purple-200 fill-purple-200" />
             </ShimmerButton>
+            <p className="text-xs text-purple-600 dark:text-purple-400 text-center mt-2 font-semibold">
+              Paling hemat & direkomendasikan
+            </p>
           </div>
         </div>
 
         {/* 3. 5K PLAN CARD (Rp 5.000 -> 1.500 Kredit) */}
-        <div className="relative rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between hover:border-purple-300 dark:hover:border-purple-800/60 hover:bg-purple-50/10 transition-all duration-200 shadow-xs">
-          <div>
+        <div className="relative rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between hover:border-purple-300 dark:hover:border-purple-800/60 hover:bg-purple-50/10 transition-all duration-200 shadow-xs h-full">
+          <div className="flex-1 flex flex-col">
             <div className="flex justify-between items-center mb-3">
               <h3 className="text-xs font-bold tracking-wider text-zinc-700 dark:text-zinc-300 uppercase">
                 Basic Top-Up (5k)
@@ -204,7 +207,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
             </div>
             <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-5 font-medium">Pengisian saldo hemat dan terjangkau</p>
 
-            <ul className="space-y-2.5 text-xs text-zinc-700 dark:text-zinc-300 mb-6 font-medium">
+            <ul className="space-y-2.5 text-xs text-zinc-700 dark:text-zinc-300 mb-6 font-medium min-h-[148px] flex flex-col justify-start">
               <li className="flex items-center gap-2">
                 <CheckmarkCircle02Icon size={15} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
                 <span>1.500 Kredit tanpa kedaluwarsa</span>
@@ -220,7 +223,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
             </ul>
           </div>
 
-          <div>
+          <div className="mt-auto pt-2">
             <button
               onClick={() => navigateToCheckout('5k')}
               className="w-full h-12 px-6 rounded-full bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-100 text-sm font-bold ring-1 ring-black/10 dark:ring-white/10 shadow-2xs hover:shadow-xs transition-all duration-200 cursor-pointer active:scale-95 border-0"
