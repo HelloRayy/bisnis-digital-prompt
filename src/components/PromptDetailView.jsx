@@ -891,8 +891,8 @@ export default function PromptDetailView({
                 className="group h-9 px-4 rounded-xl font-bold text-xs flex items-center gap-1.5 cursor-pointer"
               >
                 <span className="relative w-3.5 h-3.5 flex items-center justify-center shrink-0">
-                  <Lock size={13} className="stroke-[2.5] transition-all duration-200 group-hover:opacity-0 group-hover:scale-75 absolute" />
-                  <Unlock size={13} className="stroke-[2.5] transition-all duration-200 opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 text-purple-300 absolute" />
+                  <Lock size={13} className="stroke-[2.5] block group-hover:hidden" />
+                  <Unlock size={13} className="stroke-[2.5] hidden group-hover:block" />
                 </span>
                 <span>Setuju & Buka</span>
               </AlertDialogAction>
