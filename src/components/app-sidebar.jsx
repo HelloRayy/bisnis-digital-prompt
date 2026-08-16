@@ -108,41 +108,7 @@ export function AppSidebar({
     }
   ];
 
-  // 2. Visual Categories
-  const categoryItems = [
-    {
-      id: 'image',
-      label: 'Image & Graphic',
-      icon: ImageIcon,
-      isActive: activeCategory === 'image',
-      onClick: () => {
-        onSearchChange('');
-        onSelectCategory && onSelectCategory('image');
-      }
-    },
-    {
-      id: 'video',
-      label: 'Video & Motion',
-      icon: Film,
-      isActive: activeCategory === 'video',
-      onClick: () => {
-        onSearchChange('');
-        onSelectCategory && onSelectCategory('video');
-      }
-    },
-    {
-      id: 'website',
-      label: 'Website & UI',
-      icon: Layout,
-      isActive: activeCategory === 'website',
-      onClick: () => {
-        onSearchChange('');
-        onSelectCategory && onSelectCategory('website');
-      }
-    }
-  ];
-
-  // 3. User Personal Library
+  // 2. User Personal Library
   const libraryItems = [
     {
       id: 'favorite',
@@ -178,7 +144,7 @@ export function AppSidebar({
             <span className="font-bold text-zinc-900 dark:text-white text-sm tracking-tight truncate leading-tight">
               Prompt Hub
             </span>
-            <span className="text-[10px] text-zinc-400 font-medium tracking-wide uppercase">
+            <span className="text-[11px] text-zinc-400 font-medium tracking-normal">
               Curated Discovery
             </span>
           </div>
@@ -190,7 +156,7 @@ export function AppSidebar({
         
         {/* Section 1: Discovery Feeds */}
         <SidebarGroup className="py-0">
-          <SidebarGroupLabel className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider px-2.5 pb-1">
+          <SidebarGroupLabel className="text-xs font-semibold text-zinc-400 dark:text-zinc-500 px-2.5 pb-1">
             Discovery
           </SidebarGroupLabel>
           <SidebarMenu className="gap-0.5">
@@ -217,38 +183,9 @@ export function AppSidebar({
           </SidebarMenu>
         </SidebarGroup>
 
-        {/* Section 2: Visual Categories */}
+        {/* Section 2: User Personal Library */}
         <SidebarGroup className="py-0">
-          <SidebarGroupLabel className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider px-2.5 pb-1">
-            Kategori Visual
-          </SidebarGroupLabel>
-          <SidebarMenu className="gap-0.5">
-            {categoryItems.map((item) => {
-              const IconComp = item.icon;
-              return (
-                <SidebarMenuItem key={item.id}>
-                  <SidebarMenuButton
-                    onClick={item.onClick}
-                    className={`w-full flex items-center justify-between h-8.5 px-2.5 rounded-lg text-xs transition-all cursor-pointer ${
-                      item.isActive
-                        ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-950 dark:text-white font-semibold border border-black/5 dark:border-white/10 shadow-2xs'
-                        : 'text-zinc-600 dark:text-zinc-400 font-medium hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-100/70 dark:hover:bg-zinc-900'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <IconComp size={15} className={item.isActive ? 'text-purple-600 dark:text-purple-400 stroke-[2.2]' : 'text-zinc-400'} />
-                      <span className="truncate text-xs">{item.label}</span>
-                    </div>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              );
-            })}
-          </SidebarMenu>
-        </SidebarGroup>
-
-        {/* Section 3: User Personal Library */}
-        <SidebarGroup className="py-0">
-          <SidebarGroupLabel className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider px-2.5 pb-1">
+          <SidebarGroupLabel className="text-xs font-semibold text-zinc-400 dark:text-zinc-500 px-2.5 pb-1">
             Koleksi Saya
           </SidebarGroupLabel>
           <SidebarMenu className="gap-0.5">
