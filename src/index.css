@@ -275,9 +275,46 @@ body {
 
 /* KUMO UI Design System - Button Utilities */
 .btn-kumo-primary {
-  @apply relative overflow-hidden bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1.5px_3px_0_rgba(0,0,0,0.25)] hover:from-zinc-700 hover:via-zinc-800 hover:to-zinc-950 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_3px_8px_0_rgba(0,0,0,0.3)] active:scale-95 font-bold transition-all duration-200 cursor-pointer;
+  @apply relative overflow-hidden bg-gradient-to-b from-zinc-800 to-zinc-950 text-white font-bold transition-all duration-200 cursor-pointer;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.2), 0 1.5px 3px 0 rgba(0, 0, 0, 0.25);
+}
+
+.btn-kumo-primary:hover {
+  background-image: linear-gradient(to bottom, #3f3f46, #27272a, #09090b);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.35), 0 3px 8px 0 rgba(0, 0, 0, 0.3);
+}
+
+.btn-kumo-primary:active {
+  transform: scale(0.95);
 }
 
 .btn-kumo-secondary {
-  @apply group inline-flex shrink-0 items-center justify-center font-medium select-none border-0 shadow-2xs focus:ring-purple-500/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-600 cursor-pointer disabled:cursor-not-allowed disabled:text-zinc-400 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 not-disabled:hover:bg-zinc-100 dark:not-disabled:hover:bg-zinc-800 not-disabled:hover:text-black dark:not-disabled:hover:text-white not-disabled:hover:ring-black/15 dark:not-disabled:hover:ring-white/20 not-disabled:hover:shadow-xs active:scale-95 disabled:bg-zinc-100/50 disabled:text-zinc-400 dark:disabled:bg-zinc-800/50 transition-all duration-200;
+  @apply inline-flex shrink-0 items-center justify-center font-medium select-none bg-white text-zinc-900 transition-all duration-200 cursor-pointer;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.dark .btn-kumo-secondary {
+  @apply bg-zinc-900 text-zinc-100;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn-kumo-secondary:hover:not(:disabled) {
+  @apply bg-zinc-100 text-black;
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+.dark .btn-kumo-secondary:hover:not(:disabled) {
+  @apply bg-zinc-800 text-white;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-kumo-secondary:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.btn-kumo-secondary:disabled {
+  @apply opacity-50 cursor-not-allowed;
 }
