@@ -742,43 +742,30 @@ export default function PromptDetailView({
                   className="flex flex-col gap-6"
                 >
                   <div className="relative">
-                    {/* Micro-interaction Quick Copy Button in Top-Right Corner */}
+                    {/* Quick Copy Button in Top-Right Corner */}
                     {(isUnlocked || !isPremium) && (
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.92 }}
+                      <button
+                        type="button"
                         onClick={handleCopyText}
-                        className={`absolute top-0 right-0 z-10 p-3 rounded-full border transition-all cursor-pointer shadow-sm flex items-center justify-center ${
+                        className={`absolute top-0 right-0 z-10 p-3 rounded-full border transition-colors duration-200 cursor-pointer shadow-sm flex items-center justify-center ${
                           copiedText 
                             ? 'bg-emerald-500 border-emerald-400 text-white shadow-emerald-500/30' 
-                            : 'bg-white/90 dark:bg-zinc-800/90 backdrop-blur-md border-black/10 dark:border-white/10 text-obsidian dark:text-white hover:bg-zinc-100 dark:hover:bg-zinc-700'
+                            : 'bg-white/90 dark:bg-zinc-800/90 backdrop-blur-md border-black/10 dark:border-white/10 text-zinc-900 dark:text-white hover:bg-zinc-950 hover:text-white dark:hover:bg-zinc-100 dark:hover:text-zinc-950'
                         }`}
                         title="Salin Cepat Teks Prompt"
                       >
                         <AnimatePresence mode="wait" initial={false}>
                           {copiedText ? (
-                            <motion.div
-                              key="check"
-                              initial={{ scale: 0.8, opacity: 0 }}
-                              animate={{ scale: 1, opacity: 1 }}
-                              exit={{ scale: 0.8, opacity: 0 }}
-                              transition={{ duration: 0.15 }}
-                            >
+                            <div key="check">
                               <AnimatedCheckmarkSVG size={18} strokeWidth={2.5} className="text-white" />
-                            </motion.div>
+                            </div>
                           ) : (
-                            <motion.div
-                              key="copy"
-                              initial={{ scale: 0.8, opacity: 0 }}
-                              animate={{ scale: 1, opacity: 1 }}
-                              exit={{ scale: 0.8, opacity: 0 }}
-                              transition={{ duration: 0.15 }}
-                            >
+                            <div key="copy">
                               <Copy01Icon size={18} />
-                            </motion.div>
+                            </div>
                           )}
                         </AnimatePresence>
-                      </motion.button>
+                      </button>
                     )}
 
                     <div className={`font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-obsidian leading-[1.3] tracking-tight transition-all duration-500 ${!isUnlocked && isPremium ? 'blur-xs select-none opacity-40 min-h-[200px] sm:min-h-[220px] max-h-64 overflow-hidden py-4' : 'pr-16 py-3 sm:py-4'}`}>
