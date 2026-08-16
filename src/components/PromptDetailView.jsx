@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, Coins, Sparkle, Share2, Unlock } from 'lucide-react';
+import { Check, Coins, Sparkle, Share2, Unlock, Lock } from 'lucide-react';
 import { toast } from 'sonner';
 import { Dock } from '@/components/ui/dock-two';
 import { AnimatedNumber } from '@/components/ui/animated-counter';
@@ -888,9 +888,12 @@ export default function PromptDetailView({
                   setShowConfirmModal(false);
                   await executeUnlock();
                 }}
-                className="h-9 px-4 rounded-xl font-bold text-xs flex items-center gap-1.5"
+                className="group h-9 px-4 rounded-xl font-bold text-xs flex items-center gap-1.5 cursor-pointer"
               >
-                <Unlock size={13} className="stroke-[2.5]" />
+                <span className="relative w-3.5 h-3.5 flex items-center justify-center shrink-0">
+                  <Lock size={13} className="stroke-[2.5] transition-all duration-200 group-hover:opacity-0 group-hover:scale-75 absolute" />
+                  <Unlock size={13} className="stroke-[2.5] transition-all duration-200 opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 text-purple-300 absolute" />
+                </span>
                 <span>Setuju & Buka</span>
               </AlertDialogAction>
             </AlertDialogFooter>
