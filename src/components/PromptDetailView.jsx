@@ -96,19 +96,34 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { PrimaryButton, PrimaryCTAButton } from "@/components/ui/button";
+import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
+import { Separator } from "@/components/ui/separator";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 export default function PromptDetailView({
   prompt,
   onClose,
   userCredits = 0,
+  userRole = "Starter Plan",
   currentUser = null,
+  favoritePromptIds = [],
+  purchasedPromptIds = [],
   onOpenAuth = () => {},
   onSignOut = () => {},
   isUnlocked = false,
   isFavorite = false,
   onToggleFavorite = () => {},
   onDeductCredits = () => {},
-  onOpenUpgrade = () => {}
+  onOpenUpgrade = () => {},
+  onSelectCategory = () => {}
 }) {
   if (!prompt) return null;
 
@@ -335,57 +350,101 @@ export default function PromptDetailView({
   const smoothPhysics = { type: 'spring', stiffness: 180, damping: 24, mass: 0.8 };
 
   return (
-    <div 
-      ref={containerRef}
-      className="fixed inset-0 z-50 bg-white text-obsidian overflow-y-auto font-sans flex flex-col justify-between selection:bg-purple-100 selection:text-purple-900 pb-24"
-    >
-      {/* Top Header Bar */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-black/5 py-4 px-6 md:px-10 flex items-center justify-between gap-4">
-        {/* Brand Name */}
+    <SidebarProvider className="bg-white dark:bg-zinc-950">
+      {/* 1. App Sidebar (Persistent Navigation) */}
+      <AppSidebar 
+        currentUser={currentUser}
+        userCredits={userCredits}
+        userRole={userRole}
+        activeCategory={categories[0]?.toLowerCase() || "all"}
+        searchQuery=""
+        favoritePromptIds={favoritePromptIds}
+        purchasedPromptIds={purchasedPromptIds}
+        onSearchChange={() => onClose()}
+        onOpenAuth={onOpenAuth}
+        onOpenUpgrade={() => {
+          if (onOpenUpgrade) onOpenUpgrade();
+          else setShowSubscription(true);
+        }}
+        onSignOut={onSignOut}
+        onSelectCategory={(cat) => {
+          onClose();
+        }}
+      />
+
+      {/* 2. Workspace Content Inset */}
+      <SidebarInset className="bg-white dark:bg-zinc-950 transition-all">
         <div 
-          onClick={onClose}
-          className="flex items-center gap-3 cursor-pointer group shrink-0"
+          ref={containerRef}
+          className="relative min-h-screen w-full bg-white dark:bg-zinc-950 text-obsidian dark:text-white flex flex-col justify-between selection:bg-purple-100 selection:text-purple-900 font-sans"
         >
-          <div className="w-8 h-8 rounded-full bg-[#f2f2f2] border border-black/5 flex items-center justify-center font-bold text-xs">
-            {author ? author.slice(0, 2).toUpperCase() : 'DT'}
-          </div>
-          <span className="font-sans text-base font-bold text-obsidian tracking-tight group-hover:text-purple-600 transition-colors">
-            {author || "Daniel Triendl"}
-          </span>
-        </div>
-
-        {/* Action Controls: Credits, Share, Close */}
-        <div className="flex items-center gap-3">
-          <SpecularElectricButton 
-            onClick={() => setShowSubscription(true)} 
-            credits={userCredits} 
-          />
-
-          <button
-            onClick={handleShareLink}
-            className="p-2 rounded-full bg-[#f2f2f2] hover:bg-black/5 text-black transition-all cursor-pointer border border-black/5"
-            title="Bagikan Tautan"
-          >
-            {copiedLink ? <CheckmarkCircle02Icon size={16} className="text-emerald-600" /> : <Share01Icon size={16} />}
-          </button>
-        </div>
-      </header>
-
-      {/* Main Content Area */}
-      <main className="max-w-6xl mx-auto w-full px-6 md:px-10 pt-6 sm:pt-8 pb-36 flex-1 flex flex-col justify-center my-auto relative">
-        {/* Top Left Close Button inside Main Container */}
-        <div className="mb-6 sm:mb-8 flex items-center justify-start">
-          <button 
-            onClick={onClose}
-            className="inline-flex items-center gap-2.5 text-obsidian text-xs font-semibold hover:text-purple-600 transition-colors cursor-pointer group"
-            title="Tutup Preview"
-          >
-            <div className="w-8 h-8 rounded-full bg-[#f2f2f2] group-hover:bg-purple-100 border border-black/5 text-obsidian group-hover:text-purple-600 flex items-center justify-center transition-colors shadow-2xs">
-              <Cancel01Icon size={16} className="group-hover:rotate-90 transition-transform duration-200" />
+          {/* Top Sticky Header Bar */}
+          <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between gap-3 sm:gap-4 px-4 sm:px-6 md:px-8 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md border-b border-black/5 dark:border-white/5 transform-gpu transition-all">
+            {/* Left: SidebarTrigger & Breadcrumbs */}
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0 shrink-0">
+              <SidebarTrigger aria-label="Buka Menu Sidebar" className="-ml-1 text-obsidian dark:text-zinc-200 hover:bg-black/5 dark:hover:bg-zinc-800 rounded-lg p-1.5 transition-colors shrink-0" />
+              <Separator orientation="vertical" className="h-5 bg-black/10 dark:bg-white/10 shrink-0" />
+              <Breadcrumb className="min-w-0 truncate">
+                <BreadcrumbList className="flex-nowrap min-w-0 text-xs sm:text-sm">
+                  <BreadcrumbItem className="hidden sm:block shrink-0">
+                    <BreadcrumbLink href="#" onClick={(e) => { e.preventDefault(); onClose(); }} className="font-bold text-obsidian dark:text-white hover:text-purple-600 transition-colors">
+                      Prompt Hub
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator className="hidden sm:block shrink-0 text-black/40" />
+                  <BreadcrumbItem className="min-w-0 truncate">
+                    <BreadcrumbPage className="font-semibold text-zinc-900 dark:text-zinc-100 truncate">
+                      {author || "Detail Prompt"}
+                    </BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
             </div>
-            <span>Tutup</span>
-          </button>
-        </div>
+
+            {/* Right: Credits, Share, and Close / Back */}
+            <div className="flex items-center gap-2.5">
+              <SpecularElectricButton 
+                onClick={() => {
+                  if (onOpenUpgrade) onOpenUpgrade();
+                  else setShowSubscription(true);
+                }} 
+                credits={userCredits} 
+              />
+
+              <button
+                onClick={handleShareLink}
+                className="p-2 rounded-full bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 transition-all cursor-pointer border border-black/5 dark:border-white/10 shadow-2xs"
+                title="Bagikan Tautan"
+              >
+                {copiedLink ? <CheckmarkCircle02Icon size={16} className="text-emerald-600" /> : <Share01Icon size={16} />}
+              </button>
+
+              <button 
+                onClick={onClose}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 text-xs font-semibold border border-black/5 dark:border-white/10 transition-colors cursor-pointer"
+                title="Tutup & Kembali"
+              >
+                <Cancel01Icon size={14} />
+                <span className="hidden sm:inline">Tutup</span>
+              </button>
+            </div>
+          </header>
+
+          {/* Main Content Area */}
+          <main className="max-w-6xl mx-auto w-full px-4 sm:px-6 md:px-10 pt-6 sm:pt-8 pb-36 flex-1 flex flex-col justify-center my-auto relative">
+            {/* Top Left Close Button inside Main Container */}
+            <div className="mb-6 sm:mb-8 flex items-center justify-start">
+              <button 
+                onClick={onClose}
+                className="inline-flex items-center gap-2.5 text-obsidian dark:text-zinc-200 text-xs font-semibold hover:text-purple-600 transition-colors cursor-pointer group"
+                title="Tutup Preview"
+              >
+                <div className="w-8 h-8 rounded-full bg-[#f2f2f2] dark:bg-zinc-800 group-hover:bg-purple-100 dark:group-hover:bg-purple-950/50 border border-black/5 dark:border-white/10 text-obsidian dark:text-zinc-200 group-hover:text-purple-600 flex items-center justify-center transition-colors shadow-2xs">
+                  <Cancel01Icon size={16} className="group-hover:rotate-90 transition-transform duration-200" />
+                </div>
+                <span>Tutup</span>
+              </button>
+            </div>
         <AnimatePresence mode="wait">
           {!showProjectInfo ? (
             /* STAGE 1: Visual Cover View */
@@ -1023,6 +1082,8 @@ export default function PromptDetailView({
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }

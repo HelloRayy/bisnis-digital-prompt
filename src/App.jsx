@@ -455,7 +455,10 @@ function App() {
               prompt={activePrompt || promptsData[0]} 
               onClose={handleClosePrompt} 
               userCredits={userCredits}
+              userRole={userRole}
               currentUser={currentUser}
+              favoritePromptIds={favoritePromptIds}
+              purchasedPromptIds={purchasedPromptIds}
               onOpenAuth={() => setShowAuthModal(true)}
               onSignOut={handleSignOut}
               isUnlocked={purchasedPromptIds.includes(String((activePrompt || promptsData[0]).id))}
@@ -463,6 +466,9 @@ function App() {
               onToggleFavorite={handleToggleFavorite}
               onDeductCredits={handleDeductCredits}
               onOpenUpgrade={() => navigateTo('/subscription')}
+              onSelectCategory={(cat) => {
+                handleClosePrompt();
+              }}
             />
           )}
         </>
