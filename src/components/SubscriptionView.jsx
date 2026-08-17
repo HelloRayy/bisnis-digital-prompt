@@ -501,10 +501,12 @@ export default function SubscriptionView({
           {/* Main Showcase Area */}
           <main className="w-full max-w-3xl mx-auto px-4 sm:px-6 md:px-8 pt-[84px] sm:pt-[96px] pb-6 md:pb-8 flex-1 flex flex-col justify-center relative">
             
-            {/* Fixed Top-Left Floating Back Button on Mobile (Smooth scroll motion to top safe area) */}
+            {/* Fixed Top-Left Floating Back Button on Mobile (Reveals at top safe area only when scrolled) */}
             <div className={cn(
-              "fixed left-2.5 sm:left-4 z-40 md:hidden pointer-events-auto transition-all duration-300 ease-out",
-              isScrolled ? "top-3.5 sm:top-4" : "top-[80px]"
+              "fixed left-2.5 sm:left-4 z-40 md:hidden transition-all duration-300 ease-out",
+              isScrolled 
+                ? "top-3.5 sm:top-4 opacity-100 scale-100 pointer-events-auto translate-x-0" 
+                : "top-3.5 sm:top-4 opacity-0 scale-90 pointer-events-none -translate-x-3"
             )}>
               <button
                 type="button"
