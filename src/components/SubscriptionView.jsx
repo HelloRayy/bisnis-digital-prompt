@@ -7,7 +7,8 @@ import {
   StarIcon,
   Logout01Icon
 } from 'hugeicons-react';
-import { Check, Coins, Zap, Sparkle } from 'lucide-react';
+import { Check, Coins, Zap, Sparkle, ChevronLeft } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/app-sidebar';
 import { Separator } from '@/components/ui/separator';
@@ -384,6 +385,21 @@ export default function SubscriptionView({
 }) {
   const [showSignOutConfirm, setShowSignOutConfirm] = useState(false);
   const [billingMode, setBillingMode] = useState('subscription'); // 'subscription' | 'topup'
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY || document.documentElement.scrollTop || window.pageYOffset || 0;
+      setIsScrolled(scrollY > 20);
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    document.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
     <SidebarProvider className="bg-white dark:bg-zinc-950">
@@ -411,8 +427,11 @@ export default function SubscriptionView({
       <SidebarInset className="bg-white dark:bg-zinc-950 transition-all">
         <div className="min-h-screen w-full bg-white dark:bg-zinc-950 flex flex-col font-sans overflow-x-hidden pb-28 md:pb-0">
           
-          {/* Top Fixed Glassmorphism Header */}
-          <header className="fixed top-0 right-0 left-0 md:left-[var(--sidebar-width)] group-data-[state=collapsed]/sidebar-wrapper:md:left-[var(--sidebar-width-icon)] z-40 flex h-16 shrink-0 items-center justify-between gap-3 sm:gap-4 px-4 sm:px-6 md:px-8 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md border-b border-black/5 dark:border-white/5 transform-gpu transition-all">
+          {/* Top Fixed Glassmorphism Header - Slides up on mobile scroll */}
+          <header className={cn(
+            "fixed top-0 right-0 left-0 md:left-[var(--sidebar-width)] group-data-[state=collapsed]/sidebar-wrapper:md:left-[var(--sidebar-width-icon)] z-40 flex h-16 shrink-0 items-center justify-between gap-3 sm:gap-4 px-4 sm:px-6 md:px-8 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md border-b border-black/5 dark:border-white/5 transform-gpu transition-all duration-300 ease-out",
+            isScrolled ? "-translate-y-full md:translate-y-0 opacity-0 md:opacity-100 pointer-events-none md:pointer-events-auto" : "translate-y-0 opacity-100"
+          )}>
             <div className="flex items-center gap-2 sm:gap-3 min-w-0 shrink-0">
               <SidebarTrigger aria-label="Buka Menu Sidebar" className="-ml-1 text-obsidian hover:bg-black/5 rounded-lg p-1.5 transition-colors shrink-0" />
               <Separator orientation="vertical" className="h-5 bg-black/10 shrink-0" />
@@ -480,7 +499,22 @@ export default function SubscriptionView({
           </header>
 
           {/* Main Showcase Area */}
-          <main className="w-full max-w-3xl mx-auto px-4 sm:px-6 md:px-8 pt-[84px] sm:pt-[96px] pb-6 md:pb-8 flex-1 flex flex-col justify-center">
+          <main className="w-full max-w-3xl mx-auto px-4 sm:px-6 md:px-8 pt-[84px] sm:pt-[96px] pb-6 md:pb-8 flex-1 flex flex-col justify-center relative">
+            
+            {/* Fixed Top-Left Floating Back Button on Mobile (Smooth scroll motion to top safe area) */}
+            <div className={cn(
+              "fixed left-2.5 sm:left-4 z-40 md:hidden pointer-events-auto transition-all duration-300 ease-out",
+              isScrolled ? "top-3.5 sm:top-4" : "top-[80px]"
+            )}>
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label="Kembali"
+                className="w-11 h-11 rounded-2xl bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md border border-black/10 dark:border-white/10 shadow-md flex items-center justify-center text-obsidian dark:text-white active:scale-90 transition-transform cursor-pointer"
+              >
+                <ChevronLeft size={22} className="stroke-[2.5] -ml-0.5" />
+              </button>
+            </div>
             
             {/* Header with Title on Left and Segmented Toggle on Right */}
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-7 sm:mb-8">
