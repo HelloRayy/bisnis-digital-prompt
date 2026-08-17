@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   CheckmarkCircle02Icon, 
@@ -96,6 +96,8 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
   // Slider states for "Atur Kredit" mode
   const [basicCredits, setBasicCredits] = useState(1500); // 500 - 3000
   const [proCredits, setProCredits] = useState(6000); // 4000 - 20000
+  const [activeCardIndex, setActiveCardIndex] = useState(0); // 0: Business, 1: Enterprise
+  const carouselRef = useRef(null);
 
   const navigateToCheckout = (planSlug) => {
     onTopUp(planSlug);
@@ -110,17 +112,55 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
   const basicPct = ((basicCredits - 500) / (3000 - 500)) * 100;
   const proPct = ((proCredits - 4000) / (20000 - 4000)) * 100;
 
+  // Track active slide on scroll for pagination dots
+  const handleCarouselScroll = (e) => {
+    if (!isSub) return;
+    const target = e.currentTarget;
+    const scrollLeft = target.scrollLeft;
+    const cardWidth = target.offsetWidth * 0.84;
+    const newIndex = Math.round(scrollLeft / (cardWidth || 1));
+    if (newIndex !== activeCardIndex && (newIndex === 0 || newIndex === 1)) {
+      setActiveCardIndex(newIndex);
+    }
+  };
+
+  // Smooth scroll to card by index
+  const scrollToCard = (index) => {
+    if (carouselRef.current) {
+      const container = carouselRef.current;
+      const cards = container.children;
+      if (cards[index]) {
+        cards[index].scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'center'
+        });
+      }
+      setActiveCardIndex(index);
+    }
+  };
+
   return (
     <div className="w-full" style={{ perspective: 1200 }}>
-      {/* 2-Column Plan Grid with 3D Unfolding Entry Motion */}
+      {/* 2-Column Plan Grid on Desktop / Snap Carousel on Mobile */}
       <motion.div 
+        ref={carouselRef}
+        onScroll={handleCarouselScroll}
         layout
-        className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6 items-stretch"
+        className={cn(
+          "w-full items-stretch",
+          isSub 
+            ? "flex md:grid md:grid-cols-2 gap-4 lg:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-3 pt-1 px-1 -mx-4 px-4 sm:mx-0 sm:px-0 no-scrollbar"
+            : "grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6"
+        )}
       >
         
         {/* CARD 1: BUSINESS / KREDIT REGULER (KUMO UI LIGHT SPECULAR CARD) */}
         <motion.div
           layout
+          onClick={() => {
+            if (isSub && activeCardIndex !== 0) scrollToCard(0);
+          }}
           initial={{ opacity: 0, y: 28, rotateY: -12, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, rotateY: 0, scale: 1 }}
           transition={{ 
@@ -130,7 +170,10 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
             mass: 0.8,
             delay: 0.05 
           }}
-          className="rounded-3xl border border-black/10 dark:border-white/10 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_12px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.9)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:border-black/20 dark:hover:border-white/20 transition-all duration-200 h-full transform-gpu"
+          className={cn(
+            "rounded-3xl border border-black/10 dark:border-white/10 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_12px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.9)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:border-black/20 dark:hover:border-white/20 transition-all duration-200 h-full transform-gpu",
+            isSub ? "w-[84vw] sm:w-[380px] md:w-auto shrink-0 snap-center" : "w-full"
+          )}
         >
           <div>
             <div className="flex items-center justify-between mb-2 min-h-[24px]">
@@ -202,12 +245,12 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
               Fitur paket:
             </p>
 
-            <ul className="space-y-3 text-xs text-zinc-600 dark:text-zinc-300 mb-6 font-medium">
+            <ul className="space-y-3 text-xs text-zinc-600 dark:text-zinc-400 mb-6 font-medium">
               <li className="flex items-center gap-2.5">
                 <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-black/10 dark:border-white/10 flex items-center justify-center shrink-0">
                   <Check size={11} className="text-purple-600 dark:text-purple-400 stroke-[2.5]" />
                 </div>
-                <span className="font-bold text-obsidian dark:text-zinc-100">
+                <span className="font-bold text-obsidian dark:text-white">
                   {isSub ? '4.000 Kredit (+33% hemat)' : `${basicCredits.toLocaleString('id-ID')} Kredit saldo permanen`}
                 </span>
               </li>
@@ -245,6 +288,9 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
         {/* CARD 2: ENTERPRISE / PRO CREATOR (KUMO UI OBSIDIAN DARK ELEVATED CARD) */}
         <motion.div
           layout
+          onClick={() => {
+            if (isSub && activeCardIndex !== 1) scrollToCard(1);
+          }}
           initial={{ opacity: 0, y: 28, rotateY: 12, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, rotateY: 0, scale: 1 }}
           transition={{ 
@@ -254,12 +300,15 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
             mass: 0.8,
             delay: 0.12 
           }}
-          className="rounded-3xl bg-zinc-950 dark:bg-zinc-900 text-zinc-100 p-6 sm:p-7 flex flex-col justify-between shadow-[0_12px_32px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.15)] border border-white/15 dark:border-zinc-700/80 transition-all duration-200 ring-1 ring-black/10 h-full transform-gpu"
+          className={cn(
+            "rounded-3xl bg-zinc-950 dark:bg-zinc-900 text-zinc-100 p-6 sm:p-7 flex flex-col justify-between shadow-[0_12px_32px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.15)] border border-white/15 dark:border-zinc-700/80 transition-all duration-200 ring-1 ring-black/10 h-full transform-gpu",
+            isSub ? "w-[84vw] sm:w-[380px] md:w-auto shrink-0 snap-center" : "w-full"
+          )}
         >
           <div>
             <div className="flex items-center justify-between mb-2 min-h-[24px]">
-              <span className="inline-block px-3 py-0.5 rounded-full bg-zinc-800/90 text-zinc-200 text-[11px] font-bold border border-white/15 shadow-2xs">
-                {isSub ? 'Paling Populer' : 'Paling Hemat • Diskon 20%'}
+              <span className="inline-block px-3 py-0.5 rounded-full bg-zinc-800 text-zinc-200 text-[11px] font-bold border border-white/10 shadow-2xs">
+                {isSub ? 'Paling Populer' : 'Nilai Maksimal'}
               </span>
             </div>
 
@@ -276,12 +325,12 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
             </div>
 
             <h3 className="text-xl font-bold text-white tracking-tight">
-              {isSub ? 'Enterprise' : 'Pro Creator'}
+              {isSub ? 'Enterprise' : 'Kredit Ekstra'}
             </h3>
             <p className="text-xs text-zinc-400 mt-1 min-h-[34px] font-normal leading-relaxed">
-              {isSub 
-                ? 'Solusi terlengkap dengan kuota maksimal untuk studio kreatif & agensi.'
-                : 'Pilihan volume besar dengan tarif per kredit termurah untuk power user.'}
+              {isSub
+                ? 'Solusi terlengkap untuk profesional kreatif & agensi.'
+                : 'Pilihan hemat untuk desainer yang sering eksplorasi prompt.'}
             </p>
 
             {/* Clean Minimalist Slider */}
@@ -367,6 +416,34 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
         </motion.div>
 
       </motion.div>
+
+      {/* Mobile Interactive Pagination Dots (Visible only on mobile in Paket Langganan mode) */}
+      {isSub && (
+        <div className="flex md:hidden items-center justify-center gap-2 mt-3 mb-2">
+          <button
+            type="button"
+            onClick={() => scrollToCard(0)}
+            aria-label="Pilih Paket Business"
+            className={cn(
+              "h-2 rounded-full transition-all duration-300 cursor-pointer",
+              activeCardIndex === 0 
+                ? "w-7 bg-obsidian dark:bg-white" 
+                : "w-2 bg-zinc-300 dark:bg-zinc-700 hover:bg-zinc-400"
+            )}
+          />
+          <button
+            type="button"
+            onClick={() => scrollToCard(1)}
+            aria-label="Pilih Paket Enterprise"
+            className={cn(
+              "h-2 rounded-full transition-all duration-300 cursor-pointer",
+              activeCardIndex === 1 
+                ? "w-7 bg-obsidian dark:bg-white" 
+                : "w-2 bg-zinc-300 dark:bg-zinc-700 hover:bg-zinc-400"
+            )}
+          />
+        </div>
+      )}
     </div>
   );
 }
