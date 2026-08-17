@@ -53,7 +53,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
 
   return (
     <div className="w-full">
-      {/* 2-Column Plan Grid with 100% Fixed & Consistent Card Sizes */}
+      {/* 2-Column Plan Grid with Clean Minimalist Sliders */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6 items-stretch">
         
         {/* CARD 1: BUSINESS / KREDIT REGULER (LIGHT CARD) */}
@@ -70,7 +70,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                 {isSub ? 'Rp 8.000' : `Rp ${basicPrice.toLocaleString('id-ID')}`}
               </span>
               <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-                {isSub ? ' /bulan' : ' /top-up instan'}
+                {isSub ? ' /bulan' : ' /top-up'}
               </span>
             </div>
 
@@ -83,16 +83,15 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                 : 'Atur jumlah kredit sesuai kebutuhan harian atau mencoba prompt.'}
             </p>
 
-            {/* If in Atur Kredit mode: Render interactive slider */}
+            {/* Clean Minimalist Slider (Directly embedded like reference) */}
             {!isSub && (
-              <div className="p-3.5 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 my-3">
-                <div className="flex justify-between items-center text-xs font-bold text-zinc-900 dark:text-zinc-100 mb-1.5">
-                  <span className="flex items-center gap-1.5 text-zinc-900 dark:text-white">
-                    <Coins size={13} className="text-amber-500" />
-                    {basicCredits.toLocaleString('id-ID')} Kredit
+              <div className="my-4">
+                <div className="flex justify-between items-center text-xs sm:text-sm mb-2">
+                  <span className="font-semibold text-zinc-900 dark:text-white">
+                    {basicCredits.toLocaleString('id-ID')} kredit
                   </span>
-                  <span className="text-zinc-500 dark:text-zinc-400 font-medium text-[11px]">
-                    Rp 2,5 /kredit
+                  <span className="font-medium text-zinc-600 dark:text-zinc-400">
+                    Rp 2,5/kredit
                   </span>
                 </div>
                 <input
@@ -107,10 +106,6 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                     background: `linear-gradient(to right, #18181b ${basicPct}%, #e4e4e7 ${basicPct}%)`
                   }}
                 />
-                <div className="flex justify-between items-center text-[10px] text-zinc-400 mt-1 font-medium">
-                  <span>500</span>
-                  <span>3.000</span>
-                </div>
               </div>
             )}
 
@@ -174,7 +169,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                 {isSub ? 'Rp 20.000' : `Rp ${proPrice.toLocaleString('id-ID')}`}
               </span>
               <span className="text-xs font-medium text-zinc-400">
-                {isSub ? ' /bulan' : ' /top-up instan'}
+                {isSub ? ' /bulan' : ' /top-up'}
               </span>
             </div>
 
@@ -187,16 +182,15 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                 : 'Pilihan volume besar dengan tarif per kredit termurah untuk power user.'}
             </p>
 
-            {/* If in Atur Kredit mode: Render interactive slider */}
+            {/* Clean Minimalist Slider (Directly embedded like reference) */}
             {!isSub && (
-              <div className="p-3.5 rounded-2xl bg-zinc-800/80 border border-zinc-700/80 my-3">
-                <div className="flex justify-between items-center text-xs font-bold text-white mb-1.5">
-                  <span className="flex items-center gap-1.5 text-white">
-                    <Coins size={13} className="text-amber-400" />
-                    {proCredits.toLocaleString('id-ID')} Kredit
+              <div className="my-4">
+                <div className="flex justify-between items-center text-xs sm:text-sm mb-2">
+                  <span className="font-semibold text-white">
+                    {proCredits.toLocaleString('id-ID')} kredit
                   </span>
-                  <span className="text-emerald-400 font-medium text-[11px]">
-                    Rp 2,0 /kredit (-20%)
+                  <span className="font-medium text-zinc-300">
+                    Rp 2,0/kredit
                   </span>
                 </div>
                 <input
@@ -211,10 +205,6 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                     background: `linear-gradient(to right, #ffffff ${proPct}%, #3f3f46 ${proPct}%)`
                   }}
                 />
-                <div className="flex justify-between items-center text-[10px] text-zinc-400 mt-1 font-medium">
-                  <span>4k</span>
-                  <span>20k</span>
-                </div>
               </div>
             )}
 
@@ -377,7 +367,7 @@ export default function SubscriptionView({
             </div>
           </header>
 
-          {/* Main Showcase Area - Centered in a refined max-w-3xl container to keep card sizes exact */}
+          {/* Main Showcase Area */}
           <main className="w-full max-w-3xl mx-auto px-4 sm:px-6 md:px-8 py-6 md:py-8 flex-1 flex flex-col justify-center">
             
             {/* Header with Title on Left and Segmented Toggle on Right */}
@@ -393,7 +383,7 @@ export default function SubscriptionView({
                 </p>
               </div>
 
-              {/* Segmented Switch Toggle - Paket Langganan vs Atur Kredit */}
+              {/* Segmented Switch Toggle */}
               <div className="inline-flex items-center p-1 rounded-full bg-zinc-200/70 dark:bg-zinc-800/80 border border-zinc-300/40 dark:border-zinc-700/50 shrink-0 self-start sm:self-auto shadow-2xs">
                 <button
                   type="button"
@@ -420,7 +410,7 @@ export default function SubscriptionView({
               </div>
             </div>
 
-            {/* Pricing Cards Grid (Exact Matching Dimensions) */}
+            {/* Pricing Cards Grid */}
             <SubscriptionCards 
               userCredits={userCredits} 
               onTopUp={onTopUp} 
