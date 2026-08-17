@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search01Icon, Cancel01Icon } from 'hugeicons-react';
 import { Loader2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 /**
@@ -149,13 +150,15 @@ export default function SpotlightSearchModal({
               <span className="hidden sm:inline-flex items-center gap-1 font-mono text-[11px] bg-white/80 text-zinc-700 px-2 py-0.5 rounded-md border border-black/10 shadow-2xs">
                 ESC untuk tutup
               </span>
-              <button
+              <Button
                 type="button"
                 onClick={handleSubmit}
-                className="px-3.5 py-1.5 rounded-full bg-obsidian text-white text-xs font-bold hover:bg-black active:scale-95 transition-all cursor-pointer shadow-md"
+                variant="secondary"
+                size="sm"
+                className="rounded-full px-3.5 h-7 text-xs font-semibold shadow-2xs"
               >
                 Lihat Hasil
-              </button>
+              </Button>
             </div>
           </div>
         </motion.div>
