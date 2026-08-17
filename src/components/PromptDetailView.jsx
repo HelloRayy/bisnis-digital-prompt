@@ -590,28 +590,25 @@ export default function PromptDetailView({
                   </button>
                 </div>
 
-                {/* Right: Primary Action Button (KUMO UI Obsidian Black with Specular Highlight) */}
-                <PrimaryButton
+                {/* Right: Primary Action Button (KUMO UI Primary CTA Buy / Open Prompt with Inverted Arrow Pill) */}
+                <PrimaryCTAButton
+                  label={
+                    copiedText
+                      ? "Disalin!"
+                      : (isUnlocked || !isPremium)
+                        ? "Salin Prompt"
+                        : `Buka Prompt (${promptCost} Kredit)`
+                  }
+                  hoverLabel={
+                    copiedText
+                      ? "Disalin!"
+                      : (isUnlocked || !isPremium)
+                        ? "Salin Sekarang"
+                        : `Buka (${promptCost} Kredit)`
+                  }
                   onClick={handleCopyText}
-                  className="h-9 px-4 sm:px-5 rounded-full text-xs font-bold shadow-xs active:scale-95"
-                >
-                  {copiedText ? (
-                    <span className="flex items-center gap-1.5 text-emerald-400">
-                      <Check size={14} className="stroke-[2.5]" />
-                      Disalin!
-                    </span>
-                  ) : (isUnlocked || !isPremium) ? (
-                    <span className="flex items-center gap-1.5">
-                      <Copy01Icon size={14} />
-                      Salin Prompt
-                    </span>
-                  ) : (
-                    <span className="flex items-center gap-1.5">
-                      <Coins size={14} className="text-amber-400" />
-                      Buka ({promptCost} Kredit)
-                    </span>
-                  )}
-                </PrimaryButton>
+                  className="h-9 sm:h-10 text-xs sm:text-sm pl-4 sm:pl-5 pr-1.5 shadow-xs"
+                />
               </div>
 
               {/* 3. Metadata Pills Row */}
@@ -780,16 +777,12 @@ export default function PromptDetailView({
 
                     {/* CTA Buy / Unlock Button & Actions */}
                     <div className="pt-4 flex flex-wrap items-center justify-between gap-3 border-t border-black/5 mt-2">
-                      <button 
+                      <PrimaryCTAButton 
+                        label={isPremium && !isUnlocked ? `Buka Prompt (${promptCost} Kredit)` : 'Lihat Prompt & Customize'}
+                        hoverLabel={isPremium && !isUnlocked ? 'Buka & Salin Sekarang' : 'Lihat Detail Prompt'}
                         onClick={() => setShowProjectInfo(true)}
-                        className="flex items-center gap-2.5 text-sm font-semibold text-obsidian hover:text-purple-600 transition-colors duration-200 group cursor-pointer"
-                      >
-                        <span>{isPremium && !isUnlocked ? `Buka Prompt & Customize (${promptCost} Kredit)` : 'Lihat Prompt & Customize'}</span>
-                        <span className="relative w-7 h-7 rounded-full bg-[#f2f2f2] group-hover:bg-purple-100 text-black group-hover:text-purple-600 flex items-center justify-center transition-colors duration-200 overflow-hidden shrink-0">
-                          <ArrowDown01Icon size={14} className="transition-transform duration-250 ease-out group-hover:translate-y-6" />
-                          <ArrowDown01Icon size={14} className="absolute transition-transform duration-250 ease-out -translate-y-6 group-hover:translate-y-0 text-purple-600" />
-                        </span>
-                      </button>
+                        className="h-11 pl-6 pr-2 text-xs sm:text-sm"
+                      />
 
                       <div className="flex items-center gap-2">
                         {/* Share Button */}
