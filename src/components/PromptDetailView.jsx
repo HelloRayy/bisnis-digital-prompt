@@ -579,15 +579,6 @@ export default function PromptDetailView({
                     {copiedLink ? <CheckmarkCircle02Icon size={16} className="text-emerald-600" /> : <Share01Icon size={16} />}
                   </button>
 
-                  {/* More Options / Lightbox */}
-                  <button
-                    type="button"
-                    onClick={() => setIsLightboxOpen(true)}
-                    className="h-9 w-9 rounded-full bg-white dark:bg-zinc-800 text-obsidian dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs hover:bg-zinc-100 active:scale-95 flex items-center justify-center cursor-pointer border-0"
-                    title="Perbesar Layar Penuh"
-                  >
-                    <MoreHorizontal size={16} />
-                  </button>
                 </div>
 
                 {/* Right: Primary Action Button (KUMO UI Primary CTA Buy / Open Prompt with Inverted Arrow Pill) */}
