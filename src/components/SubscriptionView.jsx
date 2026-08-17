@@ -408,30 +408,38 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
 
       </motion.div>
 
-      {/* Mobile Interactive Pagination Dots (Visible on mobile for both modes) */}
-      <div className="flex md:hidden items-center justify-center gap-2 mt-2 mb-2">
+      {/* Mobile Interactive Pagination Dots (HIG Compliant 44px Tap Zone) */}
+      <div className="flex md:hidden items-center justify-center gap-1 mt-1 mb-2">
         <button
           type="button"
           onClick={() => scrollToCard(0)}
           aria-label="Pilih Paket Pertama"
-          className={cn(
-            "h-2 rounded-full transition-all duration-300 cursor-pointer",
-            activeCardIndex === 0 
-              ? "w-7 bg-obsidian dark:bg-white" 
-              : "w-2 bg-zinc-300 dark:bg-zinc-700 hover:bg-zinc-400"
-          )}
-        />
+          className="p-2.5 flex items-center justify-center cursor-pointer select-none"
+        >
+          <span
+            className={cn(
+              "h-2 rounded-full transition-all duration-300 block",
+              activeCardIndex === 0 
+                ? "w-7 bg-obsidian dark:bg-white" 
+                : "w-2 bg-zinc-300 dark:bg-zinc-700 hover:bg-zinc-400"
+            )}
+          />
+        </button>
         <button
           type="button"
           onClick={() => scrollToCard(1)}
           aria-label="Pilih Paket Kedua"
-          className={cn(
-            "h-2 rounded-full transition-all duration-300 cursor-pointer",
-            activeCardIndex === 1 
-              ? "w-7 bg-obsidian dark:bg-white" 
-              : "w-2 bg-zinc-300 dark:bg-zinc-700 hover:bg-zinc-400"
-          )}
-        />
+          className="p-2.5 flex items-center justify-center cursor-pointer select-none"
+        >
+          <span
+            className={cn(
+              "h-2 rounded-full transition-all duration-300 block",
+              activeCardIndex === 1 
+                ? "w-7 bg-obsidian dark:bg-white" 
+                : "w-2 bg-zinc-300 dark:bg-zinc-700 hover:bg-zinc-400"
+            )}
+          />
+        </button>
       </div>
     </div>
   );
@@ -609,12 +617,12 @@ export default function SubscriptionView({
                 </p>
               </div>
 
-              {/* Segmented Switch Toggle with Sliding Motion Pill */}
+              {/* Segmented Switch Toggle with Sliding Motion Pill (HIG 40-44px touch compliance) */}
               <div className="relative inline-flex items-center p-1 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-black/10 dark:border-white/10 shrink-0 self-start sm:self-auto shadow-2xs">
                 <button
                   type="button"
                   onClick={() => setBillingMode('subscription')}
-                  className={`relative z-10 px-4 py-1.5 rounded-full text-xs transition-colors duration-200 cursor-pointer select-none ${
+                  className={`relative z-10 px-4.5 py-2 sm:py-1.5 rounded-full text-xs transition-colors duration-200 cursor-pointer select-none ${
                     billingMode === 'subscription'
                       ? 'text-obsidian dark:text-white font-bold'
                       : 'text-zinc-500 dark:text-zinc-400 hover:text-obsidian dark:hover:text-white font-medium'
@@ -632,7 +640,7 @@ export default function SubscriptionView({
                 <button
                   type="button"
                   onClick={() => setBillingMode('topup')}
-                  className={`relative z-10 px-4 py-1.5 rounded-full text-xs transition-colors duration-200 cursor-pointer select-none ${
+                  className={`relative z-10 px-4.5 py-2 sm:py-1.5 rounded-full text-xs transition-colors duration-200 cursor-pointer select-none ${
                     billingMode === 'topup'
                       ? 'text-obsidian dark:text-white font-bold'
                       : 'text-zinc-500 dark:text-zinc-400 hover:text-obsidian dark:hover:text-white font-medium'

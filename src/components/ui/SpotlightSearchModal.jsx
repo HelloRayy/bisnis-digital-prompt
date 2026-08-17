@@ -112,7 +112,7 @@ export default function SpotlightSearchModal({
               onChange={handleInputChange}
               placeholder="Ketik kata kunci pencarian prompt..."
               className={cn(
-                "w-full h-14 pl-12 pr-12 text-sm sm:text-base font-medium text-obsidian placeholder:text-zinc-400",
+                "w-full h-14 pl-12 pr-12 text-base font-medium text-obsidian placeholder:text-zinc-400",
                 "bg-white/95 backdrop-blur-2xl rounded-2xl border border-black/10 shadow-[0_16px_48px_rgba(0,0,0,0.18),0_2px_6px_rgba(0,0,0,0.06)]",
                 "focus:bg-white focus:border-purple-600/80 focus:ring-4 focus:ring-purple-600/15 focus:outline-none",
                 "transition-all duration-200"
@@ -121,11 +121,11 @@ export default function SpotlightSearchModal({
 
             {/* Clear Button */}
             {localValue && (
-              <div className="absolute right-3.5 flex items-center justify-center">
+              <div className="absolute right-3 flex items-center justify-center">
                 <button
                   type="button"
                   onClick={handleClear}
-                  className="p-1.5 rounded-full text-zinc-400 hover:text-obsidian hover:bg-black/5 transition-colors cursor-pointer"
+                  className="w-8 h-8 rounded-full text-zinc-400 hover:text-obsidian hover:bg-black/5 transition-colors cursor-pointer flex items-center justify-center"
                   title="Hapus teks"
                 >
                   <Cancel01Icon size={18} />

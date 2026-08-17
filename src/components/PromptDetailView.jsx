@@ -582,7 +582,7 @@ export default function PromptDetailView({
                   <button
                     type="button"
                     onClick={() => onToggleFavorite(prompt.id)}
-                    className={`inline-flex items-center gap-1.5 h-9 px-3 rounded-full text-xs font-bold transition-all active:scale-95 shadow-2xs border-0 cursor-pointer ${
+                    className={`inline-flex items-center gap-1.5 h-10 px-3.5 sm:h-9 sm:px-3 rounded-full text-xs font-bold transition-all active:scale-95 shadow-2xs border-0 cursor-pointer ${
                       isFavorite 
                         ? 'bg-rose-50 text-rose-600 ring-1 ring-rose-300 dark:bg-rose-950/50 dark:text-rose-400' 
                         : 'bg-white dark:bg-zinc-800 text-obsidian dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 hover:bg-zinc-100'
@@ -596,20 +596,20 @@ export default function PromptDetailView({
                   <button
                     type="button"
                     onClick={() => setShowProjectInfo(!showProjectInfo)}
-                    className="h-9 w-9 rounded-full bg-white dark:bg-zinc-800 text-obsidian dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs hover:bg-zinc-100 active:scale-95 flex items-center justify-center cursor-pointer border-0"
+                    className="h-10 w-10 sm:h-9 sm:w-9 rounded-full bg-white dark:bg-zinc-800 text-obsidian dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs hover:bg-zinc-100 active:scale-95 flex items-center justify-center cursor-pointer border-0"
                     title="Detail Prompt"
                   >
-                    <InformationCircleIcon size={16} />
+                    <InformationCircleIcon size={18} />
                   </button>
 
                   {/* Share Link */}
                   <button
                     type="button"
                     onClick={handleShareLink}
-                    className="h-9 w-9 rounded-full bg-white dark:bg-zinc-800 text-obsidian dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs hover:bg-zinc-100 active:scale-95 flex items-center justify-center cursor-pointer border-0"
+                    className="h-10 w-10 sm:h-9 sm:w-9 rounded-full bg-white dark:bg-zinc-800 text-obsidian dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs hover:bg-zinc-100 active:scale-95 flex items-center justify-center cursor-pointer border-0"
                     title="Bagikan Tautan"
                   >
-                    {copiedLink ? <CheckmarkCircle02Icon size={16} className="text-emerald-600" /> : <Share01Icon size={16} />}
+                    {copiedLink ? <CheckmarkCircle02Icon size={18} className="text-emerald-600" /> : <Share01Icon size={18} />}
                   </button>
 
                 </div>

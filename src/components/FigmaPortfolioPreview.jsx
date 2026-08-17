@@ -314,14 +314,14 @@ export default function FigmaPortfolioPreview({
 
           {/* Right: Credits Badge & User Auth Buttons */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0 ml-auto z-10">
-            {/* Mobile Search Trigger Icon Button */}
+            {/* Mobile Search Trigger Icon Button (HIG 40-44px touch target) */}
             <button
               type="button"
               onClick={onOpenSpotlight}
               aria-label="Buka Pencarian"
-              className="sm:hidden p-2 rounded-full bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 transition-colors cursor-pointer border border-black/5 dark:border-white/10 shadow-2xs"
+              className="sm:hidden w-10 h-10 rounded-full bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 transition-colors cursor-pointer border border-black/5 dark:border-white/10 shadow-2xs flex items-center justify-center"
             >
-              <Search01Icon size={16} />
+              <Search01Icon size={18} />
             </button>
 
             <SpecularElectricButton 
@@ -442,9 +442,9 @@ export default function FigmaPortfolioPreview({
                                   e.stopPropagation();
                                   onOpenDetail(item, customSlug);
                                 }}
-                                className="text-zinc-400 hover:text-zinc-900 dark:hover:text-white p-0.5 rounded-full transition-colors shrink-0 cursor-pointer"
+                                className="text-zinc-400 hover:text-zinc-900 dark:hover:text-white p-1.5 -m-1 rounded-full transition-colors shrink-0 cursor-pointer"
                               >
-                                <MoreHorizontal size={13} />
+                                <MoreHorizontal size={14} />
                               </button>
                             </div>
                             <div className="flex items-center justify-between gap-1 text-[10px] sm:text-[11px] text-zinc-500 dark:text-zinc-400 font-medium">
@@ -471,13 +471,13 @@ export default function FigmaPortfolioPreview({
                     Menampilkan <span className="font-bold text-obsidian dark:text-white">{(currentPage - 1) * ITEMS_PER_PAGE + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, filteredPrompts.length)}</span> dari <span className="font-bold text-obsidian dark:text-white">{filteredPrompts.length}</span> Prompt
                   </div>
 
-                  {/* Right Controls: Spaced Chevrons & Generous Page Pills */}
+                  {/* Right Controls: Spaced Chevrons & Generous Page Pills (HIG 40-44px touch targets) */}
                   <div className="flex items-center gap-2 sm:gap-3 flex-wrap justify-end">
-                    {/* Previous Page Chevron Button (Clean transparent without background) */}
+                    {/* Previous Page Chevron Button */}
                     <button
                       disabled={currentPage === 1}
                       onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                      className="w-9 h-9 sm:w-10 sm:h-10 text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800/60 rounded-xl disabled:opacity-20 disabled:pointer-events-none transition-all cursor-pointer flex items-center justify-center shrink-0"
+                      className="w-10 h-10 sm:w-10 sm:h-10 text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800/60 rounded-xl disabled:opacity-20 disabled:pointer-events-none transition-all cursor-pointer flex items-center justify-center shrink-0"
                       aria-label="Previous Page"
                     >
                       <ArrowLeft01Icon size={18} />
@@ -512,11 +512,11 @@ export default function FigmaPortfolioPreview({
                         })}
                     </div>
 
-                    {/* Next Page Chevron Button (Clean transparent without background) */}
+                    {/* Next Page Chevron Button */}
                     <button
                       disabled={currentPage === totalPages}
                       onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                      className="w-9 h-9 sm:w-10 sm:h-10 text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800/60 rounded-xl disabled:opacity-20 disabled:pointer-events-none transition-all cursor-pointer flex items-center justify-center shrink-0"
+                      className="w-10 h-10 sm:w-10 sm:h-10 text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800/60 rounded-xl disabled:opacity-20 disabled:pointer-events-none transition-all cursor-pointer flex items-center justify-center shrink-0"
                       aria-label="Next Page"
                     >
                       <ArrowRight01Icon size={18} />

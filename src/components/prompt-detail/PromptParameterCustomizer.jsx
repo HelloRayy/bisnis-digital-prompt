@@ -38,7 +38,7 @@ export default function PromptParameterCustomizer({
                 value={variables[key] ?? ''}
                 onChange={(e) => onChange(key, e.target.value)}
                 placeholder={`Ubah nilai ${formattedLabel.toLowerCase()}...`}
-                className="w-full h-10 px-3.5 rounded-xl text-xs sm:text-sm bg-white dark:bg-zinc-800 text-obsidian dark:text-white border border-black/10 dark:border-white/10 shadow-2xs focus:outline-none focus:ring-2 focus:ring-purple-500/30 focus:border-purple-500 transition-all font-medium"
+                className="w-full h-11 px-3.5 rounded-xl text-base sm:text-sm bg-white dark:bg-zinc-800 text-obsidian dark:text-white border border-black/10 dark:border-white/10 shadow-2xs focus:outline-none focus:ring-2 focus:ring-purple-500/30 focus:border-purple-500 transition-all font-medium"
               />
             </div>
           );
