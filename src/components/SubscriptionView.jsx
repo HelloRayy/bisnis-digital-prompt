@@ -584,6 +584,18 @@ export default function SubscriptionView({
               </button>
             </div>
             
+            {/* In-page Back Button above Title */}
+            <div className="mb-3.5">
+              <button
+                type="button"
+                onClick={onClose}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-black/5 dark:border-white/10 text-xs font-semibold shadow-2xs transition-all active:scale-95 cursor-pointer"
+              >
+                <ChevronLeft size={15} className="stroke-[2.5] -ml-0.5" />
+                <span>Kembali</span>
+              </button>
+            </div>
+
             {/* Header with Title on Left and Segmented Toggle on Right */}
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-7 sm:mb-8">
               <div>
