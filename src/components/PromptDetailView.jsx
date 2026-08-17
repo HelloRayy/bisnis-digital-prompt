@@ -692,14 +692,37 @@ export default function PromptDetailView({
                   </p>
                 </div>
 
-                {/* Copy Image Link Button with WhiteButton */}
-                <WhiteButton
-                  onClick={copyImageUrlToClipboard}
-                  className="w-full h-10 rounded-full text-xs font-bold shadow-2xs"
-                >
-                  <Image01Icon size={14} className="mr-1.5" />
-                  <span>{copiedImg ? 'Link Gambar Disalin!' : 'Salin Link Gambar Referensi'}</span>
-                </WhiteButton>
+                {/* Dual Action CTAs: Salin Prompt & Salin Gambar */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                  {/* 1. Salin / Buka Prompt (Primary CTA) */}
+                  <PrimaryCTAButton
+                    label={
+                      copiedText
+                        ? "Prompt Disalin!"
+                        : (isUnlocked || !isPremium)
+                          ? "Salin Teks Prompt"
+                          : `Buka Prompt (${promptCost} Kredit)`
+                    }
+                    hoverLabel={
+                      copiedText
+                        ? "Prompt Disalin!"
+                        : (isUnlocked || !isPremium)
+                          ? "Salin Sekarang"
+                          : `Buka (${promptCost} Kredit)`
+                    }
+                    onClick={handleCopyText}
+                    className="w-full h-11 text-xs sm:text-sm pl-4 sm:pl-5 pr-1.5 shadow-xs"
+                  />
+
+                  {/* 2. Salin Link Gambar Referensi (Secondary White Button) */}
+                  <WhiteButton
+                    onClick={copyImageUrlToClipboard}
+                    className="w-full h-11 rounded-full text-xs sm:text-sm font-bold shadow-2xs justify-center"
+                  >
+                    <Image01Icon size={15} className="mr-1.5 shrink-0" />
+                    <span className="truncate">{copiedImg ? 'Link Gambar Disalin!' : 'Salin Link Gambar'}</span>
+                  </WhiteButton>
+                </div>
               </div>
 
             </div>
@@ -1162,6 +1185,15 @@ export default function PromptDetailView({
                         {copiedText ? <AnimatedCheckmarkSVG size={18} strokeWidth={2.5} className="text-white" /> : <Copy01Icon size={18} />}
                         <span>{copiedText ? 'Teks Prompt Berhasil Disalin!' : 'Salin Teks Prompt'}</span>
                       </button>
+
+                      <WhiteButton
+                        onClick={copyImageUrlToClipboard}
+                        className="h-12 px-6 rounded-full text-sm font-bold shadow-2xs flex items-center justify-center gap-2"
+                        title="Salin Link Gambar Referensi"
+                      >
+                        <Image01Icon size={16} className="shrink-0" />
+                        <span>{copiedImg ? 'Link Gambar Disalin!' : 'Salin Gambar'}</span>
+                      </WhiteButton>
 
                       <button
                         type="button"
