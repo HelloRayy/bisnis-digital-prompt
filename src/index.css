@@ -318,3 +318,38 @@ body {
 .btn-kumo-secondary:disabled {
   @apply opacity-50 cursor-not-allowed;
 }
+
+/* ============================================================
+   KUMO UI ALERT NOTIFICATION TOAST (SLIDE IN FROM RIGHT TO LEFT)
+   ============================================================ */
+@keyframes sonnerSlideInRight {
+  0% {
+    transform: translate3d(120%, 0, 0);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes sonnerSlideOutRight {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(120%, 0, 0);
+    opacity: 0;
+  }
+}
+
+[data-sonner-toaster] [data-sonner-toast] {
+  animation: sonnerSlideInRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  will-change: transform, opacity;
+}
+
+[data-sonner-toaster] [data-sonner-toast][data-removed="true"],
+[data-sonner-toaster] [data-sonner-toast][data-dismissed="true"] {
+  animation: sonnerSlideOutRight 0.25s cubic-bezier(0.4, 0, 1, 1) forwards !important;
+}
