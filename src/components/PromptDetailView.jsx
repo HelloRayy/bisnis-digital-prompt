@@ -516,13 +516,13 @@ export default function PromptDetailView({
                 ============================================================ */}
             <div className="lg:hidden flex flex-col gap-3.5 pb-20 relative">
               
-              {/* Sticky Top-Left Floating Back Button (Protrudes slightly, stays pinned on scroll) */}
-              <div className="sticky top-[72px] z-30 self-start -ml-1 sm:-ml-2 -mb-12 pointer-events-none">
+              {/* Fixed Top-Left Floating Back Button (24px gap under 64px header = 88px, stays pinned on scroll) */}
+              <div className="fixed top-[88px] left-2.5 sm:left-4 z-40 pointer-events-auto">
                 <button
                   type="button"
                   onClick={onClose}
                   aria-label="Kembali"
-                  className="pointer-events-auto w-11 h-11 rounded-2xl bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md border border-black/10 dark:border-white/10 shadow-md flex items-center justify-center text-obsidian dark:text-white active:scale-90 transition-transform cursor-pointer"
+                  className="w-11 h-11 rounded-2xl bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md border border-black/10 dark:border-white/10 shadow-md flex items-center justify-center text-obsidian dark:text-white active:scale-90 transition-transform cursor-pointer"
                 >
                   <ChevronLeft size={22} className="stroke-[2.5] -ml-0.5" />
                 </button>
