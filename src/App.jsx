@@ -433,45 +433,39 @@ function App() {
           onOpenAuth={() => setShowAuthModal(true)}
           onSignOut={handleSignOut}
         />
+      ) : currentPath.startsWith('/view/') ? (
+        <PromptDetailView 
+          prompt={activePrompt || promptsData[0]} 
+          onClose={handleClosePrompt} 
+          userCredits={userCredits}
+          userRole={userRole}
+          currentUser={currentUser}
+          favoritePromptIds={favoritePromptIds}
+          purchasedPromptIds={purchasedPromptIds}
+          onOpenAuth={() => setShowAuthModal(true)}
+          onSignOut={handleSignOut}
+          isUnlocked={purchasedPromptIds.includes(String((activePrompt || promptsData[0]).id))}
+          isFavorite={favoritePromptIds.includes(String((activePrompt || promptsData[0]).id))}
+          onToggleFavorite={handleToggleFavorite}
+          onDeductCredits={handleDeductCredits}
+          onOpenUpgrade={() => navigateTo('/subscription')}
+          onSelectCategory={(cat) => {
+            handleClosePrompt();
+          }}
+        />
       ) : (
-        /* BASE & DETAIL ROUTE (Preserves Gallery Grid DOM Tree & Image Cache in Memory) */
-        <>
-          <FigmaPortfolioPreview 
-            onOpenDetail={handleOpenPrompt}
-            onNavigateHome={() => navigateTo('/')}
-            favoritePromptIds={favoritePromptIds}
-            purchasedPromptIds={purchasedPromptIds}
-            userCredits={userCredits}
-            userRole={userRole}
-            currentUser={currentUser}
-            onOpenAuth={() => setShowAuthModal(true)}
-            onOpenUpgrade={() => navigateTo('/subscription')}
-            onSignOut={handleSignOut}
-          />
-
-          {/* Dedicated Editorial View (/view/:slug) as an Instant Layer */}
-          {currentPath.startsWith('/view/') && (
-            <PromptDetailView 
-              prompt={activePrompt || promptsData[0]} 
-              onClose={handleClosePrompt} 
-              userCredits={userCredits}
-              userRole={userRole}
-              currentUser={currentUser}
-              favoritePromptIds={favoritePromptIds}
-              purchasedPromptIds={purchasedPromptIds}
-              onOpenAuth={() => setShowAuthModal(true)}
-              onSignOut={handleSignOut}
-              isUnlocked={purchasedPromptIds.includes(String((activePrompt || promptsData[0]).id))}
-              isFavorite={favoritePromptIds.includes(String((activePrompt || promptsData[0]).id))}
-              onToggleFavorite={handleToggleFavorite}
-              onDeductCredits={handleDeductCredits}
-              onOpenUpgrade={() => navigateTo('/subscription')}
-              onSelectCategory={(cat) => {
-                handleClosePrompt();
-              }}
-            />
-          )}
-        </>
+        <FigmaPortfolioPreview 
+          onOpenDetail={handleOpenPrompt}
+          onNavigateHome={() => navigateTo('/')}
+          favoritePromptIds={favoritePromptIds}
+          purchasedPromptIds={purchasedPromptIds}
+          userCredits={userCredits}
+          userRole={userRole}
+          currentUser={currentUser}
+          onOpenAuth={() => setShowAuthModal(true)}
+          onOpenUpgrade={() => navigateTo('/subscription')}
+          onSignOut={handleSignOut}
+        />
       )}
 
       {showAuthModal && (

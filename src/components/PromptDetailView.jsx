@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, Coins, Sparkle, Share2, Unlock, Lock } from 'lucide-react';
+import { Check, Coins, Sparkle, Share2, Unlock, Lock, Bookmark } from 'lucide-react';
 import { toast } from 'sonner';
 import { Dock } from '@/components/ui/dock-two';
 import { AnimatedNumber } from '@/components/ui/animated-counter';
@@ -940,7 +940,7 @@ export default function PromptDetailView({
               className: isFavorite ? 'text-red-500 fill-red-500' : ''
             },
             {
-              icon: FavouriteIcon,
+              icon: Bookmark,
               label: isBookmarked ? 'Tersimpan' : 'Bookmark',
               isActive: isBookmarked,
               onClick: () => setIsBookmarked(!isBookmarked),
