@@ -643,6 +643,9 @@ export default function PromptDetailView({
                 <span className="bg-[#f2f2f2] dark:bg-zinc-800 text-obsidian dark:text-zinc-200 px-3 py-1 rounded-full font-semibold">
                   {model}
                 </span>
+                <span className="bg-[#f2f2f2] dark:bg-zinc-800 text-obsidian dark:text-zinc-200 px-3 py-1 rounded-full font-semibold">
+                  {rawPrompt.length.toLocaleString('id-ID')} Karakter
+                </span>
                 {isPremium && (
                   <SpecularButton isUnlocked={isUnlocked}>
                     {isUnlocked ? 'Unlocked' : `Premium (${promptCost} Kredit)`}
@@ -715,6 +718,136 @@ export default function PromptDetailView({
                     <span>{copiedImg ? 'Link Gambar Disalin!' : 'Salin Link Gambar Referensi'}</span>
                   </WhiteButton>
                 </div>
+
+                {/* 6. Tutorial Cara Menggunakan Prompt & Direct Link ke Gemini (Mobile Interactive Accordion) */}
+                {(isUnlocked || !isPremium) && (
+                  <div className="rounded-2xl border border-purple-200/80 dark:border-purple-800/60 bg-purple-50/30 dark:bg-purple-950/20 text-obsidian dark:text-zinc-100 overflow-hidden transition-all shadow-2xs mt-1">
+                    <button
+                      type="button"
+                      onClick={() => setIsTutorialOpen(!isTutorialOpen)}
+                      className="w-full px-4 py-3 flex items-center justify-between font-semibold text-obsidian dark:text-white text-xs sm:text-sm hover:bg-purple-100/50 dark:hover:bg-purple-900/30 cursor-pointer transition-colors"
+                    >
+                      <div className="flex items-center gap-2">
+                        <InformationCircleIcon size={16} className="text-purple-600 dark:text-purple-400 shrink-0" />
+                        <span>Cara Menggunakan Prompt Ini</span>
+                      </div>
+                      <motion.span 
+                        animate={{ rotate: isTutorialOpen ? 180 : 0 }} 
+                        transition={{ duration: 0.2 }}
+                        className="text-purple-600 dark:text-purple-400 shrink-0"
+                      >
+                        <ArrowDown01Icon size={16} />
+                      </motion.span>
+                    </button>
+
+                    <AnimatePresence initial={false}>
+                      {isTutorialOpen && (
+                        <motion.div
+                          key="mobile-tutorial-content"
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.25, ease: 'easeInOut' }}
+                          className="overflow-hidden"
+                        >
+                          <div className="flex flex-col gap-2.5 px-3.5 pb-3.5 pt-2 border-t border-purple-200/60 dark:border-purple-800/40 text-xs">
+                            
+                            {/* Step 1: Copy Prompt */}
+                            <div className="flex items-center justify-between gap-2.5 p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-purple-100/90 dark:border-purple-900/50 shadow-2xs">
+                              <div className="flex items-start gap-2 min-w-0">
+                                <span className="w-5 h-5 rounded-full bg-purple-600 text-white font-bold text-[11px] flex items-center justify-center shrink-0 mt-0.5">
+                                  1
+                                </span>
+                                <div className="min-w-0">
+                                  <h4 className="font-bold text-obsidian dark:text-white leading-tight">Salin Teks Prompt</h4>
+                                  <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5 leading-normal">
+                                    Teks prompt siap pakai teroptimasi.
+                                  </p>
+                                </div>
+                              </div>
+
+                              <button
+                                type="button"
+                                onClick={copyPromptToClipboard}
+                                className="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-obsidian dark:text-white text-[11px] font-bold shrink-0 cursor-pointer active:scale-95 transition-all shadow-2xs border border-black/5 dark:border-white/10"
+                              >
+                                {copiedText ? (
+                                  <span className="text-emerald-600 font-bold">Disalin!</span>
+                                ) : (
+                                  <span>Salin</span>
+                                )}
+                              </button>
+                            </div>
+
+                            {/* Step 2: Open Google Gemini */}
+                            <div className="flex items-center justify-between gap-2.5 p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-purple-100/90 dark:border-purple-900/50 shadow-2xs">
+                              <div className="flex items-start gap-2 min-w-0">
+                                <span className="w-5 h-5 rounded-full bg-purple-600 text-white font-bold text-[11px] flex items-center justify-center shrink-0 mt-0.5">
+                                  2
+                                </span>
+                                <div className="min-w-0">
+                                  <h4 className="font-bold text-obsidian dark:text-white leading-tight">Buka Google Gemini</h4>
+                                  <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5 leading-normal">
+                                    Buka generator AI Google Gemini.
+                                  </p>
+                                </div>
+                              </div>
+
+                              <a
+                                href="https://gemini.google.com/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-lg bg-purple-600 text-white text-[11px] font-bold shrink-0 cursor-pointer active:scale-95 transition-all shadow-2xs"
+                              >
+                                <Sparkle className="size-3 text-amber-300 fill-amber-300 shrink-0" />
+                                <span>Buka Gemini</span>
+                                <ArrowUpRight01Icon size={12} className="shrink-0" />
+                              </a>
+                            </div>
+
+                            {/* Step 3: Paste & Generate */}
+                            <div className="flex items-start gap-2 p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-purple-100/90 dark:border-purple-900/50 shadow-2xs">
+                              <span className="w-5 h-5 rounded-full bg-purple-600 text-white font-bold text-[11px] flex items-center justify-center shrink-0 mt-0.5">
+                                3
+                              </span>
+                              <div>
+                                <h4 className="font-bold text-obsidian dark:text-white leading-tight">Tempel & Generate</h4>
+                                <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5 leading-normal">
+                                  Tempel teks prompt pada kolom chat Gemini lalu tekan Kirim.
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* PRO TIP: Gambar Referensi */}
+                            <div className="p-3 rounded-xl bg-amber-50/90 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-800/60 flex flex-col gap-2 shadow-2xs">
+                              <div className="flex items-start gap-2">
+                                <span className="text-sm leading-none shrink-0 mt-0.5">💡</span>
+                                <div>
+                                  <h4 className="text-[11px] font-bold text-amber-950 dark:text-amber-200">
+                                    Tips Hasil Maksimal:
+                                  </h4>
+                                  <p className="text-[11px] text-amber-800/90 dark:text-amber-400/90 mt-0.5 leading-normal">
+                                    Gunakan <strong>link gambar referensi</strong> di bawah bersama teks prompt di Gemini agar gaya visual lebih presisi.
+                                  </p>
+                                </div>
+                              </div>
+
+                              <button
+                                type="button"
+                                onClick={copyImageUrlToClipboard}
+                                className="inline-flex items-center justify-center gap-1.5 h-8 px-3 rounded-lg bg-amber-200/80 dark:bg-amber-900/70 hover:bg-amber-300 text-amber-950 dark:text-amber-100 text-xs font-bold transition-all cursor-pointer active:scale-95 shadow-2xs self-start"
+                              >
+                                <Image01Icon size={14} className="shrink-0" />
+                                <span>{copiedImg ? 'Link Gambar Disalin!' : 'Salin Link Gambar Referensi'}</span>
+                              </button>
+                            </div>
+
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                )}
               </div>
 
             </div>
