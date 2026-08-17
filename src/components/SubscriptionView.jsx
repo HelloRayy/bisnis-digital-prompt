@@ -143,7 +143,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
   };
 
   return (
-    <div className="w-full -mx-4 sm:-mx-6 md:mx-0 overflow-hidden md:overflow-visible" style={{ perspective: 1200 }}>
+    <div className="w-[calc(100%+2rem)] sm:w-[calc(100%+3rem)] md:w-full -mx-4 sm:-mx-6 md:mx-0 overflow-visible" style={{ perspective: 1200 }}>
       {/* 2-Column Plan Grid on Desktop / Full-Bleed Overlapping Snap Carousel on Mobile */}
       <motion.div 
         ref={carouselRef}
