@@ -521,15 +521,18 @@ export default function PromptDetailView({
 
                     {/* Metadata Pills */}
                     <div className="flex flex-wrap items-center gap-2 text-xs text-ash-gray font-sans">
-                      <span className="bg-[#f2f2f2] text-obsidian px-3 py-1 rounded-full font-semibold">
+                      <span className="bg-[#f2f2f2] dark:bg-zinc-800 text-obsidian dark:text-zinc-200 px-3 py-1 rounded-full font-semibold">
                         Model: {model}
                       </span>
-                      <span className="bg-[#f2f2f2] text-obsidian px-3 py-1 rounded-full font-semibold">
+                      <span className="bg-[#f2f2f2] dark:bg-zinc-800 text-obsidian dark:text-zinc-200 px-3 py-1 rounded-full font-semibold">
                         Author: @{author || 'Daniel Triendl'}
+                      </span>
+                      <span className="bg-[#f2f2f2] dark:bg-zinc-800 text-obsidian dark:text-zinc-200 px-3 py-1 rounded-full font-semibold">
+                        {rawPrompt.length.toLocaleString('id-ID')} Karakter Prompt
                       </span>
                       {isPremium && (
                         <span className={`px-3 py-1 rounded-full font-bold ${
-                          isUnlocked ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-700'
+                          isUnlocked ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400' : 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300'
                         }`}>
                           {isUnlocked ? 'Unlocked' : `Premium (${promptCost} Kredit)`}
                         </span>
@@ -628,15 +631,18 @@ export default function PromptDetailView({
 
                   {/* Tag Pills */}
                   <div className="flex flex-wrap items-center gap-2 pt-2 text-xs text-ash-gray font-sans">
-                    <span className="bg-[#f2f2f2] text-obsidian px-3 py-1 rounded-full font-semibold">
+                    <span className="bg-[#f2f2f2] dark:bg-zinc-800 text-obsidian dark:text-zinc-200 px-3 py-1 rounded-full font-semibold">
                       Client: {author || 'Monocle Magazine'}
                     </span>
-                    <span className="bg-[#f2f2f2] text-obsidian px-3 py-1 rounded-full font-semibold">
+                    <span className="bg-[#f2f2f2] dark:bg-zinc-800 text-obsidian dark:text-zinc-200 px-3 py-1 rounded-full font-semibold">
                       Model: {model}
+                    </span>
+                    <span className="bg-[#f2f2f2] dark:bg-zinc-800 text-obsidian dark:text-zinc-200 px-3 py-1 rounded-full font-semibold">
+                      {rawPrompt.length.toLocaleString('id-ID')} Karakter Prompt
                     </span>
                     {isPremium && (
                       <span className={`px-3 py-1 rounded-full font-bold ${
-                        isUnlocked ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-700'
+                        isUnlocked ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400' : 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300'
                       }`}>
                         {isUnlocked ? 'Unlocked' : `Premium (${promptCost} Kredit)`}
                       </span>
