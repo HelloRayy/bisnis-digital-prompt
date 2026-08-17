@@ -34,7 +34,7 @@ import {
 } from '@/components/ui/alert-dialog';
 
 export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel = false, billingMode = 'subscription' }) {
-  // Slider states for "Atur Kredit Sendiri" mode
+  // Slider states for "Atur Kredit" mode
   const [basicCredits, setBasicCredits] = useState(1500); // 500 - 3000
   const [proCredits, setProCredits] = useState(6000); // 4000 - 20000
 
@@ -51,224 +51,12 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
   const basicPct = ((basicCredits - 500) / (3000 - 500)) * 100;
   const proPct = ((proCredits - 4000) / (20000 - 4000)) * 100;
 
-  if (!isSub) {
-    /* ATUR KREDIT SENDIRI (CUSTOM SLIDER MODE - 100% UNIFORM CARD SIZES) */
-    return (
-      <div className="w-full max-w-4xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6 items-stretch">
-          
-          {/* SLIDER CARD 1: KREDIT REGULER */}
-          <div className="rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 h-full">
-            <div>
-              <div className="flex items-center justify-between mb-2 min-h-[24px]">
-                <span className="inline-block px-3 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-[11px] font-semibold border border-zinc-200 dark:border-zinc-700">
-                  Fleksibel
-                </span>
-              </div>
-
-              <div className="mb-2">
-                <span className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight">
-                  Rp {basicPrice.toLocaleString('id-ID')}
-                </span>
-                <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-                  {' '}/top-up instan
-                </span>
-              </div>
-
-              <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
-                Kredit Reguler
-              </h3>
-              <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 min-h-[34px] font-normal leading-relaxed">
-                Atur jumlah kredit sesuai kebutuhan harian atau mencoba prompt favorit.
-              </p>
-
-              {/* Interactive Range Slider */}
-              <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 my-3.5">
-                <div className="flex justify-between items-center text-xs font-bold text-zinc-900 dark:text-zinc-100 mb-2">
-                  <span className="flex items-center gap-1.5 text-zinc-900 dark:text-white">
-                    <Coins size={14} className="text-amber-500" />
-                    {basicCredits.toLocaleString('id-ID')} Kredit
-                  </span>
-                  <span className="text-zinc-500 dark:text-zinc-400 font-medium">
-                    Rp 2,5 /kredit
-                  </span>
-                </div>
-
-                <input
-                  type="range"
-                  min="500"
-                  max="3000"
-                  step="250"
-                  value={basicCredits}
-                  onChange={(e) => setBasicCredits(Number(e.target.value))}
-                  className="w-full h-2 rounded-full appearance-none cursor-pointer accent-zinc-900 dark:accent-white"
-                  style={{
-                    background: `linear-gradient(to right, #18181b ${basicPct}%, #e4e4e7 ${basicPct}%)`
-                  }}
-                />
-
-                <div className="flex justify-between items-center text-[10px] text-zinc-400 mt-1.5 font-medium">
-                  <span>500 Kredit</span>
-                  <span>3.000 Kredit</span>
-                </div>
-              </div>
-
-              <div className="border-t border-zinc-100 dark:border-zinc-800 my-4" />
-
-              <p className="text-xs font-semibold text-zinc-800 dark:text-zinc-200 mb-3.5">
-                Fitur paket:
-              </p>
-
-              <ul className="space-y-3 text-xs text-zinc-600 dark:text-zinc-300 mb-6 font-medium">
-                <li className="flex items-center gap-2.5">
-                  <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
-                    <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
-                  </div>
-                  <span className="font-semibold text-zinc-900 dark:text-zinc-100">{basicCredits.toLocaleString('id-ID')} Kredit saldo permanen</span>
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
-                    <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
-                  </div>
-                  <span>Buka hingga ~{Math.round(basicCredits / 50)} prompt gambar resolusi tinggi</span>
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
-                    <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
-                  </div>
-                  <span>Kredit berlaku selamanya tanpa kedaluwarsa</span>
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
-                    <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
-                  </div>
-                  <span>Aktivasi instan via QRIS semua bank & e-wallet</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="pt-2">
-              <PrimaryButton
-                onClick={() => navigateToCheckout('5k')}
-                className="w-full"
-              >
-                Beli {basicCredits.toLocaleString('id-ID')} Kredit
-              </PrimaryButton>
-            </div>
-          </div>
-
-          {/* SLIDER CARD 2: PRO CREATOR PACK */}
-          <div className="rounded-3xl bg-zinc-900 dark:bg-zinc-900 text-zinc-100 p-6 sm:p-7 flex flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.12)] border border-zinc-800 dark:border-zinc-700/80 transition-all duration-200 ring-1 ring-black/5 dark:ring-white/10 h-full">
-            <div>
-              <div className="flex items-center justify-between mb-2 min-h-[24px]">
-                <span className="inline-block px-3 py-0.5 rounded-full bg-zinc-800 text-zinc-300 text-[11px] font-semibold border border-zinc-700">
-                  Paling Hemat • Diskon 20%
-                </span>
-              </div>
-
-              <div className="mb-2">
-                <span className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-                  Rp {proPrice.toLocaleString('id-ID')}
-                </span>
-                <span className="text-xs font-medium text-zinc-400">
-                  {' '}/top-up instan
-                </span>
-              </div>
-
-              <h3 className="text-xl font-bold text-white tracking-tight">
-                Pro Creator Pack
-              </h3>
-              <p className="text-xs text-zinc-400 mt-1 min-h-[34px] font-normal leading-relaxed">
-                Pilihan volume besar dengan tarif per kredit termurah untuk power user.
-              </p>
-
-              {/* Interactive Range Slider */}
-              <div className="p-4 rounded-2xl bg-zinc-800/80 border border-zinc-700/80 my-3.5">
-                <div className="flex justify-between items-center text-xs font-bold text-white mb-2">
-                  <span className="flex items-center gap-1.5 text-white">
-                    <Coins size={14} className="text-amber-400" />
-                    {proCredits.toLocaleString('id-ID')} Kredit
-                  </span>
-                  <span className="text-emerald-400 font-medium">
-                    Rp 2,0 /kredit (Hemat 20%)
-                  </span>
-                </div>
-
-                <input
-                  type="range"
-                  min="4000"
-                  max="20000"
-                  step="1000"
-                  value={proCredits}
-                  onChange={(e) => setProCredits(Number(e.target.value))}
-                  className="w-full h-2 rounded-full appearance-none cursor-pointer accent-white"
-                  style={{
-                    background: `linear-gradient(to right, #ffffff ${proPct}%, #3f3f46 ${proPct}%)`
-                  }}
-                />
-
-                <div className="flex justify-between items-center text-[10px] text-zinc-400 mt-1.5 font-medium">
-                  <span>4.000 Kredit</span>
-                  <span>20.000 Kredit</span>
-                </div>
-              </div>
-
-              <div className="border-t border-zinc-800 my-4" />
-
-              <p className="text-xs font-semibold text-zinc-300 mb-3.5">
-                Semua fitur Reguler, plus:
-              </p>
-
-              <ul className="space-y-3 text-xs text-zinc-300 mb-6 font-medium">
-                <li className="flex items-center gap-2.5">
-                  <div className="w-5 h-5 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center shrink-0">
-                    <Check size={11} className="text-zinc-200 stroke-[2.5]" />
-                  </div>
-                  <span className="font-semibold text-white">{proCredits.toLocaleString('id-ID')} Kredit saldo permanen</span>
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <div className="w-5 h-5 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center shrink-0">
-                    <Check size={11} className="text-zinc-200 stroke-[2.5]" />
-                  </div>
-                  <span>Akses seluruh prompt 3D & video motion AI</span>
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <div className="w-5 h-5 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center shrink-0">
-                    <Check size={11} className="text-zinc-200 stroke-[2.5]" />
-                  </div>
-                  <span>Lisensi penggunaan komersial lengkap</span>
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <div className="w-5 h-5 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center shrink-0">
-                    <Check size={11} className="text-zinc-200 stroke-[2.5]" />
-                  </div>
-                  <span>Prioritas update koleksi prompt & support 24/7</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="pt-2">
-              <PrimaryButton
-                onClick={() => navigateToCheckout('10k')}
-                className="w-full"
-              >
-                Beli {proCredits.toLocaleString('id-ID')} Kredit
-              </PrimaryButton>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    );
-  }
-
-  /* PAKET LANGGANAN (3-TIER GRID MODE - 100% UNIFORM CARD SIZES) */
   return (
     <div className="w-full">
-      {/* 3-Column Plan Grid with 100% Uniform Card Heights & Balanced Layout */}
+      {/* 3-Column Plan Grid with 100% Identical Card Width & Dimensions in BOTH Modes */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 items-stretch">
         
-        {/* CARD 1: STARTER FREE (CURRENT ACTIVE PLAN) */}
+        {/* CARD 1: STARTER FREE (CURRENT ACTIVE PLAN - UNIFORM 1/3 COLUMN) */}
         <div className="rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 h-full">
           <div>
             <div className="flex items-center justify-between mb-2 min-h-[24px]">
@@ -282,7 +70,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                 Rp 0
               </span>
               <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-                {' '}/bulan
+                {isSub ? ' /bulan' : ' /selamanya'}
               </span>
             </div>
 
@@ -327,7 +115,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
             </ul>
           </div>
 
-          <div className="pt-2">
+          <div className="pt-2 mt-auto">
             <button
               type="button"
               disabled
@@ -338,30 +126,63 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
           </div>
         </div>
 
-        {/* CARD 2: ENTERPRISE (Rp 20.000) - CENTER FEATURED DARK CARD */}
+        {/* CARD 2: ENTERPRISE / PRO CREATOR (CENTER DARK CARD - UNIFORM 1/3 COLUMN) */}
         <div className="rounded-3xl bg-zinc-900 dark:bg-zinc-900 text-zinc-100 p-6 sm:p-7 flex flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.12)] border border-zinc-800 dark:border-zinc-700/80 transition-all duration-200 ring-1 ring-black/5 dark:ring-white/10 h-full">
           <div>
             <div className="flex items-center justify-between mb-2 min-h-[24px]">
               <span className="inline-block px-3 py-0.5 rounded-full bg-zinc-800 text-zinc-300 text-[11px] font-semibold border border-zinc-700">
-                Paling Populer
+                {isSub ? 'Paling Populer' : 'Paling Hemat • Diskon 20%'}
               </span>
             </div>
 
             <div className="mb-2">
               <span className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-                Rp 20.000
+                {isSub ? 'Rp 20.000' : `Rp ${proPrice.toLocaleString('id-ID')}`}
               </span>
               <span className="text-xs font-medium text-zinc-400">
-                {' '}/bulan
+                {isSub ? ' /bulan' : ' /top-up instan'}
               </span>
             </div>
 
             <h3 className="text-xl font-bold text-white tracking-tight">
-              Enterprise
+              {isSub ? 'Enterprise' : 'Pro Creator'}
             </h3>
             <p className="text-xs text-zinc-400 mt-1 min-h-[34px] font-normal leading-relaxed">
-              Solusi terlengkap dengan kuota maksimal untuk studio kreatif & agensi.
+              {isSub 
+                ? 'Solusi terlengkap dengan kuota maksimal untuk studio kreatif & agensi.'
+                : 'Pilihan volume besar dengan tarif per kredit termurah untuk power user.'}
             </p>
+
+            {/* If in Atur Kredit mode: Render interactive slider */}
+            {!isSub && (
+              <div className="p-3.5 rounded-2xl bg-zinc-800/80 border border-zinc-700/80 my-3">
+                <div className="flex justify-between items-center text-xs font-bold text-white mb-1.5">
+                  <span className="flex items-center gap-1.5 text-white">
+                    <Coins size={13} className="text-amber-400" />
+                    {proCredits.toLocaleString('id-ID')} Kredit
+                  </span>
+                  <span className="text-emerald-400 font-medium text-[11px]">
+                    Rp 2,0 /kredit (-20%)
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="4000"
+                  max="20000"
+                  step="1000"
+                  value={proCredits}
+                  onChange={(e) => setProCredits(Number(e.target.value))}
+                  className="w-full h-1.5 rounded-full appearance-none cursor-pointer accent-white"
+                  style={{
+                    background: `linear-gradient(to right, #ffffff ${proPct}%, #3f3f46 ${proPct}%)`
+                  }}
+                />
+                <div className="flex justify-between items-center text-[10px] text-zinc-400 mt-1 font-medium">
+                  <span>4k</span>
+                  <span>20k</span>
+                </div>
+              </div>
+            )}
 
             <div className="border-t border-zinc-800 my-4" />
 
@@ -374,63 +195,98 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                 <div className="w-5 h-5 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center shrink-0">
                   <Check size={11} className="text-zinc-200 stroke-[2.5]" />
                 </div>
-                <span className="font-semibold text-white">12.000 Kredit (+60% bonus)</span>
+                <span className="font-semibold text-white">
+                  {isSub ? '12.000 Kredit (+60% bonus)' : `${proCredits.toLocaleString('id-ID')} Kredit saldo permanen`}
+                </span>
               </li>
               <li className="flex items-center gap-2.5">
                 <div className="w-5 h-5 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center shrink-0">
                   <Check size={11} className="text-zinc-200 stroke-[2.5]" />
                 </div>
-                <span>Akses VIP seluruh prompt eksklusif</span>
+                <span>Akses VIP seluruh prompt eksklusif & 3D</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <div className="w-5 h-5 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center shrink-0">
                   <Check size={11} className="text-zinc-200 stroke-[2.5]" />
                 </div>
-                <span>Lisensi komersial lengkap</span>
+                <span>Lisensi penggunaan komersial lengkap</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <div className="w-5 h-5 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center shrink-0">
                   <Check size={11} className="text-zinc-200 stroke-[2.5]" />
                 </div>
-                <span>Dukungan prioritas 24/7</span>
+                <span>Dukungan prioritas & update 24/7</span>
               </li>
             </ul>
           </div>
 
-          <div className="pt-2">
+          <div className="pt-2 mt-auto">
             <PrimaryButton
               onClick={() => navigateToCheckout('10k')}
               className="w-full"
             >
-              Langganan Enterprise
+              {isSub ? 'Langganan Enterprise' : `Beli ${proCredits.toLocaleString('id-ID')} Kredit`}
             </PrimaryButton>
           </div>
         </div>
 
-        {/* CARD 3: PRO BUSINESS (Rp 8.000) */}
+        {/* CARD 3: PRO BUSINESS / KREDIT REGULER (RIGHT LIGHT CARD - UNIFORM 1/3 COLUMN) */}
         <div className="rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.06)] hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 h-full">
           <div>
             <div className="flex items-center justify-between mb-2 min-h-[24px]">
               <span className="inline-block px-3 py-0.5 rounded-full bg-purple-50 dark:bg-purple-950/50 text-purple-700 dark:text-purple-300 text-[11px] font-semibold border border-purple-200 dark:border-purple-800">
-                Paling Diminati
+                {isSub ? 'Paling Diminati' : 'Fleksibel'}
               </span>
             </div>
 
             <div className="mb-2">
               <span className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight">
-                Rp 8.000
+                {isSub ? 'Rp 8.000' : `Rp ${basicPrice.toLocaleString('id-ID')}`}
               </span>
               <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-                {' '}/bulan
+                {isSub ? ' /bulan' : ' /top-up instan'}
               </span>
             </div>
 
             <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
-              Business
+              {isSub ? 'Business' : 'Kredit Reguler'}
             </h3>
             <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 min-h-[34px] font-normal leading-relaxed">
-              Paling efisien bagi prompt engineer dan kreator aktif.
+              {isSub 
+                ? 'Paling efisien bagi prompt engineer dan kreator aktif.'
+                : 'Atur jumlah kredit sesuai kebutuhan harian atau mencoba prompt.'}
             </p>
+
+            {/* If in Atur Kredit mode: Render interactive slider */}
+            {!isSub && (
+              <div className="p-3.5 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 my-3">
+                <div className="flex justify-between items-center text-xs font-bold text-zinc-900 dark:text-zinc-100 mb-1.5">
+                  <span className="flex items-center gap-1.5 text-zinc-900 dark:text-white">
+                    <Coins size={13} className="text-amber-500" />
+                    {basicCredits.toLocaleString('id-ID')} Kredit
+                  </span>
+                  <span className="text-zinc-500 dark:text-zinc-400 font-medium text-[11px]">
+                    Rp 2,5 /kredit
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="500"
+                  max="3000"
+                  step="250"
+                  value={basicCredits}
+                  onChange={(e) => setBasicCredits(Number(e.target.value))}
+                  className="w-full h-1.5 rounded-full appearance-none cursor-pointer accent-zinc-900 dark:accent-white"
+                  style={{
+                    background: `linear-gradient(to right, #18181b ${basicPct}%, #e4e4e7 ${basicPct}%)`
+                  }}
+                />
+                <div className="flex justify-between items-center text-[10px] text-zinc-400 mt-1 font-medium">
+                  <span>500</span>
+                  <span>3.000</span>
+                </div>
+              </div>
+            )}
 
             <div className="border-t border-zinc-100 dark:border-zinc-800 my-4" />
 
@@ -443,7 +299,9 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                 <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
                   <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
                 </div>
-                <span className="font-semibold text-zinc-900 dark:text-zinc-100">4.000 Kredit (+33% hemat)</span>
+                <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+                  {isSub ? '4.000 Kredit (+33% hemat)' : `${basicCredits.toLocaleString('id-ID')} Kredit saldo permanen`}
+                </span>
               </li>
               <li className="flex items-center gap-2.5">
                 <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
@@ -466,12 +324,12 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
             </ul>
           </div>
 
-          <div className="pt-2">
+          <div className="pt-2 mt-auto">
             <PrimaryButton
-              onClick={() => navigateToCheckout('10k')}
+              onClick={() => navigateToCheckout(isSub ? '10k' : '5k')}
               className="w-full"
             >
-              Langganan Business
+              {isSub ? 'Langganan Business' : `Beli ${basicCredits.toLocaleString('id-ID')} Kredit`}
             </PrimaryButton>
           </div>
         </div>
@@ -632,7 +490,7 @@ export default function SubscriptionView({
               </div>
             </div>
 
-            {/* Pricing Cards Grid (100% Consistent Card Sizing) */}
+            {/* Pricing Cards Grid (100% Identical 3-Column Width in Both Modes) */}
             <SubscriptionCards 
               userCredits={userCredits} 
               onTopUp={onTopUp} 
