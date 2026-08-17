@@ -1,26 +1,13 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { 
-  ArrowLeft01Icon, 
   CheckmarkCircle02Icon, 
   SparklesIcon, 
   Cancel01Icon, 
   StarIcon,
-  Logout01Icon,
-  CreditCardIcon
+  Logout01Icon
 } from 'hugeicons-react';
-import { 
-  Coins, 
-  Zap, 
-  Lock, 
-  ChevronDown, 
-  ChevronUp, 
-  Check, 
-  Sparkles, 
-  ArrowRight,
-  ShieldCheck,
-  HelpCircle
-} from 'lucide-react';
+import { Check } from 'lucide-react';
 import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/app-sidebar';
 import { Separator } from '@/components/ui/separator';
@@ -46,12 +33,12 @@ import {
 } from '@/components/ui/alert-dialog';
 
 /* High-Performance Lightweight Black Emphasis Button */
-function ShimmerButton({ children, onClick, className = "", isPopular = false }) {
+function ShimmerButton({ children, onClick, className = "" }) {
   return (
     <button
       onClick={onClick}
       type="button"
-      className={`relative inline-flex w-full items-center justify-center rounded-full h-12 px-6 text-sm font-bold text-white bg-gradient-to-b from-zinc-800 to-zinc-950 border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1.5px_3px_0_rgba(0,0,0,0.25)] hover:from-zinc-700 hover:via-zinc-800 hover:to-zinc-950 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_3px_8px_0_rgba(0,0,0,0.3)] active:scale-95 transition-all duration-200 cursor-pointer ${className}`}
+      className={`relative inline-flex w-full items-center justify-center rounded-2xl h-11 px-5 text-sm font-bold text-white bg-gradient-to-b from-zinc-800 to-zinc-950 border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1.5px_3px_0_rgba(0,0,0,0.25)] hover:from-zinc-700 hover:via-zinc-800 hover:to-zinc-950 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_3px_8px_0_rgba(0,0,0,0.3)] active:scale-95 transition-all duration-200 cursor-pointer ${className}`}
     >
       <span className="relative z-10 flex items-center justify-center gap-2 tracking-wide font-sans">
         {children}
@@ -61,7 +48,7 @@ function ShimmerButton({ children, onClick, className = "", isPopular = false })
 }
 
 export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel = false }) {
-  const [successMsg, setSuccessMsg] = useState('');
+  const [billingCycle, setBillingCycle] = useState('one-time'); // 'one-time' | 'monthly'
 
   const navigateToCheckout = (planSlug) => {
     onTopUp(planSlug);
@@ -69,170 +56,196 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
 
   return (
     <div className="w-full">
-      {successMsg && (
-        <div className="mb-6 p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-800 dark:text-emerald-300 flex items-center justify-between">
-          <div className="flex items-center gap-2 font-medium">
-            <CheckmarkCircle02Icon size={18} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
-            <span>{successMsg}</span>
-          </div>
-          <button onClick={() => setSuccessMsg('')} className="text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 cursor-pointer">
-            <Cancel01Icon size={16} />
-          </button>
-        </div>
-      )}
-
-      {/* 3-Column Plan Grid matching Modern App Aesthetics */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+      {/* 3-Column Plan Grid matching Reference Layout */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 items-stretch">
         
-        {/* 1. FREE PLAN CARD (Default Active Plan) */}
-        <div className="relative rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between hover:border-purple-300 dark:hover:border-purple-800/60 hover:bg-purple-50/10 transition-all duration-200 shadow-xs h-full">
-          <div className="flex-1 flex flex-col">
-            <div className="flex justify-between items-center mb-3">
-              <h3 className="text-xs font-bold tracking-wider text-zinc-700 dark:text-zinc-300 uppercase">
-                Starter (Free)
-              </h3>
-              <span className="text-xs font-semibold text-zinc-600 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-800 px-2.5 py-0.5 rounded-full border border-zinc-200 dark:border-zinc-700">
-                1.000 Kredit
+        {/* CARD 1: STARTER (Rp 5.000) */}
+        <div className="rounded-3xl border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-zinc-900/80 p-6 sm:p-7 flex flex-col justify-between shadow-2xs hover:shadow-md hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200">
+          <div>
+            <div className="mb-2">
+              <span className="text-3xl sm:text-4xl font-black text-obsidian dark:text-white tracking-tight">
+                {billingCycle === 'monthly' ? 'Rp 4.000' : 'Rp 5.000'}
+              </span>
+              <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+                {billingCycle === 'monthly' ? ' /bulan' : ' /top-up'}
               </span>
             </div>
-            
-            <div className="mb-0.5">
-              <span className="text-2xl sm:text-3xl font-semibold text-obsidian dark:text-white tracking-tight">Rp 0</span>
-              <span className="text-zinc-500 text-xs font-medium"> / selamanya</span>
-            </div>
-            <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-5 font-medium">Akses koleksi awal tanpa biaya</p>
 
-            <ul className="space-y-2.5 text-xs text-zinc-700 dark:text-zinc-300 mb-6 font-medium min-h-[148px] flex flex-col justify-start">
-              <li className="flex items-center gap-2">
-                <CheckmarkCircle02Icon size={15} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
-                <span>1.000 Kredit gratis saat mendaftar</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckmarkCircle02Icon size={15} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
-                <span>Buka prompt gambar gratis & dasar</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckmarkCircle02Icon size={15} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
-                <span>Fitur pencarian & penyaring dasar</span>
-              </li>
-            </ul>
-          </div>
-
-          <div className="mt-auto pt-2">
-            <button
-              disabled={true}
-              className="w-full h-12 px-6 rounded-full border-0 bg-zinc-100 dark:bg-zinc-800/60 text-zinc-500 dark:text-zinc-400 text-sm font-semibold cursor-default"
-            >
-              Paket Aktif (Default)
-            </button>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 text-center mt-2 font-medium">
-              Otomatis aktif untuk semua pengguna baru
+            <h3 className="text-xl font-bold text-obsidian dark:text-white tracking-tight">
+              Starter
+            </h3>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 min-h-[32px] font-medium leading-relaxed">
+              Cocok untuk mencoba dan membuka beberapa prompt gambar favorit.
             </p>
-          </div>
-        </div>
 
-        {/* 2. 10K PLAN CARD (Center Card / Paling Populer) */}
-        <div className="relative rounded-3xl border-2 border-purple-600 dark:border-purple-500 shadow-purple-500/10 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-lg transition-colors duration-200 ring-2 ring-purple-500/20 h-full">
-          {/* Top Right Popular Badge */}
-          <div className="absolute -top-3.5 right-5 bg-purple-600 text-white text-[11px] font-bold px-3.5 py-0.5 rounded-full flex items-center gap-1 shadow-sm">
-            <StarIcon size={12} className="fill-white text-white" />
-            <span>Paling Populer</span>
-          </div>
+            <div className="border-t border-zinc-100 dark:border-zinc-800/80 my-4" />
 
-          <div className="flex-1 flex flex-col">
-            <div className="flex justify-between items-center mb-3">
-              <h3 className="text-xs font-bold tracking-wider text-purple-700 dark:text-purple-300 uppercase">
-                Best Value (10k)
-              </h3>
-              <span className="text-xs font-semibold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/40 px-2.5 py-0.5 rounded-full border border-purple-200 dark:border-purple-800">
-                +4.000 Kredit
-              </span>
-            </div>
-            
-            <div className="mb-0.5">
-              <span className="text-2xl sm:text-3xl font-semibold text-obsidian dark:text-white tracking-tight">Rp 10.000</span>
-              <span className="text-zinc-500 text-xs font-medium"> / top-up</span>
-            </div>
-            <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-5 font-medium">Nilai kredit terbanyak & paling hemat</p>
+            <p className="text-xs font-bold text-zinc-800 dark:text-zinc-200 mb-3">
+              Paket sudah termasuk:
+            </p>
 
-            <ul className="space-y-2.5 text-xs text-zinc-700 dark:text-zinc-300 mb-6 font-medium min-h-[148px] flex flex-col justify-start">
-              <li className="flex items-center gap-2">
-                <CheckmarkCircle02Icon size={15} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
-                <span className="font-semibold text-obsidian dark:text-white">4.000 Kredit tanpa kedaluwarsa</span>
+            <ul className="space-y-2.5 text-xs text-zinc-600 dark:text-zinc-300 mb-6 font-medium">
+              <li className="flex items-center gap-2.5">
+                <div className="w-4.5 h-4.5 rounded-full border border-zinc-300 dark:border-zinc-600 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-zinc-800 dark:text-zinc-200 stroke-[3]" />
+                </div>
+                <span>1.500 Kredit instan</span>
               </li>
-              <li className="flex items-center gap-2">
-                <CheckmarkCircle02Icon size={15} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
-                <span>Akses seluruh prompt premium & 3D</span>
+              <li className="flex items-center gap-2.5">
+                <div className="w-4.5 h-4.5 rounded-full border border-zinc-300 dark:border-zinc-600 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-zinc-800 dark:text-zinc-200 stroke-[3]" />
+                </div>
+                <span>Akses seluruh prompt gambar</span>
               </li>
-              <li className="flex items-center gap-2">
-                <CheckmarkCircle02Icon size={15} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
-                <span>Bonus prioritas update prompt harian</span>
+              <li className="flex items-center gap-2.5">
+                <div className="w-4.5 h-4.5 rounded-full border border-zinc-300 dark:border-zinc-600 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-zinc-800 dark:text-zinc-200 stroke-[3]" />
+                </div>
+                <span>Kredit berlaku selamanya</span>
               </li>
-              <li className="flex items-center gap-2">
-                <CheckmarkCircle02Icon size={15} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
-                <span>Aktivasi instan via QRIS</span>
+              <li className="flex items-center gap-2.5">
+                <div className="w-4.5 h-4.5 rounded-full border border-zinc-300 dark:border-zinc-600 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-zinc-800 dark:text-zinc-200 stroke-[3]" />
+                </div>
+                <span>Kustomisasi parameter prompt</span>
               </li>
             </ul>
           </div>
 
-          <div className="mt-auto pt-2">
-            <ShimmerButton
-              isPopular={true}
-              onClick={() => navigateToCheckout('10k')}
-            >
-              <span>Beli Rp 10.000</span>
-              <SparklesIcon size={14} className="text-purple-200 fill-purple-200" />
+          <div className="pt-2">
+            <ShimmerButton onClick={() => navigateToCheckout('5k')}>
+              <span>Beli Paket</span>
             </ShimmerButton>
-            <p className="text-xs text-purple-600 dark:text-purple-400 text-center mt-2 font-semibold">
-              Paling hemat & direkomendasikan
-            </p>
           </div>
         </div>
 
-        {/* 3. 5K PLAN CARD (Rp 5.000 -> 1.500 Kredit) */}
-        <div className="relative rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between hover:border-purple-300 dark:hover:border-purple-800/60 hover:bg-purple-50/10 transition-all duration-200 shadow-xs h-full">
-          <div className="flex-1 flex flex-col">
-            <div className="flex justify-between items-center mb-3">
-              <h3 className="text-xs font-bold tracking-wider text-zinc-700 dark:text-zinc-300 uppercase">
-                Basic Top-Up (5k)
-              </h3>
-              <span className="text-xs font-semibold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/40 px-2.5 py-0.5 rounded-full border border-purple-200 dark:border-purple-800">
-                +1.500 Kredit
+        {/* CARD 2: PRO CREATOR (Rp 10.000) */}
+        <div className="rounded-3xl border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-zinc-900/80 p-6 sm:p-7 flex flex-col justify-between shadow-2xs hover:shadow-md hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200">
+          <div>
+            <div className="mb-2">
+              <span className="text-3xl sm:text-4xl font-black text-obsidian dark:text-white tracking-tight">
+                {billingCycle === 'monthly' ? 'Rp 8.000' : 'Rp 10.000'}
+              </span>
+              <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+                {billingCycle === 'monthly' ? ' /bulan' : ' /top-up'}
               </span>
             </div>
-            
-            <div className="mb-0.5">
-              <span className="text-2xl sm:text-3xl font-semibold text-obsidian dark:text-white tracking-tight">Rp 5.000</span>
-              <span className="text-zinc-500 text-xs font-medium"> / top-up</span>
-            </div>
-            <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-5 font-medium">Pengisian saldo hemat dan terjangkau</p>
 
-            <ul className="space-y-2.5 text-xs text-zinc-700 dark:text-zinc-300 mb-6 font-medium min-h-[148px] flex flex-col justify-start">
-              <li className="flex items-center gap-2">
-                <CheckmarkCircle02Icon size={15} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
-                <span>1.500 Kredit tanpa kedaluwarsa</span>
+            <h3 className="text-xl font-bold text-obsidian dark:text-white tracking-tight">
+              Business
+            </h3>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 min-h-[32px] font-medium leading-relaxed">
+              Paling efisien bagi prompt engineer dan kreator aktif.
+            </p>
+
+            <div className="border-t border-zinc-100 dark:border-zinc-800/80 my-4" />
+
+            <p className="text-xs font-bold text-zinc-800 dark:text-zinc-200 mb-3">
+              Semua fitur Starter, plus:
+            </p>
+
+            <ul className="space-y-2.5 text-xs text-zinc-600 dark:text-zinc-300 mb-6 font-medium">
+              <li className="flex items-center gap-2.5">
+                <div className="w-4.5 h-4.5 rounded-full border border-zinc-300 dark:border-zinc-600 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-zinc-800 dark:text-zinc-200 stroke-[3]" />
+                </div>
+                <span className="font-semibold text-obsidian dark:text-white">4.000 Kredit (+33% hemat)</span>
               </li>
-              <li className="flex items-center gap-2">
-                <CheckmarkCircle02Icon size={15} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
-                <span>Buka prompt gambar pilihan</span>
+              <li className="flex items-center gap-2.5">
+                <div className="w-4.5 h-4.5 rounded-full border border-zinc-300 dark:border-zinc-600 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-zinc-800 dark:text-zinc-200 stroke-[3]" />
+                </div>
+                <span>Akses prompt 3D & video motion</span>
               </li>
-              <li className="flex items-center gap-2">
-                <CheckmarkCircle02Icon size={15} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
-                <span>Aktivasi langsung ke akun</span>
+              <li className="flex items-center gap-2.5">
+                <div className="w-4.5 h-4.5 rounded-full border border-zinc-300 dark:border-zinc-600 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-zinc-800 dark:text-zinc-200 stroke-[3]" />
+                </div>
+                <span>Prioritas update prompt baru</span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <div className="w-4.5 h-4.5 rounded-full border border-zinc-300 dark:border-zinc-600 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-zinc-800 dark:text-zinc-200 stroke-[3]" />
+                </div>
+                <span>Full copy prompt & JSON specs</span>
               </li>
             </ul>
           </div>
 
-          <div className="mt-auto pt-2">
-            <button
-              onClick={() => navigateToCheckout('5k')}
-              className="w-full h-12 px-6 rounded-full bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-100 text-sm font-bold ring-1 ring-black/10 dark:ring-white/10 shadow-2xs hover:shadow-xs transition-all duration-200 cursor-pointer active:scale-95 border-0"
-            >
-              Beli Rp 5.000
-            </button>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 text-center mt-2 font-medium">
-              Pengisian saldo cepat untuk kebutuhan dasar
+          <div className="pt-2">
+            <ShimmerButton onClick={() => navigateToCheckout('10k')}>
+              <span>Beli Paket</span>
+            </ShimmerButton>
+          </div>
+        </div>
+
+        {/* CARD 3: ENTERPRISE (Rp 25.000) - DARK ELEVATED CARD MATCHING REFERENCE */}
+        <div className="rounded-3xl bg-zinc-950 text-white p-6 sm:p-7 flex flex-col justify-between shadow-2xl border border-white/15 relative md:-mt-2 transition-all duration-200 ring-1 ring-white/10">
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <span className="inline-block px-3 py-0.5 rounded-full bg-zinc-800 text-zinc-200 text-[11px] font-bold border border-white/10">
+                Popular
+              </span>
+            </div>
+
+            <div className="mb-2">
+              <span className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+                {billingCycle === 'monthly' ? 'Rp 20.000' : 'Rp 25.000'}
+              </span>
+              <span className="text-xs font-medium text-zinc-400">
+                {billingCycle === 'monthly' ? ' /bulan' : ' /top-up'}
+              </span>
+            </div>
+
+            <h3 className="text-xl font-bold text-white tracking-tight">
+              Enterprise
+            </h3>
+            <p className="text-xs text-zinc-400 mt-1 min-h-[32px] font-medium leading-relaxed">
+              Solusi ultimate dengan bonus kredit maksimal untuk studio & agensi.
             </p>
+
+            <div className="border-t border-white/15 my-4" />
+
+            <p className="text-xs font-bold text-zinc-200 mb-3">
+              Semua fitur Business, plus:
+            </p>
+
+            <ul className="space-y-2.5 text-xs text-zinc-300 mb-6 font-medium">
+              <li className="flex items-center gap-2.5">
+                <div className="w-4.5 h-4.5 rounded-full bg-zinc-800 border border-white/20 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-white stroke-[3]" />
+                </div>
+                <span className="font-semibold text-white">12.000 Kredit (+60% bonus)</span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <div className="w-4.5 h-4.5 rounded-full bg-zinc-800 border border-white/20 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-white stroke-[3]" />
+                </div>
+                <span>Akses VIP seluruh prompt eksklusif</span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <div className="w-4.5 h-4.5 rounded-full bg-zinc-800 border border-white/20 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-white stroke-[3]" />
+                </div>
+                <span>Lisensi komersial lengkap</span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <div className="w-4.5 h-4.5 rounded-full bg-zinc-800 border border-white/20 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-white stroke-[3]" />
+                </div>
+                <span>Dukungan prioritas 24/7</span>
+              </li>
+            </ul>
+          </div>
+
+          <div className="pt-2">
+            <button
+              type="button"
+              onClick={() => navigateToCheckout('10k')}
+              className="w-full h-11 px-5 rounded-2xl bg-white hover:bg-zinc-100 text-zinc-950 font-bold text-sm shadow-md active:scale-95 transition-all duration-200 cursor-pointer flex items-center justify-center"
+            >
+              <span>Beli Paket</span>
+            </button>
           </div>
         </div>
 
@@ -254,22 +267,7 @@ export default function SubscriptionView({
   onSignOut = () => {}
 }) {
   const [showSignOutConfirm, setShowSignOutConfirm] = useState(false);
-  const [openFaq, setOpenFaq] = useState(null);
-
-  const faqs = [
-    {
-      q: "Bagaimana cara pengisian kredit dilakukan?",
-      a: "Pilih paket yang diinginkan (10k atau 5k), lalu scan QRIS yang muncul menggunakan aplikasi perbankan atau e-wallet (GoPay, OVO, DANA, BCA, Mandiri, dll). Saldo akan langsung bertambah otomatis dalam hitungan detik."
-    },
-    {
-      q: "Apakah kredit memiliki batas masa kedaluwarsa?",
-      a: "Tidak ada! Semua kredit yang Anda miliki bersifat permanen (seumur hidup) dan tidak pernah hangus."
-    },
-    {
-      q: "Untuk apa saja kredit ini dapat digunakan?",
-      a: "Kredit dapat digunakan untuk membuka prompt premium resolusi tinggi, salin kode visual 4K, kustomisasi variabel prompt (Prompt Customizer), dan remix gaya AI."
-    }
-  ];
+  const [billingCycle, setBillingCycle] = useState('monthly'); // 'monthly' | 'yearly'
 
   return (
     <SidebarProvider className="bg-white dark:bg-zinc-950">
@@ -295,7 +293,7 @@ export default function SubscriptionView({
 
       {/* 2. Workspace Content Inset */}
       <SidebarInset className="bg-white dark:bg-zinc-950 transition-all">
-        <div className="relative min-h-screen w-full bg-[#fafafa] dark:bg-zinc-950 flex flex-col font-sans">
+        <div className="min-h-screen w-full bg-[#f8f8f8] dark:bg-zinc-950 flex flex-col font-sans overflow-hidden">
           
           {/* Top Sticky Header with SidebarTrigger & Breadcrumbs */}
           <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between gap-3 sm:gap-4 px-4 sm:px-6 md:px-8 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md border-b border-black/5 dark:border-white/5 transform-gpu transition-all">
@@ -312,7 +310,7 @@ export default function SubscriptionView({
                   <BreadcrumbSeparator className="hidden sm:block shrink-0 text-black/40" />
                   <BreadcrumbItem className="min-w-0 truncate">
                     <BreadcrumbPage className="capitalize font-semibold text-black/70 dark:text-zinc-300 truncate">
-                      Paket Langganan & Top Up
+                      Plans &amp; Pricing
                     </BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
@@ -364,83 +362,52 @@ export default function SubscriptionView({
             </div>
           </header>
 
-          {/* Main Showcase Area */}
-          <main className="w-full max-w-5xl mx-auto px-4 sm:px-6 md:px-8 pt-8 md:pt-12 pb-24 flex flex-col items-center">
+          {/* Main Showcase Area - Centered, Single-View, Non-Scrollable */}
+          <main className="w-full max-w-5xl mx-auto px-4 sm:px-6 md:px-8 py-6 md:py-8 flex-1 flex flex-col justify-center">
             
-            {/* Hero Section */}
-            <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-obsidian dark:text-white tracking-tight leading-tight mb-4">
-                Buka Kreativitas Tanpa Batas dengan Kredit Prompt
-              </h1>
-              
-              <p className="text-zinc-500 dark:text-zinc-400 text-sm sm:text-base font-medium">
-                Pilih paket pengisian kredit sesuai kebutuhan Anda. Kredit berlaku selamanya tanpa batas waktu kedaluwarsa.
-              </p>
-            </div>
-
-            {/* Pricing Cards */}
-            <SubscriptionCards userCredits={userCredits} onTopUp={onTopUp} isPanel={false} />
-
-            {/* Value Pillars Banner */}
-            <div className="mt-14 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="p-4.5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-2xs flex flex-col gap-2">
-                <div className="w-8 h-8 rounded-xl bg-purple-50 dark:bg-purple-950 text-purple-600 dark:text-purple-400 flex items-center justify-center">
-                  <Zap size={18} />
-                </div>
-                <h4 className="text-xs font-bold text-obsidian dark:text-white">Aktivasi Instan</h4>
-                <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">Saldo kredit otomatis masuk detik itu juga setelah pembayaran.</p>
+            {/* Header with Title on Left and Segmented Toggle on Right */}
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-7 sm:mb-8">
+              <div>
+                <h1 className="text-3xl sm:text-4xl font-extrabold text-obsidian dark:text-white tracking-tight leading-tight mb-1">
+                  Plans &amp; Pricing
+                </h1>
+                <p className="text-zinc-500 dark:text-zinc-400 text-xs sm:text-sm font-normal">
+                  Pilih paket kredit fleksibel untuk membuka koleksi prompt AI berkualitas tinggi.
+                </p>
               </div>
 
-              <div className="p-4.5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-2xs flex flex-col gap-2">
-                <div className="w-8 h-8 rounded-xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
-                  <ShieldCheck size={18} />
-                </div>
-                <h4 className="text-xs font-bold text-obsidian dark:text-white">Kredit Permanen</h4>
-                <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">Saldo tidak memiliki masa berlaku dan berlaku selamanya.</p>
-              </div>
-
-              <div className="p-4.5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-2xs flex flex-col gap-2">
-                <div className="w-8 h-8 rounded-xl bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center">
-                  <CreditCardIcon size={18} />
-                </div>
-                <h4 className="text-xs font-bold text-obsidian dark:text-white">QRIS Nasional</h4>
-                <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">Mendukung GoPay, OVO, DANA, ShopeePay, dan seluruh m-Banking.</p>
-              </div>
-
-              <div className="p-4.5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-2xs flex flex-col gap-2">
-                <div className="w-8 h-8 rounded-xl bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center">
-                  <Lock size={18} />
-                </div>
-                <h4 className="text-xs font-bold text-obsidian dark:text-white">Bebas Biaya Admin</h4>
-                <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">Harga final tanpa potongan atau biaya tersembunyi apapun.</p>
-              </div>
-            </div>
-
-            {/* Quick FAQ Section */}
-            <div className="mt-12 w-full max-w-3xl flex flex-col gap-3">
-              <h3 className="text-sm font-bold text-obsidian dark:text-white text-center mb-2">
-                Pertanyaan Umum Seputar Kredit
-              </h3>
-              {faqs.map((faq, idx) => (
-                <div 
-                  key={idx}
-                  className="rounded-2xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 overflow-hidden"
+              {/* Segmented Switch Toggle */}
+              <div className="inline-flex items-center p-1 rounded-full bg-zinc-200/70 dark:bg-zinc-800/80 border border-black/5 dark:border-white/10 shrink-0 self-start sm:self-auto">
+                <button
+                  type="button"
+                  onClick={() => setBillingCycle('monthly')}
+                  className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                    billingCycle === 'monthly'
+                      ? 'bg-white dark:bg-zinc-900 text-zinc-950 dark:text-white shadow-xs'
+                      : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
+                  }`}
                 >
-                  <button
-                    onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                    className="w-full p-4 flex items-center justify-between text-xs font-bold text-obsidian dark:text-zinc-200 text-left hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors cursor-pointer"
-                  >
-                    <span>{faq.q}</span>
-                    {openFaq === idx ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
-                  </button>
-                  {openFaq === idx && (
-                    <div className="px-4 pb-4 text-xs text-zinc-600 dark:text-zinc-400 font-medium border-t border-zinc-100 dark:border-zinc-800 pt-2.5">
-                      {faq.a}
-                    </div>
-                  )}
-                </div>
-              ))}
+                  Monthly
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setBillingCycle('yearly')}
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                    billingCycle === 'yearly'
+                      ? 'bg-white dark:bg-zinc-900 text-zinc-950 dark:text-white shadow-xs'
+                      : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
+                  }`}
+                >
+                  <span>Yearly</span>
+                  <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-md bg-zinc-900 text-white dark:bg-white dark:text-zinc-950">
+                    Save 20%
+                  </span>
+                </button>
+              </div>
             </div>
+
+            {/* 3 Pricing Cards Grid */}
+            <SubscriptionCards userCredits={userCredits} onTopUp={onTopUp} isPanel={false} />
 
           </main>
         </div>
