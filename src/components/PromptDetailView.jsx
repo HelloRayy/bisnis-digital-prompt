@@ -512,8 +512,8 @@ export default function PromptDetailView({
             </div>
           </header>
 
-          {/* Main Content Area */}
-          <main className="max-w-6xl mx-auto w-full px-3.5 sm:px-6 md:px-10 pt-[76px] sm:pt-[88px] pb-36 flex-1 flex flex-col relative">
+          {/* Main Content Area - Full width workspace matching Home Gallery */}
+          <main className="w-full min-w-0 max-w-full overflow-x-hidden mx-auto pt-[76px] sm:pt-[88px] px-3 sm:px-6 md:px-8 pb-36 flex-1 flex flex-col relative">
             
             {/* ============================================================
                 MOBILE VIEW (< 1024px / lg:hidden) - KUMO UI DESIGN SYSTEM
@@ -734,12 +734,12 @@ export default function PromptDetailView({
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.2 }}
-                    className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center my-auto"
+                    className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-14 items-center my-auto w-full"
                   >
               {/* Left Image Showcase with Aspect Ratio Locked Skeleton */}
-              <div className="lg:col-span-6 flex flex-col gap-4 sticky lg:top-24 items-center justify-center">
+              <div className="lg:col-span-6 xl:col-span-5 flex flex-col gap-4 sticky lg:top-24 items-center justify-center">
                 <div 
-                  className="relative w-full max-w-[500px] max-h-[70vh] rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/5 dark:border-white/10 flex items-center justify-center"
+                  className="relative w-full max-w-[540px] xl:max-w-[580px] max-h-[74vh] rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/5 dark:border-white/10 flex items-center justify-center"
                   style={{ aspectRatio: aspectValue }}
                 >
                   {/* High-Craft Shimmer Skeleton (Preserves exact dimensions before image loads) */}
@@ -791,7 +791,7 @@ export default function PromptDetailView({
                     />
                   </div>
                 ) : (
-                  <div className="lg:col-span-6 flex flex-col gap-6">
+                  <div className="lg:col-span-6 xl:col-span-7 flex flex-col gap-6">
                     <div className="flex flex-col gap-3">
                       <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-obsidian tracking-tight leading-tight">
                         {title}
@@ -869,7 +869,7 @@ export default function PromptDetailView({
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="flex flex-col gap-10 max-w-4xl"
+                className="flex flex-col gap-10 w-full max-w-5xl"
               >
                 {/* 1. Small Top Thumbnails (Clickable to select and open Fullscreen Lightbox Overlay) */}
                 <div className="flex items-center gap-3 overflow-x-auto pb-2 scrollbar-none">
