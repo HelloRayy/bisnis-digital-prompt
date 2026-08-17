@@ -53,7 +53,7 @@ const AnimatedCheckmarkSVG = ({ size = 18, strokeWidth = 2.5, className = "text-
   </svg>
 );
 
-/* High-craft SVG Dynamic Padlock with Clean Horizontal Shackle Flip (Matching Reference) */
+/* High-craft SVG Dynamic Padlock with Symmetrical Resting State & Clean Horizontal Flip */
 const AnimatedLockIcon = ({ size = 15, className = "text-white" }) => (
   <span className="relative w-4 h-4 flex items-center justify-center shrink-0 overflow-visible">
     <svg
@@ -68,16 +68,16 @@ const AnimatedLockIcon = ({ size = 15, className = "text-white" }) => (
       className={className}
       style={{ overflow: 'visible' }}
     >
-      {/* 1. Static Padlock Body (Positioned from x:7 to 21 to give room for flipped shackle on left) */}
-      <rect x="7" y="10.5" width="14" height="11.5" rx="2.5" />
-      <circle cx="14" cy="16" r="1.1" fill="currentColor" stroke="none" />
+      {/* 1. Perfectly Centered, Symmetrical Padlock Body */}
+      <rect x="4.5" y="10.5" width="15" height="11.5" rx="2.5" />
+      <circle cx="12" cy="16" r="1.1" fill="currentColor" stroke="none" />
 
-      {/* 2. Shackle: Clean Horizontal Flip to Left on Hover */}
+      {/* 2. Symmetrical Shackle in Resting State -> Flips Horizontally to Left on Hover */}
       <g
-        style={{ transformOrigin: '7px 10.5px' }}
+        style={{ transformOrigin: '7.5px 10.5px' }}
         className="transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:-scale-x-100"
       >
-        <path d="M7 10.5V5.5a3.5 3.5 0 0 1 7 0v5" />
+        <path d="M7.5 10.5V5.5a4.5 4.5 0 0 1 9 0v5" />
       </g>
     </svg>
   </span>
