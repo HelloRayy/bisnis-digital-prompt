@@ -81,7 +81,7 @@ export default function SpotlightSearchModal({
   return (
     <AnimatePresence>
       <div 
-        className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-[18vh] sm:pt-[22vh] bg-black/70 dark:bg-black/85 backdrop-blur-md"
+        className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-[18vh] sm:pt-[22vh] bg-black/40 backdrop-blur-md"
         onClick={onClose}
       >
         <motion.div
@@ -92,18 +92,18 @@ export default function SpotlightSearchModal({
           className="relative w-full max-w-xl font-sans flex flex-col gap-2.5"
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Main Floating Spotlight Search Input */}
+          {/* Main Floating Spotlight Search Input (Clean Light Theme) */}
           <form onSubmit={handleSubmit} className="relative flex items-center w-full">
             {/* Search Icon / Animated Spinner */}
-            <div className="absolute left-4.5 flex items-center justify-center pointer-events-none text-zinc-400">
+            <div className="absolute left-4.5 flex items-center justify-center pointer-events-none text-zinc-500">
               {isSearching ? (
-                <Loader2 size={20} className="animate-spin text-purple-400" />
+                <Loader2 size={20} className="animate-spin text-purple-600" />
               ) : (
-                <Search01Icon size={20} className="text-zinc-400" />
+                <Search01Icon size={20} className="text-zinc-500" />
               )}
             </div>
 
-            {/* Direct Floating Glass Input without redundant white container */}
+            {/* Direct Floating Light Glass Input */}
             <input
               ref={inputRef}
               type="text"
@@ -111,9 +111,9 @@ export default function SpotlightSearchModal({
               onChange={handleInputChange}
               placeholder="Ketik kata kunci pencarian prompt..."
               className={cn(
-                "w-full h-14 pl-12 pr-12 text-sm sm:text-base font-medium text-white placeholder:text-zinc-400",
-                "bg-zinc-900/90 backdrop-blur-2xl rounded-2xl border border-white/15 shadow-[0_16px_48px_rgba(0,0,0,0.6)]",
-                "focus:bg-zinc-900 focus:border-purple-500/80 focus:ring-4 focus:ring-purple-500/20 focus:outline-none",
+                "w-full h-14 pl-12 pr-12 text-sm sm:text-base font-medium text-obsidian placeholder:text-zinc-400",
+                "bg-white/95 backdrop-blur-2xl rounded-2xl border border-black/10 shadow-[0_16px_48px_rgba(0,0,0,0.18),0_2px_6px_rgba(0,0,0,0.06)]",
+                "focus:bg-white focus:border-purple-600/80 focus:ring-4 focus:ring-purple-600/15 focus:outline-none",
                 "transition-all duration-200"
               )}
             />
@@ -124,7 +124,7 @@ export default function SpotlightSearchModal({
                 <button
                   type="button"
                   onClick={handleClear}
-                  className="p-1.5 rounded-full text-zinc-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                  className="p-1.5 rounded-full text-zinc-400 hover:text-obsidian hover:bg-black/5 transition-colors cursor-pointer"
                   title="Hapus teks"
                 >
                   <Cancel01Icon size={18} />
@@ -134,25 +134,25 @@ export default function SpotlightSearchModal({
           </form>
 
           {/* Minimalist Floating Hint Below Input */}
-          <div className="flex items-center justify-between px-2 text-xs text-zinc-300">
+          <div className="flex items-center justify-between px-2 text-xs">
             <div>
               {localValue ? (
-                <span className="font-semibold text-purple-300">
+                <span className="font-bold text-white drop-shadow-sm bg-purple-600/90 px-2.5 py-0.5 rounded-full text-[11px]">
                   {totalResults} prompt ditemukan
                 </span>
               ) : (
-                <span className="text-zinc-400">Ketik nama, gaya visual, atau subjek prompt</span>
+                <span className="text-white/90 font-medium drop-shadow-sm">Ketik nama, gaya visual, atau subjek prompt</span>
               )}
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="hidden sm:inline-flex items-center gap-1 font-mono text-[11px] bg-white/10 text-zinc-300 px-2 py-0.5 rounded-md border border-white/10">
+              <span className="hidden sm:inline-flex items-center gap-1 font-mono text-[11px] bg-white/80 text-zinc-700 px-2 py-0.5 rounded-md border border-black/10 shadow-2xs">
                 ESC untuk tutup
               </span>
               <button
                 type="button"
                 onClick={handleSubmit}
-                className="px-3.5 py-1 rounded-full bg-white text-zinc-950 text-xs font-bold hover:bg-zinc-100 active:scale-95 transition-all cursor-pointer shadow-md"
+                className="px-3.5 py-1.5 rounded-full bg-obsidian text-white text-xs font-bold hover:bg-black active:scale-95 transition-all cursor-pointer shadow-md"
               >
                 Lihat Hasil
               </button>
