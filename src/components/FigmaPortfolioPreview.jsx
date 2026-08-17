@@ -513,6 +513,7 @@ export default function FigmaPortfolioPreview({
           const hasCreditsOrPurchases = userCredits > 0 || (purchasedPromptIds && purchasedPromptIds.length > 0);
           return (
             <Dock 
+              className="hidden md:block"
               items={[
                 {
                   icon: Image01Icon,
