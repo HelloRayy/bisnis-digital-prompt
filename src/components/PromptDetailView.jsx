@@ -53,44 +53,33 @@ const AnimatedCheckmarkSVG = ({ size = 18, strokeWidth = 2.5, className = "text-
   </svg>
 );
 
-/* High-craft SVG Dynamic Padlock with Visible Pop-Open Motion */
-const AnimatedLockIcon = ({ size = 14, className = "" }) => (
-  <span className="relative w-3.5 h-3.5 flex items-center justify-center shrink-0">
-    {/* 1. Closed Padlock State (Default) */}
-    <span className="absolute inset-0 flex items-center justify-center transition-all duration-200 ease-out group-hover:opacity-0 group-hover:-translate-y-1 group-hover:scale-75">
-      <svg
-        width={size}
-        height={size}
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className={className}
-      >
-        <rect x="3.5" y="10.5" width="17" height="11.5" rx="2.5" />
-        <path d="M7 10.5V6.5a5 5 0 0 1 10 0V10.5" />
-      </svg>
-    </span>
+/* High-craft SVG Dynamic Padlock with Horizontal Flip & Mechanical Shackle Line Motion */
+const AnimatedLockIcon = ({ size = 15, className = "text-white" }) => (
+  <span className="relative w-4 h-4 flex items-center justify-center shrink-0 overflow-visible">
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      style={{ overflow: 'visible' }}
+    >
+      {/* 1. Rock-Solid Padlock Body (No pulsing, completely steady) */}
+      <rect x="3.5" y="10.5" width="17" height="11.5" rx="2.5" />
+      <circle cx="12" cy="16" r="1.1" fill="currentColor" stroke="none" />
 
-    {/* 2. Wide Open Padlock State (Lifted & Swung Open on Hover) */}
-    <span className="absolute inset-0 flex items-center justify-center transition-all duration-200 ease-out opacity-0 translate-y-1 scale-75 group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100">
-      <svg
-        width={size}
-        height={size}
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className={className}
+      {/* 2. Shackle Line: Flipped Horizontally (Anchored on right, swings open to the left away from text) */}
+      <g
+        style={{ transformOrigin: '17px 10.5px' }}
+        className="transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:-translate-y-1 group-hover:-rotate-[32deg]"
       >
-        <rect x="3.5" y="10.5" width="17" height="11.5" rx="2.5" />
-        <path d="M7 10.5V4a5 5 0 0 1 9.6-1.8" />
-      </svg>
-    </span>
+        <path d="M17 10.5V6a5 5 0 0 0-10 0v4.5" />
+      </g>
+    </svg>
   </span>
 );
 
