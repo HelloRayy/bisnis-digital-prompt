@@ -116,10 +116,13 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
   const handleCarouselScroll = (e) => {
     const target = e.currentTarget;
     const scrollLeft = target.scrollLeft;
-    const cardWidth = target.offsetWidth * 0.84;
-    const newIndex = Math.round(scrollLeft / (cardWidth || 1));
-    if (newIndex !== activeCardIndex && (newIndex === 0 || newIndex === 1)) {
-      setActiveCardIndex(newIndex);
+    const maxScroll = target.scrollWidth - target.clientWidth;
+    if (maxScroll > 0) {
+      const progress = scrollLeft / maxScroll;
+      const newIndex = progress > 0.4 ? 1 : 0;
+      if (newIndex !== activeCardIndex) {
+        setActiveCardIndex(newIndex);
+      }
     }
   };
 
@@ -132,7 +135,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
         cards[index].scrollIntoView({
           behavior: 'smooth',
           block: 'nearest',
-          inline: 'center'
+          inline: 'start'
         });
       }
       setActiveCardIndex(index);
@@ -140,13 +143,13 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
   };
 
   return (
-    <div className="w-full -mx-4 sm:-mx-6 md:mx-0 px-4 sm:px-6 md:px-0" style={{ perspective: 1200 }}>
+    <div className="w-full -mx-4 sm:-mx-6 md:mx-0 overflow-hidden md:overflow-visible" style={{ perspective: 1200 }}>
       {/* 2-Column Plan Grid on Desktop / Full-Bleed Overlapping Snap Carousel on Mobile */}
       <motion.div 
         ref={carouselRef}
         onScroll={handleCarouselScroll}
         layout
-        className="flex md:grid md:grid-cols-2 gap-4 lg:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 pt-1 px-4 sm:px-6 md:px-0 no-scrollbar scroll-pl-4 sm:scroll-pl-6 items-stretch"
+        className="flex md:grid md:grid-cols-2 gap-3.5 lg:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 pt-1 px-4 sm:px-6 md:px-0 no-scrollbar scroll-pl-4 sm:scroll-pl-6 items-stretch"
       >
         
         {/* CARD 1: BUSINESS / KREDIT REGULER (KUMO UI LIGHT SPECULAR CARD) */}
@@ -164,7 +167,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
             mass: 0.8,
             delay: 0.05 
           }}
-          className="w-[84vw] max-w-[420px] md:max-w-none md:w-auto shrink-0 snap-start rounded-3xl border border-black/10 dark:border-white/10 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_12px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.9)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:border-black/20 dark:hover:border-white/20 transition-all duration-200 h-full transform-gpu"
+          className="w-[78vw] max-w-[360px] md:max-w-none md:w-auto shrink-0 snap-start rounded-3xl border border-black/10 dark:border-white/10 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_12px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.9)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:border-black/20 dark:hover:border-white/20 transition-all duration-200 h-full transform-gpu"
         >
           <div>
             <div className="flex items-center justify-between mb-2 min-h-[24px]">
@@ -291,7 +294,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
             mass: 0.8, 
             delay: 0.12 
           }}
-          className="w-[84vw] max-w-[420px] md:max-w-none md:w-auto shrink-0 snap-start rounded-3xl bg-zinc-950 dark:bg-zinc-900 text-zinc-100 p-6 sm:p-7 flex flex-col justify-between shadow-[0_12px_32px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.15)] border border-white/15 dark:border-zinc-700/80 transition-all duration-200 ring-1 ring-black/10 h-full transform-gpu"
+          className="w-[78vw] max-w-[360px] md:max-w-none md:w-auto shrink-0 snap-start mr-4 md:mr-0 rounded-3xl bg-zinc-950 dark:bg-zinc-900 text-zinc-100 p-6 sm:p-7 flex flex-col justify-between shadow-[0_12px_32px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.15)] border border-white/15 dark:border-zinc-700/80 transition-all duration-200 ring-1 ring-black/10 h-full transform-gpu"
         >
           <div>
             <div className="flex items-center justify-between mb-2 min-h-[24px]">
