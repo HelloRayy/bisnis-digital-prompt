@@ -516,8 +516,8 @@ export default function PromptDetailView({
                 ============================================================ */}
             <div className="lg:hidden flex flex-col gap-3.5 pb-20 relative">
               
-              {/* Fixed Top-Left Floating Back Button (24px gap under 64px header = 88px, stays pinned on scroll) */}
-              <div className="fixed top-[88px] left-2.5 sm:left-4 z-40 pointer-events-auto">
+              {/* Fixed Top-Left Floating Back Button (16px gap under 64px header = 80px, stays pinned on scroll) */}
+              <div className="fixed top-[80px] left-2.5 sm:left-4 z-40 pointer-events-auto">
                 <button
                   type="button"
                   onClick={onClose}
