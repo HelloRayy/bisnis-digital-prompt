@@ -12,6 +12,7 @@ import {
   SidebarMenuButton,
   SidebarGroup,
   SidebarGroupLabel,
+  useSidebar,
 } from "@/components/ui/sidebar"
 import { NavUser } from "@/components/nav-user"
 import { 
@@ -44,6 +45,14 @@ export function AppSidebar({
   onSelectCategory,
   ...props
 }) {
+  const { isMobile, setOpenMobile } = useSidebar();
+
+  const handleMobileClose = () => {
+    if (isMobile) {
+      setOpenMobile(false);
+    }
+  };
+
   const getRoleTitle = (role) => {
     if (!role) return "Starter Plan";
     const lower = String(role).toLowerCase();
@@ -72,6 +81,7 @@ export function AppSidebar({
       icon: Sparkles,
       isActive: (activeCategory === 'all' || activeCategory === 'image') && searchQuery === '',
       onClick: () => {
+        handleMobileClose();
         onSearchChange('');
         onSelectCategory && onSelectCategory('all');
       }
@@ -82,6 +92,7 @@ export function AppSidebar({
       icon: Flame,
       isActive: activeCategory === 'trending',
       onClick: () => {
+        handleMobileClose();
         onSearchChange('');
         onSelectCategory && onSelectCategory('trending');
       }
@@ -92,6 +103,7 @@ export function AppSidebar({
       icon: Award,
       isActive: activeCategory === 'editor',
       onClick: () => {
+        handleMobileClose();
         onSearchChange('');
         onSelectCategory && onSelectCategory('editor');
       }
@@ -102,6 +114,7 @@ export function AppSidebar({
       icon: Zap,
       isActive: activeCategory === 'new',
       onClick: () => {
+        handleMobileClose();
         onSearchChange('');
         onSelectCategory && onSelectCategory('new');
       }
@@ -117,6 +130,7 @@ export function AppSidebar({
       badge: favoritePromptIds.length > 0 ? favoritePromptIds.length : null,
       isActive: activeCategory === 'favorite',
       onClick: () => {
+        handleMobileClose();
         onSelectCategory && onSelectCategory(activeCategory === 'favorite' ? 'all' : 'favorite');
       }
     },
@@ -127,6 +141,7 @@ export function AppSidebar({
       badge: purchasedPromptIds.length > 0 ? purchasedPromptIds.length : null,
       isActive: activeCategory === 'unlocked',
       onClick: () => {
+        handleMobileClose();
         onSelectCategory && onSelectCategory(activeCategory === 'unlocked' ? 'all' : 'unlocked');
       }
     }
@@ -222,7 +237,10 @@ export function AppSidebar({
           <SidebarMenu className="gap-0.5">
             <SidebarMenuItem>
               <SidebarMenuButton
-                onClick={() => onOpenUpgrade && onOpenUpgrade()}
+                onClick={() => {
+                  handleMobileClose();
+                  onOpenUpgrade && onOpenUpgrade();
+                }}
                 className="w-full flex items-center justify-between h-9 px-2.5 rounded-lg text-xs transition-all cursor-pointer text-zinc-700 dark:text-zinc-300 hover:text-purple-700 dark:hover:text-purple-300 hover:bg-purple-50/80 dark:hover:bg-purple-950/40 border border-transparent hover:border-purple-200 dark:hover:border-purple-800/60 font-semibold"
               >
                 <div className="flex items-center gap-2.5 min-w-0">

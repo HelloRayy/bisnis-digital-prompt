@@ -406,7 +406,7 @@ export default function SubscriptionView({
 
       {/* 2. Workspace Content Inset */}
       <SidebarInset className="bg-[#f5f5f7] dark:bg-zinc-950 transition-all">
-        <div className="min-h-screen w-full bg-[#f5f5f7] dark:bg-zinc-950 flex flex-col font-sans overflow-hidden">
+        <div className="min-h-screen w-full bg-[#f5f5f7] dark:bg-zinc-950 flex flex-col font-sans overflow-x-hidden pb-28 md:pb-0">
           
           {/* Top Sticky Header with SidebarTrigger & Breadcrumbs */}
           <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between gap-3 sm:gap-4 px-4 sm:px-6 md:px-8 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md border-b border-zinc-200/80 dark:border-white/5 transform-gpu transition-all">

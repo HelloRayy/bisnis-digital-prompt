@@ -79,13 +79,23 @@ export default function FigmaPortfolioPreview({
   userCredits = 0,
   userRole = "Starter Plan",
   currentUser = null,
+  activeCategory: propCategory,
+  onSelectCategory: propOnSelectCategory,
+  searchQuery: propSearchQuery,
+  onSearchChange: propOnSearchChange,
   onOpenAuth = () => {},
   onOpenUpgrade = () => {},
   onSignOut = () => {}
 }) {
-  // Default selected category & search state (default: 'image')
-  const [activeCategory, setActiveCategory] = useState('image');
-  const [searchQuery, setSearchQuery] = useState('');
+  // Controlled or uncontrolled category & search state
+  const [internalCategory, setInternalCategory] = useState('all');
+  const [internalSearchQuery, setInternalSearchQuery] = useState('');
+  
+  const activeCategory = propCategory !== undefined ? propCategory : internalCategory;
+  const setActiveCategory = propOnSelectCategory || setInternalCategory;
+  const searchQuery = propSearchQuery !== undefined ? propSearchQuery : internalSearchQuery;
+  const setSearchQuery = propOnSearchChange || setInternalSearchQuery;
+
   const [currentPage, setCurrentPage] = useState(1);
   const [showSignOutConfirm, setShowSignOutConfirm] = useState(false);
   const ITEMS_PER_PAGE = 24;
@@ -190,8 +200,8 @@ export default function FigmaPortfolioPreview({
       else if (w >= 1280) setColumnCount(5);  // xl
       else if (w >= 1024) setColumnCount(4);  // lg
       else if (w >= 768) setColumnCount(3);   // md
-      else if (w >= 640) setColumnCount(2);   // sm
-      else setColumnCount(1);                 // base
+      else if (w >= 480) setColumnCount(2);   // sm / wide phone
+      else setColumnCount(1);                 // xs phone
     };
 
     updateColumnCount();
@@ -322,11 +332,23 @@ export default function FigmaPortfolioPreview({
           </div>
         </header>
 
-        {/* Main Content: Masonry Grid Layout with exactly 24px gap under fixed header (64px + 24px = 88px) */}
-        <main className="w-full min-w-0 max-w-full overflow-x-hidden mx-auto pt-[88px] px-4 sm:px-6 md:px-8 pb-32">
+        {/* Main Content: Masonry Grid Layout with safe gap under fixed header */}
+        <main className="w-full min-w-0 max-w-full overflow-x-hidden mx-auto pt-[76px] sm:pt-[88px] px-3.5 sm:px-6 md:px-8 pb-32">
+          
+          {/* Mobile Search Bar (Visible only on < 640px) */}
+          <div className="sm:hidden mb-4">
+            <SearchInputWithLoader
+              value={searchQuery}
+              onChange={setSearchQuery}
+              onClear={() => setSearchQuery('')}
+              placeholder="Cari prompt..."
+              className="w-full"
+            />
+          </div>
+
           {displayedPrompts.length > 0 ? (
             <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 sm:gap-6 items-start">
+              <div className="grid grid-cols-1 min-[480px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-3.5 sm:gap-6 items-start">
                 {columnBuckets.map((columnItems, colIdx) => (
                   <div key={`col_bucket_${colIdx}`} className="flex flex-col gap-4 sm:gap-6">
                     {columnItems.map(({ item, index }) => {

@@ -10,9 +10,12 @@ import { findPromptById, findPromptBySlugOrId } from './lib/prompts-service';
 import { supabase, isSupabaseConfigured } from './lib/supabase';
 import { Toaster } from '@/components/ui/sonner';
 import { Clock01Icon } from 'hugeicons-react';
+import MobileBottomDock from './components/ui/MobileBottomDock';
 
 function App() {
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
+  const [activeCategory, setActiveCategory] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
   const [userCredits, setUserCredits] = useState(0);
   const [userRole, setUserRole] = useState('Starter Plan');
   const [currentUser, setCurrentUser] = useState(null);
@@ -495,6 +498,7 @@ function App() {
           onDeductCredits={handleDeductCredits}
           onOpenUpgrade={() => navigateTo('/subscription')}
           onSelectCategory={(cat) => {
+            setActiveCategory(cat);
             handleClosePrompt();
           }}
         />
@@ -507,9 +511,39 @@ function App() {
           userCredits={userCredits}
           userRole={userRole}
           currentUser={currentUser}
+          activeCategory={activeCategory}
+          onSelectCategory={setActiveCategory}
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
           onOpenAuth={() => setShowAuthModal(true)}
           onOpenUpgrade={() => navigateTo('/subscription')}
           onSignOut={handleSignOut}
+        />
+      )}
+
+      {/* Mobile Bottom Dock Floating Navigation */}
+      {!currentPath.startsWith('/checkout') && !currentPath.startsWith('/view/') && (
+        <MobileBottomDock 
+          currentPath={currentPath}
+          activeCategory={activeCategory}
+          favoriteCount={favoritePromptIds.length}
+          onNavigate={(path) => navigateTo(path)}
+          onSelectCategory={(cat) => {
+            setActiveCategory(cat);
+            if (currentPath !== '/') {
+              navigateTo('/');
+            }
+          }}
+          onOpenSearch={() => {
+            if (currentPath !== '/') {
+              navigateTo('/');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          onOpenUpgrade={() => navigateTo('/subscription')}
+          onOpenHistory={() => setShowHistoryModal(true)}
+          onOpenAuth={() => setShowAuthModal(true)}
+          currentUser={currentUser}
         />
       )}
 
