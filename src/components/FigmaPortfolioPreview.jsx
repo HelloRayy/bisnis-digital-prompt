@@ -11,7 +11,8 @@ import {
   Video01Icon, 
   BrowserIcon, 
   FavouriteIcon,
-  CircleUnlock01Icon
+  CircleUnlock01Icon,
+  Search01Icon
 } from 'hugeicons-react';
 import {
   AlertDialog,
