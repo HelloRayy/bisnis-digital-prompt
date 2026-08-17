@@ -534,7 +534,7 @@ export default function PromptDetailView({
             <div className="lg:hidden flex flex-col gap-3.5 pb-20">
               
               {/* 1. Hero Image Card with Top-Left Back Button & Bottom-Right Zoom Button */}
-              <div className="relative w-full rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/10 dark:border-white/10 shadow-md">
+              <div className="relative w-full rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/10 dark:border-white/10">
                 
                 {/* Top-Left Floating Back Button */}
                 <button
@@ -724,7 +724,7 @@ export default function PromptDetailView({
               {/* Left Image Showcase with Aspect Ratio Locked Skeleton */}
               <div className="lg:col-span-6 flex flex-col gap-4 sticky lg:top-24 items-center justify-center">
                 <div 
-                  className="relative w-full max-w-[500px] max-h-[70vh] rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/5 dark:border-white/10 shadow-md flex items-center justify-center"
+                  className="relative w-full max-w-[500px] max-h-[70vh] rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/5 dark:border-white/10 flex items-center justify-center"
                   style={{ aspectRatio: aspectValue }}
                 >
                   {/* High-Craft Shimmer Skeleton (Preserves exact dimensions before image loads) */}
