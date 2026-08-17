@@ -7,7 +7,7 @@ import {
   StarIcon,
   Logout01Icon
 } from 'hugeicons-react';
-import { Check, Coins, Zap, Sliders } from 'lucide-react';
+import { Check, Coins, Zap } from 'lucide-react';
 import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/app-sidebar';
 import { Separator } from '@/components/ui/separator';
@@ -45,35 +45,28 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
   const isSub = billingMode === 'subscription';
 
   // Calculations for custom slider cards
-  const basicPrice = Math.round(basicCredits * 2.5); // Rp 2.5 per kredit (e.g. 1500 = Rp 3.750 ~ Rp 5.000 scale)
-  const proPrice = Math.round(proCredits * 2.0); // Rp 2.0 per kredit (e.g. 6000 = Rp 12.000)
+  const basicPrice = Math.round(basicCredits * 2.5); // Rp 2.5 per kredit
+  const proPrice = Math.round(proCredits * 2.0); // Rp 2.0 per kredit
 
   const basicPct = ((basicCredits - 500) / (3000 - 500)) * 100;
   const proPct = ((proCredits - 4000) / (20000 - 4000)) * 100;
 
   if (!isSub) {
-    /* ATUR KREDIT SENDIRI (CUSTOM SLIDER MODE) */
+    /* ATUR KREDIT SENDIRI (CUSTOM SLIDER MODE - 100% UNIFORM CARD SIZES) */
     return (
       <div className="w-full max-w-4xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6 items-stretch">
           
           {/* SLIDER CARD 1: KREDIT REGULER */}
-          <div className="rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-8 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200">
+          <div className="rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 h-full">
             <div>
-              <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center justify-between mb-2 min-h-[24px]">
                 <span className="inline-block px-3 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-[11px] font-semibold border border-zinc-200 dark:border-zinc-700">
                   Fleksibel
                 </span>
               </div>
 
-              <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
-                Kredit Reguler
-              </h3>
-              <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 min-h-[32px] font-normal leading-relaxed">
-                Atur jumlah kredit sesuai kebutuhan harian atau mencoba prompt favorit.
-              </p>
-
-              <div className="my-4">
+              <div className="mb-2">
                 <span className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight">
                   Rp {basicPrice.toLocaleString('id-ID')}
                 </span>
@@ -82,9 +75,16 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                 </span>
               </div>
 
+              <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
+                Kredit Reguler
+              </h3>
+              <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 min-h-[34px] font-normal leading-relaxed">
+                Atur jumlah kredit sesuai kebutuhan harian atau mencoba prompt favorit.
+              </p>
+
               {/* Interactive Range Slider */}
-              <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 my-4">
-                <div className="flex justify-between items-center text-xs font-bold text-zinc-900 dark:text-zinc-100 mb-2.5">
+              <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 my-3.5">
+                <div className="flex justify-between items-center text-xs font-bold text-zinc-900 dark:text-zinc-100 mb-2">
                   <span className="flex items-center gap-1.5 text-zinc-900 dark:text-white">
                     <Coins size={14} className="text-amber-500" />
                     {basicCredits.toLocaleString('id-ID')} Kredit
@@ -157,23 +157,16 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
             </div>
           </div>
 
-          {/* SLIDER CARD 2: PRO CREATOR PACK (DARK ELEVATED CARD) */}
-          <div className="rounded-3xl bg-zinc-900 dark:bg-zinc-900 text-zinc-100 p-6 sm:p-8 flex flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.12)] border border-zinc-800 dark:border-zinc-700/80 relative md:-mt-2 transition-all duration-200 ring-1 ring-black/5 dark:ring-white/10">
+          {/* SLIDER CARD 2: PRO CREATOR PACK */}
+          <div className="rounded-3xl bg-zinc-900 dark:bg-zinc-900 text-zinc-100 p-6 sm:p-7 flex flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.12)] border border-zinc-800 dark:border-zinc-700/80 transition-all duration-200 ring-1 ring-black/5 dark:ring-white/10 h-full">
             <div>
-              <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center justify-between mb-2 min-h-[24px]">
                 <span className="inline-block px-3 py-0.5 rounded-full bg-zinc-800 text-zinc-300 text-[11px] font-semibold border border-zinc-700">
                   Paling Hemat • Diskon 20%
                 </span>
               </div>
 
-              <h3 className="text-xl font-bold text-white tracking-tight">
-                Pro Creator Pack
-              </h3>
-              <p className="text-xs text-zinc-400 mt-1 min-h-[32px] font-normal leading-relaxed">
-                Pilihan volume besar dengan tarif per kredit termurah untuk power user.
-              </p>
-
-              <div className="my-4">
+              <div className="mb-2">
                 <span className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
                   Rp {proPrice.toLocaleString('id-ID')}
                 </span>
@@ -182,9 +175,16 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                 </span>
               </div>
 
+              <h3 className="text-xl font-bold text-white tracking-tight">
+                Pro Creator Pack
+              </h3>
+              <p className="text-xs text-zinc-400 mt-1 min-h-[34px] font-normal leading-relaxed">
+                Pilihan volume besar dengan tarif per kredit termurah untuk power user.
+              </p>
+
               {/* Interactive Range Slider */}
-              <div className="p-4 rounded-2xl bg-zinc-800/80 border border-zinc-700/80 my-4">
-                <div className="flex justify-between items-center text-xs font-bold text-white mb-2.5">
+              <div className="p-4 rounded-2xl bg-zinc-800/80 border border-zinc-700/80 my-3.5">
+                <div className="flex justify-between items-center text-xs font-bold text-white mb-2">
                   <span className="flex items-center gap-1.5 text-white">
                     <Coins size={14} className="text-amber-400" />
                     {proCredits.toLocaleString('id-ID')} Kredit
@@ -262,16 +262,16 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
     );
   }
 
-  /* PAKET LANGGANAN (3-TIER GRID MODE) */
+  /* PAKET LANGGANAN (3-TIER GRID MODE - 100% UNIFORM CARD SIZES) */
   return (
     <div className="w-full">
-      {/* 3-Column Plan Grid with WCAG Harmonious Tones */}
+      {/* 3-Column Plan Grid with 100% Uniform Card Heights & Balanced Layout */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 items-stretch">
         
         {/* CARD 1: STARTER FREE (CURRENT ACTIVE PLAN) */}
-        <div className="rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200">
+        <div className="rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 h-full">
           <div>
-            <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center justify-between mb-2 min-h-[24px]">
               <span className="inline-block px-3 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 text-[11px] font-semibold border border-emerald-200 dark:border-emerald-800">
                 Paket Aktif
               </span>
@@ -289,7 +289,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
             <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
               Starter (Free)
             </h3>
-            <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 min-h-[32px] font-normal leading-relaxed">
+            <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 min-h-[34px] font-normal leading-relaxed">
               Paket dasar gratis bawaan akun untuk mulai mengeksplorasi prompt AI.
             </p>
 
@@ -338,10 +338,10 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
           </div>
         </div>
 
-        {/* CARD 2: ENTERPRISE (Rp 20.000) - CENTER FEATURED DARK ELEVATED CARD */}
-        <div className="rounded-3xl bg-zinc-900 dark:bg-zinc-900 text-zinc-100 p-6 sm:p-7 flex flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.12)] border border-zinc-800 dark:border-zinc-700/80 relative md:-mt-2 transition-all duration-200 ring-1 ring-black/5 dark:ring-white/10">
+        {/* CARD 2: ENTERPRISE (Rp 20.000) - CENTER FEATURED DARK CARD */}
+        <div className="rounded-3xl bg-zinc-900 dark:bg-zinc-900 text-zinc-100 p-6 sm:p-7 flex flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.12)] border border-zinc-800 dark:border-zinc-700/80 transition-all duration-200 ring-1 ring-black/5 dark:ring-white/10 h-full">
           <div>
-            <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center justify-between mb-2 min-h-[24px]">
               <span className="inline-block px-3 py-0.5 rounded-full bg-zinc-800 text-zinc-300 text-[11px] font-semibold border border-zinc-700">
                 Paling Populer
               </span>
@@ -359,7 +359,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
             <h3 className="text-xl font-bold text-white tracking-tight">
               Enterprise
             </h3>
-            <p className="text-xs text-zinc-400 mt-1 min-h-[32px] font-normal leading-relaxed">
+            <p className="text-xs text-zinc-400 mt-1 min-h-[34px] font-normal leading-relaxed">
               Solusi terlengkap dengan kuota maksimal untuk studio kreatif & agensi.
             </p>
 
@@ -408,9 +408,9 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
         </div>
 
         {/* CARD 3: PRO BUSINESS (Rp 8.000) */}
-        <div className="rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.06)] hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200">
+        <div className="rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.06)] hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 h-full">
           <div>
-            <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center justify-between mb-2 min-h-[24px]">
               <span className="inline-block px-3 py-0.5 rounded-full bg-purple-50 dark:bg-purple-950/50 text-purple-700 dark:text-purple-300 text-[11px] font-semibold border border-purple-200 dark:border-purple-800">
                 Paling Diminati
               </span>
@@ -428,7 +428,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
             <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
               Business
             </h3>
-            <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 min-h-[32px] font-normal leading-relaxed">
+            <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 min-h-[34px] font-normal leading-relaxed">
               Paling efisien bagi prompt engineer dan kreator aktif.
             </p>
 
@@ -632,7 +632,7 @@ export default function SubscriptionView({
               </div>
             </div>
 
-            {/* Pricing Cards Grid (Fixed 3 Cards OR Interactive Custom Sliders) */}
+            {/* Pricing Cards Grid (100% Consistent Card Sizing) */}
             <SubscriptionCards 
               userCredits={userCredits} 
               onTopUp={onTopUp} 
