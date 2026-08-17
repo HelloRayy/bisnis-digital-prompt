@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, Coins, Sparkle, Share2, Unlock, Lock, Bookmark, Search, MoreHorizontal } from 'lucide-react';
+import { Check, Coins, Sparkle, Share2, Unlock, Lock, Bookmark, Search, MoreHorizontal, ChevronLeft } from 'lucide-react';
 import { toast } from 'sonner';
 import { Dock } from '@/components/ui/dock-two';
 import { AnimatedNumber } from '@/components/ui/animated-counter';
@@ -531,21 +531,23 @@ export default function PromptDetailView({
             {/* ============================================================
                 MOBILE VIEW (< 1024px / lg:hidden) - KUMO UI DESIGN SYSTEM
                 ============================================================ */}
-            <div className="lg:hidden flex flex-col gap-3.5 pb-20">
+            <div className="lg:hidden flex flex-col gap-3.5 pb-20 relative">
               
-              {/* 1. Hero Image Card with Top-Left Back Button & Bottom-Right Zoom Button */}
-              <div className="relative w-full rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/10 dark:border-white/10">
-                
-                {/* Top-Left Floating Back Button */}
+              {/* Sticky Top-Left Floating Back Button (Protrudes slightly, stays pinned on scroll) */}
+              <div className="sticky top-[72px] z-30 self-start -ml-1 sm:-ml-2 -mb-12 pointer-events-none">
                 <button
                   type="button"
                   onClick={onClose}
                   aria-label="Kembali"
-                  className="absolute top-3.5 left-3.5 z-20 w-9 h-9 rounded-full bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md border border-black/10 dark:border-white/10 shadow-sm flex items-center justify-center text-obsidian dark:text-white active:scale-90 transition-transform cursor-pointer"
+                  className="pointer-events-auto w-11 h-11 rounded-2xl bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md border border-black/10 dark:border-white/10 shadow-md flex items-center justify-center text-obsidian dark:text-white active:scale-90 transition-transform cursor-pointer"
                 >
-                  <ArrowLeft01Icon size={18} />
+                  <ChevronLeft size={22} className="stroke-[2.5] -ml-0.5" />
                 </button>
+              </div>
 
+              {/* 1. Hero Image Card with Bottom-Right Zoom Button */}
+              <div className="relative w-full rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/10 dark:border-white/10">
+                
                 {/* Aspect-Locked Hero Image */}
                 <div 
                   className="relative w-full overflow-hidden bg-zinc-100 dark:bg-zinc-900"
