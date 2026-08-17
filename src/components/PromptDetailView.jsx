@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import { Dock } from '@/components/ui/dock-two';
 import { AnimatedNumber } from '@/components/ui/animated-counter';
 import SpecularElectricButton from '@/components/ui/SpecularElectricButton';
+import SpecularButton from '@/components/ui/SpecularButton';
 import { SubscriptionCards } from './SubscriptionView';
 import PromptParameterCustomizer from './prompt-detail/PromptParameterCustomizer';
 import PromptImageGallery from './prompt-detail/PromptImageGallery';
@@ -95,7 +96,7 @@ import {
   AlertDialogMedia,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { PrimaryButton, PrimaryCTAButton, SecondaryButton } from "@/components/ui/button";
+import { PrimaryButton, PrimaryCTAButton, SecondaryButton, WhiteButton } from "@/components/ui/button";
 import { SidebarProvider, SidebarInset, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Separator } from "@/components/ui/separator";
@@ -487,19 +488,19 @@ export default function PromptDetailView({
           <main className="max-w-6xl mx-auto w-full px-3.5 sm:px-6 md:px-10 pt-3 sm:pt-6 pb-36 flex-1 flex flex-col relative">
             
             {/* ============================================================
-                MOBILE VIEW (< 1024px / lg:hidden) - MATCHING USER SCREENSHOT
+                MOBILE VIEW (< 1024px / lg:hidden) - KUMO UI DESIGN SYSTEM
                 ============================================================ */}
             <div className="lg:hidden flex flex-col gap-3.5 pb-20">
               
               {/* 1. Hero Image Card with Top-Left Back Button & Bottom-Right Zoom Button */}
-              <div className="relative w-full rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/5 dark:border-white/10 shadow-md">
+              <div className="relative w-full rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/10 dark:border-white/10 shadow-md">
                 
                 {/* Top-Left Floating Back Button */}
                 <button
                   type="button"
                   onClick={onClose}
                   aria-label="Kembali"
-                  className="absolute top-3.5 left-3.5 z-20 w-9 h-9 rounded-full bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border border-black/10 dark:border-white/10 shadow-md flex items-center justify-center text-zinc-900 dark:text-white active:scale-90 transition-transform cursor-pointer"
+                  className="absolute top-3.5 left-3.5 z-20 w-9 h-9 rounded-full bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md border border-black/10 dark:border-white/10 shadow-sm flex items-center justify-center text-obsidian dark:text-white active:scale-90 transition-transform cursor-pointer"
                 >
                   <ArrowLeft01Icon size={18} />
                 </button>
@@ -514,7 +515,7 @@ export default function PromptDetailView({
                       <div className="w-10 h-10 rounded-full bg-zinc-200/80 dark:bg-zinc-800 flex items-center justify-center text-zinc-400 mb-2">
                         <Image01Icon size={20} className="opacity-60" />
                       </div>
-                      <span className="text-[11px] font-medium text-zinc-400">Memuat...</span>
+                      <span className="text-[11px] font-medium text-zinc-400">Memuat Preview...</span>
                     </div>
                   )}
                   <img
@@ -534,23 +535,27 @@ export default function PromptDetailView({
                   type="button"
                   onClick={() => setIsLightboxOpen(true)}
                   aria-label="Perbesar gambar"
-                  className="absolute bottom-3.5 right-3.5 z-20 w-9 h-9 rounded-full bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border border-black/10 dark:border-white/10 shadow-md flex items-center justify-center text-zinc-900 dark:text-white active:scale-90 transition-transform cursor-pointer"
+                  className="absolute bottom-3.5 right-3.5 z-20 w-9 h-9 rounded-full bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md border border-black/10 dark:border-white/10 shadow-sm flex items-center justify-center text-obsidian dark:text-white active:scale-90 transition-transform cursor-pointer"
                 >
                   <Search size={16} className="stroke-[2.2]" />
                 </button>
               </div>
 
-              {/* 2. Engagement & Action Bar (Directly below Image - Matches Reference) */}
+              {/* 2. Engagement & Action Bar (Directly below Image - KUMO UI Style) */}
               <div className="flex items-center justify-between gap-2 px-1 pt-0.5">
                 {/* Left Action Icons */}
-                <div className="flex items-center gap-2.5 text-zinc-700 dark:text-zinc-300">
+                <div className="flex items-center gap-2">
                   {/* Like Button */}
                   <button
                     type="button"
                     onClick={() => onToggleFavorite(prompt.id)}
-                    className="flex items-center gap-1 text-xs font-bold active:scale-90 transition-transform cursor-pointer px-1 py-1"
+                    className={`inline-flex items-center gap-1.5 h-9 px-3 rounded-full text-xs font-bold transition-all active:scale-95 shadow-2xs border-0 cursor-pointer ${
+                      isFavorite 
+                        ? 'bg-rose-50 text-rose-600 ring-1 ring-rose-300 dark:bg-rose-950/50 dark:text-rose-400' 
+                        : 'bg-white dark:bg-zinc-800 text-obsidian dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 hover:bg-zinc-100'
+                    }`}
                   >
-                    <FavouriteIcon size={20} className={isFavorite ? 'fill-red-600 text-red-600' : ''} />
+                    <FavouriteIcon size={16} className={isFavorite ? 'fill-rose-600 text-rose-600' : ''} />
                     <span>{likes + (isFavorite ? 1 : 0)}</span>
                   </button>
 
@@ -558,78 +563,93 @@ export default function PromptDetailView({
                   <button
                     type="button"
                     onClick={() => setShowProjectInfo(!showProjectInfo)}
-                    className="p-1 rounded-full active:scale-90 transition-transform text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 cursor-pointer"
+                    className="h-9 w-9 rounded-full bg-white dark:bg-zinc-800 text-obsidian dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs hover:bg-zinc-100 active:scale-95 flex items-center justify-center cursor-pointer border-0"
                     title="Detail Prompt"
                   >
-                    <InformationCircleIcon size={20} />
+                    <InformationCircleIcon size={16} />
                   </button>
 
                   {/* Share Link */}
                   <button
                     type="button"
                     onClick={handleShareLink}
-                    className="p-1 rounded-full active:scale-90 transition-transform text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 cursor-pointer"
+                    className="h-9 w-9 rounded-full bg-white dark:bg-zinc-800 text-obsidian dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs hover:bg-zinc-100 active:scale-95 flex items-center justify-center cursor-pointer border-0"
                     title="Bagikan Tautan"
                   >
-                    <Share01Icon size={20} />
+                    {copiedLink ? <CheckmarkCircle02Icon size={16} className="text-emerald-600" /> : <Share01Icon size={16} />}
                   </button>
 
                   {/* More Options / Lightbox */}
                   <button
                     type="button"
                     onClick={() => setIsLightboxOpen(true)}
-                    className="p-1 rounded-full active:scale-90 transition-transform text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 cursor-pointer"
-                    title="Opsi Lainnya"
+                    className="h-9 w-9 rounded-full bg-white dark:bg-zinc-800 text-obsidian dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs hover:bg-zinc-100 active:scale-95 flex items-center justify-center cursor-pointer border-0"
+                    title="Perbesar Layar Penuh"
                   >
-                    <MoreHorizontal size={20} />
+                    <MoreHorizontal size={16} />
                   </button>
                 </div>
 
-                {/* Right: Primary Action Button (Red / Rose-600 Pill - Matches Reference "Save" style) */}
-                <button
-                  type="button"
+                {/* Right: Primary Action Button (KUMO UI Obsidian Black with Specular Highlight) */}
+                <PrimaryButton
                   onClick={handleCopyText}
-                  className={`px-5 py-2.5 rounded-full font-bold text-xs sm:text-sm text-white shadow-md active:scale-95 transition-all cursor-pointer ${
-                    copiedText
-                      ? 'bg-emerald-600 shadow-emerald-600/30'
-                      : 'bg-rose-600 hover:bg-rose-700 shadow-rose-600/25'
-                  }`}
+                  className="h-9 px-4 sm:px-5 rounded-full text-xs font-bold shadow-xs active:scale-95"
                 >
-                  {copiedText
-                    ? 'Disalin!'
-                    : (isUnlocked || !isPremium)
-                      ? 'Salin Prompt'
-                      : `Buka (${promptCost} Kredit)`}
-                </button>
+                  {copiedText ? (
+                    <span className="flex items-center gap-1.5 text-emerald-400">
+                      <Check size={14} className="stroke-[2.5]" />
+                      Disalin!
+                    </span>
+                  ) : (isUnlocked || !isPremium) ? (
+                    <span className="flex items-center gap-1.5">
+                      <Copy01Icon size={14} />
+                      Salin Prompt
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-1.5">
+                      <Coins size={14} className="text-amber-400" />
+                      Buka ({promptCost} Kredit)
+                    </span>
+                  )}
+                </PrimaryButton>
               </div>
 
-              {/* 3. Author Row */}
-              <div className="flex items-center gap-2 px-1 pt-1">
-                <div className="w-5 h-5 rounded-full bg-zinc-900 text-white flex items-center justify-center text-[10px] font-bold">
-                  {(author || 'W')[0].toUpperCase()}
-                </div>
-                <span className="text-xs font-bold text-zinc-900 dark:text-zinc-100 truncate">
+              {/* 3. Metadata Pills Row */}
+              <div className="flex flex-wrap items-center gap-2 px-1 pt-1 text-xs text-ash-gray font-sans">
+                <span className="bg-[#f2f2f2] dark:bg-zinc-800 text-obsidian dark:text-zinc-200 px-3 py-1 rounded-full font-semibold">
                   @{author || 'Daniel Triendl'}
                 </span>
-                <span className="text-[11px] text-zinc-400 font-medium ml-auto">
+                <span className="bg-[#f2f2f2] dark:bg-zinc-800 text-obsidian dark:text-zinc-200 px-3 py-1 rounded-full font-semibold">
                   {model}
                 </span>
+                {isPremium && (
+                  <SpecularButton isUnlocked={isUnlocked}>
+                    {isUnlocked ? 'Unlocked' : `Premium (${promptCost} Kredit)`}
+                  </SpecularButton>
+                )}
               </div>
 
-              {/* 4. Title */}
-              <div className="px-1">
-                <h1 className="text-base sm:text-lg font-bold text-zinc-900 dark:text-white leading-snug tracking-tight">
+              {/* 4. Title & Category Subtitle */}
+              <div className="px-1 pt-0.5">
+                <h1 className="font-serif text-2xl sm:text-3xl font-normal text-obsidian dark:text-white tracking-tight leading-tight">
                   {title}
                 </h1>
+                <p className="font-sans text-ash-gray font-normal text-xs sm:text-sm pt-1">
+                  {categoryTagsStr} <span className="text-obsidian dark:text-zinc-100 font-semibold">{creatorHandle}</span>
+                </p>
               </div>
 
               {/* 5. Prompt Text & Parameter Customizer */}
-              <div className="px-1 flex flex-col gap-3">
+              <div className="px-1 flex flex-col gap-3 pt-1">
                 {/* Prompt Quote Display */}
-                <div className={`p-4 rounded-2xl bg-zinc-100 dark:bg-zinc-900 border border-black/5 dark:border-white/10 ${
+                <div className={`p-4 sm:p-5 rounded-2xl bg-[#f8f8f8] dark:bg-zinc-900 border border-black/5 dark:border-white/10 shadow-2xs ${
                   !isUnlocked && isPremium ? 'blur-xs select-none opacity-50' : ''
                 }`}>
-                  <p className="text-xs text-zinc-800 dark:text-zinc-200 font-serif leading-relaxed italic">
+                  <div className="flex items-center justify-between gap-2 pb-2 mb-2 border-b border-black/5 dark:border-white/5">
+                    <span className="text-[11px] font-bold text-obsidian dark:text-white uppercase tracking-wider">Teks Prompt</span>
+                    <span className="text-[11px] text-zinc-500 font-medium">{rawPrompt.length} Karakter</span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-zinc-800 dark:text-zinc-200 font-serif leading-relaxed italic">
                     "{compiledPrompt}"
                   </p>
                 </div>
@@ -643,15 +663,14 @@ export default function PromptDetailView({
                   />
                 )}
 
-                {/* Copy Image Link Button */}
-                <button
-                  type="button"
+                {/* Copy Image Link Button with WhiteButton */}
+                <WhiteButton
                   onClick={copyImageUrlToClipboard}
-                  className="w-full py-3 rounded-full bg-zinc-200/80 dark:bg-zinc-800/80 hover:bg-zinc-300 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-100 font-bold text-xs transition-all active:scale-98 cursor-pointer flex items-center justify-center gap-1.5 shadow-2xs"
+                  className="w-full h-10 rounded-full text-xs font-bold shadow-2xs"
                 >
-                  <Image01Icon size={14} />
+                  <Image01Icon size={14} className="mr-1.5" />
                   <span>{copiedImg ? 'Link Gambar Disalin!' : 'Salin Link Gambar Referensi'}</span>
-                </button>
+                </WhiteButton>
               </div>
 
             </div>
