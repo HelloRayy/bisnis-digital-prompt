@@ -27,20 +27,18 @@ export const getPromptCost = (promptObj) => {
 };
 
 /**
- * Detects real aspect ratio class or assigns an organic asymmetric ratio.
- * Mimics Behance / Pinterest asymmetric visual masonry feed with organic proportions.
+ * Returns native CSS aspect-ratio string value (e.g. "3 / 4", "9 / 16", "1 / 1").
+ * 100% resilient across all browsers without depending on Tailwind JIT class scanning.
  */
-export const getPromptAspectRatioClass = (promptObj) => {
-  if (!promptObj) return 'aspect-[3/4]';
+export const getPromptAspectRatioValue = (promptObj) => {
+  if (!promptObj) return '3 / 4';
 
   // 1. Direct aspect ratio field on object
   if (promptObj.aspect_ratio) {
-    const ar = String(promptObj.aspect_ratio).replace(':', '/').trim();
-    return `aspect-[${ar}]`;
+    return String(promptObj.aspect_ratio).replace(':', ' / ').trim();
   }
   if (promptObj.aspectRatio) {
-    const ar = String(promptObj.aspectRatio).replace(':', '/').trim();
-    return `aspect-[${ar}]`;
+    return String(promptObj.aspectRatio).replace(':', ' / ').trim();
   }
 
   const text = (promptObj.prompt || '').toLowerCase();
@@ -48,44 +46,42 @@ export const getPromptAspectRatioClass = (promptObj) => {
   // 2. Midjourney / AI aspect ratio parameter: --ar X:Y or --aspect X:Y
   const arParamMatch = text.match(/--(?:ar|aspect)\s+(\d+[:/]\d+)/i);
   if (arParamMatch && arParamMatch[1]) {
-    const ar = arParamMatch[1].replace(':', '/');
-    return `aspect-[${ar}]`;
+    return arParamMatch[1].replace(':', ' / ').replace('/', ' / ');
   }
 
   // 3. Aspect ratio in JSON structure or explicit tags
   const jsonArMatch = text.match(/"aspect_ratio"\s*:\s*"([^"]+)"/i);
   if (jsonArMatch && jsonArMatch[1]) {
-    const ar = jsonArMatch[1].replace(':', '/');
-    return `aspect-[${ar}]`;
+    return jsonArMatch[1].replace(':', ' / ').replace('/', ' / ');
   }
 
   // 4. Exact aspect ratio keywords
   if (text.includes('1080×1080') || text.includes('1080x1080') || text.includes('1:1') || text.includes('square')) {
-    return 'aspect-[1/1]';
+    return '1 / 1';
   }
   if (text.includes('9:16') || text.includes('9/16') || text.includes('story') || text.includes('reel') || text.includes('tiktok')) {
-    return 'aspect-[9/16]';
+    return '9 / 16';
   }
   if (text.includes('16:9') || text.includes('16/9') || text.includes('widescreen') || text.includes('cinematic')) {
-    return 'aspect-[16/9]';
+    return '16 / 9';
   }
   if (text.includes('2:3') || text.includes('2/3')) {
-    return 'aspect-[2/3]';
+    return '2 / 3';
   }
   if (text.includes('4:5') || text.includes('4/5')) {
-    return 'aspect-[4/5]';
+    return '4 / 5';
   }
 
   // 5. Rich Organic Asymmetric Masonry fallback (based on item id/hash for Behance/Pinterest look)
   const organicRatios = [
-    'aspect-[9/16]',   // Ultra-tall vertical poster (like Behance leftmost card)
-    'aspect-[3/4]',    // Classic portrait
-    'aspect-[1/1]',    // Balanced square
-    'aspect-[4/5]',    // Medium tall portrait
-    'aspect-[2/3]',    // Extra tall artwork
-    'aspect-[9/14]',   // Editorial tall
-    'aspect-[16/11]',  // Horizontal wide
-    'aspect-[3/5]'     // Slender vertical
+    '9 / 16',   // Ultra-tall vertical poster
+    '3 / 4',    // Classic portrait
+    '1 / 1',    // Balanced square
+    '4 / 5',    // Medium tall portrait
+    '2 / 3',    // Extra tall artwork
+    '9 / 14',   // Editorial tall
+    '16 / 11',  // Horizontal wide
+    '3 / 5'     // Slender vertical
   ];
 
   const hashId = typeof promptObj.id === 'number' 
@@ -93,6 +89,10 @@ export const getPromptAspectRatioClass = (promptObj) => {
     : (String(promptObj.id || promptObj.prompt || '').length);
   
   return organicRatios[hashId % organicRatios.length];
+};
+
+export const getPromptAspectRatioClass = (promptObj) => {
+  return ''; // Deprecated in favor of getPromptAspectRatioValue for zero JIT bugs
 };
 
 export { getOptimizedImageUrl, getCleanShortSlug };

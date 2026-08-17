@@ -26,7 +26,7 @@ import {
 import { BanknoteArrowUp, Coins, MoreHorizontal } from 'lucide-react';
 import { getCleanShortSlug } from '../utils/slug';
 import { getOptimizedImageUrl } from '../utils/image-optimizer';
-import { getPromptAspectRatioClass } from '../utils/prompt-helpers';
+import { getPromptAspectRatioValue } from '../utils/prompt-helpers';
 import { AppSidebar } from '@/components/app-sidebar';
 import { Dock } from '@/components/ui/dock-two';
 import { AnimatedNumber } from '@/components/ui/animated-counter';
@@ -353,7 +353,7 @@ export default function FigmaPortfolioPreview({
                   <div key={`col_bucket_${colIdx}`} className="flex flex-col gap-3.5 sm:gap-5 lg:gap-6">
                     {columnItems.map(({ item, index }) => {
                       const isUnlocked = purchasedPromptIds.includes(item.id) || !item.isPremium;
-                      const aspectClass = getPromptAspectRatioClass(item);
+                      const arValue = getPromptAspectRatioValue(item);
                       const customSlug = getCleanShortSlug(item);
                       const promptCost = item.cost ?? (item.prompt?.length >= 1533 ? 500 : 400);
 
@@ -363,7 +363,10 @@ export default function FigmaPortfolioPreview({
                           onClick={() => onOpenDetail(item, customSlug)}
                           className="group cursor-pointer flex flex-col gap-1.5 sm:gap-2 [content-visibility:auto]"
                         >
-                          <div className={`relative w-full ${aspectClass} rounded-2xl sm:rounded-[20px] overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/5 dark:border-white/10 shadow-2xs group-hover:shadow-md transition-shadow duration-200 [contain:paint]`}>
+                          <div 
+                            className="relative w-full rounded-2xl sm:rounded-[20px] overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/5 dark:border-white/10 shadow-2xs group-hover:shadow-md transition-shadow duration-200"
+                            style={{ aspectRatio: arValue }}
+                          >
                             <PortfolioImageItem src={item.image} alt={getShortTitle(item)} isPriority={index < 12} />
 
                             {/* Top Subtle Gradient Overlay (Visible on Hover) */}

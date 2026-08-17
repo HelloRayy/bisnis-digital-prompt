@@ -9,7 +9,7 @@ import { SubscriptionCards } from './SubscriptionView';
 import PromptParameterCustomizer from './prompt-detail/PromptParameterCustomizer';
 import PromptImageGallery from './prompt-detail/PromptImageGallery';
 import { getOptimizedImageUrl } from '@/utils/image-optimizer';
-import { getPromptAspectRatioClass } from '@/utils/prompt-helpers';
+import { getPromptAspectRatioValue } from '@/utils/prompt-helpers';
 import { 
   Cancel01Icon, 
   Copy01Icon, 
@@ -184,7 +184,7 @@ export default function PromptDetailView({
   const [selectedImgIndex, setSelectedImgIndex] = useState(0);
   const activeImage = allImages[selectedImgIndex] || image;
   const [isHeroLoaded, setIsHeroLoaded] = useState(false);
-  const aspectClass = getPromptAspectRatioClass(prompt);
+  const aspectValue = getPromptAspectRatioValue(prompt);
 
   // Reset loading state if active image changes
   React.useEffect(() => {
@@ -505,7 +505,10 @@ export default function PromptDetailView({
                 </button>
 
                 {/* Aspect-Locked Hero Image */}
-                <div className={`relative w-full ${aspectClass} [contain:paint]`}>
+                <div 
+                  className="relative w-full overflow-hidden bg-zinc-100 dark:bg-zinc-900"
+                  style={{ aspectRatio: aspectValue }}
+                >
                   {!isHeroLoaded && (
                     <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-zinc-100 dark:bg-zinc-900 animate-pulse z-0">
                       <div className="w-10 h-10 rounded-full bg-zinc-200/80 dark:bg-zinc-800 flex items-center justify-center text-zinc-400 mb-2">
@@ -672,7 +675,10 @@ export default function PromptDetailView({
                   >
               {/* Left Image Showcase with Aspect Ratio Locked Skeleton */}
               <div className="lg:col-span-6 flex flex-col gap-4 sticky lg:top-24 items-center justify-center">
-                <div className={`relative w-full max-w-[500px] ${aspectClass} max-h-[70vh] rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/5 dark:border-white/10 shadow-md flex items-center justify-center [contain:paint]`}>
+                <div 
+                  className="relative w-full max-w-[500px] max-h-[70vh] rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/5 dark:border-white/10 shadow-md flex items-center justify-center"
+                  style={{ aspectRatio: aspectValue }}
+                >
                   {/* High-Craft Shimmer Skeleton (Preserves exact dimensions before image loads) */}
                   {!isHeroLoaded && (
                     <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-zinc-100 dark:bg-zinc-900 animate-pulse z-0">
