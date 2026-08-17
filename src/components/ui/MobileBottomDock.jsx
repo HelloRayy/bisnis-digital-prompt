@@ -119,6 +119,7 @@ export default function MobileBottomDock({
 
               <div className="relative flex items-center justify-center">
                 <IconComp 
+                  size={22}
                   active={item.isActive}
                   className={`transition-transform duration-200 ${
                     item.isActive 
