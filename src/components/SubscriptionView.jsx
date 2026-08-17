@@ -114,7 +114,6 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
 
   // Track active slide on scroll for pagination dots
   const handleCarouselScroll = (e) => {
-    if (!isSub) return;
     const target = e.currentTarget;
     const scrollLeft = target.scrollLeft;
     const cardWidth = target.offsetWidth * 0.84;
@@ -141,25 +140,20 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
   };
 
   return (
-    <div className="w-full" style={{ perspective: 1200 }}>
-      {/* 2-Column Plan Grid on Desktop / Snap Carousel on Mobile */}
+    <div className="w-full -mx-4 sm:-mx-6 md:mx-0 px-4 sm:px-6 md:px-0" style={{ perspective: 1200 }}>
+      {/* 2-Column Plan Grid on Desktop / Full-Bleed Overlapping Snap Carousel on Mobile */}
       <motion.div 
         ref={carouselRef}
         onScroll={handleCarouselScroll}
         layout
-        className={cn(
-          "w-full items-stretch",
-          isSub 
-            ? "flex md:grid md:grid-cols-2 gap-4 lg:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-3 pt-1 px-1 -mx-4 px-4 sm:mx-0 sm:px-0 no-scrollbar"
-            : "grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6"
-        )}
+        className="flex md:grid md:grid-cols-2 gap-4 lg:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 pt-1 px-4 sm:px-6 md:px-0 no-scrollbar scroll-pl-4 sm:scroll-pl-6 items-stretch"
       >
         
         {/* CARD 1: BUSINESS / KREDIT REGULER (KUMO UI LIGHT SPECULAR CARD) */}
         <motion.div
           layout
           onClick={() => {
-            if (isSub && activeCardIndex !== 0) scrollToCard(0);
+            if (activeCardIndex !== 0) scrollToCard(0);
           }}
           initial={{ opacity: 0, y: 28, rotateY: -12, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, rotateY: 0, scale: 1 }}
@@ -170,10 +164,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
             mass: 0.8,
             delay: 0.05 
           }}
-          className={cn(
-            "rounded-3xl border border-black/10 dark:border-white/10 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_12px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.9)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:border-black/20 dark:hover:border-white/20 transition-all duration-200 h-full transform-gpu",
-            isSub ? "w-[84vw] sm:w-[380px] md:w-auto shrink-0 snap-center" : "w-full"
-          )}
+          className="w-[84vw] max-w-[420px] md:max-w-none md:w-auto shrink-0 snap-start rounded-3xl border border-black/10 dark:border-white/10 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_12px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.9)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:border-black/20 dark:hover:border-white/20 transition-all duration-200 h-full transform-gpu"
         >
           <div>
             <div className="flex items-center justify-between mb-2 min-h-[24px]">
@@ -289,7 +280,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
         <motion.div
           layout
           onClick={() => {
-            if (isSub && activeCardIndex !== 1) scrollToCard(1);
+            if (activeCardIndex !== 1) scrollToCard(1);
           }}
           initial={{ opacity: 0, y: 28, rotateY: 12, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, rotateY: 0, scale: 1 }}
@@ -297,13 +288,10 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
             type: "spring", 
             stiffness: 260, 
             damping: 24, 
-            mass: 0.8,
+            mass: 0.8, 
             delay: 0.12 
           }}
-          className={cn(
-            "rounded-3xl bg-zinc-950 dark:bg-zinc-900 text-zinc-100 p-6 sm:p-7 flex flex-col justify-between shadow-[0_12px_32px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.15)] border border-white/15 dark:border-zinc-700/80 transition-all duration-200 ring-1 ring-black/10 h-full transform-gpu",
-            isSub ? "w-[84vw] sm:w-[380px] md:w-auto shrink-0 snap-center" : "w-full"
-          )}
+          className="w-[84vw] max-w-[420px] md:max-w-none md:w-auto shrink-0 snap-start rounded-3xl bg-zinc-950 dark:bg-zinc-900 text-zinc-100 p-6 sm:p-7 flex flex-col justify-between shadow-[0_12px_32px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.15)] border border-white/15 dark:border-zinc-700/80 transition-all duration-200 ring-1 ring-black/10 h-full transform-gpu"
         >
           <div>
             <div className="flex items-center justify-between mb-2 min-h-[24px]">
@@ -417,33 +405,31 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
 
       </motion.div>
 
-      {/* Mobile Interactive Pagination Dots (Visible only on mobile in Paket Langganan mode) */}
-      {isSub && (
-        <div className="flex md:hidden items-center justify-center gap-2 mt-3 mb-2">
-          <button
-            type="button"
-            onClick={() => scrollToCard(0)}
-            aria-label="Pilih Paket Business"
-            className={cn(
-              "h-2 rounded-full transition-all duration-300 cursor-pointer",
-              activeCardIndex === 0 
-                ? "w-7 bg-obsidian dark:bg-white" 
-                : "w-2 bg-zinc-300 dark:bg-zinc-700 hover:bg-zinc-400"
-            )}
-          />
-          <button
-            type="button"
-            onClick={() => scrollToCard(1)}
-            aria-label="Pilih Paket Enterprise"
-            className={cn(
-              "h-2 rounded-full transition-all duration-300 cursor-pointer",
-              activeCardIndex === 1 
-                ? "w-7 bg-obsidian dark:bg-white" 
-                : "w-2 bg-zinc-300 dark:bg-zinc-700 hover:bg-zinc-400"
-            )}
-          />
-        </div>
-      )}
+      {/* Mobile Interactive Pagination Dots (Visible on mobile for both modes) */}
+      <div className="flex md:hidden items-center justify-center gap-2 mt-2 mb-2">
+        <button
+          type="button"
+          onClick={() => scrollToCard(0)}
+          aria-label="Pilih Paket Pertama"
+          className={cn(
+            "h-2 rounded-full transition-all duration-300 cursor-pointer",
+            activeCardIndex === 0 
+              ? "w-7 bg-obsidian dark:bg-white" 
+              : "w-2 bg-zinc-300 dark:bg-zinc-700 hover:bg-zinc-400"
+          )}
+        />
+        <button
+          type="button"
+          onClick={() => scrollToCard(1)}
+          aria-label="Pilih Paket Kedua"
+          className={cn(
+            "h-2 rounded-full transition-all duration-300 cursor-pointer",
+            activeCardIndex === 1 
+              ? "w-7 bg-obsidian dark:bg-white" 
+              : "w-2 bg-zinc-300 dark:bg-zinc-700 hover:bg-zinc-400"
+          )}
+        />
+      </div>
     </div>
   );
 }
