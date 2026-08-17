@@ -95,8 +95,7 @@ import {
   AlertDialogMedia,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { PrimaryButton, PrimaryCTAButton } from "@/components/ui/button";
-import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarInset, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -107,6 +106,43 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+
+/* Dynamic Floating Secondary CTA Close Button (Fixed on scroll, natural at top) */
+function DetailCloseCTA({ onClose, isScrolled }) {
+  let sidebarLeft = "left-4 sm:left-6 md:left-8 lg:left-72";
+  try {
+    const { state, isMobile } = useSidebar();
+    if (!isMobile) {
+      sidebarLeft = state === "collapsed" ? "left-16 sm:left-20" : "left-72";
+    }
+  } catch (e) {
+    // fallback
+  }
+
+  return (
+    <div className="mb-6 sm:mb-8 flex items-center justify-start min-h-[36px]">
+      <button 
+        type="button"
+        onClick={onClose}
+        className={`transition-all duration-200 cursor-pointer active:scale-95 ${
+          isScrolled 
+            ? `fixed top-3.5 ${sidebarLeft} z-50 group inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl text-zinc-950 dark:text-white ring-1 ring-black/15 dark:ring-white/20 shadow-md text-xs font-semibold hover:bg-white dark:hover:bg-zinc-800 hover:ring-black/25` 
+            : 'group inline-flex items-center gap-2.5 p-0 bg-transparent text-obsidian dark:text-zinc-200 text-xs font-semibold hover:text-purple-600'
+        }`}
+        title="Tutup Preview & Kembali"
+      >
+        <div className={`transition-all duration-200 flex items-center justify-center ${
+          isScrolled 
+            ? 'w-5.5 h-5.5 rounded-full bg-zinc-100 dark:bg-zinc-800 group-hover:bg-purple-100 dark:group-hover:bg-purple-950/60 text-zinc-700 dark:text-zinc-300 group-hover:text-purple-600 shadow-2xs' 
+            : 'w-8 h-8 rounded-full bg-[#f2f2f2] dark:bg-zinc-800 group-hover:bg-purple-100 dark:group-purple-950/50 border border-black/5 dark:border-white/10 text-obsidian dark:text-zinc-200 group-hover:text-purple-600 shadow-2xs'
+        }`}>
+          <Cancel01Icon size={isScrolled ? 13 : 16} className="group-hover:rotate-90 transition-transform duration-200 shrink-0" />
+        </div>
+        <span>Tutup</span>
+      </button>
+    </div>
+  );
+}
 
 export default function PromptDetailView({
   prompt,
@@ -448,28 +484,8 @@ export default function PromptDetailView({
 
           {/* Main Content Area */}
           <main className="max-w-6xl mx-auto w-full px-4 sm:px-6 md:px-10 pt-4 sm:pt-6 pb-36 flex-1 flex flex-col relative">
-            {/* Dynamic Sticky Close CTA Button */}
-            <div className="sticky top-20 z-30 mb-6 sm:mb-8 self-start flex items-center justify-start pointer-events-auto">
-              <button 
-                type="button"
-                onClick={onClose}
-                className={`group inline-flex items-center gap-2.5 transition-all duration-200 cursor-pointer active:scale-95 ${
-                  isScrolled 
-                    ? 'px-3.5 py-1.5 rounded-full bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl text-zinc-950 dark:text-white ring-1 ring-black/15 dark:ring-white/20 shadow-md text-xs font-semibold' 
-                    : 'p-0 bg-transparent text-obsidian dark:text-zinc-200 text-xs font-semibold hover:text-purple-600'
-                }`}
-                title="Tutup Preview & Kembali"
-              >
-                <div className={`transition-all duration-200 flex items-center justify-center ${
-                  isScrolled 
-                    ? 'w-5.5 h-5.5 rounded-full bg-zinc-100 dark:bg-zinc-800 group-hover:bg-purple-100 dark:group-hover:bg-purple-950/60 text-zinc-700 dark:text-zinc-300 group-hover:text-purple-600 shadow-2xs' 
-                    : 'w-8 h-8 rounded-full bg-[#f2f2f2] dark:bg-zinc-800 group-hover:bg-purple-100 dark:group-hover:bg-purple-950/50 border border-black/5 dark:border-white/10 text-obsidian dark:text-zinc-200 group-hover:text-purple-600 shadow-2xs'
-                }`}>
-                  <Cancel01Icon size={isScrolled ? 13 : 16} className="group-hover:rotate-90 transition-transform duration-200 shrink-0" />
-                </div>
-                <span>Tutup</span>
-              </button>
-            </div>
+            {/* Dynamic Floating Close CTA Button (Fixed on scroll, clean in-place at top) */}
+            <DetailCloseCTA onClose={onClose} isScrolled={isScrolled} />
         <AnimatePresence mode="wait">
           {!showProjectInfo ? (
             /* STAGE 1: Visual Cover View */
