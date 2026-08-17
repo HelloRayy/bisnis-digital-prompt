@@ -83,8 +83,8 @@ export default function FigmaPortfolioPreview({
   onOpenUpgrade = () => {},
   onSignOut = () => {}
 }) {
-  // Default selected category & search state
-  const [activeCategory, setActiveCategory] = useState('all');
+  // Default selected category & search state (default: 'image')
+  const [activeCategory, setActiveCategory] = useState('image');
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [showSignOutConfirm, setShowSignOutConfirm] = useState(false);
@@ -484,7 +484,7 @@ export default function FigmaPortfolioPreview({
                 {
                   icon: Image01Icon,
                   label: 'Gambar',
-                  isActive: activeCategory === 'image',
+                  isActive: activeCategory === 'image' || activeCategory === 'all',
                   onClick: () => setActiveCategory('image')
                 },
                 {
