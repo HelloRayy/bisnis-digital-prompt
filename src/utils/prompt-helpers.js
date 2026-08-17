@@ -7,15 +7,15 @@ import { getCleanShortSlug } from './slug';
 export const getShortTitle = (promptObj) => {
   if (!promptObj) return 'Untitled Artwork';
   const cleanPrompt = (promptObj.prompt || '').replace(/^\{.*?\}/, '').trim();
-  if (cleanPrompt.length <= 24) return cleanPrompt || 'Untitled Artwork';
+  if (cleanPrompt.length <= 26) return cleanPrompt || 'Untitled Artwork';
   
   const words = cleanPrompt.split(' ');
   if (words.length > 3) {
     const shortSnippet = words.slice(0, 3).join(' ');
-    if (shortSnippet.length > 24) return shortSnippet.slice(0, 23) + '...';
+    if (shortSnippet.length > 26) return shortSnippet.slice(0, 25) + '...';
     return shortSnippet;
   }
-  return cleanPrompt.slice(0, 23) + '...';
+  return cleanPrompt.slice(0, 25) + '...';
 };
 
 /**
@@ -27,8 +27,8 @@ export const getPromptCost = (promptObj) => {
 };
 
 /**
- * Detects real aspect ratio class from prompt parameters or prompt description.
- * Ensures zero content layout shift (0 CLS) and identical aspect ratios across Home & Detail views.
+ * Detects real aspect ratio class or assigns an organic asymmetric ratio.
+ * Mimics Behance / Pinterest asymmetric visual masonry feed with organic proportions.
  */
 export const getPromptAspectRatioClass = (promptObj) => {
   if (!promptObj) return 'aspect-[3/4]';
@@ -59,14 +59,14 @@ export const getPromptAspectRatioClass = (promptObj) => {
     return `aspect-[${ar}]`;
   }
 
-  // 4. Exact aspect ratio dimensions
-  if (text.includes('1080×1080') || text.includes('1080x1080') || text.includes('1:1') || text.includes('1/1') || text.includes('square')) {
+  // 4. Exact aspect ratio keywords
+  if (text.includes('1080×1080') || text.includes('1080x1080') || text.includes('1:1') || text.includes('square')) {
     return 'aspect-[1/1]';
   }
   if (text.includes('9:16') || text.includes('9/16') || text.includes('story') || text.includes('reel') || text.includes('tiktok')) {
     return 'aspect-[9/16]';
   }
-  if (text.includes('16:9') || text.includes('16/9') || text.includes('widescreen 16:9') || text.includes('cinematic 16:9')) {
+  if (text.includes('16:9') || text.includes('16/9') || text.includes('widescreen') || text.includes('cinematic')) {
     return 'aspect-[16/9]';
   }
   if (text.includes('2:3') || text.includes('2/3')) {
@@ -75,16 +75,24 @@ export const getPromptAspectRatioClass = (promptObj) => {
   if (text.includes('4:5') || text.includes('4/5')) {
     return 'aspect-[4/5]';
   }
-  if (text.includes('3:4') || text.includes('3/4')) {
-    return 'aspect-[3/4]';
-  }
-  if (text.includes('4:3') || text.includes('4/3')) {
-    return 'aspect-[4/3]';
-  }
 
-  // 5. Default consistent portrait ratio
-  return 'aspect-[3/4]';
+  // 5. Rich Organic Asymmetric Masonry fallback (based on item id/hash for Behance/Pinterest look)
+  const organicRatios = [
+    'aspect-[9/16]',   // Ultra-tall vertical poster (like Behance leftmost card)
+    'aspect-[3/4]',    // Classic portrait
+    'aspect-[1/1]',    // Balanced square
+    'aspect-[4/5]',    // Medium tall portrait
+    'aspect-[2/3]',    // Extra tall artwork
+    'aspect-[9/14]',   // Editorial tall
+    'aspect-[16/11]',  // Horizontal wide
+    'aspect-[3/5]'     // Slender vertical
+  ];
+
+  const hashId = typeof promptObj.id === 'number' 
+    ? promptObj.id 
+    : (String(promptObj.id || promptObj.prompt || '').length);
+  
+  return organicRatios[hashId % organicRatios.length];
 };
 
 export { getOptimizedImageUrl, getCleanShortSlug };
-

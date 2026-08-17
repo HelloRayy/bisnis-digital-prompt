@@ -23,7 +23,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { BanknoteArrowUp, Coins } from 'lucide-react';
+import { BanknoteArrowUp, Coins, MoreHorizontal } from 'lucide-react';
 import { getCleanShortSlug } from '../utils/slug';
 import { getOptimizedImageUrl } from '../utils/image-optimizer';
 import { getPromptAspectRatioClass } from '../utils/prompt-helpers';
@@ -200,8 +200,7 @@ export default function FigmaPortfolioPreview({
       else if (w >= 1280) setColumnCount(5);  // xl
       else if (w >= 1024) setColumnCount(4);  // lg
       else if (w >= 768) setColumnCount(3);   // md
-      else if (w >= 480) setColumnCount(2);   // sm / wide phone
-      else setColumnCount(1);                 // xs phone
+      else setColumnCount(2);                 // mobile (< 768px ALWAYS 2 columns as in reference!)
     };
 
     updateColumnCount();
@@ -333,10 +332,10 @@ export default function FigmaPortfolioPreview({
         </header>
 
         {/* Main Content: Masonry Grid Layout with safe gap under fixed header */}
-        <main className="w-full min-w-0 max-w-full overflow-x-hidden mx-auto pt-[76px] sm:pt-[88px] px-3.5 sm:px-6 md:px-8 pb-32">
+        <main className="w-full min-w-0 max-w-full overflow-x-hidden mx-auto pt-[76px] sm:pt-[88px] px-3 sm:px-6 md:px-8 pb-32">
           
           {/* Mobile Search Bar (Visible only on < 640px) */}
-          <div className="sm:hidden mb-4">
+          <div className="sm:hidden mb-3.5">
             <SearchInputWithLoader
               value={searchQuery}
               onChange={setSearchQuery}
@@ -348,9 +347,10 @@ export default function FigmaPortfolioPreview({
 
           {displayedPrompts.length > 0 ? (
             <>
-              <div className="grid grid-cols-1 min-[480px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-3.5 sm:gap-6 items-start">
+              {/* 2-Column Mobile Masonry Grid matching Pinterest / Behance UI */}
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-2.5 sm:gap-5 lg:gap-6 items-start">
                 {columnBuckets.map((columnItems, colIdx) => (
-                  <div key={`col_bucket_${colIdx}`} className="flex flex-col gap-4 sm:gap-6">
+                  <div key={`col_bucket_${colIdx}`} className="flex flex-col gap-3.5 sm:gap-5 lg:gap-6">
                     {columnItems.map(({ item, index }) => {
                       const isUnlocked = purchasedPromptIds.includes(item.id) || !item.isPremium;
                       const aspectClass = getPromptAspectRatioClass(item);
@@ -361,18 +361,18 @@ export default function FigmaPortfolioPreview({
                         <div 
                           key={item._stableId}
                           onClick={() => onOpenDetail(item, customSlug)}
-                          className="group cursor-pointer flex flex-col gap-2.5 [content-visibility:auto] [contain-intrinsic-size:1px_340px]"
+                          className="group cursor-pointer flex flex-col gap-1.5 sm:gap-2 [content-visibility:auto]"
                         >
-                          <div className={`relative w-full ${aspectClass} rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/5 dark:border-white/10 shadow-2xs group-hover:shadow-md transition-shadow duration-200 [contain:paint]`}>
+                          <div className={`relative w-full ${aspectClass} rounded-2xl sm:rounded-[20px] overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/5 dark:border-white/10 shadow-2xs group-hover:shadow-md transition-shadow duration-200 [contain:paint]`}>
                             <PortfolioImageItem src={item.image} alt={getShortTitle(item)} isPriority={index < 12} />
 
                             {/* Top Subtle Gradient Overlay (Visible on Hover) */}
                             <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/40 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10" />
 
                             {/* Top Overlay Badge (Price / Status - Revealed on Hover) */}
-                            <div className="absolute top-3 right-3 z-20 opacity-0 group-hover:opacity-100 transition-all duration-200 transform -translate-y-1 group-hover:translate-y-0">
+                            <div className="absolute top-2.5 right-2.5 z-20 opacity-0 group-hover:opacity-100 transition-all duration-200 transform -translate-y-1 group-hover:translate-y-0">
                               {item.isPremium ? (
-                                <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-semibold shadow-xs ${
+                                <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold shadow-xs ${
                                   isUnlocked 
                                     ? 'bg-emerald-600 text-white border border-emerald-400/50' 
                                     : 'bg-zinc-900/95 text-white border border-white/20'
@@ -380,7 +380,7 @@ export default function FigmaPortfolioPreview({
                                   {isUnlocked ? 'Terbuka' : `${promptCost} Kredit`}
                                 </span>
                               ) : (
-                                <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-white/95 text-zinc-900 border border-black/10 shadow-xs">
+                                <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-white/95 text-zinc-900 border border-black/10 shadow-xs">
                                   Gratis
                                 </span>
                               )}
@@ -388,20 +388,31 @@ export default function FigmaPortfolioPreview({
 
                             {/* Hover Arrow Overlay */}
                             <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center z-10">
-                              <div className="w-11 h-11 rounded-full aspect-square bg-white text-obsidian flex items-center justify-center shadow-md transform translate-y-2 group-hover:translate-y-0 transition-transform duration-200">
-                                <ArrowUpRight01Icon size={20} />
+                              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full aspect-square bg-white text-obsidian flex items-center justify-center shadow-md transform translate-y-2 group-hover:translate-y-0 transition-transform duration-200">
+                                <ArrowUpRight01Icon size={18} />
                               </div>
                             </div>
                           </div>
 
-                          {/* Meta Card Info */}
-                          <div className="flex flex-col gap-1 px-1">
-                            <div className="flex items-center justify-between gap-2">
-                              <h3 className="text-xs font-bold text-obsidian group-hover:text-purple-600 transition-colors truncate">
+                          {/* Meta Card Info (Matching Reference Layout) */}
+                          <div className="flex flex-col gap-0.5 px-0.5">
+                            <div className="flex items-center justify-between gap-1 min-w-0">
+                              <h3 className="text-xs font-semibold text-zinc-900 dark:text-zinc-100 group-hover:text-purple-600 transition-colors truncate leading-snug">
                                 {getShortTitle(item)}
                               </h3>
+                              <button
+                                type="button"
+                                aria-label="Menu opsi prompt"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  onOpenDetail(item, customSlug);
+                                }}
+                                className="text-zinc-400 hover:text-zinc-900 dark:hover:text-white p-0.5 rounded-full transition-colors shrink-0 cursor-pointer"
+                              >
+                                <MoreHorizontal size={13} />
+                              </button>
                             </div>
-                            <div className="flex items-center justify-between gap-2 text-[11px] text-ash-gray font-medium">
+                            <div className="flex items-center justify-between gap-1 text-[10px] sm:text-[11px] text-zinc-500 dark:text-zinc-400 font-medium">
                               <span className="truncate">@{item.author?.startsWith('@') ? item.author.slice(1) : (item.author || 'Daniel Triendl')}</span>
                               {item.isPremium && (
                                 <SpecularButton isUnlocked={isUnlocked}>
