@@ -211,15 +211,56 @@ export default function PromptDetailView({
     };
   }, []);
 
-  // Variable customizer
+  // Variable customizer - cleans up template variables without capturing raw JSON blocks
   const extractVariables = (text) => {
     if (!text || typeof text !== 'string') return {};
-    const matches = text.match(/\{([^}]+)\}|\[([^\]]+)\]/g) || [];
+    
+    // 1. Match bracketed template variables like [cuisine], [subject], <style>
+    const bracketMatches = text.match(/\[([a-zA-Z0-9_\s-]{1,30})\]|<([a-zA-Z0-9_\s-]{1,30})>/g) || [];
     const vars = {};
-    matches.forEach(m => {
-      const cleanKey = m.replace(/[{}[\]]/g, '');
-      vars[cleanKey] = cleanKey;
+    bracketMatches.forEach(m => {
+      const cleanKey = m.replace(/[[\]<>]/g, '').trim();
+      if (cleanKey && !vars[cleanKey]) {
+        vars[cleanKey] = cleanKey;
+      }
     });
+
+    // 2. If no brackets, check for simple curly braces like {subject} (excluding raw JSON with colons/quotes)
+    const curlyMatches = text.match(/\{([a-zA-Z0-9_]{1,30})\}/g) || [];
+    curlyMatches.forEach(m => {
+      const cleanKey = m.replace(/[{}]/g, '').trim();
+      if (cleanKey && !vars[cleanKey]) {
+        vars[cleanKey] = cleanKey;
+      }
+    });
+
+    // 3. If prompt is structured JSON, extract key editable leaf fields (e.g. cuisine, subject, style, lighting)
+    if (Object.keys(vars).length === 0 && text.trim().startsWith('{')) {
+      try {
+        const jsonMatch = text.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const parsed = JSON.parse(jsonMatch[0]);
+          if (parsed.subject && typeof parsed.subject === 'object') {
+            Object.keys(parsed.subject).forEach(k => {
+              if (typeof parsed.subject[k] === 'string' && parsed.subject[k].length < 40) {
+                vars[k] = parsed.subject[k];
+              }
+            });
+          } else if (typeof parsed.subject === 'string' && parsed.subject.length < 50) {
+            vars['subject'] = parsed.subject;
+          }
+          if (parsed.style && typeof parsed.style === 'string' && parsed.style.length < 50) {
+            vars['style'] = parsed.style;
+          }
+          if (parsed.lighting && typeof parsed.lighting === 'string' && parsed.lighting.length < 50) {
+            vars['lighting'] = parsed.lighting;
+          }
+        }
+      } catch (e) {
+        // Not valid JSON, continue with extracted vars
+      }
+    }
+
     return vars;
   };
 
@@ -258,7 +299,7 @@ export default function PromptDetailView({
     let result = rawPrompt;
     Object.keys(variables).forEach(key => {
       const val = variables[key];
-      result = result.replace(new RegExp(`\\{${key}\\}|\\[${key}\\]`, 'g'), val);
+      result = result.replace(new RegExp(`\\[${key}\\]|\\{${key}\\}|<${key}>`, 'g'), val);
     });
     return result;
   };
@@ -627,22 +668,9 @@ export default function PromptDetailView({
                 </p>
               </div>
 
-              {/* 5. Prompt Text & Parameter Customizer */}
-              <div className="px-1 flex flex-col gap-3 pt-1">
-                {/* Prompt Quote Display */}
-                <div className={`p-4 sm:p-5 rounded-2xl bg-[#f8f8f8] dark:bg-zinc-900 border border-black/5 dark:border-white/10 shadow-2xs ${
-                  !isUnlocked && isPremium ? 'blur-xs select-none opacity-50' : ''
-                }`}>
-                  <div className="flex items-center justify-between gap-2 pb-2 mb-2 border-b border-black/5 dark:border-white/5">
-                    <span className="text-[11px] font-bold text-obsidian dark:text-white uppercase tracking-wider">Teks Prompt</span>
-                    <span className="text-[11px] text-zinc-500 font-medium">{rawPrompt.length} Karakter</span>
-                  </div>
-                  <p className="text-xs sm:text-sm text-zinc-800 dark:text-zinc-200 font-serif leading-relaxed italic">
-                    "{compiledPrompt}"
-                  </p>
-                </div>
-
-                {/* Parameter Customizer (if available and unlocked) */}
+              {/* 5. Parameter Customizer FIRST, then Teks Prompt SECOND */}
+              <div className="px-1 flex flex-col gap-3.5 pt-1">
+                {/* Parameter Customizer (1 row per variable, single input without container bg) */}
                 {variableKeys.length > 0 && (isUnlocked || !isPremium) && (
                   <PromptParameterCustomizer 
                     variables={variables} 
@@ -650,6 +678,19 @@ export default function PromptDetailView({
                     onChange={handleVariableChange} 
                   />
                 )}
+
+                {/* Prompt Quote Display */}
+                <div className={`p-4 sm:p-5 rounded-2xl bg-[#f8f8f8] dark:bg-zinc-900 border border-black/5 dark:border-white/10 shadow-2xs ${
+                  !isUnlocked && isPremium ? 'blur-xs select-none opacity-50' : ''
+                }`}>
+                  <div className="flex items-center justify-between gap-2 pb-2 mb-2 border-b border-black/5 dark:border-white/5">
+                    <span className="text-[11px] font-bold text-obsidian dark:text-white uppercase tracking-wider">Teks Prompt</span>
+                    <span className="text-[11px] text-zinc-500 font-medium">{compiledPrompt.length} Karakter</span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-zinc-800 dark:text-zinc-200 font-serif leading-relaxed italic">
+                    "{compiledPrompt}"
+                  </p>
+                </div>
 
                 {/* Copy Image Link Button with WhiteButton */}
                 <WhiteButton
