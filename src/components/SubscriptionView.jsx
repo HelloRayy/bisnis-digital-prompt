@@ -21,6 +21,7 @@ import {
 } from '@/components/ui/breadcrumb';
 import { SearchInputWithLoader } from '@/components/ui/search-input';
 import SpecularElectricButton from '@/components/ui/SpecularElectricButton';
+import { PrimaryCTAButton } from '@/components/ui/button';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -31,35 +32,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-
-/* Harmonious WCAG-Compliant Primary Button */
-function CardButton({ children, onClick, variant = "dark", className = "" }) {
-  if (variant === "light") {
-    return (
-      <button
-        onClick={onClick}
-        type="button"
-        className={`w-full h-11 px-5 rounded-2xl bg-zinc-100 hover:bg-white text-zinc-900 font-bold text-sm shadow-sm border border-black/5 hover:border-black/10 active:scale-[0.98] transition-all duration-200 cursor-pointer flex items-center justify-center select-none ${className}`}
-      >
-        <span className="flex items-center justify-center gap-2 font-sans">
-          {children}
-        </span>
-      </button>
-    );
-  }
-
-  return (
-    <button
-      onClick={onClick}
-      type="button"
-      className={`relative inline-flex w-full items-center justify-center rounded-2xl h-11 px-5 text-sm font-bold text-white bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-zinc-800 dark:border-zinc-700 shadow-xs active:scale-[0.98] transition-all duration-200 cursor-pointer select-none ${className}`}
-    >
-      <span className="relative z-10 flex items-center justify-center gap-2 font-sans">
-        {children}
-      </span>
-    </button>
-  );
-}
 
 export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel = false }) {
   const [billingCycle, setBillingCycle] = useState('one-time'); // 'one-time' | 'monthly'
@@ -127,9 +99,12 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
           </div>
 
           <div className="pt-2">
-            <CardButton onClick={() => navigateToCheckout('5k')}>
-              <span>Beli Paket</span>
-            </CardButton>
+            <PrimaryCTAButton 
+              label="Beli Paket" 
+              hoverLabel="Beli Sekarang" 
+              onClick={() => navigateToCheckout('5k')} 
+              className="w-full justify-between" 
+            />
           </div>
         </div>
 
@@ -187,9 +162,12 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
           </div>
 
           <div className="pt-2">
-            <CardButton onClick={() => navigateToCheckout('10k')}>
-              <span>Beli Paket</span>
-            </CardButton>
+            <PrimaryCTAButton 
+              label="Beli Paket" 
+              hoverLabel="Beli Sekarang" 
+              onClick={() => navigateToCheckout('10k')} 
+              className="w-full justify-between" 
+            />
           </div>
         </div>
 
@@ -253,9 +231,12 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
           </div>
 
           <div className="pt-2">
-            <CardButton variant="light" onClick={() => navigateToCheckout('10k')}>
-              <span>Beli Paket</span>
-            </CardButton>
+            <PrimaryCTAButton 
+              label="Beli Paket" 
+              hoverLabel="Beli Sekarang" 
+              onClick={() => navigateToCheckout('10k')} 
+              className="w-full justify-between border-white/25" 
+            />
           </div>
         </div>
 
