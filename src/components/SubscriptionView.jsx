@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/breadcrumb';
 import { SearchInputWithLoader } from '@/components/ui/search-input';
 import SpecularElectricButton from '@/components/ui/SpecularElectricButton';
-import { PrimaryCTAButton } from '@/components/ui/button';
+import { PrimaryButton } from '@/components/ui/button';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -99,13 +99,12 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
           </div>
 
           <div className="pt-2">
-            <button
-              type="button"
+            <PrimaryButton
               onClick={() => navigateToCheckout('5k')}
-              className="w-full h-11 px-5 rounded-2xl bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-white font-bold text-sm shadow-xs active:scale-[0.98] transition-all duration-200 cursor-pointer flex items-center justify-center select-none"
+              className="w-full"
             >
               Beli Paket
-            </button>
+            </PrimaryButton>
           </div>
         </div>
 
@@ -163,13 +162,12 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
           </div>
 
           <div className="pt-2">
-            <button
-              type="button"
+            <PrimaryButton
               onClick={() => navigateToCheckout('10k')}
-              className="w-full h-11 px-5 rounded-2xl bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-white font-bold text-sm shadow-xs active:scale-[0.98] transition-all duration-200 cursor-pointer flex items-center justify-center select-none"
+              className="w-full"
             >
               Beli Paket
-            </button>
+            </PrimaryButton>
           </div>
         </div>
 
@@ -233,13 +231,12 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
           </div>
 
           <div className="pt-2">
-            <button
-              type="button"
+            <PrimaryButton
               onClick={() => navigateToCheckout('10k')}
-              className="w-full h-11 px-5 rounded-2xl bg-zinc-100 hover:bg-white text-zinc-900 font-bold text-sm shadow-sm active:scale-[0.98] transition-all duration-200 cursor-pointer flex items-center justify-center select-none border border-black/5"
+              className="w-full"
             >
               Beli Paket
-            </button>
+            </PrimaryButton>
           </div>
         </div>
 
