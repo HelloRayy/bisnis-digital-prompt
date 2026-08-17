@@ -81,29 +81,29 @@ export default function SpotlightSearchModal({
   return (
     <AnimatePresence>
       <div 
-        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 dark:bg-black/80 backdrop-blur-md"
+        className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-[18vh] sm:pt-[22vh] bg-black/70 dark:bg-black/85 backdrop-blur-md"
         onClick={onClose}
       >
         <motion.div
-          initial={{ opacity: 0, scale: 0.94, y: -12 }}
+          initial={{ opacity: 0, scale: 0.95, y: -16 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.94, y: -12 }}
+          exit={{ opacity: 0, scale: 0.95, y: -16 }}
           transition={{ type: "spring", stiffness: 450, damping: 32 }}
-          className="relative w-full max-w-xl bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200/80 dark:border-zinc-800 shadow-2xl overflow-hidden font-sans p-4 sm:p-5"
+          className="relative w-full max-w-xl font-sans flex flex-col gap-2.5"
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Main Search Input Form */}
+          {/* Main Floating Spotlight Search Input */}
           <form onSubmit={handleSubmit} className="relative flex items-center w-full">
             {/* Search Icon / Animated Spinner */}
-            <div className="absolute left-4 flex items-center justify-center pointer-events-none text-zinc-400">
+            <div className="absolute left-4.5 flex items-center justify-center pointer-events-none text-zinc-400">
               {isSearching ? (
-                <Loader2 size={22} className="animate-spin text-purple-600 dark:text-purple-400" />
+                <Loader2 size={20} className="animate-spin text-purple-400" />
               ) : (
-                <Search01Icon size={22} className="text-zinc-500 dark:text-zinc-400" />
+                <Search01Icon size={20} className="text-zinc-400" />
               )}
             </div>
 
-            {/* Input Element */}
+            {/* Direct Floating Glass Input without redundant white container */}
             <input
               ref={inputRef}
               type="text"
@@ -111,9 +111,9 @@ export default function SpotlightSearchModal({
               onChange={handleInputChange}
               placeholder="Ketik kata kunci pencarian prompt..."
               className={cn(
-                "w-full h-14 pl-12 pr-12 text-sm sm:text-base font-medium text-obsidian dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-500",
-                "bg-zinc-100/80 dark:bg-zinc-800/80 rounded-2xl border border-transparent",
-                "focus:bg-white dark:focus:bg-zinc-800 focus:border-purple-500/80 focus:ring-4 focus:ring-purple-500/15 focus:outline-none",
+                "w-full h-14 pl-12 pr-12 text-sm sm:text-base font-medium text-white placeholder:text-zinc-400",
+                "bg-zinc-900/90 backdrop-blur-2xl rounded-2xl border border-white/15 shadow-[0_16px_48px_rgba(0,0,0,0.6)]",
+                "focus:bg-zinc-900 focus:border-purple-500/80 focus:ring-4 focus:ring-purple-500/20 focus:outline-none",
                 "transition-all duration-200"
               )}
             />
@@ -124,7 +124,7 @@ export default function SpotlightSearchModal({
                 <button
                   type="button"
                   onClick={handleClear}
-                  className="p-1.5 rounded-full text-zinc-400 hover:text-obsidian dark:hover:text-white hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors cursor-pointer"
+                  className="p-1.5 rounded-full text-zinc-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
                   title="Hapus teks"
                 >
                   <Cancel01Icon size={18} />
@@ -133,26 +133,26 @@ export default function SpotlightSearchModal({
             )}
           </form>
 
-          {/* Footer Metadata & Keyboard Hints */}
-          <div className="flex items-center justify-between mt-3 px-2 text-xs text-zinc-500 dark:text-zinc-400">
+          {/* Minimalist Floating Hint Below Input */}
+          <div className="flex items-center justify-between px-2 text-xs text-zinc-300">
             <div>
               {localValue ? (
-                <span className="font-semibold text-purple-600 dark:text-purple-400">
+                <span className="font-semibold text-purple-300">
                   {totalResults} prompt ditemukan
                 </span>
               ) : (
-                <span>Ketik nama, gaya visual, atau subjek prompt</span>
+                <span className="text-zinc-400">Ketik nama, gaya visual, atau subjek prompt</span>
               )}
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="hidden sm:inline-flex items-center gap-1 font-mono text-[11px] bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded-md border border-black/5 dark:border-white/10">
+              <span className="hidden sm:inline-flex items-center gap-1 font-mono text-[11px] bg-white/10 text-zinc-300 px-2 py-0.5 rounded-md border border-white/10">
                 ESC untuk tutup
               </span>
               <button
                 type="button"
                 onClick={handleSubmit}
-                className="px-3 py-1 rounded-full bg-obsidian dark:bg-white text-white dark:text-obsidian text-xs font-bold hover:opacity-90 active:scale-95 transition-all cursor-pointer"
+                className="px-3.5 py-1 rounded-full bg-white text-zinc-950 text-xs font-bold hover:bg-zinc-100 active:scale-95 transition-all cursor-pointer shadow-md"
               >
                 Lihat Hasil
               </button>
