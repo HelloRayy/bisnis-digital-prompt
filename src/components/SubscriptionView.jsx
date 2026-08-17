@@ -411,8 +411,8 @@ export default function SubscriptionView({
       <SidebarInset className="bg-white dark:bg-zinc-950 transition-all">
         <div className="min-h-screen w-full bg-white dark:bg-zinc-950 flex flex-col font-sans overflow-x-hidden pb-28 md:pb-0">
           
-          {/* Top Fixed / Sticky Glassmorphism Header */}
-          <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between gap-3 sm:gap-4 px-4 sm:px-6 md:px-8 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md border-b border-black/5 dark:border-white/5 transform-gpu transition-all">
+          {/* Top Fixed Glassmorphism Header */}
+          <header className="fixed top-0 right-0 left-0 md:left-[var(--sidebar-width)] group-data-[state=collapsed]/sidebar-wrapper:md:left-[var(--sidebar-width-icon)] z-40 flex h-16 shrink-0 items-center justify-between gap-3 sm:gap-4 px-4 sm:px-6 md:px-8 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md border-b border-black/5 dark:border-white/5 transform-gpu transition-all">
             <div className="flex items-center gap-2 sm:gap-3 min-w-0 shrink-0">
               <SidebarTrigger aria-label="Buka Menu Sidebar" className="-ml-1 text-obsidian hover:bg-black/5 rounded-lg p-1.5 transition-colors shrink-0" />
               <Separator orientation="vertical" className="h-5 bg-black/10 shrink-0" />
@@ -448,6 +448,7 @@ export default function SubscriptionView({
             <div className="flex items-center gap-2 sm:gap-3 shrink-0 ml-auto z-10">
               <SpecularElectricButton 
                 credits={userCredits} 
+                onClick={() => {}} 
               />
 
               {currentUser ? (
@@ -479,7 +480,7 @@ export default function SubscriptionView({
           </header>
 
           {/* Main Showcase Area */}
-          <main className="w-full max-w-3xl mx-auto px-4 sm:px-6 md:px-8 py-6 md:py-8 flex-1 flex flex-col justify-center">
+          <main className="w-full max-w-3xl mx-auto px-4 sm:px-6 md:px-8 pt-[84px] sm:pt-[96px] pb-6 md:pb-8 flex-1 flex flex-col justify-center">
             
             {/* Header with Title on Left and Segmented Toggle on Right */}
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-7 sm:mb-8">

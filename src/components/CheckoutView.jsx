@@ -299,7 +299,7 @@ export default function CheckoutView({
     <div className="min-h-screen bg-[#fafafa] dark:bg-zinc-950 text-obsidian dark:text-zinc-100 font-sans flex flex-col selection:bg-purple-100 selection:text-purple-900 pb-16">
       
       {/* 1. TOP NAVIGATION & TRUST HEADER */}
-      <header className="sticky top-0 z-40 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-b border-black/5 dark:border-white/10 py-3.5 px-4 sm:px-6 md:px-10 flex items-center justify-between gap-4">
+      <header className="fixed top-0 inset-x-0 z-40 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-b border-black/5 dark:border-white/10 py-3.5 px-4 sm:px-6 md:px-10 flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <button
             onClick={() => onNavigate('/subscription')}
@@ -331,7 +331,7 @@ export default function CheckoutView({
         </div>
       </header>
 
-      <main className="max-w-6xl w-full mx-auto px-4 sm:px-6 md:px-10 pt-6 sm:pt-10 flex-1">
+      <main className="max-w-6xl w-full mx-auto px-4 sm:px-6 md:px-10 pt-20 sm:pt-24 flex-1">
         {status === 'paid' ? (
           /* ============================================================
              SUCCESS STATE: PAYMENT CONFIRMED & BALANCE CREDITED
