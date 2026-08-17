@@ -395,30 +395,30 @@ export default function FigmaPortfolioPreview({
                 ))}
               </div>
 
-              {/* Split-Bar Balanced Pagination (Left: Items Info | Right: Minimalist Controls) */}
+              {/* Split-Bar Balanced Pagination (Left: Items Info | Right: Generous Spaced Controls) */}
               {totalPages > 1 && (
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-12 mb-6 pt-6 border-t border-black/5 dark:border-white/10 w-full font-sans px-1 text-xs">
-                  {/* Left Info Text */}
-                  <div className="text-zinc-500 dark:text-zinc-400 font-medium">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-6 sm:gap-8 mt-14 mb-8 pt-8 border-t border-black/5 dark:border-white/10 w-full font-sans px-2 sm:px-4 text-xs sm:text-sm">
+                  {/* Left Info Text with Sturdy Gap */}
+                  <div className="text-zinc-500 dark:text-zinc-400 font-medium text-xs sm:text-sm shrink-0">
                     Menampilkan <span className="font-bold text-obsidian dark:text-white">{(currentPage - 1) * ITEMS_PER_PAGE + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, filteredPrompts.length)}</span> dari <span className="font-bold text-obsidian dark:text-white">{filteredPrompts.length}</span> Prompt
                   </div>
 
-                  {/* Right Controls: Chevrons & Page Numbers */}
-                  <div className="flex items-center gap-1.5 sm:gap-2">
+                  {/* Right Controls: Spaced Chevrons & Generous Page Pills */}
+                  <div className="flex items-center gap-2 sm:gap-3 flex-wrap justify-end">
                     {/* Previous Page Chevron Button */}
                     <button
                       disabled={currentPage === 1}
                       onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                      className="p-2.5 sm:p-2.5 rounded-xl bg-white dark:bg-zinc-900/90 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-800 border border-zinc-200/80 dark:border-white/10 shadow-xs disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
+                      className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-white dark:bg-zinc-900/90 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-800 border border-zinc-200/80 dark:border-white/10 shadow-xs disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer flex items-center justify-center shrink-0"
                       aria-label="Previous Page"
                     >
                       <ArrowLeft01Icon size={18} />
                     </button>
 
                     {/* Page Numbers */}
-                    <div className="flex items-center gap-1 sm:gap-2">
+                    <div className="flex items-center gap-2 sm:gap-2.5">
                       {Array.from({ length: totalPages }, (_, i) => i + 1)
-                        .filter(page => page === 1 || page === totalPages || Math.abs(page - currentPage) <= 2)
+                        .filter(page => page === 1 || page === totalPages || Math.abs(page - currentPage) <= 3)
                         .map((page, idx, arr) => {
                           const prevPage = arr[idx - 1];
                           const showEllipsis = prevPage && page - prevPage > 1;
@@ -427,14 +427,14 @@ export default function FigmaPortfolioPreview({
                           return (
                             <React.Fragment key={page}>
                               {showEllipsis && (
-                                <span className="px-1 text-xs text-zinc-400 font-medium select-none">...</span>
+                                <span className="px-1.5 text-xs text-zinc-400 font-semibold select-none">...</span>
                               )}
                               <button
                                 onClick={() => setCurrentPage(page)}
-                                className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl text-xs sm:text-sm font-normal transition-all duration-200 cursor-pointer flex items-center justify-center ${
+                                className={`w-10 h-10 sm:w-11 sm:h-11 rounded-2xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center shrink-0 ${
                                   isActive
-                                    ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-white shadow-xs scale-105 border border-zinc-300 dark:border-zinc-600'
-                                    : 'bg-white dark:bg-zinc-900/90 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-800 border border-zinc-200/80 dark:border-white/10 shadow-xs'
+                                    ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-950 dark:text-white shadow-xs scale-105 border border-zinc-300 dark:border-zinc-600 font-bold'
+                                    : 'bg-white dark:bg-zinc-900/90 text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-800 border border-zinc-200/80 dark:border-white/10 shadow-2xs'
                                 }`}
                               >
                                 {page}
@@ -448,7 +448,7 @@ export default function FigmaPortfolioPreview({
                     <button
                       disabled={currentPage === totalPages}
                       onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                      className="p-2.5 sm:p-2.5 rounded-xl bg-white dark:bg-zinc-900/90 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-800 border border-zinc-200/80 dark:border-white/10 shadow-xs disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
+                      className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-white dark:bg-zinc-900/90 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-800 border border-zinc-200/80 dark:border-white/10 shadow-xs disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer flex items-center justify-center shrink-0"
                       aria-label="Next Page"
                     >
                       <ArrowRight01Icon size={18} />
