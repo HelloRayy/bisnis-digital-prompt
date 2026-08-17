@@ -638,10 +638,7 @@ export default function PromptDetailView({
                       <span>Salin Prompt</span>
                     </span>
                   ) : (
-                    <span className="flex items-center gap-1.5">
-                      <Coins size={15} className="text-amber-400" />
-                      <span>Buka ({promptCost} Kredit)</span>
-                    </span>
+                    <span>Buka ({promptCost} Kredit)</span>
                   )}
                 </PrimaryButton>
               </div>
@@ -713,10 +710,7 @@ export default function PromptDetailView({
                         <span>Salin Teks Prompt</span>
                       </span>
                     ) : (
-                      <span className="flex items-center gap-1.5">
-                        <Coins size={15} className="text-amber-400" />
-                        <span>Buka Prompt ({promptCost} Kredit)</span>
-                      </span>
+                      <span>Buka Prompt ({promptCost} Kredit)</span>
                     )}
                   </PrimaryButton>
 
