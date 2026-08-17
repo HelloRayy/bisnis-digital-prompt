@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   CheckmarkCircle02Icon, 
   SparklesIcon, 
@@ -7,7 +7,7 @@ import {
   StarIcon,
   Logout01Icon
 } from 'hugeicons-react';
-import { Check } from 'lucide-react';
+import { Check, Coins, Zap } from 'lucide-react';
 import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/app-sidebar';
 import { Separator } from '@/components/ui/separator';
@@ -33,12 +33,12 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 
-export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel = false }) {
-  const [billingCycle, setBillingCycle] = useState('one-time'); // 'one-time' | 'monthly'
-
+export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel = false, billingMode = 'subscription' }) {
   const navigateToCheckout = (planSlug) => {
     onTopUp(planSlug);
   };
+
+  const isSub = billingMode === 'subscription';
 
   return (
     <div className="w-full">
@@ -59,7 +59,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                 Rp 0
               </span>
               <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-                {billingCycle === 'monthly' ? ' /bulan' : ' /selamanya'}
+                {isSub ? ' /bulan' : ' /selamanya'}
               </span>
             </div>
 
@@ -67,7 +67,9 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
               Starter (Free)
             </h3>
             <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 min-h-[32px] font-normal leading-relaxed">
-              Paket bawaan akun baru dengan kuota kredit awal untuk mencoba prompt.
+              {isSub 
+                ? 'Paket dasar gratis bawaan akun untuk mulai mengeksplorasi prompt AI.'
+                : 'Saldo awal gratis saat mendaftar untuk mencoba fitur prompt.'}
             </p>
 
             <div className="border-t border-zinc-100 dark:border-zinc-800 my-4" />
@@ -115,21 +117,21 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
           </div>
         </div>
 
-        {/* CARD 2: ENTERPRISE (Rp 25.000) - CENTER FEATURED DARK ELEVATED CARD */}
+        {/* CARD 2: ENTERPRISE (Rp 25.000 / Rp 20.000) - CENTER FEATURED DARK ELEVATED CARD */}
         <div className="rounded-3xl bg-zinc-900 dark:bg-zinc-900 text-zinc-100 p-6 sm:p-7 flex flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.12)] border border-zinc-800 dark:border-zinc-700/80 relative md:-mt-2 transition-all duration-200 ring-1 ring-black/5 dark:ring-white/10">
           <div>
             <div className="flex items-center justify-between mb-2">
               <span className="inline-block px-3 py-0.5 rounded-full bg-zinc-800 text-zinc-300 text-[11px] font-semibold border border-zinc-700">
-                Popular
+                {isSub ? 'Paling Populer' : 'Bonus Terbesar'}
               </span>
             </div>
 
             <div className="mb-2">
               <span className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-                {billingCycle === 'monthly' ? 'Rp 20.000' : 'Rp 25.000'}
+                {isSub ? 'Rp 20.000' : 'Rp 25.000'}
               </span>
               <span className="text-xs font-medium text-zinc-400">
-                {billingCycle === 'monthly' ? ' /bulan' : ' /top-up'}
+                {isSub ? ' /bulan' : ' /top-up'}
               </span>
             </div>
 
@@ -137,7 +139,9 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
               Enterprise
             </h3>
             <p className="text-xs text-zinc-400 mt-1 min-h-[32px] font-normal leading-relaxed">
-              Solusi ultimate dengan bonus kredit maksimal untuk studio & agensi.
+              {isSub 
+                ? 'Solusi terlengkap dengan kuota maksimal untuk studio kreatif & agensi.'
+                : 'Pengisian saldo volume besar sekali bayar untuk kebutuhan intensif.'}
             </p>
 
             <div className="border-t border-zinc-800 my-4" />
@@ -179,26 +183,26 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
               onClick={() => navigateToCheckout('10k')}
               className="w-full"
             >
-              Beli Paket
+              {isSub ? 'Langganan Enterprise' : 'Beli Paket'}
             </PrimaryButton>
           </div>
         </div>
 
-        {/* CARD 3: PRO BUSINESS (Rp 10.000) */}
+        {/* CARD 3: PRO BUSINESS (Rp 10.000 / Rp 8.000) */}
         <div className="rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.06)] hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200">
           <div>
             <div className="flex items-center justify-between mb-2">
               <span className="inline-block px-3 py-0.5 rounded-full bg-purple-50 dark:bg-purple-950/50 text-purple-700 dark:text-purple-300 text-[11px] font-semibold border border-purple-200 dark:border-purple-800">
-                Paling Diminati
+                {isSub ? 'Paling Diminati' : 'Paling Hemat'}
               </span>
             </div>
 
             <div className="mb-2">
               <span className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight">
-                {billingCycle === 'monthly' ? 'Rp 8.000' : 'Rp 10.000'}
+                {isSub ? 'Rp 8.000' : 'Rp 10.000'}
               </span>
               <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-                {billingCycle === 'monthly' ? ' /bulan' : ' /top-up'}
+                {isSub ? ' /bulan' : ' /top-up'}
               </span>
             </div>
 
@@ -206,7 +210,9 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
               Business
             </h3>
             <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 min-h-[32px] font-normal leading-relaxed">
-              Paling efisien bagi prompt engineer dan kreator aktif.
+              {isSub 
+                ? 'Paling efisien bagi prompt engineer dan kreator aktif.'
+                : 'Pengisian saldo hemat dan terjangkau tanpa komitmen rutin.'}
             </p>
 
             <div className="border-t border-zinc-100 dark:border-zinc-800 my-4" />
@@ -248,7 +254,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
               onClick={() => navigateToCheckout('10k')}
               className="w-full"
             >
-              Beli Paket
+              {isSub ? 'Langganan Business' : 'Beli Paket'}
             </PrimaryButton>
           </div>
         </div>
@@ -271,7 +277,7 @@ export default function SubscriptionView({
   onSignOut = () => {}
 }) {
   const [showSignOutConfirm, setShowSignOutConfirm] = useState(false);
-  const [billingCycle, setBillingCycle] = useState('monthly'); // 'monthly' | 'yearly'
+  const [billingMode, setBillingMode] = useState('subscription'); // 'subscription' | 'topup'
 
   return (
     <SidebarProvider className="bg-[#f5f5f7] dark:bg-zinc-950">
@@ -373,45 +379,52 @@ export default function SubscriptionView({
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-7 sm:mb-8">
               <div>
                 <h1 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight leading-tight mb-1">
-                  Plans &amp; Pricing
+                  {billingMode === 'subscription' ? 'Paket & Langganan' : 'Top Up Saldo Kredit'}
                 </h1>
                 <p className="text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm font-normal">
-                  Pilih paket kredit fleksibel untuk membuka koleksi prompt AI berkualitas tinggi.
+                  {billingMode === 'subscription' 
+                    ? 'Pilih langganan bulanan hemat untuk kuota kredit rutin dan akses fitur AI tanpa hambatan.'
+                    : 'Isi ulang saldo kredit instan tanpa komitmen langganan. Saldo aktif berlaku selamanya.'}
                 </p>
               </div>
 
-              {/* Segmented Switch Toggle - Soft WCAG compliant contrast */}
-              <div className="inline-flex items-center p-1 rounded-full bg-zinc-200/70 dark:bg-zinc-800/80 border border-zinc-300/40 dark:border-zinc-700/50 shrink-0 self-start sm:self-auto">
+              {/* Segmented Switch Toggle - Langganan Paket vs Top Up Kredit */}
+              <div className="inline-flex items-center p-1 rounded-full bg-zinc-200/70 dark:bg-zinc-800/80 border border-zinc-300/40 dark:border-zinc-700/50 shrink-0 self-start sm:self-auto shadow-2xs">
                 <button
                   type="button"
-                  onClick={() => setBillingCycle('monthly')}
-                  className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
-                    billingCycle === 'monthly'
-                      ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white shadow-xs'
-                      : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
+                  onClick={() => setBillingMode('subscription')}
+                  className={`px-4 py-1.5 rounded-full text-xs transition-all cursor-pointer select-none ${
+                    billingMode === 'subscription'
+                      ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white shadow-xs font-bold'
+                      : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white font-medium'
                   }`}
                 >
-                  Monthly
+                  Paket Langganan
                 </button>
                 <button
                   type="button"
-                  onClick={() => setBillingCycle('yearly')}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
-                    billingCycle === 'yearly'
-                      ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white shadow-xs'
-                      : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
+                  onClick={() => setBillingMode('topup')}
+                  className={`px-3.5 py-1.5 rounded-full text-xs transition-all cursor-pointer flex items-center gap-1.5 select-none ${
+                    billingMode === 'topup'
+                      ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white shadow-xs font-bold'
+                      : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white font-medium'
                   }`}
                 >
-                  <span>Yearly</span>
+                  <span>Top Up Kredit</span>
                   <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-md bg-zinc-900 text-white dark:bg-white dark:text-zinc-950">
-                    Save 20%
+                    Sekali Beli
                   </span>
                 </button>
               </div>
             </div>
 
             {/* 3 Pricing Cards Grid */}
-            <SubscriptionCards userCredits={userCredits} onTopUp={onTopUp} isPanel={false} />
+            <SubscriptionCards 
+              userCredits={userCredits} 
+              onTopUp={onTopUp} 
+              isPanel={false} 
+              billingMode={billingMode} 
+            />
 
           </main>
         </div>
