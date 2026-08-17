@@ -33,6 +33,42 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 
+/**
+ * Whole-Value Vertical Slide (Number Ticker / Rolling Number Effect)
+ * Angka lama meluncur keluar ke bawah, angka baru meluncur masuk dari atas dengan spring & blur mikro
+ */
+export function SlidingNumberText({ 
+  value, 
+  prefix = "", 
+  suffix = "", 
+  className = "",
+  direction = "down"
+}) {
+  return (
+    <span className={`relative inline-flex items-baseline overflow-hidden ${className}`}>
+      {prefix && <span className="inline-block mr-0.5">{prefix}</span>}
+      <AnimatePresence mode="popLayout" initial={false}>
+        <motion.span
+          key={String(value)}
+          initial={{ y: direction === "down" ? -18 : 18, opacity: 0, filter: "blur(2px)" }}
+          animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+          exit={{ y: direction === "down" ? 18 : -18, opacity: 0, filter: "blur(2px)" }}
+          transition={{ 
+            type: "spring", 
+            stiffness: 420, 
+            damping: 26, 
+            mass: 0.5 
+          }}
+          className="inline-block"
+        >
+          {value}
+        </motion.span>
+      </AnimatePresence>
+      {suffix && <span className="inline-block ml-0.5">{suffix}</span>}
+    </span>
+  );
+}
+
 export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel = false, billingMode = 'subscription' }) {
   // Slider states for "Atur Kredit" mode
   const [basicCredits, setBasicCredits] = useState(1500); // 500 - 3000
@@ -80,11 +116,14 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
               </span>
             </div>
 
-            <div className="mb-2">
-              <span className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight">
-                {isSub ? 'Rp 8.000' : `Rp ${basicPrice.toLocaleString('id-ID')}`}
-              </span>
-              <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+            {/* Micro Motion on Price Heading */}
+            <div className="mb-2 flex items-baseline">
+              <SlidingNumberText
+                prefix="Rp"
+                value={isSub ? '8.000' : basicPrice.toLocaleString('id-ID')}
+                className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight"
+              />
+              <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400 ml-1">
                 {isSub ? ' /bulan' : ' /top-up'}
               </span>
             </div>
@@ -98,7 +137,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                 : 'Atur jumlah kredit sesuai kebutuhan harian atau mencoba prompt.'}
             </p>
 
-            {/* Clean Minimalist Slider (Unfolding smoothly when active) */}
+            {/* Clean Minimalist Slider (Unfolding smoothly with micro motion on credits) */}
             <AnimatePresence mode="wait">
               {!isSub && (
                 <motion.div 
@@ -110,9 +149,11 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                   className="overflow-hidden"
                 >
                   <div className="flex justify-between items-center text-xs sm:text-sm mb-2">
-                    <span className="font-semibold text-zinc-900 dark:text-white">
-                      {basicCredits.toLocaleString('id-ID')} kredit
-                    </span>
+                    <SlidingNumberText
+                      value={basicCredits.toLocaleString('id-ID')}
+                      suffix=" kredit"
+                      className="font-semibold text-zinc-900 dark:text-white"
+                    />
                     <span className="font-medium text-zinc-600 dark:text-zinc-400">
                       Rp 2,5/kredit
                     </span>
@@ -144,9 +185,10 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                 <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
                   <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
                 </div>
-                <span className="font-semibold text-zinc-900 dark:text-zinc-100">
-                  {isSub ? '4.000 Kredit (+33% hemat)' : `${basicCredits.toLocaleString('id-ID')} Kredit saldo permanen`}
-                </span>
+                <SlidingNumberText
+                  value={isSub ? '4.000 Kredit (+33% hemat)' : `${basicCredits.toLocaleString('id-ID')} Kredit saldo permanen`}
+                  className="font-semibold text-zinc-900 dark:text-zinc-100"
+                />
               </li>
               <li className="flex items-center gap-2.5">
                 <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
@@ -174,7 +216,9 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
               onClick={() => navigateToCheckout(isSub ? '10k' : '5k')}
               className="w-full"
             >
-              {isSub ? 'Langganan Business' : `Beli ${basicCredits.toLocaleString('id-ID')} Kredit`}
+              <SlidingNumberText
+                value={isSub ? 'Langganan Business' : `Beli ${basicCredits.toLocaleString('id-ID')} Kredit`}
+              />
             </WhiteButton>
           </div>
         </motion.div>
@@ -200,11 +244,14 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
               </span>
             </div>
 
-            <div className="mb-2">
-              <span className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-                {isSub ? 'Rp 20.000' : `Rp ${proPrice.toLocaleString('id-ID')}`}
-              </span>
-              <span className="text-xs font-medium text-zinc-400">
+            {/* Micro Motion on Price Heading */}
+            <div className="mb-2 flex items-baseline">
+              <SlidingNumberText
+                prefix="Rp"
+                value={isSub ? '20.000' : proPrice.toLocaleString('id-ID')}
+                className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight"
+              />
+              <span className="text-xs font-medium text-zinc-400 ml-1">
                 {isSub ? ' /bulan' : ' /top-up'}
               </span>
             </div>
@@ -218,7 +265,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                 : 'Pilihan volume besar dengan tarif per kredit termurah untuk power user.'}
             </p>
 
-            {/* Clean Minimalist Slider (Unfolding smoothly when active) */}
+            {/* Clean Minimalist Slider (Unfolding smoothly with micro motion on credits) */}
             <AnimatePresence mode="wait">
               {!isSub && (
                 <motion.div 
@@ -230,9 +277,11 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                   className="overflow-hidden"
                 >
                   <div className="flex justify-between items-center text-xs sm:text-sm mb-2">
-                    <span className="font-semibold text-white">
-                      {proCredits.toLocaleString('id-ID')} kredit
-                    </span>
+                    <SlidingNumberText
+                      value={proCredits.toLocaleString('id-ID')}
+                      suffix=" kredit"
+                      className="font-semibold text-white"
+                    />
                     <span className="font-medium text-zinc-300">
                       Rp 2,0/kredit
                     </span>
@@ -264,9 +313,10 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                 <div className="w-5 h-5 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center shrink-0">
                   <Check size={11} className="text-zinc-200 stroke-[2.5]" />
                 </div>
-                <span className="font-semibold text-white">
-                  {isSub ? '12.000 Kredit (+60% bonus)' : `${proCredits.toLocaleString('id-ID')} Kredit saldo permanen`}
-                </span>
+                <SlidingNumberText
+                  value={isSub ? '12.000 Kredit (+60% bonus)' : `${proCredits.toLocaleString('id-ID')} Kredit saldo permanen`}
+                  className="font-semibold text-white"
+                />
               </li>
               <li className="flex items-center gap-2.5">
                 <div className="w-5 h-5 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center shrink-0">
@@ -294,7 +344,9 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
               onClick={() => navigateToCheckout('10k')}
               className="w-full"
             >
-              {isSub ? 'Langganan Enterprise' : `Beli ${proCredits.toLocaleString('id-ID')} Kredit`}
+              <SlidingNumberText
+                value={isSub ? 'Langganan Enterprise' : `Beli ${proCredits.toLocaleString('id-ID')} Kredit`}
+              />
             </PrimaryButton>
           </div>
         </motion.div>
