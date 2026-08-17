@@ -496,7 +496,7 @@ export default function PromptDetailView({
               </Breadcrumb>
             </div>
 
-            {/* Right: Credits, Share, and Close / Back */}
+            {/* Right: Credits Badge */}
             <div className="flex items-center gap-2.5">
               <SpecularElectricButton 
                 onClick={() => {
@@ -505,23 +505,6 @@ export default function PromptDetailView({
                 }} 
                 credits={userCredits} 
               />
-
-              <button
-                onClick={handleShareLink}
-                className="p-2 rounded-full bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 transition-all cursor-pointer border border-black/5 dark:border-white/10 shadow-2xs"
-                title="Bagikan Tautan"
-              >
-                {copiedLink ? <CheckmarkCircle02Icon size={16} className="text-emerald-600" /> : <Share01Icon size={16} />}
-              </button>
-
-              <button 
-                onClick={onClose}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 text-xs font-semibold border border-black/5 dark:border-white/10 transition-colors cursor-pointer"
-                title="Tutup & Kembali"
-              >
-                <Cancel01Icon size={14} />
-                <span className="hidden sm:inline">Tutup</span>
-              </button>
             </div>
           </header>
 
