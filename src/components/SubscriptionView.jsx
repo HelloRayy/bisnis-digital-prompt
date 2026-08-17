@@ -53,38 +53,71 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
 
   return (
     <div className="w-full">
-      {/* 3-Column Plan Grid with 100% Identical Card Width & Dimensions in BOTH Modes */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 items-stretch">
+      {/* 2-Column Plan Grid with 100% Fixed & Consistent Card Sizes */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6 items-stretch">
         
-        {/* CARD 1: STARTER FREE (CURRENT ACTIVE PLAN - UNIFORM 1/3 COLUMN) */}
-        <div className="rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 h-full">
+        {/* CARD 1: BUSINESS / KREDIT REGULER (LIGHT CARD) */}
+        <div className="rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.06)] hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 h-full">
           <div>
             <div className="flex items-center justify-between mb-2 min-h-[24px]">
-              <span className="inline-block px-3 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 text-[11px] font-semibold border border-emerald-200 dark:border-emerald-800">
-                Paket Aktif
+              <span className="inline-block px-3 py-0.5 rounded-full bg-purple-50 dark:bg-purple-950/50 text-purple-700 dark:text-purple-300 text-[11px] font-semibold border border-purple-200 dark:border-purple-800">
+                {isSub ? 'Paling Diminati' : 'Fleksibel'}
               </span>
             </div>
 
             <div className="mb-2">
               <span className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight">
-                Rp 0
+                {isSub ? 'Rp 8.000' : `Rp ${basicPrice.toLocaleString('id-ID')}`}
               </span>
               <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-                {isSub ? ' /bulan' : ' /selamanya'}
+                {isSub ? ' /bulan' : ' /top-up instan'}
               </span>
             </div>
 
             <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
-              Starter (Free)
+              {isSub ? 'Business' : 'Kredit Reguler'}
             </h3>
             <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 min-h-[34px] font-normal leading-relaxed">
-              Paket dasar gratis bawaan akun untuk mulai mengeksplorasi prompt AI.
+              {isSub 
+                ? 'Paling efisien bagi prompt engineer dan kreator aktif.'
+                : 'Atur jumlah kredit sesuai kebutuhan harian atau mencoba prompt.'}
             </p>
+
+            {/* If in Atur Kredit mode: Render interactive slider */}
+            {!isSub && (
+              <div className="p-3.5 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 my-3">
+                <div className="flex justify-between items-center text-xs font-bold text-zinc-900 dark:text-zinc-100 mb-1.5">
+                  <span className="flex items-center gap-1.5 text-zinc-900 dark:text-white">
+                    <Coins size={13} className="text-amber-500" />
+                    {basicCredits.toLocaleString('id-ID')} Kredit
+                  </span>
+                  <span className="text-zinc-500 dark:text-zinc-400 font-medium text-[11px]">
+                    Rp 2,5 /kredit
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="500"
+                  max="3000"
+                  step="250"
+                  value={basicCredits}
+                  onChange={(e) => setBasicCredits(Number(e.target.value))}
+                  className="w-full h-1.5 rounded-full appearance-none cursor-pointer accent-zinc-900 dark:accent-white"
+                  style={{
+                    background: `linear-gradient(to right, #18181b ${basicPct}%, #e4e4e7 ${basicPct}%)`
+                  }}
+                />
+                <div className="flex justify-between items-center text-[10px] text-zinc-400 mt-1 font-medium">
+                  <span>500</span>
+                  <span>3.000</span>
+                </div>
+              </div>
+            )}
 
             <div className="border-t border-zinc-100 dark:border-zinc-800 my-4" />
 
             <p className="text-xs font-semibold text-zinc-800 dark:text-zinc-200 mb-3.5">
-              Fitur paket aktif:
+              Fitur paket:
             </p>
 
             <ul className="space-y-3 text-xs text-zinc-600 dark:text-zinc-300 mb-6 font-medium">
@@ -92,41 +125,42 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                 <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
                   <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
                 </div>
-                <span>1.000 Kredit awal gratis</span>
+                <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+                  {isSub ? '4.000 Kredit (+33% hemat)' : `${basicCredits.toLocaleString('id-ID')} Kredit saldo permanen`}
+                </span>
               </li>
               <li className="flex items-center gap-2.5">
                 <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
                   <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
                 </div>
-                <span>Akses prompt gambar standar</span>
+                <span>Akses prompt 3D & video motion</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
                   <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
                 </div>
-                <span>Pencarian & filter dasar</span>
+                <span>Prioritas update prompt baru</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
                   <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
                 </div>
-                <span>Kredit berlaku permanen</span>
+                <span>Full copy prompt & JSON specs</span>
               </li>
             </ul>
           </div>
 
           <div className="pt-2 mt-auto">
-            <button
-              type="button"
-              disabled
-              className="w-full h-11 sm:h-12 px-6 rounded-full bg-zinc-100 dark:bg-zinc-800/80 text-zinc-500 dark:text-zinc-400 font-semibold text-xs sm:text-sm border border-zinc-200 dark:border-zinc-700 cursor-default flex items-center justify-center select-none shadow-2xs"
+            <PrimaryButton
+              onClick={() => navigateToCheckout(isSub ? '10k' : '5k')}
+              className="w-full"
             >
-              Paket Saat Ini
-            </button>
+              {isSub ? 'Langganan Business' : `Beli ${basicCredits.toLocaleString('id-ID')} Kredit`}
+            </PrimaryButton>
           </div>
         </div>
 
-        {/* CARD 2: ENTERPRISE / PRO CREATOR (CENTER DARK CARD - UNIFORM 1/3 COLUMN) */}
+        {/* CARD 2: ENTERPRISE / PRO CREATOR (DARK ELEVATED CARD) */}
         <div className="rounded-3xl bg-zinc-900 dark:bg-zinc-900 text-zinc-100 p-6 sm:p-7 flex flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.12)] border border-zinc-800 dark:border-zinc-700/80 transition-all duration-200 ring-1 ring-black/5 dark:ring-white/10 h-full">
           <div>
             <div className="flex items-center justify-between mb-2 min-h-[24px]">
@@ -226,110 +260,6 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
               className="w-full"
             >
               {isSub ? 'Langganan Enterprise' : `Beli ${proCredits.toLocaleString('id-ID')} Kredit`}
-            </PrimaryButton>
-          </div>
-        </div>
-
-        {/* CARD 3: PRO BUSINESS / KREDIT REGULER (RIGHT LIGHT CARD - UNIFORM 1/3 COLUMN) */}
-        <div className="rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.06)] hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 h-full">
-          <div>
-            <div className="flex items-center justify-between mb-2 min-h-[24px]">
-              <span className="inline-block px-3 py-0.5 rounded-full bg-purple-50 dark:bg-purple-950/50 text-purple-700 dark:text-purple-300 text-[11px] font-semibold border border-purple-200 dark:border-purple-800">
-                {isSub ? 'Paling Diminati' : 'Fleksibel'}
-              </span>
-            </div>
-
-            <div className="mb-2">
-              <span className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight">
-                {isSub ? 'Rp 8.000' : `Rp ${basicPrice.toLocaleString('id-ID')}`}
-              </span>
-              <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-                {isSub ? ' /bulan' : ' /top-up instan'}
-              </span>
-            </div>
-
-            <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
-              {isSub ? 'Business' : 'Kredit Reguler'}
-            </h3>
-            <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 min-h-[34px] font-normal leading-relaxed">
-              {isSub 
-                ? 'Paling efisien bagi prompt engineer dan kreator aktif.'
-                : 'Atur jumlah kredit sesuai kebutuhan harian atau mencoba prompt.'}
-            </p>
-
-            {/* If in Atur Kredit mode: Render interactive slider */}
-            {!isSub && (
-              <div className="p-3.5 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 my-3">
-                <div className="flex justify-between items-center text-xs font-bold text-zinc-900 dark:text-zinc-100 mb-1.5">
-                  <span className="flex items-center gap-1.5 text-zinc-900 dark:text-white">
-                    <Coins size={13} className="text-amber-500" />
-                    {basicCredits.toLocaleString('id-ID')} Kredit
-                  </span>
-                  <span className="text-zinc-500 dark:text-zinc-400 font-medium text-[11px]">
-                    Rp 2,5 /kredit
-                  </span>
-                </div>
-                <input
-                  type="range"
-                  min="500"
-                  max="3000"
-                  step="250"
-                  value={basicCredits}
-                  onChange={(e) => setBasicCredits(Number(e.target.value))}
-                  className="w-full h-1.5 rounded-full appearance-none cursor-pointer accent-zinc-900 dark:accent-white"
-                  style={{
-                    background: `linear-gradient(to right, #18181b ${basicPct}%, #e4e4e7 ${basicPct}%)`
-                  }}
-                />
-                <div className="flex justify-between items-center text-[10px] text-zinc-400 mt-1 font-medium">
-                  <span>500</span>
-                  <span>3.000</span>
-                </div>
-              </div>
-            )}
-
-            <div className="border-t border-zinc-100 dark:border-zinc-800 my-4" />
-
-            <p className="text-xs font-semibold text-zinc-800 dark:text-zinc-200 mb-3.5">
-              Semua fitur Starter, plus:
-            </p>
-
-            <ul className="space-y-3 text-xs text-zinc-600 dark:text-zinc-300 mb-6 font-medium">
-              <li className="flex items-center gap-2.5">
-                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
-                </div>
-                <span className="font-semibold text-zinc-900 dark:text-zinc-100">
-                  {isSub ? '4.000 Kredit (+33% hemat)' : `${basicCredits.toLocaleString('id-ID')} Kredit saldo permanen`}
-                </span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
-                </div>
-                <span>Akses prompt 3D & video motion</span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
-                </div>
-                <span>Prioritas update prompt baru</span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
-                </div>
-                <span>Full copy prompt & JSON specs</span>
-              </li>
-            </ul>
-          </div>
-
-          <div className="pt-2 mt-auto">
-            <PrimaryButton
-              onClick={() => navigateToCheckout(isSub ? '10k' : '5k')}
-              className="w-full"
-            >
-              {isSub ? 'Langganan Business' : `Beli ${basicCredits.toLocaleString('id-ID')} Kredit`}
             </PrimaryButton>
           </div>
         </div>
@@ -447,8 +377,8 @@ export default function SubscriptionView({
             </div>
           </header>
 
-          {/* Main Showcase Area - Centered, Single-View, Non-Scrollable */}
-          <main className="w-full max-w-5xl mx-auto px-4 sm:px-6 md:px-8 py-6 md:py-8 flex-1 flex flex-col justify-center">
+          {/* Main Showcase Area - Centered in a refined max-w-3xl container to keep card sizes exact */}
+          <main className="w-full max-w-3xl mx-auto px-4 sm:px-6 md:px-8 py-6 md:py-8 flex-1 flex flex-col justify-center">
             
             {/* Header with Title on Left and Segmented Toggle on Right */}
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-7 sm:mb-8">
@@ -490,7 +420,7 @@ export default function SubscriptionView({
               </div>
             </div>
 
-            {/* Pricing Cards Grid (100% Identical 3-Column Width in Both Modes) */}
+            {/* Pricing Cards Grid (Exact Matching Dimensions) */}
             <SubscriptionCards 
               userCredits={userCredits} 
               onTopUp={onTopUp} 
