@@ -8320,32 +8320,6 @@
     "cost": 500
   },
   {
-    "rank": 360,
-    "id": "2015679962573889621",
-    "prompt": "{\n  \"image_description\": {\n    \"title\": \"Surveillance Feed: Defiant Subject in Retail Shop\",\n    \"aspect_ratio\": \"4:5\",\n    \"mood\": \"Raw, gritty, confrontational, authentic\"\n  },\n  \"visual_elements\": {\n    \"subject\": {\n      \"framing\": \"Centered from mid-torso upward\",\n      \"pose\": \"Head tilted back looking up at camera, relaxed yet defiant posture\",\n      \"action\": \"Hand raised with middle finger extended (silhouette, ghosted by motion)\",\n      \"facial_features\": \"Largely obscured by blur, mouth open with tongue faintly visible\",\n      \"apparel\": \"Dark oversized sunglasses reflecting ambient light\"\n    },\n    \"environment\": {\n      \"location\": \"Cramped retail shop interior\",\n      \"foreground\": \"Cluttered checkout counter, papers, white shopping bag with red rope handles\",\n      \"background\": \"Densely packed shelves with small items, souvenirs, and figurines (abstracted by low resolution)\"\n    }\n  },\n  \"technical_specifications\": {\n    \"camera_perspective\": \"High-mounted, steep downward angle, top-down CCTV view\",\n    \"lens_distortion\": \"Subtle fisheye warping at frame edges\",\n    \"lighting\": \"Harsh flat fluorescent, blown highlights, dull shadows\",\n    \"color_grading\": \"Cool green-blue cast, uneven color reproduction, visible banding, reduced dynamic range\"\n  },\n  \"image_fidelity\": {\n    \"quality\": \"Intentionally degraded, low-fidelity\",\n    \"artifacts\": [\n      \"Strong motion blur\",\n      \"Digital smearing\",\n      \"Compression artifacts\",\n      \"Heavy noise\",\n      \"Scan lines\"\n    ],\n    \"sharpness\": \"Low perceived sharpness, distinct details stretched and indistinct\"\n  },\n  \"full_prompt_text\": \"A heavily distorted, low-fidelity surveillance-style image depicts the Subject standing behind a cramped retail checkout counter inside a cluttered shop, captured from a high-mounted camera angled steeply downward in a top-down CCTV perspective. The image quality is intentionally degraded, with strong motion blur, digital smearing, compression artifacts, heavy noise, scan lines, and subtle fisheye distortion warping the frame edges, making fine details indistinct and stretched. The Subject is centered from mid-torso upward, looking up toward the camera with the head tilted back; facial features are largely obscured by blur and artifacts, though dark oversized sunglasses dominate the face, reflecting ambient light, and the mouth appears open with the tongue faintly visible. One hand is raised toward the camera with the middle finger extended, clearly readable in silhouette but softened and ghosted by motion and low clarity, conveying a relaxed yet defiant posture. The foreground checkout counter is cluttered with papers and a white shopping bag with red rope handles, while the background shelves are densely packed with small items, souvenirs, and figurines that blend into abstract shapes due to low resolution and noise. Harsh, flat fluorescent lighting produces blown highlights, dull shadows, uneven color reproduction, and a cool green-blue color cast with visible banding and reduced dynamic range. Despite an effectively deep depth of field, perceived sharpness remains low, reinforcing a raw, gritty, confrontational mood that emphasizes the authenticity of an unpolished, unenhanced surveillance feed in a vertical 4:5 aspect ratio\"\n}",
-    "author": "xmliisu",
-    "author_name": "Melisa♡",
-    "likes": 773,
-    "views": 93964,
-    "image": "https://images.meigen.ai/tweets/2015679962573889621/0.jpg",
-    "images": [
-      "https://images.meigen.ai/tweets/2015679962573889621/0.jpg",
-      "https://images.meigen.ai/tweets/2015679962573889621/1.jpg",
-      "https://images.meigen.ai/tweets/2015679962573889621/2.jpg",
-      "https://images.meigen.ai/tweets/2015679962573889621/3.jpg"
-    ],
-    "model": "nanobanana",
-    "categories": [
-      "Photography"
-    ],
-    "rating": 0,
-    "score": 24.44,
-    "date": "2026-01-26",
-    "source_url": "https://x.com/xmliisu/status/2015679962573889621",
-    "isPremium": true,
-    "cost": 500
-  },
-  {
     "rank": 361,
     "id": "2035918574674665977",
     "prompt": "Cinematic studio portrait of a young man with messy textured hair, wearing a black turtleneck, centered composition, dark minimal background, dramatic low-key lighting, a horizontal red neon light strip cutting across his eyes, strong contrast shadows covering lower face, intense gaze, moody atmosphere, cyberpunk aesthetic, ultra-realistic, sharp focus, 85mm lens, shallow depth of field, high detail, editorial photography style.",
