@@ -262,10 +262,10 @@ export default function FigmaPortfolioPreview({
         onSignOut={onSignOut}
         onSelectCategory={setActiveCategory}
       />
-      <SidebarInset className="bg-white dark:bg-zinc-950 transition-all">
+      <SidebarInset className="bg-white dark:bg-zinc-950">
         <div className="relative min-h-screen w-full bg-white dark:bg-zinc-950 flex flex-col">
-          {/* Fixed Glassmorphism Navbar Header - Pinned at top of viewport */}
-          <header className="fixed top-0 right-0 left-0 md:left-[var(--sidebar-width)] group-data-[state=collapsed]/sidebar-wrapper:md:left-[var(--sidebar-width-icon)] z-40 flex h-16 shrink-0 items-center justify-between gap-3 sm:gap-4 px-4 sm:px-6 md:px-8 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md border-b border-black/5 dark:border-white/5 transform-gpu transition-all">
+          {/* Fixed Glassmorphism Navbar Header - Pinned solidly at top of viewport */}
+          <header className="fixed top-0 right-0 left-0 md:left-[var(--sidebar-width)] group-data-[state=collapsed]/sidebar-wrapper:md:left-[var(--sidebar-width-icon)] z-40 flex h-16 shrink-0 items-center justify-between gap-3 sm:gap-4 px-4 sm:px-6 md:px-8 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md border-b border-black/5 dark:border-white/5">
           {/* Left: Sidebar trigger, separator, breadcrumbs */}
           <div className="flex items-center gap-2 sm:gap-3 min-w-0 shrink-0">
             <SidebarTrigger aria-label="Buka Menu Sidebar" className="-ml-1 text-obsidian hover:bg-black/5 rounded-lg p-1.5 transition-colors shrink-0" />

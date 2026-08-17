@@ -86,7 +86,7 @@ export default function MobileBottomDock({
       aria-label="Mobile Navigation Dock"
       className="fixed bottom-4 inset-x-0 z-40 flex justify-center px-4 md:hidden pointer-events-none"
     >
-      <div className="pointer-events-auto flex items-center gap-1 p-1.5 rounded-full bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl border border-zinc-300/60 dark:border-zinc-700/60 shadow-[0_8px_30px_rgba(0,0,0,0.12)] transform-gpu transition-all">
+      <div className="pointer-events-auto flex items-center gap-1 p-1.5 rounded-full bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl border border-zinc-300/60 dark:border-zinc-700/60 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
         {navItems.map((item) => {
           const IconComp = item.icon;
           return (
