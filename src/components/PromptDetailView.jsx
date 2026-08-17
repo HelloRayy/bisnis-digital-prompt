@@ -11,6 +11,7 @@ import PromptParameterCustomizer from './prompt-detail/PromptParameterCustomizer
 import PromptImageGallery from './prompt-detail/PromptImageGallery';
 import { getOptimizedImageUrl } from '@/utils/image-optimizer';
 import { getPromptAspectRatioValue } from '@/utils/prompt-helpers';
+import { cn } from '@/lib/utils';
 import { 
   Cancel01Icon, 
   Copy01Icon, 
@@ -473,8 +474,11 @@ export default function PromptDetailView({
           ref={containerRef}
           className="relative min-h-screen w-full bg-white dark:bg-zinc-950 text-obsidian dark:text-white flex flex-col justify-between selection:bg-purple-100 selection:text-purple-900 font-sans"
         >
-          {/* Fixed Glassmorphism Navbar Header - Pinned at top of viewport */}
-          <header className="fixed top-0 right-0 left-0 md:left-[var(--sidebar-width)] group-data-[state=collapsed]/sidebar-wrapper:md:left-[var(--sidebar-width-icon)] z-40 flex h-16 shrink-0 items-center justify-between gap-3 sm:gap-4 px-4 sm:px-6 md:px-8 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md border-b border-black/5 dark:border-white/5 transform-gpu transition-all">
+          {/* Fixed Glassmorphism Navbar Header - Slides up on mobile scroll */}
+          <header className={cn(
+            "fixed top-0 right-0 left-0 md:left-[var(--sidebar-width)] group-data-[state=collapsed]/sidebar-wrapper:md:left-[var(--sidebar-width-icon)] z-40 flex h-16 shrink-0 items-center justify-between gap-3 sm:gap-4 px-4 sm:px-6 md:px-8 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md border-b border-black/5 dark:border-white/5 transform-gpu transition-all duration-300 ease-out",
+            isScrolled ? "-translate-y-full md:translate-y-0 opacity-0 md:opacity-100 pointer-events-none md:pointer-events-auto" : "translate-y-0 opacity-100"
+          )}>
             {/* Left: SidebarTrigger & Breadcrumbs */}
             <div className="flex items-center gap-2 sm:gap-3 min-w-0 shrink-0">
               <SidebarTrigger aria-label="Buka Menu Sidebar" className="-ml-1 text-obsidian dark:text-zinc-200 hover:bg-black/5 dark:hover:bg-zinc-800 rounded-lg p-1.5 transition-colors shrink-0" />
@@ -516,8 +520,11 @@ export default function PromptDetailView({
                 ============================================================ */}
             <div className="lg:hidden flex flex-col gap-3.5 pb-20 relative">
               
-              {/* Fixed Top-Left Floating Back Button (16px gap under 64px header = 80px, stays pinned on scroll) */}
-              <div className="fixed top-[80px] left-2.5 sm:left-4 z-40 pointer-events-auto">
+              {/* Fixed Top-Left Floating Back Button (Animates smoothly to top safe area when scrolled) */}
+              <div className={cn(
+                "fixed left-2.5 sm:left-4 z-40 lg:hidden pointer-events-auto transition-all duration-300 ease-out",
+                isScrolled ? "top-3.5 sm:top-4" : "top-[80px]"
+              )}>
                 <button
                   type="button"
                   onClick={onClose}
