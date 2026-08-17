@@ -15,19 +15,16 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { NavUser } from "@/components/nav-user"
-import { 
-  Sparkles, 
-  Flame, 
-  Award, 
-  Zap, 
-  Image as ImageIcon, 
-  Film, 
-  Layout, 
-  Heart, 
-  Unlock, 
-  CreditCard,
-  Layers
-} from "lucide-react"
+import { Layers } from "lucide-react"
+import {
+  SidebarSparkleIcon,
+  SidebarFlameIcon,
+  SidebarAwardIcon,
+  SidebarZapIcon,
+  SidebarHeartIcon,
+  SidebarUnlockIcon,
+  SidebarCreditCardIcon
+} from "@/components/ui/SidebarIcons"
 
 export function AppSidebar({
   currentUser,
@@ -78,7 +75,7 @@ export function AppSidebar({
     {
       id: 'all',
       label: 'Semua Prompt',
-      icon: Sparkles,
+      icon: SidebarSparkleIcon,
       isActive: (activeCategory === 'all' || activeCategory === 'image') && searchQuery === '',
       onClick: () => {
         handleMobileClose();
@@ -89,7 +86,7 @@ export function AppSidebar({
     {
       id: 'trending',
       label: 'Trending Sekarang',
-      icon: Flame,
+      icon: SidebarFlameIcon,
       isActive: activeCategory === 'trending',
       onClick: () => {
         handleMobileClose();
@@ -100,7 +97,7 @@ export function AppSidebar({
     {
       id: 'editor',
       label: 'Pilihan Editor',
-      icon: Award,
+      icon: SidebarAwardIcon,
       isActive: activeCategory === 'editor',
       onClick: () => {
         handleMobileClose();
@@ -111,7 +108,7 @@ export function AppSidebar({
     {
       id: 'new',
       label: 'Baru Dirilis',
-      icon: Zap,
+      icon: SidebarZapIcon,
       isActive: activeCategory === 'new',
       onClick: () => {
         handleMobileClose();
@@ -126,7 +123,7 @@ export function AppSidebar({
     {
       id: 'favorite',
       label: 'Favorit Saya',
-      icon: Heart,
+      icon: SidebarHeartIcon,
       badge: favoritePromptIds.length > 0 ? favoritePromptIds.length : null,
       isActive: activeCategory === 'favorite',
       onClick: () => {
@@ -137,7 +134,7 @@ export function AppSidebar({
     {
       id: 'unlocked',
       label: 'Prompt Terbuka',
-      icon: Unlock,
+      icon: SidebarUnlockIcon,
       badge: purchasedPromptIds.length > 0 ? purchasedPromptIds.length : null,
       isActive: activeCategory === 'unlocked',
       onClick: () => {
@@ -188,7 +185,7 @@ export function AppSidebar({
                     }`}
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
-                      <IconComp size={15} className={item.isActive ? 'text-purple-600 dark:text-purple-400 stroke-[2.2]' : 'text-zinc-400'} />
+                      <IconComp active={item.isActive} className={item.isActive ? 'text-purple-600 dark:text-purple-400 shrink-0' : 'text-zinc-400 dark:text-zinc-500 shrink-0'} />
                       <span className="truncate text-xs">{item.label}</span>
                     </div>
                   </SidebarMenuButton>
@@ -217,7 +214,7 @@ export function AppSidebar({
                     }`}
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
-                      <IconComp size={15} className={item.isActive ? 'text-purple-600 dark:text-purple-400 stroke-[2.2]' : 'text-zinc-400'} />
+                      <IconComp active={item.isActive} className={item.isActive ? 'text-purple-600 dark:text-purple-400 shrink-0' : 'text-zinc-400 dark:text-zinc-500 shrink-0'} />
                       <span className="truncate text-xs">{item.label}</span>
                     </div>
                     {item.badge !== null && item.badge !== undefined && (
@@ -244,7 +241,7 @@ export function AppSidebar({
                 className="w-full flex items-center justify-between h-9 px-2.5 rounded-lg text-xs transition-all cursor-pointer text-zinc-700 dark:text-zinc-300 hover:text-purple-700 dark:hover:text-purple-300 hover:bg-purple-50/80 dark:hover:bg-purple-950/40 border border-transparent hover:border-purple-200 dark:hover:border-purple-800/60 font-semibold"
               >
                 <div className="flex items-center gap-2.5 min-w-0">
-                  <CreditCard size={15} className="text-purple-600 dark:text-purple-400 stroke-[2.2]" />
+                  <SidebarCreditCardIcon active={false} className="text-purple-600 dark:text-purple-400 shrink-0" />
                   <span className="truncate text-xs">Langganan & Top Up</span>
                 </div>
               </SidebarMenuButton>
