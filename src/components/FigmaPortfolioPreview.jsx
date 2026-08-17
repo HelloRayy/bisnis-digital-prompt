@@ -83,6 +83,7 @@ export default function FigmaPortfolioPreview({
   onSelectCategory: propOnSelectCategory,
   searchQuery: propSearchQuery,
   onSearchChange: propOnSearchChange,
+  onOpenSpotlight = () => {},
   onOpenAuth = () => {},
   onOpenUpgrade = () => {},
   onSignOut = () => {}
@@ -285,19 +286,43 @@ export default function FigmaPortfolioPreview({
             </Breadcrumb>
           </div>
 
-          {/* Center: Search Bar Input matching screenshot UI */}
-          <div className="hidden sm:flex flex-1 justify-center max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-2 sm:mx-4 min-w-0 transition-all duration-300">
-            <SearchInputWithLoader
-              value={searchQuery}
-              onChange={setSearchQuery}
-              onClear={() => setSearchQuery('')}
-              placeholder="Search..."
-              className="w-full"
-            />
+          {/* Center: Spotlight Search Trigger Button */}
+          <div className="hidden sm:flex flex-1 justify-center max-w-md md:max-w-lg lg:max-w-xl mx-2 sm:mx-4 min-w-0 transition-all duration-300">
+            <button
+              type="button"
+              onClick={onOpenSpotlight}
+              className="w-full h-9 px-3.5 flex items-center justify-between text-xs font-sans text-zinc-500 dark:text-zinc-400 bg-zinc-100/80 dark:bg-zinc-900/80 hover:bg-zinc-200/70 dark:hover:bg-zinc-800 rounded-xl border border-black/5 dark:border-white/10 shadow-2xs transition-all cursor-pointer group"
+            >
+              <div className="flex items-center gap-2 min-w-0 truncate">
+                <Search01Icon size={15} className="text-zinc-400 group-hover:text-obsidian dark:group-hover:text-white transition-colors shrink-0" />
+                <span className="truncate">
+                  {searchQuery ? (
+                    <span className="text-obsidian dark:text-white font-semibold">"{searchQuery}"</span>
+                  ) : (
+                    'Cari prompt visual & AI...'
+                  )}
+                </span>
+              </div>
+              <div className="flex items-center gap-1 shrink-0 ml-2">
+                <kbd className="font-mono text-[10px] bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 px-1.5 py-0.5 rounded border border-black/10 dark:border-white/10 shadow-3xs">
+                  ⌘K
+                </kbd>
+              </div>
+            </button>
           </div>
 
           {/* Right: Credits Badge & User Auth Buttons */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0 ml-auto z-10">
+            {/* Mobile Search Trigger Icon Button */}
+            <button
+              type="button"
+              onClick={onOpenSpotlight}
+              aria-label="Buka Pencarian"
+              className="sm:hidden p-2 rounded-full bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 transition-colors cursor-pointer border border-black/5 dark:border-white/10 shadow-2xs"
+            >
+              <Search01Icon size={16} />
+            </button>
+
             <SpecularElectricButton 
               onClick={onOpenUpgrade} 
               credits={userCredits} 
@@ -334,16 +359,22 @@ export default function FigmaPortfolioPreview({
         {/* Main Content: Masonry Grid Layout with safe gap under fixed header */}
         <main className="w-full min-w-0 max-w-full overflow-x-hidden mx-auto pt-[76px] sm:pt-[88px] px-3 sm:px-6 md:px-8 pb-32">
           
-          {/* Mobile Search Bar (Visible only on < 640px) */}
-          <div className="sm:hidden mb-3.5">
-            <SearchInputWithLoader
-              value={searchQuery}
-              onChange={setSearchQuery}
-              onClear={() => setSearchQuery('')}
-              placeholder="Cari prompt..."
-              className="w-full"
-            />
-          </div>
+          {/* Active Search Filter Badge */}
+          {searchQuery && (
+            <div className="mb-4 flex items-center justify-between p-2.5 px-4 bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-900 rounded-2xl text-xs text-purple-900 dark:text-purple-200 shadow-2xs">
+              <div className="flex items-center gap-2">
+                <Search01Icon size={15} className="text-purple-600 dark:text-purple-400 shrink-0" />
+                <span>Hasil pencarian untuk: <strong>"{searchQuery}"</strong> ({displayedPrompts.length} prompt)</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                className="font-bold underline text-purple-700 dark:text-purple-300 hover:text-purple-900 dark:hover:text-purple-100 cursor-pointer ml-2"
+              >
+                Reset Pencarian
+              </button>
+            </div>
+          )}
 
           {displayedPrompts.length > 0 ? (
             <>
