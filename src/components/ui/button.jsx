@@ -110,6 +110,7 @@ const SecondaryButton = React.forwardRef(function SecondaryButton(
 
 /**
  * High-Craft Primary CTA Button with Expanding White Fill & Inverted Arrow Motion
+ * Features single-line non-wrapping text and click-triggered motion playback (especially on mobile touch).
  */
 function PrimaryCTAButton({
   label = "Buka Prompt",
@@ -118,51 +119,95 @@ function PrimaryCTAButton({
   className = "",
   disabled = false,
 }) {
+  const [isClickTriggered, setIsClickTriggered] = React.useState(false);
+
+  const handleClick = (e) => {
+    setIsClickTriggered(true);
+    if (onClick) onClick(e);
+    setTimeout(() => {
+      setIsClickTriggered(false);
+    }, 700);
+  };
+
   return (
     <motion.button
       type="button"
-      whileTap={{ scale: 0.95 }}
+      whileTap={{ scale: 0.94 }}
       transition={{ type: "spring", stiffness: 500, damping: 25 }}
-      onClick={onClick}
+      onClick={handleClick}
       disabled={disabled}
       className={cn(
-        "group relative inline-flex items-center justify-between pl-6 sm:pl-7 pr-2 py-2 h-12 rounded-full bg-zinc-950 text-white border border-white/15 shadow-[0_2px_10px_rgba(0,0,0,0.2)] active:scale-95 transition-all duration-300 cursor-pointer pointer-events-auto overflow-hidden select-none",
+        "group relative inline-flex items-center justify-between pl-4 sm:pl-6 pr-1.5 sm:pr-2 py-1.5 h-10 sm:h-11 rounded-full bg-zinc-950 text-white border border-white/15 shadow-[0_2px_10px_rgba(0,0,0,0.2)] transition-all duration-300 cursor-pointer pointer-events-auto overflow-hidden select-none whitespace-nowrap shrink-0",
         className
       )}
     >
-      {/* Expanding White Fill Circle from Arrow Button on Hover */}
+      {/* Expanding White Fill Circle from Arrow Button on Hover & Click */}
       <span 
         aria-hidden="true" 
-        className="absolute right-2 top-2 w-8 h-8 rounded-full bg-white transition-transform duration-500 ease-out origin-center scale-0 group-hover:scale-[18] pointer-events-none z-0" 
+        className={cn(
+          "absolute right-1.5 top-1.5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white transition-transform duration-500 ease-out origin-center pointer-events-none z-0",
+          isClickTriggered ? "scale-[20]" : "scale-0 group-hover:scale-[20]"
+        )} 
       />
 
-      {/* Sliding Text Container */}
-      <span className="relative z-10 inline-flex items-center justify-center overflow-hidden">
-        {/* Default Text (Slides UP & out on hover) */}
-        <span className="transition-all duration-300 group-hover:-translate-y-8 group-hover:opacity-0 font-bold tracking-tight text-white group-hover:text-zinc-950">
+      {/* Sliding Text Container (Strictly Single Line) */}
+      <span className="relative z-10 inline-flex items-center justify-center overflow-hidden whitespace-nowrap px-1">
+        {/* Default Text (Slides UP & out on hover/click) */}
+        <span 
+          className={cn(
+            "transition-all duration-300 font-bold text-xs sm:text-sm tracking-tight whitespace-nowrap",
+            isClickTriggered 
+              ? "-translate-y-8 opacity-0 text-zinc-950" 
+              : "group-hover:-translate-y-8 group-hover:opacity-0 text-white group-hover:text-zinc-950"
+          )}
+        >
           {label}
         </span>
-        {/* Hover Text (Slides IN from bottom on hover) */}
-        <span className="absolute inset-0 flex items-center justify-center transition-all duration-300 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 font-bold whitespace-nowrap tracking-tight text-white group-hover:text-zinc-950">
+        {/* Hover/Click Text (Slides IN from bottom on hover/click) */}
+        <span 
+          className={cn(
+            "absolute inset-0 flex items-center justify-center transition-all duration-300 font-bold whitespace-nowrap text-xs sm:text-sm tracking-tight",
+            isClickTriggered 
+              ? "translate-y-0 opacity-100 text-zinc-950" 
+              : "translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 text-white group-hover:text-zinc-950"
+          )}
+        >
           {hoverLabel}
         </span>
       </span>
 
-      {/* Arrow Circle Container: White by default -> Smoothly inverts to Black on hover */}
-      <div className="relative z-10 w-8 h-8 rounded-full bg-white text-zinc-950 group-hover:bg-zinc-950 group-hover:text-white flex items-center justify-center shrink-0 ml-4 overflow-hidden transition-colors duration-300 shadow-2xs">
-        {/* Primary Arrow sliding up-right & out on hover */}
+      {/* Arrow Circle Container: White by default -> Smoothly inverts to Black on hover/click */}
+      <div 
+        className={cn(
+          "relative z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center shrink-0 ml-2.5 sm:ml-3 overflow-hidden transition-colors duration-300 shadow-2xs",
+          isClickTriggered 
+            ? "bg-zinc-950 text-white" 
+            : "bg-white text-zinc-950 group-hover:bg-zinc-950 group-hover:text-white"
+        )}
+      >
+        {/* Primary Arrow sliding up-right & out on hover/click */}
         <ArrowUpRight01Icon
-          size={16}
-          className="text-zinc-950 group-hover:text-white stroke-[2.5] transition-all duration-300 group-hover:-translate-y-6 group-hover:translate-x-6"
+          size={15}
+          className={cn(
+            "stroke-[2.5] transition-all duration-300",
+            isClickTriggered 
+              ? "text-white -translate-y-6 translate-x-6" 
+              : "text-zinc-950 group-hover:text-white group-hover:-translate-y-6 group-hover:translate-x-6"
+          )}
         />
-        {/* Secondary Duplicate Arrow sliding in from bottom-left on hover */}
+        {/* Secondary Duplicate Arrow sliding in from bottom-left on hover/click */}
         <ArrowUpRight01Icon
-          size={16}
-          className="text-zinc-950 group-hover:text-white absolute transition-all duration-300 translate-y-6 -translate-x-6 group-hover:translate-y-0 group-hover:translate-x-0 stroke-[2.5]"
+          size={15}
+          className={cn(
+            "absolute stroke-[2.5] transition-all duration-300",
+            isClickTriggered 
+              ? "text-white translate-y-0 translate-x-0" 
+              : "text-zinc-950 group-hover:text-white translate-y-6 -translate-x-6 group-hover:translate-y-0 group-hover:translate-x-0"
+          )}
         />
       </div>
     </motion.button>
-  )
+  );
 }
 
 const KumoPrimaryButton = PrimaryButton
