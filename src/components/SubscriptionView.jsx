@@ -52,12 +52,27 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
   const proPct = ((proCredits - 4000) / (20000 - 4000)) * 100;
 
   return (
-    <div className="w-full">
-      {/* 2-Column Plan Grid with Clean Minimalist Sliders */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6 items-stretch">
+    <div className="w-full" style={{ perspective: 1200 }}>
+      {/* 2-Column Plan Grid with 3D Unfolding Entry Motion */}
+      <motion.div 
+        layout
+        className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6 items-stretch"
+      >
         
-        {/* CARD 1: BUSINESS / KREDIT REGULER (LIGHT CARD) */}
-        <div className="rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.06)] hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 h-full">
+        {/* CARD 1: BUSINESS / KREDIT REGULER (LIGHT CARD - UNFOLDING FROM LEFT) */}
+        <motion.div
+          layout
+          initial={{ opacity: 0, y: 28, rotateY: -12, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, rotateY: 0, scale: 1 }}
+          transition={{ 
+            type: "spring", 
+            stiffness: 260, 
+            damping: 24, 
+            mass: 0.8,
+            delay: 0.05 
+          }}
+          className="rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.06)] hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 h-full transform-gpu"
+        >
           <div>
             <div className="flex items-center justify-between mb-2 min-h-[24px]">
               <span className="inline-block px-3 py-0.5 rounded-full bg-purple-50 dark:bg-purple-950/50 text-purple-700 dark:text-purple-300 text-[11px] font-semibold border border-purple-200 dark:border-purple-800">
@@ -83,31 +98,40 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                 : 'Atur jumlah kredit sesuai kebutuhan harian atau mencoba prompt.'}
             </p>
 
-            {/* Clean Minimalist Slider (Directly embedded like reference) */}
-            {!isSub && (
-              <div className="my-4">
-                <div className="flex justify-between items-center text-xs sm:text-sm mb-2">
-                  <span className="font-semibold text-zinc-900 dark:text-white">
-                    {basicCredits.toLocaleString('id-ID')} kredit
-                  </span>
-                  <span className="font-medium text-zinc-600 dark:text-zinc-400">
-                    Rp 2,5/kredit
-                  </span>
-                </div>
-                <input
-                  type="range"
-                  min="500"
-                  max="3000"
-                  step="250"
-                  value={basicCredits}
-                  onChange={(e) => setBasicCredits(Number(e.target.value))}
-                  className="w-full h-1.5 rounded-full appearance-none cursor-pointer accent-zinc-900 dark:accent-white"
-                  style={{
-                    background: `linear-gradient(to right, #18181b ${basicPct}%, #e4e4e7 ${basicPct}%)`
-                  }}
-                />
-              </div>
-            )}
+            {/* Clean Minimalist Slider (Unfolding smoothly when active) */}
+            <AnimatePresence mode="wait">
+              {!isSub && (
+                <motion.div 
+                  key="basic-slider"
+                  initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                  animate={{ opacity: 1, height: "auto", marginTop: 16 }}
+                  exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 28 }}
+                  className="overflow-hidden"
+                >
+                  <div className="flex justify-between items-center text-xs sm:text-sm mb-2">
+                    <span className="font-semibold text-zinc-900 dark:text-white">
+                      {basicCredits.toLocaleString('id-ID')} kredit
+                    </span>
+                    <span className="font-medium text-zinc-600 dark:text-zinc-400">
+                      Rp 2,5/kredit
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min="500"
+                    max="3000"
+                    step="250"
+                    value={basicCredits}
+                    onChange={(e) => setBasicCredits(Number(e.target.value))}
+                    className="w-full h-1.5 rounded-full appearance-none cursor-pointer accent-zinc-900 dark:accent-white"
+                    style={{
+                      background: `linear-gradient(to right, #18181b ${basicPct}%, #e4e4e7 ${basicPct}%)`
+                    }}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             <div className="border-t border-zinc-100 dark:border-zinc-800 my-4" />
 
@@ -153,10 +177,22 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
               {isSub ? 'Langganan Business' : `Beli ${basicCredits.toLocaleString('id-ID')} Kredit`}
             </WhiteButton>
           </div>
-        </div>
+        </motion.div>
 
-        {/* CARD 2: ENTERPRISE / PRO CREATOR (DARK ELEVATED CARD) */}
-        <div className="rounded-3xl bg-zinc-900 dark:bg-zinc-900 text-zinc-100 p-6 sm:p-7 flex flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.12)] border border-zinc-800 dark:border-zinc-700/80 transition-all duration-200 ring-1 ring-black/5 dark:ring-white/10 h-full">
+        {/* CARD 2: ENTERPRISE / PRO CREATOR (DARK ELEVATED CARD - UNFOLDING FROM RIGHT) */}
+        <motion.div
+          layout
+          initial={{ opacity: 0, y: 28, rotateY: 12, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, rotateY: 0, scale: 1 }}
+          transition={{ 
+            type: "spring", 
+            stiffness: 260, 
+            damping: 24, 
+            mass: 0.8,
+            delay: 0.12 
+          }}
+          className="rounded-3xl bg-zinc-900 dark:bg-zinc-900 text-zinc-100 p-6 sm:p-7 flex flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.12)] border border-zinc-800 dark:border-zinc-700/80 transition-all duration-200 ring-1 ring-black/5 dark:ring-white/10 h-full transform-gpu"
+        >
           <div>
             <div className="flex items-center justify-between mb-2 min-h-[24px]">
               <span className="inline-block px-3 py-0.5 rounded-full bg-zinc-800 text-zinc-300 text-[11px] font-semibold border border-zinc-700">
@@ -182,31 +218,40 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                 : 'Pilihan volume besar dengan tarif per kredit termurah untuk power user.'}
             </p>
 
-            {/* Clean Minimalist Slider (Directly embedded like reference) */}
-            {!isSub && (
-              <div className="my-4">
-                <div className="flex justify-between items-center text-xs sm:text-sm mb-2">
-                  <span className="font-semibold text-white">
-                    {proCredits.toLocaleString('id-ID')} kredit
-                  </span>
-                  <span className="font-medium text-zinc-300">
-                    Rp 2,0/kredit
-                  </span>
-                </div>
-                <input
-                  type="range"
-                  min="4000"
-                  max="20000"
-                  step="1000"
-                  value={proCredits}
-                  onChange={(e) => setProCredits(Number(e.target.value))}
-                  className="w-full h-1.5 rounded-full appearance-none cursor-pointer accent-white"
-                  style={{
-                    background: `linear-gradient(to right, #ffffff ${proPct}%, #3f3f46 ${proPct}%)`
-                  }}
-                />
-              </div>
-            )}
+            {/* Clean Minimalist Slider (Unfolding smoothly when active) */}
+            <AnimatePresence mode="wait">
+              {!isSub && (
+                <motion.div 
+                  key="pro-slider"
+                  initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                  animate={{ opacity: 1, height: "auto", marginTop: 16 }}
+                  exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 28 }}
+                  className="overflow-hidden"
+                >
+                  <div className="flex justify-between items-center text-xs sm:text-sm mb-2">
+                    <span className="font-semibold text-white">
+                      {proCredits.toLocaleString('id-ID')} kredit
+                    </span>
+                    <span className="font-medium text-zinc-300">
+                      Rp 2,0/kredit
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min="4000"
+                    max="20000"
+                    step="1000"
+                    value={proCredits}
+                    onChange={(e) => setProCredits(Number(e.target.value))}
+                    className="w-full h-1.5 rounded-full appearance-none cursor-pointer accent-white"
+                    style={{
+                      background: `linear-gradient(to right, #ffffff ${proPct}%, #3f3f46 ${proPct}%)`
+                    }}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             <div className="border-t border-zinc-800 my-4" />
 
@@ -252,9 +297,9 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
               {isSub ? 'Langganan Enterprise' : `Beli ${proCredits.toLocaleString('id-ID')} Kredit`}
             </PrimaryButton>
           </div>
-        </div>
+        </motion.div>
 
-      </div>
+      </motion.div>
     </div>
   );
 }
@@ -383,28 +428,42 @@ export default function SubscriptionView({
                 </p>
               </div>
 
-              {/* Segmented Switch Toggle */}
-              <div className="inline-flex items-center p-1 rounded-full bg-zinc-200/70 dark:bg-zinc-800/80 border border-zinc-300/40 dark:border-zinc-700/50 shrink-0 self-start sm:self-auto shadow-2xs">
+              {/* Segmented Switch Toggle with Sliding Motion Pill */}
+              <div className="relative inline-flex items-center p-1 rounded-full bg-zinc-200/70 dark:bg-zinc-800/80 border border-zinc-300/40 dark:border-zinc-700/50 shrink-0 self-start sm:self-auto shadow-2xs">
                 <button
                   type="button"
                   onClick={() => setBillingMode('subscription')}
-                  className={`px-4 py-1.5 rounded-full text-xs transition-all cursor-pointer select-none ${
+                  className={`relative z-10 px-4 py-1.5 rounded-full text-xs transition-colors duration-200 cursor-pointer select-none ${
                     billingMode === 'subscription'
-                      ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white shadow-xs font-bold'
+                      ? 'text-zinc-900 dark:text-white font-bold'
                       : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white font-medium'
                   }`}
                 >
+                  {billingMode === 'subscription' && (
+                    <motion.div
+                      layoutId="activeBillingPill"
+                      transition={{ type: "spring", stiffness: 450, damping: 32 }}
+                      className="absolute inset-0 bg-white dark:bg-zinc-900 rounded-full shadow-xs -z-10"
+                    />
+                  )}
                   Paket Langganan
                 </button>
                 <button
                   type="button"
                   onClick={() => setBillingMode('topup')}
-                  className={`px-4 py-1.5 rounded-full text-xs transition-all cursor-pointer select-none ${
+                  className={`relative z-10 px-4 py-1.5 rounded-full text-xs transition-colors duration-200 cursor-pointer select-none ${
                     billingMode === 'topup'
-                      ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white shadow-xs font-bold'
+                      ? 'text-zinc-900 dark:text-white font-bold'
                       : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white font-medium'
                   }`}
                 >
+                  {billingMode === 'topup' && (
+                    <motion.div
+                      layoutId="activeBillingPill"
+                      transition={{ type: "spring", stiffness: 450, damping: 32 }}
+                      className="absolute inset-0 bg-white dark:bg-zinc-900 rounded-full shadow-xs -z-10"
+                    />
+                  )}
                   Atur Kredit
                 </button>
               </div>
