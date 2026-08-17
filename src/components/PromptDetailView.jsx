@@ -622,25 +622,28 @@ export default function PromptDetailView({
 
                 </div>
 
-                {/* Right: Primary Action Button (KUMO UI Primary CTA Buy / Open Prompt with Inverted Arrow Pill) */}
-                <PrimaryCTAButton
-                  label={
-                    copiedText
-                      ? "Disalin!"
-                      : (isUnlocked || !isPremium)
-                        ? "Salin Prompt"
-                        : `Buka Prompt (${promptCost} Kredit)`
-                  }
-                  hoverLabel={
-                    copiedText
-                      ? "Disalin!"
-                      : (isUnlocked || !isPremium)
-                        ? "Salin Sekarang"
-                        : `Buka (${promptCost} Kredit)`
-                  }
+                {/* Right: Primary Action Button (KUMO UI PrimaryButton Pill) */}
+                <PrimaryButton
                   onClick={handleCopyText}
-                  className="h-9 sm:h-10 text-xs sm:text-sm pl-4 sm:pl-5 pr-1.5 shadow-xs"
-                />
+                  className="h-10 px-5 rounded-full text-xs sm:text-sm font-bold shadow-xs active:scale-95 shrink-0"
+                >
+                  {copiedText ? (
+                    <span className="flex items-center gap-1.5 text-emerald-400">
+                      <Check size={15} className="stroke-[2.5]" />
+                      <span>Disalin!</span>
+                    </span>
+                  ) : (isUnlocked || !isPremium) ? (
+                    <span className="flex items-center gap-1.5">
+                      <Copy01Icon size={15} />
+                      <span>Salin Prompt</span>
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-1.5">
+                      <Coins size={15} className="text-amber-400" />
+                      <span>Buka ({promptCost} Kredit)</span>
+                    </span>
+                  )}
+                </PrimaryButton>
               </div>
 
               {/* 3. Metadata Pills Row */}
@@ -692,35 +695,38 @@ export default function PromptDetailView({
                   </p>
                 </div>
 
-                {/* Dual Action CTAs: Salin Prompt & Salin Gambar */}
+                {/* Dual Action CTAs: Salin Prompt & Salin Gambar (KUMO UI Style) */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
-                  {/* 1. Salin / Buka Prompt (Primary CTA) */}
-                  <PrimaryCTAButton
-                    label={
-                      copiedText
-                        ? "Prompt Disalin!"
-                        : (isUnlocked || !isPremium)
-                          ? "Salin Teks Prompt"
-                          : `Buka Prompt (${promptCost} Kredit)`
-                    }
-                    hoverLabel={
-                      copiedText
-                        ? "Prompt Disalin!"
-                        : (isUnlocked || !isPremium)
-                          ? "Salin Sekarang"
-                          : `Buka (${promptCost} Kredit)`
-                    }
+                  {/* 1. Salin / Buka Prompt (PrimaryButton Pill) */}
+                  <PrimaryButton
                     onClick={handleCopyText}
-                    className="w-full h-11 text-xs sm:text-sm pl-4 sm:pl-5 pr-1.5 shadow-xs"
-                  />
+                    className="w-full h-11 rounded-full text-xs sm:text-sm font-bold shadow-xs flex items-center justify-center gap-2 active:scale-95"
+                  >
+                    {copiedText ? (
+                      <span className="flex items-center gap-1.5 text-emerald-400">
+                        <Check size={15} className="stroke-[2.5]" />
+                        <span>Teks Prompt Disalin!</span>
+                      </span>
+                    ) : (isUnlocked || !isPremium) ? (
+                      <span className="flex items-center gap-1.5">
+                        <Copy01Icon size={15} />
+                        <span>Salin Teks Prompt</span>
+                      </span>
+                    ) : (
+                      <span className="flex items-center gap-1.5">
+                        <Coins size={15} className="text-amber-400" />
+                        <span>Buka Prompt ({promptCost} Kredit)</span>
+                      </span>
+                    )}
+                  </PrimaryButton>
 
                   {/* 2. Salin Link Gambar Referensi (Secondary White Button) */}
                   <WhiteButton
                     onClick={copyImageUrlToClipboard}
-                    className="w-full h-11 rounded-full text-xs sm:text-sm font-bold shadow-2xs justify-center"
+                    className="w-full h-11 rounded-full text-xs sm:text-sm font-bold shadow-2xs flex items-center justify-center gap-2"
                   >
-                    <Image01Icon size={15} className="mr-1.5 shrink-0" />
-                    <span className="truncate">{copiedImg ? 'Link Gambar Disalin!' : 'Salin Link Gambar'}</span>
+                    <Image01Icon size={15} className="shrink-0" />
+                    <span>{copiedImg ? 'Link Gambar Disalin!' : 'Salin Link Gambar Referensi'}</span>
                   </WhiteButton>
                 </div>
               </div>
