@@ -405,11 +405,11 @@ export default function FigmaPortfolioPreview({
 
                   {/* Right Controls: Spaced Chevrons & Generous Page Pills */}
                   <div className="flex items-center gap-2 sm:gap-3 flex-wrap justify-end">
-                    {/* Previous Page Chevron Button */}
+                    {/* Previous Page Chevron Button (Clean transparent without background) */}
                     <button
                       disabled={currentPage === 1}
                       onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                      className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-white dark:bg-zinc-900/90 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-800 border border-zinc-200/80 dark:border-white/10 shadow-xs disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer flex items-center justify-center shrink-0"
+                      className="w-9 h-9 sm:w-10 sm:h-10 text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800/60 rounded-xl disabled:opacity-20 disabled:pointer-events-none transition-all cursor-pointer flex items-center justify-center shrink-0"
                       aria-label="Previous Page"
                     >
                       <ArrowLeft01Icon size={18} />
@@ -444,11 +444,11 @@ export default function FigmaPortfolioPreview({
                         })}
                     </div>
 
-                    {/* Next Page Chevron Button */}
+                    {/* Next Page Chevron Button (Clean transparent without background) */}
                     <button
                       disabled={currentPage === totalPages}
                       onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                      className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-white dark:bg-zinc-900/90 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-800 border border-zinc-200/80 dark:border-white/10 shadow-xs disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer flex items-center justify-center shrink-0"
+                      className="w-9 h-9 sm:w-10 sm:h-10 text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800/60 rounded-xl disabled:opacity-20 disabled:pointer-events-none transition-all cursor-pointer flex items-center justify-center shrink-0"
                       aria-label="Next Page"
                     >
                       <ArrowRight01Icon size={18} />
