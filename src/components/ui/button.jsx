@@ -16,6 +16,10 @@ const buttonVariants = cva(
         default:
           "relative overflow-hidden bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1.5px_3px_0_rgba(0,0,0,0.25)] hover:from-zinc-700 hover:via-zinc-800 hover:to-zinc-950 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_3px_8px_0_rgba(0,0,0,0.3)] active:scale-95 font-bold transition-all duration-200 cursor-pointer",
         
+        // White: KUMO UI Clean Crisp White Pill with Top Inset Highlight & Soft Drop Shadow
+        white:
+          "relative overflow-hidden bg-gradient-to-b from-white to-zinc-100/90 dark:from-zinc-800 dark:to-zinc-900 text-zinc-900 dark:text-zinc-100 border border-zinc-300/80 dark:border-zinc-700 shadow-[inset_0_1px_0_0_rgba(255,255,255,1),0_1.5px_3px_0_rgba(0,0,0,0.06)] hover:from-zinc-50 hover:to-zinc-200/90 hover:border-zinc-400/80 dark:hover:border-zinc-600 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,1),0_3px_8px_0_rgba(0,0,0,0.08)] active:scale-95 font-bold transition-all duration-200 cursor-pointer",
+        
         // Secondary: KUMO UI Tactile Base styling with crisp ring line & smooth hover tint
         secondary:
           "group flex w-max shrink-0 items-center justify-center font-medium select-none border-0 shadow-xs focus:ring-purple-500/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-600 cursor-pointer disabled:cursor-not-allowed disabled:text-zinc-400 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 not-disabled:hover:bg-zinc-100 dark:not-disabled:hover:bg-zinc-800 not-disabled:hover:text-black dark:not-disabled:hover:text-white not-disabled:hover:ring-black/15 dark:not-disabled:hover:ring-white/20 not-disabled:hover:shadow-xs active:scale-95 disabled:bg-zinc-100/50 disabled:text-zinc-400 dark:disabled:bg-zinc-800/50 transition-all duration-200",
@@ -77,6 +81,17 @@ const PrimaryButton = React.forwardRef(function PrimaryButton(
 ) {
   return (
     <Button ref={ref} variant="primary" size={size} className={className} {...props}>
+      {children}
+    </Button>
+  )
+})
+
+const WhiteButton = React.forwardRef(function WhiteButton(
+  { className, size = "pill", children, ...props },
+  ref
+) {
+  return (
+    <Button ref={ref} variant="white" size={size} className={className} {...props}>
       {children}
     </Button>
   )
@@ -151,15 +166,18 @@ function PrimaryCTAButton({
 }
 
 const KumoPrimaryButton = PrimaryButton
+const KumoWhiteButton = WhiteButton
 const KumoSecondaryButton = SecondaryButton
 const KumoCTAButton = PrimaryCTAButton
 
 export { 
   Button, 
   PrimaryButton, 
+  WhiteButton,
   SecondaryButton, 
   PrimaryCTAButton,
   KumoPrimaryButton,
+  KumoWhiteButton,
   KumoSecondaryButton,
   KumoCTAButton,
   buttonVariants 

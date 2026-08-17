@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/breadcrumb';
 import { SearchInputWithLoader } from '@/components/ui/search-input';
 import SpecularElectricButton from '@/components/ui/SpecularElectricButton';
-import { PrimaryButton } from '@/components/ui/button';
+import { PrimaryButton, WhiteButton } from '@/components/ui/button';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -146,12 +146,12 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
           </div>
 
           <div className="pt-2 mt-auto">
-            <PrimaryButton
+            <WhiteButton
               onClick={() => navigateToCheckout(isSub ? '10k' : '5k')}
               className="w-full"
             >
               {isSub ? 'Langganan Business' : `Beli ${basicCredits.toLocaleString('id-ID')} Kredit`}
-            </PrimaryButton>
+            </WhiteButton>
           </div>
         </div>
 
