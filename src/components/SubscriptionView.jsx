@@ -45,29 +45,35 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
       {/* 3-Column Plan Grid with WCAG Harmonious Tones */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 items-stretch">
         
-        {/* CARD 1: STARTER (Rp 5.000) */}
-        <div className="rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.06)] hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200">
+        {/* CARD 1: STARTER FREE (CURRENT ACTIVE PLAN) */}
+        <div className="rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200">
           <div>
+            <div className="flex items-center justify-between mb-2">
+              <span className="inline-block px-3 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 text-[11px] font-semibold border border-emerald-200 dark:border-emerald-800">
+                Paket Aktif
+              </span>
+            </div>
+
             <div className="mb-2">
               <span className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight">
-                {billingCycle === 'monthly' ? 'Rp 4.000' : 'Rp 5.000'}
+                Rp 0
               </span>
               <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-                {billingCycle === 'monthly' ? ' /bulan' : ' /top-up'}
+                {billingCycle === 'monthly' ? ' /bulan' : ' /selamanya'}
               </span>
             </div>
 
             <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
-              Starter
+              Starter (Free)
             </h3>
             <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 min-h-[32px] font-normal leading-relaxed">
-              Cocok untuk mencoba dan membuka beberapa prompt gambar favorit.
+              Paket bawaan akun baru dengan kuota kredit awal untuk mencoba prompt.
             </p>
 
             <div className="border-t border-zinc-100 dark:border-zinc-800 my-4" />
 
             <p className="text-xs font-semibold text-zinc-800 dark:text-zinc-200 mb-3.5">
-              Paket sudah termasuk:
+              Fitur paket aktif:
             </p>
 
             <ul className="space-y-3 text-xs text-zinc-600 dark:text-zinc-300 mb-6 font-medium">
@@ -75,42 +81,49 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                 <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
                   <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
                 </div>
-                <span>1.500 Kredit instan</span>
+                <span>1.000 Kredit awal gratis</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
                   <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
                 </div>
-                <span>Akses seluruh prompt gambar</span>
+                <span>Akses prompt gambar standar</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
                   <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
                 </div>
-                <span>Kredit berlaku selamanya</span>
+                <span>Pencarian & filter dasar</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
                   <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
                 </div>
-                <span>Kustomisasi parameter prompt</span>
+                <span>Kredit berlaku permanen</span>
               </li>
             </ul>
           </div>
 
           <div className="pt-2">
-            <PrimaryButton
-              onClick={() => navigateToCheckout('5k')}
-              className="w-full"
+            <button
+              type="button"
+              disabled
+              className="w-full h-11 sm:h-12 px-6 rounded-full bg-zinc-100 dark:bg-zinc-800/80 text-zinc-500 dark:text-zinc-400 font-semibold text-xs sm:text-sm border border-zinc-200 dark:border-zinc-700 cursor-default flex items-center justify-center select-none shadow-2xs"
             >
-              Beli Paket
-            </PrimaryButton>
+              Paket Saat Ini
+            </button>
           </div>
         </div>
 
         {/* CARD 2: PRO BUSINESS (Rp 10.000) */}
         <div className="rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.06)] hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200">
           <div>
+            <div className="flex items-center justify-between mb-2">
+              <span className="inline-block px-3 py-0.5 rounded-full bg-purple-50 dark:bg-purple-950/50 text-purple-700 dark:text-purple-300 text-[11px] font-semibold border border-purple-200 dark:border-purple-800">
+                Paling Diminati
+              </span>
+            </div>
+
             <div className="mb-2">
               <span className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight">
                 {billingCycle === 'monthly' ? 'Rp 8.000' : 'Rp 10.000'}
