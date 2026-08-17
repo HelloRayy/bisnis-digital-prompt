@@ -1,9 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, Search, CreditCard, Heart, Clock, User } from 'lucide-react';
+import { 
+  SidebarHomeIcon,
+  SidebarSearchIcon,
+  SidebarCreditCardIcon,
+  SidebarHeartIcon,
+  SidebarClockIcon
+} from './SidebarIcons';
 
 /**
- * KUMO UI Mobile Bottom Dock (Floating Glass Pill Navigation)
+ * KUMO UI Mobile Bottom Dock (Icon-Only Floating Glass Pill Navigation)
  * Eksklusif untuk mobile screen (< 768px / md:hidden) dengan visual language yang konsisten.
  */
 export default function MobileBottomDock({
@@ -25,8 +31,8 @@ export default function MobileBottomDock({
   const navItems = [
     {
       id: 'explore',
-      label: 'Explore',
-      icon: Sparkles,
+      label: 'Home',
+      icon: SidebarHomeIcon,
       isActive: isHome && !isSubs && !isFav,
       onClick: () => {
         onSelectCategory('all');
@@ -38,7 +44,7 @@ export default function MobileBottomDock({
     {
       id: 'search',
       label: 'Cari',
-      icon: Search,
+      icon: SidebarSearchIcon,
       isActive: false,
       onClick: () => {
         onOpenSearch();
@@ -47,7 +53,7 @@ export default function MobileBottomDock({
     {
       id: 'subscription',
       label: 'Langganan',
-      icon: CreditCard,
+      icon: SidebarCreditCardIcon,
       isActive: isSubs,
       onClick: () => {
         onOpenUpgrade();
@@ -56,7 +62,7 @@ export default function MobileBottomDock({
     {
       id: 'favorites',
       label: 'Favorit',
-      icon: Heart,
+      icon: SidebarHeartIcon,
       badge: favoriteCount > 0 ? favoriteCount : null,
       isActive: isFav,
       onClick: () => {
@@ -69,7 +75,7 @@ export default function MobileBottomDock({
     {
       id: 'history',
       label: currentUser ? 'Riwayat' : 'Akun',
-      icon: currentUser ? Clock : User,
+      icon: SidebarClockIcon,
       isActive: false,
       onClick: () => {
         if (currentUser) {
@@ -86,7 +92,7 @@ export default function MobileBottomDock({
       aria-label="Mobile Navigation Dock"
       className="fixed bottom-4 inset-x-0 z-40 flex justify-center px-4 md:hidden pointer-events-none"
     >
-      <div className="pointer-events-auto flex items-center gap-1 p-1.5 rounded-full bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl border border-zinc-300/60 dark:border-zinc-700/60 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
+      <div className="pointer-events-auto flex items-center gap-1.5 p-1.5 rounded-full bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-[0_12px_32px_rgba(0,0,0,0.14)]">
         {navItems.map((item) => {
           const IconComp = item.icon;
           return (
@@ -95,7 +101,8 @@ export default function MobileBottomDock({
               type="button"
               onClick={item.onClick}
               aria-label={item.label}
-              className={`relative flex flex-col items-center justify-center min-w-[56px] h-12 px-2.5 rounded-full text-[10px] font-semibold transition-colors cursor-pointer select-none active:scale-90 ${
+              title={item.label}
+              className={`relative flex items-center justify-center w-11 h-11 rounded-full transition-all cursor-pointer select-none active:scale-90 ${
                 item.isActive
                   ? 'text-zinc-950 dark:text-white'
                   : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'
@@ -112,22 +119,19 @@ export default function MobileBottomDock({
 
               <div className="relative flex items-center justify-center">
                 <IconComp 
-                  size={18} 
+                  active={item.isActive}
                   className={`transition-transform duration-200 ${
                     item.isActive 
-                      ? 'text-purple-600 dark:text-purple-400 stroke-[2.3] scale-105' 
-                      : 'stroke-[1.8]'
+                      ? 'text-purple-600 dark:text-purple-400 scale-105' 
+                      : ''
                   }`} 
                 />
                 {item.badge !== null && item.badge !== undefined && (
-                  <span className="absolute -top-1.5 -right-2.5 min-w-[14px] h-3.5 px-1 rounded-full bg-purple-600 text-white text-[9px] font-extrabold flex items-center justify-center shadow-xs">
+                  <span className="absolute -top-1.5 -right-2 min-w-[15px] h-3.5 px-1 rounded-full bg-purple-600 text-white text-[9px] font-extrabold flex items-center justify-center shadow-xs">
                     {item.badge}
                   </span>
                 )}
               </div>
-              <span className="mt-0.5 tracking-tight font-medium leading-none">
-                {item.label}
-              </span>
             </button>
           );
         })}
