@@ -115,76 +115,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
           </div>
         </div>
 
-        {/* CARD 2: PRO BUSINESS (Rp 10.000) */}
-        <div className="rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.06)] hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200">
-          <div>
-            <div className="flex items-center justify-between mb-2">
-              <span className="inline-block px-3 py-0.5 rounded-full bg-purple-50 dark:bg-purple-950/50 text-purple-700 dark:text-purple-300 text-[11px] font-semibold border border-purple-200 dark:border-purple-800">
-                Paling Diminati
-              </span>
-            </div>
-
-            <div className="mb-2">
-              <span className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight">
-                {billingCycle === 'monthly' ? 'Rp 8.000' : 'Rp 10.000'}
-              </span>
-              <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-                {billingCycle === 'monthly' ? ' /bulan' : ' /top-up'}
-              </span>
-            </div>
-
-            <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
-              Business
-            </h3>
-            <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 min-h-[32px] font-normal leading-relaxed">
-              Paling efisien bagi prompt engineer dan kreator aktif.
-            </p>
-
-            <div className="border-t border-zinc-100 dark:border-zinc-800 my-4" />
-
-            <p className="text-xs font-semibold text-zinc-800 dark:text-zinc-200 mb-3.5">
-              Semua fitur Starter, plus:
-            </p>
-
-            <ul className="space-y-3 text-xs text-zinc-600 dark:text-zinc-300 mb-6 font-medium">
-              <li className="flex items-center gap-2.5">
-                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
-                </div>
-                <span className="font-semibold text-zinc-900 dark:text-zinc-100">4.000 Kredit (+33% hemat)</span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
-                </div>
-                <span>Akses prompt 3D & video motion</span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
-                </div>
-                <span>Prioritas update prompt baru</span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
-                </div>
-                <span>Full copy prompt & JSON specs</span>
-              </li>
-            </ul>
-          </div>
-
-          <div className="pt-2">
-            <PrimaryButton
-              onClick={() => navigateToCheckout('10k')}
-              className="w-full"
-            >
-              Beli Paket
-            </PrimaryButton>
-          </div>
-        </div>
-
-        {/* CARD 3: ENTERPRISE (Rp 25.000) - REFINED HARMONIOUS CHARCOAL CARD */}
+        {/* CARD 2: ENTERPRISE (Rp 25.000) - CENTER FEATURED DARK ELEVATED CARD */}
         <div className="rounded-3xl bg-zinc-900 dark:bg-zinc-900 text-zinc-100 p-6 sm:p-7 flex flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.12)] border border-zinc-800 dark:border-zinc-700/80 relative md:-mt-2 transition-all duration-200 ring-1 ring-black/5 dark:ring-white/10">
           <div>
             <div className="flex items-center justify-between mb-2">
@@ -239,6 +170,75 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                   <Check size={11} className="text-zinc-200 stroke-[2.5]" />
                 </div>
                 <span>Dukungan prioritas 24/7</span>
+              </li>
+            </ul>
+          </div>
+
+          <div className="pt-2">
+            <PrimaryButton
+              onClick={() => navigateToCheckout('10k')}
+              className="w-full"
+            >
+              Beli Paket
+            </PrimaryButton>
+          </div>
+        </div>
+
+        {/* CARD 3: PRO BUSINESS (Rp 10.000) */}
+        <div className="rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.06)] hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200">
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <span className="inline-block px-3 py-0.5 rounded-full bg-purple-50 dark:bg-purple-950/50 text-purple-700 dark:text-purple-300 text-[11px] font-semibold border border-purple-200 dark:border-purple-800">
+                Paling Diminati
+              </span>
+            </div>
+
+            <div className="mb-2">
+              <span className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight">
+                {billingCycle === 'monthly' ? 'Rp 8.000' : 'Rp 10.000'}
+              </span>
+              <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+                {billingCycle === 'monthly' ? ' /bulan' : ' /top-up'}
+              </span>
+            </div>
+
+            <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
+              Business
+            </h3>
+            <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 min-h-[32px] font-normal leading-relaxed">
+              Paling efisien bagi prompt engineer dan kreator aktif.
+            </p>
+
+            <div className="border-t border-zinc-100 dark:border-zinc-800 my-4" />
+
+            <p className="text-xs font-semibold text-zinc-800 dark:text-zinc-200 mb-3.5">
+              Semua fitur Starter, plus:
+            </p>
+
+            <ul className="space-y-3 text-xs text-zinc-600 dark:text-zinc-300 mb-6 font-medium">
+              <li className="flex items-center gap-2.5">
+                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
+                </div>
+                <span className="font-semibold text-zinc-900 dark:text-zinc-100">4.000 Kredit (+33% hemat)</span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
+                </div>
+                <span>Akses prompt 3D & video motion</span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
+                </div>
+                <span>Prioritas update prompt baru</span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
+                </div>
+                <span>Full copy prompt & JSON specs</span>
               </li>
             </ul>
           </div>
