@@ -369,11 +369,6 @@ export default function SubscriptionView({
             
             {/* Hero Section */}
             <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 dark:bg-purple-950/50 text-purple-700 dark:text-purple-300 text-xs font-bold mb-4 border border-purple-200/80 dark:border-purple-800/80 shadow-2xs">
-                <SparklesIcon size={14} className="fill-purple-200 dark:fill-purple-900" />
-                <span>Kredit & Paket Langganan</span>
-              </div>
-              
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-obsidian dark:text-white tracking-tight leading-tight mb-4">
                 Buka Kreativitas Tanpa Batas dengan Kredit Prompt
               </h1>
