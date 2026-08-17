@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, Coins, Sparkle, Share2, Unlock, Lock, Bookmark } from 'lucide-react';
+import { Check, Coins, Sparkle, Share2, Unlock, Lock, Bookmark, Search, MoreHorizontal } from 'lucide-react';
 import { toast } from 'sonner';
 import { Dock } from '@/components/ui/dock-two';
 import { AnimatedNumber } from '@/components/ui/animated-counter';
@@ -484,20 +484,192 @@ export default function PromptDetailView({
           </header>
 
           {/* Main Content Area */}
-          <main className="max-w-6xl mx-auto w-full px-4 sm:px-6 md:px-10 pt-4 sm:pt-6 pb-36 flex-1 flex flex-col relative">
-            {/* Dynamic Floating Close CTA Button (Fixed on scroll, clean in-place at top) */}
-            <DetailCloseCTA onClose={onClose} isScrolled={isScrolled} />
-        <AnimatePresence mode="wait">
-          {!showProjectInfo ? (
-            /* STAGE 1: Visual Cover View */
-            <motion.div 
-              key="stage-cover"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center my-auto"
-            >
+          <main className="max-w-6xl mx-auto w-full px-3.5 sm:px-6 md:px-10 pt-3 sm:pt-6 pb-36 flex-1 flex flex-col relative">
+            
+            {/* ============================================================
+                MOBILE VIEW (< 1024px / lg:hidden) - MATCHING USER SCREENSHOT
+                ============================================================ */}
+            <div className="lg:hidden flex flex-col gap-3.5 pb-20">
+              
+              {/* 1. Hero Image Card with Top-Left Back Button & Bottom-Right Zoom Button */}
+              <div className="relative w-full rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/5 dark:border-white/10 shadow-md">
+                
+                {/* Top-Left Floating Back Button */}
+                <button
+                  type="button"
+                  onClick={onClose}
+                  aria-label="Kembali"
+                  className="absolute top-3.5 left-3.5 z-20 w-9 h-9 rounded-full bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border border-black/10 dark:border-white/10 shadow-md flex items-center justify-center text-zinc-900 dark:text-white active:scale-90 transition-transform cursor-pointer"
+                >
+                  <ArrowLeft01Icon size={18} />
+                </button>
+
+                {/* Aspect-Locked Hero Image */}
+                <div className={`relative w-full ${aspectClass} [contain:paint]`}>
+                  {!isHeroLoaded && (
+                    <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-zinc-100 dark:bg-zinc-900 animate-pulse z-0">
+                      <div className="w-10 h-10 rounded-full bg-zinc-200/80 dark:bg-zinc-800 flex items-center justify-center text-zinc-400 mb-2">
+                        <Image01Icon size={20} className="opacity-60" />
+                      </div>
+                      <span className="text-[11px] font-medium text-zinc-400">Memuat...</span>
+                    </div>
+                  )}
+                  <img
+                    src={getOptimizedImageUrl(activeImage, 1080, 80)}
+                    alt={title}
+                    decoding="async"
+                    onLoad={() => setIsHeroLoaded(true)}
+                    onClick={() => setIsLightboxOpen(true)}
+                    className={`absolute inset-0 w-full h-full object-cover cursor-pointer transition-opacity duration-300 ${
+                      isHeroLoaded ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  />
+                </div>
+
+                {/* Bottom-Right Floating Zoom/Lightbox Button */}
+                <button
+                  type="button"
+                  onClick={() => setIsLightboxOpen(true)}
+                  aria-label="Perbesar gambar"
+                  className="absolute bottom-3.5 right-3.5 z-20 w-9 h-9 rounded-full bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border border-black/10 dark:border-white/10 shadow-md flex items-center justify-center text-zinc-900 dark:text-white active:scale-90 transition-transform cursor-pointer"
+                >
+                  <Search size={16} className="stroke-[2.2]" />
+                </button>
+              </div>
+
+              {/* 2. Engagement & Action Bar (Directly below Image - Matches Reference) */}
+              <div className="flex items-center justify-between gap-2 px-1 pt-0.5">
+                {/* Left Action Icons */}
+                <div className="flex items-center gap-2.5 text-zinc-700 dark:text-zinc-300">
+                  {/* Like Button */}
+                  <button
+                    type="button"
+                    onClick={() => onToggleFavorite(prompt.id)}
+                    className="flex items-center gap-1 text-xs font-bold active:scale-90 transition-transform cursor-pointer px-1 py-1"
+                  >
+                    <FavouriteIcon size={20} className={isFavorite ? 'fill-red-600 text-red-600' : ''} />
+                    <span>{likes + (isFavorite ? 1 : 0)}</span>
+                  </button>
+
+                  {/* Comment / Info Toggle */}
+                  <button
+                    type="button"
+                    onClick={() => setShowProjectInfo(!showProjectInfo)}
+                    className="p-1 rounded-full active:scale-90 transition-transform text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 cursor-pointer"
+                    title="Detail Prompt"
+                  >
+                    <InformationCircleIcon size={20} />
+                  </button>
+
+                  {/* Share Link */}
+                  <button
+                    type="button"
+                    onClick={handleShareLink}
+                    className="p-1 rounded-full active:scale-90 transition-transform text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 cursor-pointer"
+                    title="Bagikan Tautan"
+                  >
+                    <Share01Icon size={20} />
+                  </button>
+
+                  {/* More Options / Lightbox */}
+                  <button
+                    type="button"
+                    onClick={() => setIsLightboxOpen(true)}
+                    className="p-1 rounded-full active:scale-90 transition-transform text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 cursor-pointer"
+                    title="Opsi Lainnya"
+                  >
+                    <MoreHorizontal size={20} />
+                  </button>
+                </div>
+
+                {/* Right: Primary Action Button (Red / Rose-600 Pill - Matches Reference "Save" style) */}
+                <button
+                  type="button"
+                  onClick={handleCopyText}
+                  className={`px-5 py-2.5 rounded-full font-bold text-xs sm:text-sm text-white shadow-md active:scale-95 transition-all cursor-pointer ${
+                    copiedText
+                      ? 'bg-emerald-600 shadow-emerald-600/30'
+                      : 'bg-rose-600 hover:bg-rose-700 shadow-rose-600/25'
+                  }`}
+                >
+                  {copiedText
+                    ? 'Disalin!'
+                    : (isUnlocked || !isPremium)
+                      ? 'Salin Prompt'
+                      : `Buka (${promptCost} Kredit)`}
+                </button>
+              </div>
+
+              {/* 3. Author Row */}
+              <div className="flex items-center gap-2 px-1 pt-1">
+                <div className="w-5 h-5 rounded-full bg-zinc-900 text-white flex items-center justify-center text-[10px] font-bold">
+                  {(author || 'W')[0].toUpperCase()}
+                </div>
+                <span className="text-xs font-bold text-zinc-900 dark:text-zinc-100 truncate">
+                  @{author || 'Daniel Triendl'}
+                </span>
+                <span className="text-[11px] text-zinc-400 font-medium ml-auto">
+                  {model}
+                </span>
+              </div>
+
+              {/* 4. Title */}
+              <div className="px-1">
+                <h1 className="text-base sm:text-lg font-bold text-zinc-900 dark:text-white leading-snug tracking-tight">
+                  {title}
+                </h1>
+              </div>
+
+              {/* 5. Prompt Text & Parameter Customizer */}
+              <div className="px-1 flex flex-col gap-3">
+                {/* Prompt Quote Display */}
+                <div className={`p-4 rounded-2xl bg-zinc-100 dark:bg-zinc-900 border border-black/5 dark:border-white/10 ${
+                  !isUnlocked && isPremium ? 'blur-xs select-none opacity-50' : ''
+                }`}>
+                  <p className="text-xs text-zinc-800 dark:text-zinc-200 font-serif leading-relaxed italic">
+                    "{compiledPrompt}"
+                  </p>
+                </div>
+
+                {/* Parameter Customizer (if available and unlocked) */}
+                {variableKeys.length > 0 && (isUnlocked || !isPremium) && (
+                  <PromptParameterCustomizer 
+                    variables={variables} 
+                    variableKeys={variableKeys} 
+                    onChange={handleVariableChange} 
+                  />
+                )}
+
+                {/* Copy Image Link Button */}
+                <button
+                  type="button"
+                  onClick={copyImageUrlToClipboard}
+                  className="w-full py-3 rounded-full bg-zinc-200/80 dark:bg-zinc-800/80 hover:bg-zinc-300 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-100 font-bold text-xs transition-all active:scale-98 cursor-pointer flex items-center justify-center gap-1.5 shadow-2xs"
+                >
+                  <Image01Icon size={14} />
+                  <span>{copiedImg ? 'Link Gambar Disalin!' : 'Salin Link Gambar Referensi'}</span>
+                </button>
+              </div>
+
+            </div>
+
+            {/* ============================================================
+                DESKTOP VIEW (≥ 1024px / hidden lg:block) - FULL EDITORIAL SHOWCASE
+                ============================================================ */}
+            <div className="hidden lg:block">
+              {/* Dynamic Floating Close CTA Button (Fixed on scroll, clean in-place at top) */}
+              <DetailCloseCTA onClose={onClose} isScrolled={isScrolled} />
+              <AnimatePresence mode="wait">
+                {!showProjectInfo ? (
+                  /* STAGE 1: Visual Cover View */
+                  <motion.div 
+                    key="stage-cover"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center my-auto"
+                  >
               {/* Left Image Showcase with Aspect Ratio Locked Skeleton */}
               <div className="lg:col-span-6 flex flex-col gap-4 sticky lg:top-24 items-center justify-center">
                 <div className={`relative w-full max-w-[500px] ${aspectClass} max-h-[70vh] rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/5 dark:border-white/10 shadow-md flex items-center justify-center [contain:paint]`}>
@@ -962,10 +1134,12 @@ export default function PromptDetailView({
               </motion.div>
             )}
           </AnimatePresence>
-        </main>
+        </div>
+      </main>
 
-        {/* Lightweight Floating Navigation Dock Component */}
+        {/* Lightweight Floating Navigation Dock Component for Desktop */}
         <Dock 
+          className="hidden md:block"
           items={[
             {
               icon: Image01Icon,

@@ -522,7 +522,7 @@ function App() {
       )}
 
       {/* Mobile Bottom Dock Floating Navigation */}
-      {!currentPath.startsWith('/checkout') && !currentPath.startsWith('/view/') && (
+      {!currentPath.startsWith('/checkout') && (
         <MobileBottomDock 
           currentPath={currentPath}
           activeCategory={activeCategory}
