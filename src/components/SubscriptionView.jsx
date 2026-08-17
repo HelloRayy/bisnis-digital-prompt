@@ -32,15 +32,29 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 
-/* High-Performance Lightweight Black Emphasis Button */
-function ShimmerButton({ children, onClick, className = "" }) {
+/* Harmonious WCAG-Compliant Primary Button */
+function CardButton({ children, onClick, variant = "dark", className = "" }) {
+  if (variant === "light") {
+    return (
+      <button
+        onClick={onClick}
+        type="button"
+        className={`w-full h-11 px-5 rounded-2xl bg-zinc-100 hover:bg-white text-zinc-900 font-bold text-sm shadow-sm border border-black/5 hover:border-black/10 active:scale-[0.98] transition-all duration-200 cursor-pointer flex items-center justify-center select-none ${className}`}
+      >
+        <span className="flex items-center justify-center gap-2 font-sans">
+          {children}
+        </span>
+      </button>
+    );
+  }
+
   return (
     <button
       onClick={onClick}
       type="button"
-      className={`relative inline-flex w-full items-center justify-center rounded-2xl h-11 px-5 text-sm font-bold text-white bg-gradient-to-b from-zinc-800 to-zinc-950 border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1.5px_3px_0_rgba(0,0,0,0.25)] hover:from-zinc-700 hover:via-zinc-800 hover:to-zinc-950 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_3px_8px_0_rgba(0,0,0,0.3)] active:scale-95 transition-all duration-200 cursor-pointer ${className}`}
+      className={`relative inline-flex w-full items-center justify-center rounded-2xl h-11 px-5 text-sm font-bold text-white bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-zinc-800 dark:border-zinc-700 shadow-xs active:scale-[0.98] transition-all duration-200 cursor-pointer select-none ${className}`}
     >
-      <span className="relative z-10 flex items-center justify-center gap-2 tracking-wide font-sans">
+      <span className="relative z-10 flex items-center justify-center gap-2 font-sans">
         {children}
       </span>
     </button>
@@ -56,14 +70,14 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
 
   return (
     <div className="w-full">
-      {/* 3-Column Plan Grid matching Reference Layout */}
+      {/* 3-Column Plan Grid with WCAG Harmonious Tones */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 items-stretch">
         
         {/* CARD 1: STARTER (Rp 5.000) */}
-        <div className="rounded-3xl border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-zinc-900/80 p-6 sm:p-7 flex flex-col justify-between shadow-2xs hover:shadow-md hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200">
+        <div className="rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.06)] hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200">
           <div>
             <div className="mb-2">
-              <span className="text-3xl sm:text-4xl font-black text-obsidian dark:text-white tracking-tight">
+              <span className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight">
                 {billingCycle === 'monthly' ? 'Rp 4.000' : 'Rp 5.000'}
               </span>
               <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
@@ -71,41 +85,41 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
               </span>
             </div>
 
-            <h3 className="text-xl font-bold text-obsidian dark:text-white tracking-tight">
+            <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
               Starter
             </h3>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 min-h-[32px] font-medium leading-relaxed">
+            <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 min-h-[32px] font-normal leading-relaxed">
               Cocok untuk mencoba dan membuka beberapa prompt gambar favorit.
             </p>
 
-            <div className="border-t border-zinc-100 dark:border-zinc-800/80 my-4" />
+            <div className="border-t border-zinc-100 dark:border-zinc-800 my-4" />
 
-            <p className="text-xs font-bold text-zinc-800 dark:text-zinc-200 mb-3">
+            <p className="text-xs font-semibold text-zinc-800 dark:text-zinc-200 mb-3.5">
               Paket sudah termasuk:
             </p>
 
-            <ul className="space-y-2.5 text-xs text-zinc-600 dark:text-zinc-300 mb-6 font-medium">
+            <ul className="space-y-3 text-xs text-zinc-600 dark:text-zinc-300 mb-6 font-medium">
               <li className="flex items-center gap-2.5">
-                <div className="w-4.5 h-4.5 rounded-full border border-zinc-300 dark:border-zinc-600 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-zinc-800 dark:text-zinc-200 stroke-[3]" />
+                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
                 </div>
                 <span>1.500 Kredit instan</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <div className="w-4.5 h-4.5 rounded-full border border-zinc-300 dark:border-zinc-600 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-zinc-800 dark:text-zinc-200 stroke-[3]" />
+                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
                 </div>
                 <span>Akses seluruh prompt gambar</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <div className="w-4.5 h-4.5 rounded-full border border-zinc-300 dark:border-zinc-600 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-zinc-800 dark:text-zinc-200 stroke-[3]" />
+                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
                 </div>
                 <span>Kredit berlaku selamanya</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <div className="w-4.5 h-4.5 rounded-full border border-zinc-300 dark:border-zinc-600 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-zinc-800 dark:text-zinc-200 stroke-[3]" />
+                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
                 </div>
                 <span>Kustomisasi parameter prompt</span>
               </li>
@@ -113,17 +127,17 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
           </div>
 
           <div className="pt-2">
-            <ShimmerButton onClick={() => navigateToCheckout('5k')}>
+            <CardButton onClick={() => navigateToCheckout('5k')}>
               <span>Beli Paket</span>
-            </ShimmerButton>
+            </CardButton>
           </div>
         </div>
 
-        {/* CARD 2: PRO CREATOR (Rp 10.000) */}
-        <div className="rounded-3xl border border-zinc-200/90 dark:border-zinc-800 bg-white dark:bg-zinc-900/80 p-6 sm:p-7 flex flex-col justify-between shadow-2xs hover:shadow-md hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200">
+        {/* CARD 2: PRO BUSINESS (Rp 10.000) */}
+        <div className="rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.06)] hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200">
           <div>
             <div className="mb-2">
-              <span className="text-3xl sm:text-4xl font-black text-obsidian dark:text-white tracking-tight">
+              <span className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight">
                 {billingCycle === 'monthly' ? 'Rp 8.000' : 'Rp 10.000'}
               </span>
               <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
@@ -131,41 +145,41 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
               </span>
             </div>
 
-            <h3 className="text-xl font-bold text-obsidian dark:text-white tracking-tight">
+            <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
               Business
             </h3>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 min-h-[32px] font-medium leading-relaxed">
+            <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 min-h-[32px] font-normal leading-relaxed">
               Paling efisien bagi prompt engineer dan kreator aktif.
             </p>
 
-            <div className="border-t border-zinc-100 dark:border-zinc-800/80 my-4" />
+            <div className="border-t border-zinc-100 dark:border-zinc-800 my-4" />
 
-            <p className="text-xs font-bold text-zinc-800 dark:text-zinc-200 mb-3">
+            <p className="text-xs font-semibold text-zinc-800 dark:text-zinc-200 mb-3.5">
               Semua fitur Starter, plus:
             </p>
 
-            <ul className="space-y-2.5 text-xs text-zinc-600 dark:text-zinc-300 mb-6 font-medium">
+            <ul className="space-y-3 text-xs text-zinc-600 dark:text-zinc-300 mb-6 font-medium">
               <li className="flex items-center gap-2.5">
-                <div className="w-4.5 h-4.5 rounded-full border border-zinc-300 dark:border-zinc-600 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-zinc-800 dark:text-zinc-200 stroke-[3]" />
+                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
                 </div>
-                <span className="font-semibold text-obsidian dark:text-white">4.000 Kredit (+33% hemat)</span>
+                <span className="font-semibold text-zinc-900 dark:text-zinc-100">4.000 Kredit (+33% hemat)</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <div className="w-4.5 h-4.5 rounded-full border border-zinc-300 dark:border-zinc-600 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-zinc-800 dark:text-zinc-200 stroke-[3]" />
+                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
                 </div>
                 <span>Akses prompt 3D & video motion</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <div className="w-4.5 h-4.5 rounded-full border border-zinc-300 dark:border-zinc-600 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-zinc-800 dark:text-zinc-200 stroke-[3]" />
+                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
                 </div>
                 <span>Prioritas update prompt baru</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <div className="w-4.5 h-4.5 rounded-full border border-zinc-300 dark:border-zinc-600 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-zinc-800 dark:text-zinc-200 stroke-[3]" />
+                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
                 </div>
                 <span>Full copy prompt & JSON specs</span>
               </li>
@@ -173,23 +187,23 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
           </div>
 
           <div className="pt-2">
-            <ShimmerButton onClick={() => navigateToCheckout('10k')}>
+            <CardButton onClick={() => navigateToCheckout('10k')}>
               <span>Beli Paket</span>
-            </ShimmerButton>
+            </CardButton>
           </div>
         </div>
 
-        {/* CARD 3: ENTERPRISE (Rp 25.000) - DARK ELEVATED CARD MATCHING REFERENCE */}
-        <div className="rounded-3xl bg-zinc-950 text-white p-6 sm:p-7 flex flex-col justify-between shadow-2xl border border-white/15 relative md:-mt-2 transition-all duration-200 ring-1 ring-white/10">
+        {/* CARD 3: ENTERPRISE (Rp 25.000) - REFINED HARMONIOUS CHARCOAL CARD */}
+        <div className="rounded-3xl bg-zinc-900 dark:bg-zinc-900 text-zinc-100 p-6 sm:p-7 flex flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.12)] border border-zinc-800 dark:border-zinc-700/80 relative md:-mt-2 transition-all duration-200 ring-1 ring-black/5 dark:ring-white/10">
           <div>
             <div className="flex items-center justify-between mb-2">
-              <span className="inline-block px-3 py-0.5 rounded-full bg-zinc-800 text-zinc-200 text-[11px] font-bold border border-white/10">
+              <span className="inline-block px-3 py-0.5 rounded-full bg-zinc-800 text-zinc-300 text-[11px] font-semibold border border-zinc-700">
                 Popular
               </span>
             </div>
 
             <div className="mb-2">
-              <span className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+              <span className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
                 {billingCycle === 'monthly' ? 'Rp 20.000' : 'Rp 25.000'}
               </span>
               <span className="text-xs font-medium text-zinc-400">
@@ -200,38 +214,38 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
             <h3 className="text-xl font-bold text-white tracking-tight">
               Enterprise
             </h3>
-            <p className="text-xs text-zinc-400 mt-1 min-h-[32px] font-medium leading-relaxed">
+            <p className="text-xs text-zinc-400 mt-1 min-h-[32px] font-normal leading-relaxed">
               Solusi ultimate dengan bonus kredit maksimal untuk studio & agensi.
             </p>
 
-            <div className="border-t border-white/15 my-4" />
+            <div className="border-t border-zinc-800 my-4" />
 
-            <p className="text-xs font-bold text-zinc-200 mb-3">
+            <p className="text-xs font-semibold text-zinc-300 mb-3.5">
               Semua fitur Business, plus:
             </p>
 
-            <ul className="space-y-2.5 text-xs text-zinc-300 mb-6 font-medium">
+            <ul className="space-y-3 text-xs text-zinc-300 mb-6 font-medium">
               <li className="flex items-center gap-2.5">
-                <div className="w-4.5 h-4.5 rounded-full bg-zinc-800 border border-white/20 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-white stroke-[3]" />
+                <div className="w-5 h-5 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-zinc-200 stroke-[2.5]" />
                 </div>
                 <span className="font-semibold text-white">12.000 Kredit (+60% bonus)</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <div className="w-4.5 h-4.5 rounded-full bg-zinc-800 border border-white/20 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-white stroke-[3]" />
+                <div className="w-5 h-5 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-zinc-200 stroke-[2.5]" />
                 </div>
                 <span>Akses VIP seluruh prompt eksklusif</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <div className="w-4.5 h-4.5 rounded-full bg-zinc-800 border border-white/20 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-white stroke-[3]" />
+                <div className="w-5 h-5 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-zinc-200 stroke-[2.5]" />
                 </div>
                 <span>Lisensi komersial lengkap</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <div className="w-4.5 h-4.5 rounded-full bg-zinc-800 border border-white/20 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-white stroke-[3]" />
+                <div className="w-5 h-5 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-zinc-200 stroke-[2.5]" />
                 </div>
                 <span>Dukungan prioritas 24/7</span>
               </li>
@@ -239,13 +253,9 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
           </div>
 
           <div className="pt-2">
-            <button
-              type="button"
-              onClick={() => navigateToCheckout('10k')}
-              className="w-full h-11 px-5 rounded-2xl bg-white hover:bg-zinc-100 text-zinc-950 font-bold text-sm shadow-md active:scale-95 transition-all duration-200 cursor-pointer flex items-center justify-center"
-            >
+            <CardButton variant="light" onClick={() => navigateToCheckout('10k')}>
               <span>Beli Paket</span>
-            </button>
+            </CardButton>
           </div>
         </div>
 
@@ -270,7 +280,7 @@ export default function SubscriptionView({
   const [billingCycle, setBillingCycle] = useState('monthly'); // 'monthly' | 'yearly'
 
   return (
-    <SidebarProvider className="bg-white dark:bg-zinc-950">
+    <SidebarProvider className="bg-[#f5f5f7] dark:bg-zinc-950">
       {/* 1. App Sidebar (Active on Subscription) */}
       <AppSidebar 
         currentUser={currentUser}
@@ -292,24 +302,24 @@ export default function SubscriptionView({
       />
 
       {/* 2. Workspace Content Inset */}
-      <SidebarInset className="bg-white dark:bg-zinc-950 transition-all">
-        <div className="min-h-screen w-full bg-[#f8f8f8] dark:bg-zinc-950 flex flex-col font-sans overflow-hidden">
+      <SidebarInset className="bg-[#f5f5f7] dark:bg-zinc-950 transition-all">
+        <div className="min-h-screen w-full bg-[#f5f5f7] dark:bg-zinc-950 flex flex-col font-sans overflow-hidden">
           
           {/* Top Sticky Header with SidebarTrigger & Breadcrumbs */}
-          <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between gap-3 sm:gap-4 px-4 sm:px-6 md:px-8 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md border-b border-black/5 dark:border-white/5 transform-gpu transition-all">
+          <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between gap-3 sm:gap-4 px-4 sm:px-6 md:px-8 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md border-b border-zinc-200/80 dark:border-white/5 transform-gpu transition-all">
             <div className="flex items-center gap-2 sm:gap-3 min-w-0 shrink-0">
-              <SidebarTrigger aria-label="Buka Menu Sidebar" className="-ml-1 text-obsidian dark:text-zinc-200 hover:bg-black/5 dark:hover:bg-zinc-800 rounded-lg p-1.5 transition-colors shrink-0" />
-              <Separator orientation="vertical" className="h-5 bg-black/10 dark:bg-white/10 shrink-0" />
+              <SidebarTrigger aria-label="Buka Menu Sidebar" className="-ml-1 text-zinc-800 dark:text-zinc-200 hover:bg-black/5 dark:hover:bg-zinc-800 rounded-lg p-1.5 transition-colors shrink-0" />
+              <Separator orientation="vertical" className="h-5 bg-zinc-300 dark:bg-zinc-700 shrink-0" />
               <Breadcrumb className="min-w-0 truncate">
                 <BreadcrumbList className="flex-nowrap min-w-0 text-xs sm:text-sm">
                   <BreadcrumbItem className="hidden sm:block shrink-0">
-                    <BreadcrumbLink href="#" onClick={(e) => { e.preventDefault(); onClose(); }} className="font-bold text-obsidian dark:text-white hover:text-purple-600 transition-colors">
+                    <BreadcrumbLink href="#" onClick={(e) => { e.preventDefault(); onClose(); }} className="font-semibold text-zinc-900 dark:text-white hover:text-purple-600 transition-colors">
                       Prompt Hub
                     </BreadcrumbLink>
                   </BreadcrumbItem>
-                  <BreadcrumbSeparator className="hidden sm:block shrink-0 text-black/40" />
+                  <BreadcrumbSeparator className="hidden sm:block shrink-0 text-zinc-400" />
                   <BreadcrumbItem className="min-w-0 truncate">
-                    <BreadcrumbPage className="capitalize font-semibold text-black/70 dark:text-zinc-300 truncate">
+                    <BreadcrumbPage className="capitalize font-medium text-zinc-600 dark:text-zinc-300 truncate">
                       Plans &amp; Pricing
                     </BreadcrumbPage>
                   </BreadcrumbItem>
@@ -368,22 +378,22 @@ export default function SubscriptionView({
             {/* Header with Title on Left and Segmented Toggle on Right */}
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-7 sm:mb-8">
               <div>
-                <h1 className="text-3xl sm:text-4xl font-extrabold text-obsidian dark:text-white tracking-tight leading-tight mb-1">
+                <h1 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight leading-tight mb-1">
                   Plans &amp; Pricing
                 </h1>
-                <p className="text-zinc-500 dark:text-zinc-400 text-xs sm:text-sm font-normal">
+                <p className="text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm font-normal">
                   Pilih paket kredit fleksibel untuk membuka koleksi prompt AI berkualitas tinggi.
                 </p>
               </div>
 
-              {/* Segmented Switch Toggle */}
-              <div className="inline-flex items-center p-1 rounded-full bg-zinc-200/70 dark:bg-zinc-800/80 border border-black/5 dark:border-white/10 shrink-0 self-start sm:self-auto">
+              {/* Segmented Switch Toggle - Soft WCAG compliant contrast */}
+              <div className="inline-flex items-center p-1 rounded-full bg-zinc-200/70 dark:bg-zinc-800/80 border border-zinc-300/40 dark:border-zinc-700/50 shrink-0 self-start sm:self-auto">
                 <button
                   type="button"
                   onClick={() => setBillingCycle('monthly')}
-                  className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                  className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
                     billingCycle === 'monthly'
-                      ? 'bg-white dark:bg-zinc-900 text-zinc-950 dark:text-white shadow-xs'
+                      ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white shadow-xs'
                       : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
                   }`}
                 >
@@ -392,9 +402,9 @@ export default function SubscriptionView({
                 <button
                   type="button"
                   onClick={() => setBillingCycle('yearly')}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
                     billingCycle === 'yearly'
-                      ? 'bg-white dark:bg-zinc-900 text-zinc-950 dark:text-white shadow-xs'
+                      ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white shadow-xs'
                       : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
                   }`}
                 >
@@ -418,10 +428,10 @@ export default function SubscriptionView({
         <AlertDialog open={showSignOutConfirm} onOpenChange={setShowSignOutConfirm}>
           <AlertDialogContent className="max-w-md bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 shadow-xl">
             <AlertDialogHeader className="flex flex-col gap-2">
-              <AlertDialogTitle className="text-base font-bold text-obsidian dark:text-white">
+              <AlertDialogTitle className="text-base font-bold text-zinc-900 dark:text-white">
                 Konfirmasi Keluar Akun
               </AlertDialogTitle>
-              <AlertDialogDescription className="text-xs text-zinc-500 dark:text-zinc-400">
+              <AlertDialogDescription className="text-xs text-zinc-600 dark:text-zinc-400">
                 Apakah Anda yakin ingin keluar dari akun Anda? Anda dapat masuk kembali kapan saja untuk mengakses kredit dan riwayat prompt Anda.
               </AlertDialogDescription>
             </AlertDialogHeader>
