@@ -161,10 +161,16 @@ export default function PromptDetailView({
   // Detect scroll for sticky secondary close CTA backdrop styling
   React.useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      const scrollY = window.scrollY || document.documentElement.scrollTop || window.pageYOffset || 0;
+      setIsScrolled(scrollY > 15);
     };
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    document.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   // Variable customizer
@@ -441,9 +447,9 @@ export default function PromptDetailView({
           </header>
 
           {/* Main Content Area */}
-          <main className="max-w-6xl mx-auto w-full px-4 sm:px-6 md:px-10 pt-4 sm:pt-6 pb-36 flex-1 flex flex-col justify-center my-auto relative">
+          <main className="max-w-6xl mx-auto w-full px-4 sm:px-6 md:px-10 pt-4 sm:pt-6 pb-36 flex-1 flex flex-col relative">
             {/* Dynamic Sticky Close CTA Button */}
-            <div className="sticky top-20 z-30 mb-6 sm:mb-8 flex items-center justify-start pointer-events-auto">
+            <div className="sticky top-20 z-30 mb-6 sm:mb-8 self-start flex items-center justify-start pointer-events-auto">
               <button 
                 type="button"
                 onClick={onClose}
@@ -473,7 +479,7 @@ export default function PromptDetailView({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
+              className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center my-auto"
             >
               {/* Left Image Showcase with Aspect Ratio Locked Skeleton */}
               <div className="lg:col-span-6 flex flex-col gap-4 sticky lg:top-24 items-center justify-center">
