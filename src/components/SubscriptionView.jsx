@@ -7,7 +7,7 @@ import {
   StarIcon,
   Logout01Icon
 } from 'hugeicons-react';
-import { Check, Coins, Zap } from 'lucide-react';
+import { Check, Coins, Zap, Sparkle } from 'lucide-react';
 import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/app-sidebar';
 import { Separator } from '@/components/ui/separator';
@@ -21,6 +21,7 @@ import {
 } from '@/components/ui/breadcrumb';
 import { SearchInputWithLoader } from '@/components/ui/search-input';
 import SpecularElectricButton from '@/components/ui/SpecularElectricButton';
+import SpecularButton from '@/components/ui/SpecularButton';
 import { PrimaryButton, WhiteButton } from '@/components/ui/button';
 import {
   AlertDialog,
@@ -43,7 +44,7 @@ export function DigitTicker({ value, prefix = "", suffix = "", className = "" })
 
   return (
     <span className={`inline-flex items-baseline tabular-nums select-none ${className}`}>
-      {prefix && <span className="inline-block mr-0.5">{prefix}</span>}
+      {prefix && <span className="inline-block mr-0.5 font-bold">{prefix}</span>}
       {chars.map((char, index) => {
         const isDigit = !isNaN(parseInt(char, 10));
 
@@ -116,7 +117,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
         className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6 items-stretch"
       >
         
-        {/* CARD 1: BUSINESS / KREDIT REGULER (LIGHT CARD - UNFOLDING FROM LEFT) */}
+        {/* CARD 1: BUSINESS / KREDIT REGULER (KUMO UI LIGHT SPECULAR CARD) */}
         <motion.div
           layout
           initial={{ opacity: 0, y: 28, rotateY: -12, scale: 0.95 }}
@@ -128,11 +129,11 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
             mass: 0.8,
             delay: 0.05 
           }}
-          className="rounded-3xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.06)] hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 h-full transform-gpu"
+          className="rounded-3xl border border-black/10 dark:border-white/10 bg-white dark:bg-zinc-900 p-6 sm:p-7 flex flex-col justify-between shadow-[0_2px_12px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.9)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:border-black/20 dark:hover:border-white/20 transition-all duration-200 h-full transform-gpu"
         >
           <div>
             <div className="flex items-center justify-between mb-2 min-h-[24px]">
-              <span className="inline-block px-3 py-0.5 rounded-full bg-purple-50 dark:bg-purple-950/50 text-purple-700 dark:text-purple-300 text-[11px] font-semibold border border-purple-200 dark:border-purple-800">
+              <span className="inline-block px-3 py-0.5 rounded-full bg-purple-50 dark:bg-purple-950/50 text-purple-700 dark:text-purple-300 text-[11px] font-bold border border-purple-200/80 dark:border-purple-800 shadow-2xs">
                 {isSub ? 'Paling Diminati' : 'Fleksibel'}
               </span>
             </div>
@@ -142,14 +143,14 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
               <DigitTicker
                 prefix="Rp"
                 value={isSub ? '8.000' : basicPrice.toLocaleString('id-ID')}
-                className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight"
+                className="text-3xl sm:text-4xl font-extrabold text-obsidian dark:text-zinc-100 tracking-tight"
               />
-              <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400 ml-1">
+              <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 ml-1">
                 {isSub ? ' /bulan' : ' /top-up'}
               </span>
             </div>
 
-            <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
+            <h3 className="text-xl font-bold text-obsidian dark:text-zinc-100 tracking-tight">
               {isSub ? 'Business' : 'Kredit Reguler'}
             </h3>
             <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 min-h-[34px] font-normal leading-relaxed">
@@ -170,10 +171,11 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                   className="overflow-hidden"
                 >
                   <div className="flex justify-between items-center text-xs sm:text-sm mb-2">
-                    <span className="font-semibold text-zinc-900 dark:text-white">
+                    <span className="font-bold text-obsidian dark:text-white flex items-center gap-1.5">
+                      <Coins size={14} className="text-purple-600 stroke-[2.2]" />
                       {basicCredits.toLocaleString('id-ID')} kredit
                     </span>
-                    <span className="font-medium text-zinc-600 dark:text-zinc-400">
+                    <span className="font-semibold text-zinc-500 dark:text-zinc-400 text-xs">
                       Rp 2,5/kredit
                     </span>
                   </div>
@@ -184,45 +186,45 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                     step="250"
                     value={basicCredits}
                     onChange={(e) => setBasicCredits(Number(e.target.value))}
-                    className="w-full h-1.5 rounded-full appearance-none cursor-pointer accent-zinc-900 dark:accent-white"
+                    className="w-full h-2 rounded-full appearance-none cursor-pointer accent-purple-600 dark:accent-purple-400 bg-zinc-200/80 dark:bg-zinc-800"
                     style={{
-                      background: `linear-gradient(to right, #18181b ${basicPct}%, #e4e4e7 ${basicPct}%)`
+                      background: `linear-gradient(to right, #9333ea ${basicPct}%, #e4e4e7 ${basicPct}%)`
                     }}
                   />
                 </motion.div>
               )}
             </AnimatePresence>
 
-            <div className="border-t border-zinc-100 dark:border-zinc-800 my-4" />
+            <div className="border-t border-black/5 dark:border-white/10 my-4" />
 
-            <p className="text-xs font-semibold text-zinc-800 dark:text-zinc-200 mb-3.5">
+            <p className="text-xs font-bold text-obsidian dark:text-zinc-200 mb-3.5">
               Fitur paket:
             </p>
 
             <ul className="space-y-3 text-xs text-zinc-600 dark:text-zinc-300 mb-6 font-medium">
               <li className="flex items-center gap-2.5">
-                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
+                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-black/10 dark:border-white/10 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-purple-600 dark:text-purple-400 stroke-[2.5]" />
                 </div>
-                <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+                <span className="font-bold text-obsidian dark:text-zinc-100">
                   {isSub ? '4.000 Kredit (+33% hemat)' : `${basicCredits.toLocaleString('id-ID')} Kredit saldo permanen`}
                 </span>
               </li>
               <li className="flex items-center gap-2.5">
-                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
+                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-black/10 dark:border-white/10 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-purple-600 dark:text-purple-400 stroke-[2.5]" />
                 </div>
                 <span>Akses prompt 3D & video motion</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
+                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-black/10 dark:border-white/10 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-purple-600 dark:text-purple-400 stroke-[2.5]" />
                 </div>
                 <span>Prioritas update prompt baru</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-zinc-700 dark:text-zinc-300 stroke-[2.5]" />
+                <div className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-black/10 dark:border-white/10 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-purple-600 dark:text-purple-400 stroke-[2.5]" />
                 </div>
                 <span>Full copy prompt & JSON specs</span>
               </li>
@@ -232,14 +234,14 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
           <div className="pt-2 mt-auto">
             <WhiteButton
               onClick={() => navigateToCheckout(isSub ? '10k' : '5k')}
-              className="w-full"
+              className="w-full h-11 rounded-full text-xs sm:text-sm font-bold"
             >
               {isSub ? 'Langganan Business' : `Beli ${basicCredits.toLocaleString('id-ID')} Kredit`}
             </WhiteButton>
           </div>
         </motion.div>
 
-        {/* CARD 2: ENTERPRISE / PRO CREATOR (DARK ELEVATED CARD - UNFOLDING FROM RIGHT) */}
+        {/* CARD 2: ENTERPRISE / PRO CREATOR (KUMO UI OBSIDIAN DARK ELEVATED CARD) */}
         <motion.div
           layout
           initial={{ opacity: 0, y: 28, rotateY: 12, scale: 0.95 }}
@@ -251,11 +253,11 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
             mass: 0.8,
             delay: 0.12 
           }}
-          className="rounded-3xl bg-zinc-900 dark:bg-zinc-900 text-zinc-100 p-6 sm:p-7 flex flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.12)] border border-zinc-800 dark:border-zinc-700/80 transition-all duration-200 ring-1 ring-black/5 dark:ring-white/10 h-full transform-gpu"
+          className="rounded-3xl bg-zinc-950 dark:bg-zinc-900 text-zinc-100 p-6 sm:p-7 flex flex-col justify-between shadow-[0_12px_32px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.15)] border border-white/15 dark:border-zinc-700/80 transition-all duration-200 ring-1 ring-black/10 h-full transform-gpu"
         >
           <div>
             <div className="flex items-center justify-between mb-2 min-h-[24px]">
-              <span className="inline-block px-3 py-0.5 rounded-full bg-zinc-800 text-zinc-300 text-[11px] font-semibold border border-zinc-700">
+              <span className="inline-block px-3 py-0.5 rounded-full bg-zinc-800/90 text-zinc-200 text-[11px] font-bold border border-white/15 shadow-2xs">
                 {isSub ? 'Paling Populer' : 'Paling Hemat • Diskon 20%'}
               </span>
             </div>
@@ -267,7 +269,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                 value={isSub ? '20.000' : proPrice.toLocaleString('id-ID')}
                 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight"
               />
-              <span className="text-xs font-medium text-zinc-400 ml-1">
+              <span className="text-xs font-semibold text-zinc-400 ml-1">
                 {isSub ? ' /bulan' : ' /top-up'}
               </span>
             </div>
@@ -293,10 +295,11 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                   className="overflow-hidden"
                 >
                   <div className="flex justify-between items-center text-xs sm:text-sm mb-2">
-                    <span className="font-semibold text-white">
+                    <span className="font-bold text-white flex items-center gap-1.5">
+                      <Coins size={14} className="text-amber-400 stroke-[2.2]" />
                       {proCredits.toLocaleString('id-ID')} kredit
                     </span>
-                    <span className="font-medium text-zinc-300">
+                    <span className="font-semibold text-zinc-400 text-xs">
                       Rp 2,0/kredit
                     </span>
                   </div>
@@ -307,7 +310,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                     step="1000"
                     value={proCredits}
                     onChange={(e) => setProCredits(Number(e.target.value))}
-                    className="w-full h-1.5 rounded-full appearance-none cursor-pointer accent-white"
+                    className="w-full h-2 rounded-full appearance-none cursor-pointer accent-white bg-zinc-800"
                     style={{
                       background: `linear-gradient(to right, #ffffff ${proPct}%, #3f3f46 ${proPct}%)`
                     }}
@@ -316,36 +319,36 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
               )}
             </AnimatePresence>
 
-            <div className="border-t border-zinc-800 my-4" />
+            <div className="border-t border-white/10 my-4" />
 
-            <p className="text-xs font-semibold text-zinc-300 mb-3.5">
+            <p className="text-xs font-bold text-zinc-200 mb-3.5">
               Semua fitur Business, plus:
             </p>
 
             <ul className="space-y-3 text-xs text-zinc-300 mb-6 font-medium">
               <li className="flex items-center gap-2.5">
-                <div className="w-5 h-5 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-zinc-200 stroke-[2.5]" />
+                <div className="w-5 h-5 rounded-full bg-zinc-800 border border-white/15 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-white stroke-[2.5]" />
                 </div>
-                <span className="font-semibold text-white">
+                <span className="font-bold text-white">
                   {isSub ? '12.000 Kredit (+60% bonus)' : `${proCredits.toLocaleString('id-ID')} Kredit saldo permanen`}
                 </span>
               </li>
               <li className="flex items-center gap-2.5">
-                <div className="w-5 h-5 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-zinc-200 stroke-[2.5]" />
+                <div className="w-5 h-5 rounded-full bg-zinc-800 border border-white/15 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-white stroke-[2.5]" />
                 </div>
                 <span>Akses VIP seluruh prompt eksklusif & 3D</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <div className="w-5 h-5 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-zinc-200 stroke-[2.5]" />
+                <div className="w-5 h-5 rounded-full bg-zinc-800 border border-white/15 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-white stroke-[2.5]" />
                 </div>
                 <span>Lisensi penggunaan komersial lengkap</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <div className="w-5 h-5 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center shrink-0">
-                  <Check size={11} className="text-zinc-200 stroke-[2.5]" />
+                <div className="w-5 h-5 rounded-full bg-zinc-800 border border-white/15 flex items-center justify-center shrink-0">
+                  <Check size={11} className="text-white stroke-[2.5]" />
                 </div>
                 <span>Dukungan prioritas & update 24/7</span>
               </li>
@@ -355,7 +358,7 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
           <div className="pt-2 mt-auto">
             <PrimaryButton
               onClick={() => navigateToCheckout('10k')}
-              className="w-full"
+              className="w-full h-11 rounded-full text-xs sm:text-sm font-bold shadow-lg"
             >
               {isSub ? 'Langganan Enterprise' : `Beli ${proCredits.toLocaleString('id-ID')} Kredit`}
             </PrimaryButton>
@@ -383,7 +386,7 @@ export default function SubscriptionView({
   const [billingMode, setBillingMode] = useState('subscription'); // 'subscription' | 'topup'
 
   return (
-    <SidebarProvider className="bg-[#f5f5f7] dark:bg-zinc-950">
+    <SidebarProvider className="bg-white dark:bg-zinc-950">
       {/* 1. App Sidebar (Active on Subscription) */}
       <AppSidebar 
         currentUser={currentUser}
@@ -405,25 +408,25 @@ export default function SubscriptionView({
       />
 
       {/* 2. Workspace Content Inset */}
-      <SidebarInset className="bg-[#f5f5f7] dark:bg-zinc-950 transition-all">
-        <div className="min-h-screen w-full bg-[#f5f5f7] dark:bg-zinc-950 flex flex-col font-sans overflow-x-hidden pb-28 md:pb-0">
+      <SidebarInset className="bg-white dark:bg-zinc-950 transition-all">
+        <div className="min-h-screen w-full bg-white dark:bg-zinc-950 flex flex-col font-sans overflow-x-hidden pb-28 md:pb-0">
           
-          {/* Top Sticky Header with SidebarTrigger & Breadcrumbs */}
-          <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between gap-3 sm:gap-4 px-4 sm:px-6 md:px-8 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md border-b border-zinc-200/80 dark:border-white/5 transform-gpu transition-all">
+          {/* Top Fixed / Sticky Glassmorphism Header */}
+          <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between gap-3 sm:gap-4 px-4 sm:px-6 md:px-8 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md border-b border-black/5 dark:border-white/5 transform-gpu transition-all">
             <div className="flex items-center gap-2 sm:gap-3 min-w-0 shrink-0">
-              <SidebarTrigger aria-label="Buka Menu Sidebar" className="-ml-1 text-zinc-800 dark:text-zinc-200 hover:bg-black/5 dark:hover:bg-zinc-800 rounded-lg p-1.5 transition-colors shrink-0" />
-              <Separator orientation="vertical" className="h-5 bg-zinc-300 dark:bg-zinc-700 shrink-0" />
+              <SidebarTrigger aria-label="Buka Menu Sidebar" className="-ml-1 text-obsidian hover:bg-black/5 rounded-lg p-1.5 transition-colors shrink-0" />
+              <Separator orientation="vertical" className="h-5 bg-black/10 shrink-0" />
               <Breadcrumb className="min-w-0 truncate">
                 <BreadcrumbList className="flex-nowrap min-w-0 text-xs sm:text-sm">
                   <BreadcrumbItem className="hidden sm:block shrink-0">
-                    <BreadcrumbLink href="#" onClick={(e) => { e.preventDefault(); onClose(); }} className="font-semibold text-zinc-900 dark:text-white hover:text-purple-600 transition-colors">
+                    <BreadcrumbLink href="#" onClick={(e) => { e.preventDefault(); onClose(); }} className="font-bold text-obsidian hover:text-purple-600 transition-colors">
                       Prompt Hub
                     </BreadcrumbLink>
                   </BreadcrumbItem>
-                  <BreadcrumbSeparator className="hidden sm:block shrink-0 text-zinc-400" />
+                  <BreadcrumbSeparator className="hidden sm:block shrink-0 text-black/40" />
                   <BreadcrumbItem className="min-w-0 truncate">
-                    <BreadcrumbPage className="capitalize font-medium text-zinc-600 dark:text-zinc-300 truncate">
-                      Plans &amp; Pricing
+                    <BreadcrumbPage className="font-semibold text-zinc-900 dark:text-zinc-100 truncate">
+                      Paket &amp; Langganan
                     </BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
@@ -451,7 +454,7 @@ export default function SubscriptionView({
                 <button 
                   onClick={() => setShowSignOutConfirm(true)}
                   aria-label="Keluar akun"
-                  className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-full bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100/90 text-rose-600 dark:text-rose-400 border border-rose-200/60 dark:border-rose-900 text-xs font-medium transition-all cursor-pointer shadow-2xs active:scale-95 shrink-0"
+                  className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-full bg-white dark:bg-zinc-800 hover:bg-rose-50 hover:text-rose-600 dark:hover:bg-rose-950/40 dark:hover:text-rose-400 text-zinc-700 dark:text-zinc-300 ring-1 ring-black/10 dark:ring-white/10 text-xs font-semibold transition-all duration-200 cursor-pointer shadow-2xs active:scale-95 shrink-0 border-0"
                   title="Keluar Akun"
                 >
                   <Logout01Icon size={14} />
@@ -461,7 +464,7 @@ export default function SubscriptionView({
                 <button 
                   onClick={onOpenAuth}
                   aria-label="Login with Google"
-                  className="inline-flex items-center gap-2 h-9 px-4 rounded-full bg-white dark:bg-zinc-900 hover:bg-slate-50 dark:hover:bg-zinc-800 text-slate-700 dark:text-zinc-200 border border-slate-200/80 dark:border-zinc-800 text-xs font-semibold transition-all cursor-pointer shadow-xs hover:shadow-sm active:scale-95 shrink-0 group"
+                  className="inline-flex items-center gap-2 h-9 px-4 rounded-full bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 text-xs font-bold transition-all duration-200 cursor-pointer shadow-2xs active:scale-95 shrink-0 group border-0"
                 >
                   <svg className="w-4 h-4 shrink-0 transition-transform group-hover:scale-105" viewBox="0 0 24 24">
                     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -481,7 +484,7 @@ export default function SubscriptionView({
             {/* Header with Title on Left and Segmented Toggle on Right */}
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-7 sm:mb-8">
               <div>
-                <h1 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight leading-tight mb-1">
+                <h1 className="text-3xl sm:text-4xl font-extrabold text-obsidian dark:text-zinc-100 tracking-tight leading-tight mb-1">
                   {billingMode === 'subscription' ? 'Paket & Langganan' : 'Atur Kredit Sendiri'}
                 </h1>
                 <p className="text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm font-normal">
@@ -492,21 +495,21 @@ export default function SubscriptionView({
               </div>
 
               {/* Segmented Switch Toggle with Sliding Motion Pill */}
-              <div className="relative inline-flex items-center p-1 rounded-full bg-zinc-200/70 dark:bg-zinc-800/80 border border-zinc-300/40 dark:border-zinc-700/50 shrink-0 self-start sm:self-auto shadow-2xs">
+              <div className="relative inline-flex items-center p-1 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-black/10 dark:border-white/10 shrink-0 self-start sm:self-auto shadow-2xs">
                 <button
                   type="button"
                   onClick={() => setBillingMode('subscription')}
                   className={`relative z-10 px-4 py-1.5 rounded-full text-xs transition-colors duration-200 cursor-pointer select-none ${
                     billingMode === 'subscription'
-                      ? 'text-zinc-900 dark:text-white font-bold'
-                      : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white font-medium'
+                      ? 'text-obsidian dark:text-white font-bold'
+                      : 'text-zinc-500 dark:text-zinc-400 hover:text-obsidian dark:hover:text-white font-medium'
                   }`}
                 >
                   {billingMode === 'subscription' && (
                     <motion.div
                       layoutId="activeBillingPill"
                       transition={{ type: "spring", stiffness: 450, damping: 32 }}
-                      className="absolute inset-0 bg-white dark:bg-zinc-900 rounded-full shadow-xs -z-10"
+                      className="absolute inset-0 bg-white dark:bg-zinc-800 rounded-full shadow-xs border border-black/5 dark:border-white/10 -z-10"
                     />
                   )}
                   Paket Langganan
@@ -516,15 +519,15 @@ export default function SubscriptionView({
                   onClick={() => setBillingMode('topup')}
                   className={`relative z-10 px-4 py-1.5 rounded-full text-xs transition-colors duration-200 cursor-pointer select-none ${
                     billingMode === 'topup'
-                      ? 'text-zinc-900 dark:text-white font-bold'
-                      : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white font-medium'
+                      ? 'text-obsidian dark:text-white font-bold'
+                      : 'text-zinc-500 dark:text-zinc-400 hover:text-obsidian dark:hover:text-white font-medium'
                   }`}
                 >
                   {billingMode === 'topup' && (
                     <motion.div
                       layoutId="activeBillingPill"
                       transition={{ type: "spring", stiffness: 450, damping: 32 }}
-                      className="absolute inset-0 bg-white dark:bg-zinc-900 rounded-full shadow-xs -z-10"
+                      className="absolute inset-0 bg-white dark:bg-zinc-800 rounded-full shadow-xs border border-black/5 dark:border-white/10 -z-10"
                     />
                   )}
                   Atur Kredit
@@ -547,9 +550,9 @@ export default function SubscriptionView({
       {/* Sign Out Confirmation Modal */}
       {showSignOutConfirm && (
         <AlertDialog open={showSignOutConfirm} onOpenChange={setShowSignOutConfirm}>
-          <AlertDialogContent className="max-w-md bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 shadow-xl">
+          <AlertDialogContent className="max-w-md bg-white dark:bg-zinc-900 border border-black/10 dark:border-white/10 rounded-3xl p-6 shadow-xl">
             <AlertDialogHeader className="flex flex-col gap-2">
-              <AlertDialogTitle className="text-base font-bold text-zinc-900 dark:text-white">
+              <AlertDialogTitle className="text-base font-bold text-obsidian dark:text-white">
                 Konfirmasi Keluar Akun
               </AlertDialogTitle>
               <AlertDialogDescription className="text-xs text-zinc-600 dark:text-zinc-400">
@@ -559,7 +562,7 @@ export default function SubscriptionView({
             <AlertDialogFooter className="w-full flex flex-row items-center justify-end gap-2.5 pt-4">
               <AlertDialogCancel 
                 onClick={() => setShowSignOutConfirm(false)}
-                className="h-9 px-4 rounded-full border border-zinc-200 dark:border-zinc-700 text-xs font-semibold text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                className="h-9 px-4 rounded-full border border-black/10 dark:border-white/10 text-xs font-semibold text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800"
               >
                 Batal
               </AlertDialogCancel>
