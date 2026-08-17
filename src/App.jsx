@@ -26,15 +26,25 @@ function App() {
   const [favoritePromptIds, setFavoritePromptIds] = useState([]);
   const [transactions, setTransactions] = useState([]);
 
-  const lastScrollY = useRef(0);
+  const homeScrollY = useRef(0);
+
+  // Set manual scroll restoration on mount
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+  }, []);
 
   // Helper untuk membuka prompt dengan URL dynamic route /view/:slug
   const handleOpenPrompt = (prompt, customPath = null) => {
-    lastScrollY.current = window.scrollY || document.documentElement.scrollTop || 0;
+    homeScrollY.current = window.scrollY || document.documentElement.scrollTop || 0;
     setActivePrompt(prompt);
     const targetPath = customPath || getCleanShortSlug(prompt);
     window.history.pushState({}, '', targetPath);
     setCurrentPath(targetPath);
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    });
   };
 
   const handleClosePrompt = () => {
@@ -43,10 +53,32 @@ function App() {
       window.history.pushState({}, '', '/');
       setCurrentPath('/');
     }
-    const targetY = lastScrollY.current;
+    const targetY = homeScrollY.current;
     requestAnimationFrame(() => {
       window.scrollTo({ top: targetY, behavior: 'instant' });
     });
+  };
+
+  const navigateTo = (path) => {
+    if (currentPath === '/' || currentPath === '') {
+      homeScrollY.current = window.scrollY || document.documentElement.scrollTop || 0;
+    }
+
+    window.history.pushState({}, '', path);
+    setCurrentPath(path);
+
+    // HANYA route subscription / checkout yang reset scroll ke posisi atas (0)
+    if (path === '/subscription' || path === '/pricing' || path === '/subs' || path.startsWith('/checkout/')) {
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      });
+    } else if (path === '/' || path === '') {
+      // Kembali ke home feed -> pulihkan posisi scroll sebelumnya
+      const targetY = homeScrollY.current;
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: targetY, behavior: 'instant' });
+      });
+    }
   };
 
   // Listen to browser path changes (/view/:slug, /subscription, /checkout/:planId routes)
@@ -57,8 +89,22 @@ function App() {
       if (path.startsWith('/view/')) {
         const found = findPromptBySlugOrId(path.replace('/view/', ''));
         setActivePrompt(found || promptsData[0]);
+        requestAnimationFrame(() => {
+          window.scrollTo({ top: 0, behavior: 'instant' });
+        });
       } else {
         setActivePrompt(null);
+        // HANYA route subscription / checkout yang reset scroll ke atas
+        if (path === '/subscription' || path === '/pricing' || path === '/subs' || path.startsWith('/checkout/')) {
+          requestAnimationFrame(() => {
+            window.scrollTo({ top: 0, behavior: 'instant' });
+          });
+        } else if (path === '/' || path === '') {
+          const targetY = homeScrollY.current;
+          requestAnimationFrame(() => {
+            window.scrollTo({ top: targetY, behavior: 'instant' });
+          });
+        }
       }
     };
 
@@ -68,16 +114,15 @@ function App() {
     if (initialPath.startsWith('/view/')) {
       const found = findPromptBySlugOrId(initialPath.replace('/view/', ''));
       setActivePrompt(found || promptsData[0]);
+    } else if (initialPath === '/subscription' || initialPath === '/pricing' || initialPath === '/subs' || initialPath.startsWith('/checkout/')) {
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      });
     }
 
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
-
-  const navigateTo = (path) => {
-    window.history.pushState({}, '', path);
-    setCurrentPath(path);
-  };
 
   // Helper to sync credits to Supabase DB and Auth Metadata
   const syncCreditsToDB = async (userId, userEmail, newBal) => {
