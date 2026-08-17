@@ -621,16 +621,13 @@ export default function SubscriptionView({
                 <button
                   type="button"
                   onClick={() => setBillingMode('topup')}
-                  className={`px-3.5 py-1.5 rounded-full text-xs transition-all cursor-pointer flex items-center gap-1.5 select-none ${
+                  className={`px-4 py-1.5 rounded-full text-xs transition-all cursor-pointer select-none ${
                     billingMode === 'topup'
                       ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white shadow-xs font-bold'
                       : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white font-medium'
                   }`}
                 >
-                  <span>Atur Kredit</span>
-                  <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-md bg-zinc-900 text-white dark:bg-white dark:text-zinc-950">
-                    Slider
-                  </span>
+                  Atur Kredit
                 </button>
               </div>
             </div>
