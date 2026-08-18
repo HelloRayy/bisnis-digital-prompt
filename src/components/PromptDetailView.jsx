@@ -503,7 +503,7 @@ export default function PromptDetailView({
           </header>
 
           {/* Main Content Area - Full width workspace matching Home Gallery */}
-          <main className="w-full min-w-0 max-w-full overflow-x-hidden mx-auto pt-[76px] sm:pt-[88px] px-3 sm:px-6 md:px-8 pb-36 flex-1 flex flex-col relative">
+          <main className="w-full min-w-0 max-w-full overflow-x-clip mx-auto pt-[76px] sm:pt-[88px] px-3 sm:px-6 md:px-8 pb-36 flex-1 flex flex-col relative">
             
             {/* ============================================================
                 MOBILE VIEW (< 1024px / lg:hidden) - KUMO UI DESIGN SYSTEM
@@ -1229,21 +1229,17 @@ export default function PromptDetailView({
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.15 }}
-                  className="flex flex-col gap-6"
+                  className="flex flex-col gap-3 relative"
                 >
-                  <div className="relative pt-2">
-                    {/* Top-Right Sticky Action Toolbar (Resting at top-right, turns sticky at top-[80px] on scroll) */}
-                    {(isUnlocked || !isPremium) && (
-                      <div className={`transition-all duration-300 z-30 ${
-                        isScrolled
-                          ? 'fixed top-[80px] right-6 sm:right-10 md:right-12 lg:right-14 p-1.5 rounded-full bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-lg flex items-center gap-2 pointer-events-auto'
-                          : 'absolute top-0 right-0 flex items-center gap-2'
-                      }`}>
+                  {/* Action Toolbar - Sits naturally at top-right, becomes Sticky at top-[80px] only when reaching scroll boundary */}
+                  {(isUnlocked || !isPremium) && (
+                    <div className="sticky top-[80px] z-30 flex items-center justify-end w-full py-1 pointer-events-none self-end">
+                      <div className="p-1 sm:p-1.5 rounded-full bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-md flex items-center gap-1.5 sm:gap-2 pointer-events-auto transition-all">
                         {/* 1. Salin Teks Prompt Button */}
                         <button
                           type="button"
                           onClick={handleCopyText}
-                          className={`h-9.5 px-4 sm:px-5 rounded-full font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer active:scale-95 duration-200 ${
+                          className={`h-9 px-4 sm:px-5 rounded-full font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer active:scale-95 duration-200 ${
                             copiedText
                               ? 'bg-emerald-600 text-white shadow-emerald-600/20'
                               : 'bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-xs hover:from-zinc-700 hover:via-zinc-800 hover:to-zinc-950'
@@ -1261,7 +1257,7 @@ export default function PromptDetailView({
                         {/* 2. Salin Link Gambar Button */}
                         <WhiteButton
                           onClick={copyImageUrlToClipboard}
-                          className="h-9.5 px-3.5 sm:px-4 rounded-full text-xs sm:text-sm font-bold shadow-2xs flex items-center justify-center gap-1.5"
+                          className="h-9 px-3.5 sm:px-4 rounded-full text-xs sm:text-sm font-bold shadow-2xs flex items-center justify-center gap-1.5"
                           title="Salin Link Gambar Referensi"
                         >
                           <Image01Icon size={15} className="shrink-0" />
@@ -1272,15 +1268,18 @@ export default function PromptDetailView({
                         <button
                           type="button"
                           onClick={handleShareLink}
-                          className="h-9.5 w-9.5 rounded-full bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs flex items-center justify-center transition-all duration-200 cursor-pointer active:scale-95 border-0 shrink-0"
+                          className="h-9 w-9 rounded-full bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs flex items-center justify-center transition-all duration-200 cursor-pointer active:scale-95 border-0 shrink-0"
                           title="Bagikan Tautan Prompt"
                         >
                           {copiedLink ? <Check size={15} className="text-emerald-600 stroke-[2.5]" /> : <Share2 size={15} className="stroke-[2]" />}
                         </button>
                       </div>
-                    )}
+                    </div>
+                  )}
 
-                    <div className={`font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-obsidian leading-[1.3] tracking-tight transition-all duration-500 pt-12 sm:pt-14 ${!isUnlocked && isPremium ? 'blur-xs select-none opacity-40 min-h-[200px] sm:min-h-[220px] max-h-64 overflow-hidden py-4' : 'py-3 sm:py-4'}`}>
+                  {/* Large Typography Quote */}
+                  <div className="relative">
+                    <div className={`font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-obsidian leading-[1.3] tracking-tight transition-all duration-500 ${!isUnlocked && isPremium ? 'blur-xs select-none opacity-40 min-h-[200px] sm:min-h-[220px] max-h-64 overflow-hidden py-4' : 'py-2 sm:py-3'}`}>
                       "{compiledPrompt}"
                     </div>
 
