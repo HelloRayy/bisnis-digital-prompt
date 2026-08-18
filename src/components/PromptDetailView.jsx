@@ -210,22 +210,6 @@ export default function PromptDetailView({
     };
   }, [showProjectInfo]);
 
-  // Lightbox keyboard navigation (Escape to close, ArrowLeft/ArrowRight to cycle images)
-  useEffect(() => {
-    if (!isLightboxOpen) return;
-    const handleLightboxKeyDown = (e) => {
-      if (e.key === 'Escape') {
-        setIsLightboxOpen(false);
-      } else if (e.key === 'ArrowLeft' && allImages.length > 1) {
-        setSelectedImgIndex(prev => (prev > 0 ? prev - 1 : allImages.length - 1));
-      } else if (e.key === 'ArrowRight' && allImages.length > 1) {
-        setSelectedImgIndex(prev => (prev < allImages.length - 1 ? prev + 1 : 0));
-      }
-    };
-    window.addEventListener('keydown', handleLightboxKeyDown);
-    return () => window.removeEventListener('keydown', handleLightboxKeyDown);
-  }, [isLightboxOpen, allImages.length]);
-
   // Variable customizer - cleans up template variables without capturing raw JSON blocks
   const extractVariables = (text) => {
     if (!text || typeof text !== 'string') return {};
