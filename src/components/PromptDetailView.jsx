@@ -276,6 +276,18 @@ export default function PromptDetailView({
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [showSubscription, setShowSubscription] = useState(false);
 
+  // Adaptive layout state: switches dynamically between Stacked (Landscape/Wide) and 2-Column (Portrait/Tall)
+  const [imageAspectRatio, setImageAspectRatio] = useState(() => {
+    const arStr = getPromptAspectRatioValue(prompt);
+    if (arStr && arStr.includes('/')) {
+      const [w, h] = arStr.split('/').map(s => parseFloat(s.trim()));
+      if (w && h && h > 0) return w / h;
+    }
+    return 1;
+  });
+
+  const isWideLandscape = imageAspectRatio >= 1.15;
+
   React.useEffect(() => {
     if (!isLightboxOpen) return;
     const handleKeyDown = (e) => {
@@ -851,140 +863,282 @@ export default function PromptDetailView({
               <DetailCloseCTA onClose={onClose} isScrolled={isScrolled} />
               <AnimatePresence mode="wait">
                 {!showProjectInfo ? (
-                  /* STAGE 1: Visual Cover View (Vertically Centered Luxury Showcase) */
-                  <motion.div 
-                    key="stage-cover"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-8 lg:gap-12 xl:gap-16 items-center w-full my-auto"
-                  >
-              {/* Left Image Showcase with Tight Fit to Exact Image Dimensions */}
-              <div className="flex flex-col gap-4 items-start justify-center shrink-0">
-                <div className="relative w-fit max-w-full max-h-[74vh] rounded-2xl overflow-hidden flex items-center justify-center">
-                  {/* High-Craft Shimmer Skeleton */}
-                  {!isHeroLoaded && (
-                    <div className="w-80 sm:w-96 h-80 flex flex-col items-center justify-center bg-zinc-100 dark:bg-zinc-900 rounded-2xl border border-black/5 dark:border-white/10 animate-pulse">
-                      <div className="w-12 h-12 rounded-full bg-zinc-200/80 dark:bg-zinc-800 flex items-center justify-center text-zinc-400 mb-2">
-                        <Image01Icon size={24} className="opacity-60" />
-                      </div>
-                      <span className="text-[11px] font-medium text-zinc-400/80 tracking-wide">Memuat Preview...</span>
-                    </div>
-                  )}
+                  /* STAGE 1: Visual Cover View (Adaptive: Stacked for Wide/Landscape, 2-Column for Portrait/Tall) */
+                  isWideLandscape ? (
+                    /* WIDE / LANDSCAPE LAYOUT: Large Hero on Top, Content Below */
+                    <motion.div 
+                      key="stage-cover-wide"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="flex flex-col gap-6 items-start w-full max-w-4xl xl:max-w-5xl my-auto pb-10"
+                    >
+                      {/* Top: Large Wide Image Showcase */}
+                      <div className="relative w-fit max-w-full max-h-[58vh] rounded-2xl overflow-hidden flex items-center justify-center">
+                        {!isHeroLoaded && (
+                          <div className="w-96 h-64 flex flex-col items-center justify-center bg-zinc-100 dark:bg-zinc-900 rounded-2xl border border-black/5 dark:border-white/10 animate-pulse">
+                            <div className="w-12 h-12 rounded-full bg-zinc-200/80 dark:bg-zinc-800 flex items-center justify-center text-zinc-400 mb-2">
+                              <Image01Icon size={24} className="opacity-60" />
+                            </div>
+                            <span className="text-[11px] font-medium text-zinc-400/80 tracking-wide">Memuat Preview...</span>
+                          </div>
+                        )}
 
-                  <img 
-                    src={getOptimizedImageUrl(activeImage, 1200, 80)} 
-                    alt={title} 
-                    decoding="async"
-                    onLoad={() => setIsHeroLoaded(true)}
-                    onClick={() => setIsLightboxOpen(true)}
-                    className={`max-w-full max-h-[74vh] w-auto h-auto object-contain rounded-2xl border border-black/10 dark:border-white/10 shadow-xs cursor-pointer hover:scale-[1.01] transition-all duration-300 z-10 ${
-                      isHeroLoaded ? 'opacity-100 block' : 'opacity-0 hidden'
-                    }`}
-                    title="Klik untuk memperbesar gambar"
-                  />
-                </div>
-              </div>
-
-                {/* Right Details & CTA OR Subscription Panel */}
-                {showSubscription ? (
-                  <div className="flex flex-col gap-5 max-w-xl max-h-[75vh] overflow-y-auto pr-1.5 scrollbar-thin animate-in fade-in zoom-in-95 duration-200">
-                    <div className="flex items-center justify-between border-b border-black/5 pb-3">
-                      <div>
-                        <h2 className="text-lg font-bold text-obsidian tracking-tight">Paket Berlangganan</h2>
-                        <p className="text-xs text-ash-gray">Isi ulang kredit instan untuk membuka seluruh prompt premium.</p>
-                      </div>
-                      <button 
-                        onClick={() => setShowSubscription(false)} 
-                        className="text-xs font-semibold text-zinc-500 hover:text-black bg-zinc-100 hover:bg-zinc-200 px-3 py-1.5 rounded-full transition-colors cursor-pointer"
-                      >
-                        Tutup
-                      </button>
-                    </div>
-
-                    <SubscriptionCards 
-                      userCredits={userCredits} 
-                      onTopUp={(credits) => {
-                        onDeductCredits(credits);
-                      }} 
-                      isPanel={true} 
-                    />
-                  </div>
-                ) : (
-                  <div className="flex flex-col gap-6 items-start justify-center max-w-xl xl:max-w-2xl">
-                    <div className="flex flex-col gap-3">
-                      <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-obsidian tracking-tight leading-tight">
-                        {title}
-                      </h1>
-                      <p className="font-sans text-ash-gray font-normal text-lg flex items-center flex-wrap gap-x-2">
-                        <span>{categoryTagsStr}</span>
-                        <span className="text-obsidian font-semibold">{creatorHandle}</span>
-                      </p>
-                    </div>
-
-                    {/* Metadata Pills */}
-                    <div className="flex flex-wrap items-center gap-2 text-xs text-ash-gray font-sans">
-                      <span className="bg-[#f2f2f2] dark:bg-zinc-800 text-obsidian dark:text-zinc-200 px-3 py-1 rounded-full font-semibold">
-                        Model: {model}
-                      </span>
-                      <span className="bg-[#f2f2f2] dark:bg-zinc-800 text-obsidian dark:text-zinc-200 px-3 py-1 rounded-full font-semibold">
-                        Author: @{author || 'Daniel Triendl'}
-                      </span>
-                      <span className="bg-[#f2f2f2] dark:bg-zinc-800 text-obsidian dark:text-zinc-200 px-3 py-1 rounded-full font-semibold">
-                        {rawPrompt.length.toLocaleString('id-ID')} Karakter Prompt
-                      </span>
-                      {isPremium && (
-                        <span className={`px-3 py-1 rounded-full font-bold ${
-                          isUnlocked ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400' : 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300'
-                        }`}>
-                          {isUnlocked ? 'Unlocked' : `Premium (${promptCost} Kredit)`}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* CTA Buy / Unlock Button & Actions (Clean Dropdown Trigger) */}
-                    <div className="pt-4 flex flex-wrap items-center justify-between gap-3 border-t border-black/5 mt-2">
-                      <button
-                        type="button"
-                        onClick={() => setShowProjectInfo(true)}
-                        className="h-11 px-6 rounded-full font-bold text-xs sm:text-sm bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-xs hover:from-zinc-700 hover:via-zinc-800 hover:to-zinc-950 flex items-center gap-2.5 transition-all active:scale-95 cursor-pointer"
-                      >
-                        <span>{isPremium && !isUnlocked ? `Buka Prompt (${promptCost} Kredit)` : 'Lihat Detail & Kustomisasi Prompt'}</span>
-                        <ArrowDown01Icon size={16} className="text-zinc-300 stroke-[2.2]" />
-                      </button>
-
-                      <div className="flex items-center gap-2">
-                        {/* Share Button */}
-                        <button
-                          type="button"
-                          onClick={handleShareLink}
-                          className="flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-full bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs transition-all duration-200 cursor-pointer active:scale-95 border-0"
-                          title="Bagikan Tautan Prompt"
-                        >
-                          {copiedLink ? <Check size={14} className="text-emerald-600 stroke-[2.5]" /> : <Share2 size={14} className="stroke-[2]" />}
-                          <span>{copiedLink ? 'Link Disalin!' : 'Bagikan'}</span>
-                        </button>
-
-                        {/* Favorite Button */}
-                        <button
-                          type="button"
-                          onClick={() => onToggleFavorite(prompt.id)}
-                          className={`flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-full ring-1 transition-all duration-200 cursor-pointer active:scale-95 shadow-2xs border-0 ${
-                            isFavorite 
-                              ? 'bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 ring-red-200 dark:ring-red-800' 
-                              : 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 ring-black/10 dark:ring-white/10 hover:bg-zinc-100 dark:hover:bg-zinc-700'
+                        <img 
+                          src={getOptimizedImageUrl(activeImage, 1400, 85)} 
+                          alt={title} 
+                          decoding="async"
+                          onLoad={(e) => {
+                            setIsHeroLoaded(true);
+                            if (e.target.naturalWidth && e.target.naturalHeight) {
+                              setImageAspectRatio(e.target.naturalWidth / e.target.naturalHeight);
+                            }
+                          }}
+                          onClick={() => setIsLightboxOpen(true)}
+                          className={`max-w-full max-h-[58vh] w-auto h-auto object-contain rounded-2xl border border-black/10 dark:border-white/10 shadow-xs cursor-pointer hover:scale-[1.005] transition-all duration-300 z-10 ${
+                            isHeroLoaded ? 'opacity-100 block' : 'opacity-0 hidden'
                           }`}
-                        >
-                          <FavouriteIcon size={14} className={isFavorite ? 'fill-red-600' : ''} />
-                          <span>{likes + (isFavorite ? 1 : 0)}</span>
-                        </button>
+                          title="Klik untuk memperbesar gambar"
+                        />
                       </div>
-                    </div>
-                  </div>
-                )}
-              </motion.div>
-            ) : (
+
+                      {/* Bottom: Editorial Details & Action Buttons Below Hero */}
+                      {showSubscription ? (
+                        <div className="flex flex-col gap-5 w-full max-w-xl max-h-[75vh] overflow-y-auto pr-1.5 scrollbar-thin animate-in fade-in zoom-in-95 duration-200">
+                          <div className="flex items-center justify-between border-b border-black/5 pb-3">
+                            <div>
+                              <h2 className="text-lg font-bold text-obsidian tracking-tight">Paket Berlangganan</h2>
+                              <p className="text-xs text-ash-gray">Isi ulang kredit instan untuk membuka seluruh prompt premium.</p>
+                            </div>
+                            <button 
+                              onClick={() => setShowSubscription(false)} 
+                              className="text-xs font-semibold text-zinc-500 hover:text-black bg-zinc-100 hover:bg-zinc-200 px-3 py-1.5 rounded-full transition-colors cursor-pointer"
+                            >
+                              Tutup
+                            </button>
+                          </div>
+                          <SubscriptionCards 
+                            userCredits={userCredits} 
+                            onTopUp={(credits) => {
+                              onDeductCredits(credits);
+                            }} 
+                            isPanel={true} 
+                          />
+                        </div>
+                      ) : (
+                        <div className="flex flex-col gap-4 w-full max-w-4xl pt-1">
+                          <div className="flex flex-col gap-2">
+                            <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-obsidian tracking-tight leading-tight">
+                              {title}
+                            </h1>
+                            <p className="font-sans text-ash-gray font-normal text-base sm:text-lg flex items-center flex-wrap gap-x-2">
+                              <span>{categoryTagsStr}</span>
+                              <span className="text-obsidian font-semibold">{creatorHandle}</span>
+                            </p>
+                          </div>
+
+                          {/* Metadata Pills */}
+                          <div className="flex flex-wrap items-center gap-2 text-xs text-ash-gray font-sans">
+                            <span className="bg-[#f2f2f2] dark:bg-zinc-800 text-obsidian dark:text-zinc-200 px-3 py-1 rounded-full font-semibold">
+                              Model: {model}
+                            </span>
+                            <span className="bg-[#f2f2f2] dark:bg-zinc-800 text-obsidian dark:text-zinc-200 px-3 py-1 rounded-full font-semibold">
+                              Author: @{author || 'Daniel Triendl'}
+                            </span>
+                            <span className="bg-[#f2f2f2] dark:bg-zinc-800 text-obsidian dark:text-zinc-200 px-3 py-1 rounded-full font-semibold">
+                              {rawPrompt.length.toLocaleString('id-ID')} Karakter Prompt
+                            </span>
+                            {isPremium && (
+                              <span className={`px-3 py-1 rounded-full font-bold ${
+                                isUnlocked ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400' : 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300'
+                              }`}>
+                                {isUnlocked ? 'Unlocked' : `Premium (${promptCost} Kredit)`}
+                              </span>
+                            )}
+                          </div>
+
+                          {/* CTA Buy / Unlock Button & Actions */}
+                          <div className="pt-3 flex flex-wrap items-center justify-between gap-3 border-t border-black/5 mt-1">
+                            <button
+                              type="button"
+                              onClick={() => setShowProjectInfo(true)}
+                              className="h-11 px-6 rounded-full font-bold text-xs sm:text-sm bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-xs hover:from-zinc-700 hover:via-zinc-800 hover:to-zinc-950 flex items-center gap-2.5 transition-all active:scale-95 cursor-pointer"
+                            >
+                              <span>{isPremium && !isUnlocked ? `Buka Prompt (${promptCost} Kredit)` : 'Lihat Detail & Kustomisasi Prompt'}</span>
+                              <ArrowDown01Icon size={16} className="text-zinc-300 stroke-[2.2]" />
+                            </button>
+
+                            <div className="flex items-center gap-2">
+                              {/* Share Button */}
+                              <button
+                                type="button"
+                                onClick={handleShareLink}
+                                className="flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-full bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs transition-all duration-200 cursor-pointer active:scale-95 border-0"
+                                title="Bagikan Tautan Prompt"
+                              >
+                                {copiedLink ? <Check size={14} className="text-emerald-600 stroke-[2.5]" /> : <Share2 size={14} className="stroke-[2]" />}
+                                <span>{copiedLink ? 'Link Disalin!' : 'Bagikan'}</span>
+                              </button>
+
+                              {/* Favorite Button */}
+                              <button
+                                type="button"
+                                onClick={() => onToggleFavorite(prompt.id)}
+                                className={`flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-full ring-1 transition-all duration-200 cursor-pointer active:scale-95 shadow-2xs border-0 ${
+                                  isFavorite 
+                                    ? 'bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 ring-red-200 dark:ring-red-800' 
+                                    : 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 ring-black/10 dark:ring-white/10 hover:bg-zinc-100 dark:hover:bg-zinc-700'
+                                }`}
+                              >
+                                <FavouriteIcon size={14} className={isFavorite ? 'fill-red-600' : ''} />
+                                <span>{likes + (isFavorite ? 1 : 0)}</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </motion.div>
+                  ) : (
+                    /* PORTRAIT / TALL LAYOUT: 2-Column Side-by-Side */
+                    <motion.div 
+                      key="stage-cover-portrait"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-8 lg:gap-12 xl:gap-16 items-center w-full my-auto"
+                    >
+                      {/* Left Image Showcase with Tight Fit to Exact Image Dimensions */}
+                      <div className="flex flex-col gap-4 items-start justify-center shrink-0">
+                        <div className="relative w-fit max-w-full max-h-[74vh] rounded-2xl overflow-hidden flex items-center justify-center">
+                          {!isHeroLoaded && (
+                            <div className="w-80 sm:w-96 h-80 flex flex-col items-center justify-center bg-zinc-100 dark:bg-zinc-900 rounded-2xl border border-black/5 dark:border-white/10 animate-pulse">
+                              <div className="w-12 h-12 rounded-full bg-zinc-200/80 dark:bg-zinc-800 flex items-center justify-center text-zinc-400 mb-2">
+                                <Image01Icon size={24} className="opacity-60" />
+                              </div>
+                              <span className="text-[11px] font-medium text-zinc-400/80 tracking-wide">Memuat Preview...</span>
+                            </div>
+                          )}
+
+                          <img 
+                            src={getOptimizedImageUrl(activeImage, 1200, 80)} 
+                            alt={title} 
+                            decoding="async"
+                            onLoad={(e) => {
+                              setIsHeroLoaded(true);
+                              if (e.target.naturalWidth && e.target.naturalHeight) {
+                                setImageAspectRatio(e.target.naturalWidth / e.target.naturalHeight);
+                              }
+                            }}
+                            onClick={() => setIsLightboxOpen(true)}
+                            className={`max-w-full max-h-[74vh] w-auto h-auto object-contain rounded-2xl border border-black/10 dark:border-white/10 shadow-xs cursor-pointer hover:scale-[1.01] transition-all duration-300 z-10 ${
+                              isHeroLoaded ? 'opacity-100 block' : 'opacity-0 hidden'
+                            }`}
+                            title="Klik untuk memperbesar gambar"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Right Details & CTA OR Subscription Panel */}
+                      {showSubscription ? (
+                        <div className="flex flex-col gap-5 max-w-xl max-h-[75vh] overflow-y-auto pr-1.5 scrollbar-thin animate-in fade-in zoom-in-95 duration-200">
+                          <div className="flex items-center justify-between border-b border-black/5 pb-3">
+                            <div>
+                              <h2 className="text-lg font-bold text-obsidian tracking-tight">Paket Berlangganan</h2>
+                              <p className="text-xs text-ash-gray">Isi ulang kredit instan untuk membuka seluruh prompt premium.</p>
+                            </div>
+                            <button 
+                              onClick={() => setShowSubscription(false)} 
+                              className="text-xs font-semibold text-zinc-500 hover:text-black bg-zinc-100 hover:bg-zinc-200 px-3 py-1.5 rounded-full transition-colors cursor-pointer"
+                            >
+                              Tutup
+                            </button>
+                          </div>
+
+                          <SubscriptionCards 
+                            userCredits={userCredits} 
+                            onTopUp={(credits) => {
+                              onDeductCredits(credits);
+                            }} 
+                            isPanel={true} 
+                          />
+                        </div>
+                      ) : (
+                        <div className="flex flex-col gap-6 items-start justify-center max-w-xl xl:max-w-2xl">
+                          <div className="flex flex-col gap-3">
+                            <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-obsidian tracking-tight leading-tight">
+                              {title}
+                            </h1>
+                            <p className="font-sans text-ash-gray font-normal text-lg flex items-center flex-wrap gap-x-2">
+                              <span>{categoryTagsStr}</span>
+                              <span className="text-obsidian font-semibold">{creatorHandle}</span>
+                            </p>
+                          </div>
+
+                          {/* Metadata Pills */}
+                          <div className="flex flex-wrap items-center gap-2 text-xs text-ash-gray font-sans">
+                            <span className="bg-[#f2f2f2] dark:bg-zinc-800 text-obsidian dark:text-zinc-200 px-3 py-1 rounded-full font-semibold">
+                              Model: {model}
+                            </span>
+                            <span className="bg-[#f2f2f2] dark:bg-zinc-800 text-obsidian dark:text-zinc-200 px-3 py-1 rounded-full font-semibold">
+                              Author: @{author || 'Daniel Triendl'}
+                            </span>
+                            <span className="bg-[#f2f2f2] dark:bg-zinc-800 text-obsidian dark:text-zinc-200 px-3 py-1 rounded-full font-semibold">
+                              {rawPrompt.length.toLocaleString('id-ID')} Karakter Prompt
+                            </span>
+                            {isPremium && (
+                              <span className={`px-3 py-1 rounded-full font-bold ${
+                                isUnlocked ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400' : 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300'
+                              }`}>
+                                {isUnlocked ? 'Unlocked' : `Premium (${promptCost} Kredit)`}
+                              </span>
+                            )}
+                          </div>
+
+                          {/* CTA Buy / Unlock Button & Actions (Clean Dropdown Trigger) */}
+                          <div className="pt-4 flex flex-wrap items-center justify-between gap-3 border-t border-black/5 mt-2">
+                            <button
+                              type="button"
+                              onClick={() => setShowProjectInfo(true)}
+                              className="h-11 px-6 rounded-full font-bold text-xs sm:text-sm bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-xs hover:from-zinc-700 hover:via-zinc-800 hover:to-zinc-950 flex items-center gap-2.5 transition-all active:scale-95 cursor-pointer"
+                            >
+                              <span>{isPremium && !isUnlocked ? `Buka Prompt (${promptCost} Kredit)` : 'Lihat Detail & Kustomisasi Prompt'}</span>
+                              <ArrowDown01Icon size={16} className="text-zinc-300 stroke-[2.2]" />
+                            </button>
+
+                            <div className="flex items-center gap-2">
+                              {/* Share Button */}
+                              <button
+                                type="button"
+                                onClick={handleShareLink}
+                                className="flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-full bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs transition-all duration-200 cursor-pointer active:scale-95 border-0"
+                                title="Bagikan Tautan Prompt"
+                              >
+                                {copiedLink ? <Check size={14} className="text-emerald-600 stroke-[2.5]" /> : <Share2 size={14} className="stroke-[2]" />}
+                                <span>{copiedLink ? 'Link Disalin!' : 'Bagikan'}</span>
+                              </button>
+
+                              {/* Favorite Button */}
+                              <button
+                                type="button"
+                                onClick={() => onToggleFavorite(prompt.id)}
+                                className={`flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-full ring-1 transition-all duration-200 cursor-pointer active:scale-95 shadow-2xs border-0 ${
+                                  isFavorite 
+                                    ? 'bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 ring-red-200 dark:ring-red-800' 
+                                    : 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 ring-black/10 dark:ring-white/10 hover:bg-zinc-100 dark:hover:bg-zinc-700'
+                                }`}
+                              >
+                                <FavouriteIcon size={14} className={isFavorite ? 'fill-red-600' : ''} />
+                                <span>{likes + (isFavorite ? 1 : 0)}</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </motion.div>
+                  )
+                ) : (
               /* STAGE 2: Unlocked / Purchased Editorial View (Pure High-Craft Editorial Layout) */
               <motion.div 
                 key="stage-editorial"
