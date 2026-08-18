@@ -186,12 +186,20 @@ export default function PromptDetailView({
   // Selalu mulai dari Tampilan Cover (Stage 1) terlebih dahulu saat membuka detail
   const [showProjectInfo, setShowProjectInfo] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isPromptSticky, setIsPromptSticky] = useState(false);
+  const promptQuoteRef = React.useRef(null);
 
-  // Detect scroll for sticky secondary close CTA backdrop styling
+  // Detect scroll for sticky secondary close CTA & boundary-based copy toolbar
   React.useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY || document.documentElement.scrollTop || window.pageYOffset || 0;
       setIsScrolled(scrollY > 15);
+
+      if (promptQuoteRef.current) {
+        const rect = promptQuoteRef.current.getBoundingClientRect();
+        // Trigger sticky only when the prompt quote reaches the 85px boundary (16px below fixed header)
+        setIsPromptSticky(rect.top <= 85);
+      }
     };
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -200,7 +208,7 @@ export default function PromptDetailView({
       window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [showProjectInfo]);
 
   // Variable customizer - cleans up template variables without capturing raw JSON blocks
   const extractVariables = (text) => {
@@ -1226,15 +1234,20 @@ export default function PromptDetailView({
 
                 {/* 4. Pure High-Craft Editorial Typography Display */}
                 <motion.div 
+                  ref={promptQuoteRef}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.15 }}
                   className="flex flex-col gap-3 relative"
                 >
-                  {/* Action Toolbar - Sits naturally at top-right, becomes Sticky at top-[80px] only when reaching scroll boundary */}
+                  {/* Action Toolbar - Sits naturally at top-right, becomes Fixed Sticky at top-[80px] (16px below header navbar) when quote reaches boundary */}
                   {(isUnlocked || !isPremium) && (
-                    <div className="sticky top-[80px] z-30 flex items-center justify-end w-full py-1 pointer-events-none self-end">
-                      <div className="p-1 sm:p-1.5 rounded-full bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-md flex items-center gap-1.5 sm:gap-2 pointer-events-auto transition-all">
+                    <div className="flex items-center justify-end w-full min-h-[44px]">
+                      <div className={`transition-all duration-200 z-40 ${
+                        isPromptSticky
+                          ? 'fixed top-[80px] right-4 sm:right-6 md:right-8 lg:right-10 p-1.5 rounded-full bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-lg flex items-center gap-1.5 sm:gap-2 pointer-events-auto animate-in fade-in zoom-in-95 duration-200'
+                          : 'inline-flex items-center gap-1.5 sm:gap-2'
+                      }`}>
                         {/* 1. Salin Teks Prompt Button */}
                         <button
                           type="button"
