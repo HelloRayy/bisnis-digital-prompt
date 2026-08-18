@@ -853,512 +853,296 @@ export default function PromptDetailView({
             </div>
 
             {/* ============================================================
-                DESKTOP VIEW (≥ 1024px / hidden lg:block) - FULL EDITORIAL SHOWCASE
+                DESKTOP VIEW (≥ 1024px / hidden lg:flex) - UNIFIED VERTICALLY CENTERED SHOWCASE
                 ============================================================ */}
-            <div className="hidden lg:block">
+            <div className="hidden lg:flex flex-col justify-center min-h-[calc(100vh-140px)] w-full max-w-6xl mx-auto py-6 relative">
               {/* Dynamic Floating Close CTA Button (Fixed on scroll, clean in-place at top) */}
               <DetailCloseCTA onClose={onClose} isScrolled={isScrolled} />
-              <AnimatePresence mode="wait">
-                {!showProjectInfo ? (
-                  /* STAGE 1: Visual Cover View */
-                  <motion.div 
-                    key="stage-cover"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-14 items-center my-auto w-full"
+
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25 }}
+                className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-14 items-center w-full my-auto"
+              >
+                {/* Left: Aspect-Ratio Hero Image with Multi-image Selector */}
+                <div className="lg:col-span-6 xl:col-span-6 flex flex-col gap-3.5 items-center justify-center">
+                  <div 
+                    className="relative w-full max-w-[560px] max-h-[70vh] rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/10 dark:border-white/10 shadow-sm flex items-center justify-center group"
+                    style={{ aspectRatio: aspectValue }}
                   >
-              {/* Left Image Showcase with Aspect Ratio Locked Skeleton */}
-              <div className="lg:col-span-6 xl:col-span-5 flex flex-col gap-4 sticky lg:top-24 items-center justify-center">
-                <div 
-                  className="relative w-full max-w-[540px] xl:max-w-[580px] max-h-[74vh] rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/5 dark:border-white/10 flex items-center justify-center"
-                  style={{ aspectRatio: aspectValue }}
-                >
-                  {/* High-Craft Shimmer Skeleton (Preserves exact dimensions before image loads) */}
-                  {!isHeroLoaded && (
-                    <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-zinc-100 dark:bg-zinc-900 animate-pulse z-0">
-                      <div className="w-12 h-12 rounded-full bg-zinc-200/80 dark:bg-zinc-800 flex items-center justify-center text-zinc-400 mb-2">
-                        <Image01Icon size={24} className="opacity-60" />
+                    {/* Shimmer Skeleton */}
+                    {!isHeroLoaded && (
+                      <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-zinc-100 dark:bg-zinc-900 animate-pulse z-0">
+                        <div className="w-12 h-12 rounded-full bg-zinc-200/80 dark:bg-zinc-800 flex items-center justify-center text-zinc-400 mb-2">
+                          <Image01Icon size={24} className="opacity-60" />
+                        </div>
+                        <span className="text-[11px] font-medium text-zinc-400/80 tracking-wide">Memuat Preview...</span>
                       </div>
-                      <span className="text-[11px] font-medium text-zinc-400/80 tracking-wide">Memuat Preview...</span>
-                    </div>
-                  )}
+                    )}
 
-                  <img 
-                    src={getOptimizedImageUrl(activeImage, 1200, 80)} 
-                    alt={title} 
-                    decoding="async"
-                    onLoad={() => setIsHeroLoaded(true)}
-                    onClick={() => setIsLightboxOpen(true)}
-                    className={`absolute inset-0 w-full h-full object-cover rounded-2xl cursor-pointer hover:scale-[1.01] transition-all duration-300 z-10 ${
-                      isHeroLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-[0.99]'
-                    }`}
-                    title="Klik untuk memperbesar gambar"
-                  />
-                </div>
-              </div>
-
-                {/* Right Details & CTA OR Subscription Panel */}
-                {showSubscription ? (
-                  <div className="lg:col-span-6 flex flex-col gap-5 max-h-[75vh] overflow-y-auto pr-1.5 scrollbar-thin animate-in fade-in zoom-in-95 duration-200">
-                    <div className="flex items-center justify-between border-b border-black/5 pb-3">
-                      <div>
-                        <h2 className="text-lg font-bold text-obsidian tracking-tight">Paket Berlangganan</h2>
-                        <p className="text-xs text-ash-gray">Isi ulang kredit instan untuk membuka seluruh prompt premium.</p>
-                      </div>
-                      <button 
-                        onClick={() => setShowSubscription(false)} 
-                        className="text-xs font-semibold text-zinc-500 hover:text-black bg-zinc-100 hover:bg-zinc-200 px-3 py-1.5 rounded-full transition-colors cursor-pointer"
-                      >
-                        Tutup
-                      </button>
-                    </div>
-
-                    <SubscriptionCards 
-                      userCredits={userCredits} 
-                      onTopUp={(credits) => {
-                        onDeductCredits(credits);
-                      }} 
-                      isPanel={true} 
+                    <img 
+                      src={getOptimizedImageUrl(activeImage, 1200, 80)} 
+                      alt={title} 
+                      decoding="async"
+                      onLoad={() => setIsHeroLoaded(true)}
+                      onClick={() => setIsLightboxOpen(true)}
+                      className={`absolute inset-0 w-full h-full object-cover rounded-3xl cursor-pointer hover:scale-[1.01] transition-all duration-300 z-10 ${
+                        isHeroLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-[0.99]'
+                      }`}
+                      title="Klik untuk memperbesar gambar"
                     />
+
+                    {/* Bottom-Right Floating Zoom Pill */}
+                    <button
+                      type="button"
+                      onClick={() => setIsLightboxOpen(true)}
+                      aria-label="Perbesar gambar"
+                      className="absolute bottom-3.5 right-3.5 z-20 w-9 h-9 rounded-full bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md border border-black/10 dark:border-white/10 shadow-sm flex items-center justify-center text-obsidian dark:text-white opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer hover:scale-105 active:scale-95"
+                    >
+                      <Search size={15} className="stroke-[2.2]" />
+                    </button>
                   </div>
-                ) : (
-                  <div className="lg:col-span-6 xl:col-span-7 flex flex-col gap-6">
-                    <div className="flex flex-col gap-3">
-                      <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-obsidian tracking-tight leading-tight">
-                        {title}
-                      </h1>
-                      <p className="font-sans text-ash-gray font-normal text-lg flex items-center flex-wrap gap-x-2">
-                        <span>{categoryTagsStr}</span>
-                        <span className="text-obsidian font-semibold">{creatorHandle}</span>
-                      </p>
-                    </div>
 
-                    {/* Metadata Pills */}
-                    <div className="flex flex-wrap items-center gap-2 text-xs text-ash-gray font-sans">
-                      <span className="bg-[#f2f2f2] dark:bg-zinc-800 text-obsidian dark:text-zinc-200 px-3 py-1 rounded-full font-semibold">
-                        Model: {model}
-                      </span>
-                      <span className="bg-[#f2f2f2] dark:bg-zinc-800 text-obsidian dark:text-zinc-200 px-3 py-1 rounded-full font-semibold">
-                        Author: @{author || 'Daniel Triendl'}
-                      </span>
-                      <span className="bg-[#f2f2f2] dark:bg-zinc-800 text-obsidian dark:text-zinc-200 px-3 py-1 rounded-full font-semibold">
-                        {rawPrompt.length.toLocaleString('id-ID')} Karakter Prompt
-                      </span>
-                      {isPremium && (
-                        <span className={`px-3 py-1 rounded-full font-bold ${
-                          isUnlocked ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400' : 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300'
-                        }`}>
-                          {isUnlocked ? 'Unlocked' : `Premium (${promptCost} Kredit)`}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* CTA Buy / Unlock Button & Actions */}
-                    <div className="pt-4 flex flex-wrap items-center justify-between gap-3 border-t border-black/5 mt-2">
-                      <PrimaryCTAButton 
-                        label={isPremium && !isUnlocked ? `Buka Prompt (${promptCost} Kredit)` : 'Lihat Prompt & Customize'}
-                        hoverLabel={isPremium && !isUnlocked ? 'Buka & Salin Sekarang' : 'Lihat Detail Prompt'}
-                        onClick={() => setShowProjectInfo(true)}
-                        className="h-11 pl-6 pr-2 text-xs sm:text-sm"
-                      />
-
-                      <div className="flex items-center gap-2">
-                        {/* Share Button */}
+                  {/* Multi-Image Thumbnail Selector (if multiple images) */}
+                  {allImages.length > 1 && (
+                    <div className="flex items-center gap-2.5 overflow-x-auto max-w-full pb-1 scrollbar-none">
+                      {allImages.map((imgUrl, idx) => (
                         <button
+                          key={idx}
                           type="button"
-                          onClick={handleShareLink}
-                          className="flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-full bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs transition-all duration-200 cursor-pointer active:scale-95 border-0"
-                          title="Bagikan Tautan Prompt"
-                        >
-                          {copiedLink ? <Check size={14} className="text-emerald-600 stroke-[2.5]" /> : <Share2 size={14} className="stroke-[2]" />}
-                          <span>{copiedLink ? 'Link Disalin!' : 'Bagikan'}</span>
-                        </button>
-
-                        {/* Favorite Button */}
-                        <button
-                          type="button"
-                          onClick={() => onToggleFavorite(prompt.id)}
-                          className={`flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-full ring-1 transition-all duration-200 cursor-pointer active:scale-95 shadow-2xs border-0 ${
-                            isFavorite 
-                              ? 'bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 ring-red-200 dark:ring-red-800' 
-                              : 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 ring-black/10 dark:ring-white/10 hover:bg-zinc-100 dark:hover:bg-zinc-700'
+                          onClick={() => {
+                            setSelectedImgIndex(idx);
+                          }}
+                          className={`w-14 h-14 rounded-xl overflow-hidden border-2 transition-all cursor-pointer shrink-0 ${
+                            selectedImgIndex === idx 
+                              ? 'border-purple-600 shadow-xs ring-2 ring-purple-500/20 scale-105' 
+                              : 'border-black/5 dark:border-white/10 opacity-70 hover:opacity-100'
                           }`}
                         >
-                          <FavouriteIcon size={14} className={isFavorite ? 'fill-red-600' : ''} />
-                          <span>{likes + (isFavorite ? 1 : 0)}</span>
+                          <img 
+                            src={getOptimizedImageUrl(imgUrl, 120, 75)} 
+                            alt={`Thumbnail ${idx + 1}`} 
+                            className="w-full h-full object-cover"
+                          />
                         </button>
-                      </div>
+                      ))}
                     </div>
-                  </div>
-                )}
-              </motion.div>
-            ) : (
-              /* STAGE 2: Unlocked / Purchased Editorial View (Pure High-Craft Editorial Layout) */
-              <motion.div 
-                key="stage-editorial"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="flex flex-col gap-10 w-full max-w-5xl"
-              >
-                {/* 1. Small Top Thumbnails (Clickable to select and open Fullscreen Lightbox Overlay) */}
-                <div className="flex items-center gap-3 overflow-x-auto pb-2 scrollbar-none">
-                  {allImages.map((imgUrl, idx) => (
-                    <div 
-                      key={idx} 
-                      onClick={() => {
-                        setSelectedImgIndex(idx);
-                        setIsLightboxOpen(true);
-                      }}
-                      className={`max-h-36 max-w-[240px] shrink-0 overflow-hidden cursor-pointer group/thumb rounded-xl border-2 transition-all ${
-                        selectedImgIndex === idx 
-                          ? 'border-purple-600 shadow-md ring-2 ring-purple-500/20' 
-                          : 'border-transparent opacity-75 hover:opacity-100'
-                      }`}
-                      title={`Klik untuk memperbesar gambar ${idx + 1}`}
-                    >
-                      <img 
-                        src={getOptimizedImageUrl(imgUrl, 240, 75)} 
-                        alt={`Thumbnail ${idx}`} 
-                        decoding="async"
-                        className="h-auto max-h-36 w-auto object-contain rounded-lg group-hover/thumb:scale-105 transition-transform duration-300" 
-                      />
-                    </div>
-                  ))}
+                  )}
                 </div>
 
-                {/* 2. Title & Hashtags */}
-                <motion.div 
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.1 }}
-                  className="flex flex-col gap-2"
-                >
-                  <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-obsidian tracking-tight leading-tight">
-                    {title} <span className="font-sans text-ash-gray font-normal text-lg sm:text-xl">{categoryTagsStr} <span className="text-obsidian font-semibold">{creatorHandle}</span></span>
-                  </h1>
+                {/* Right: Title, Metadata, Parameter Customizer, Prompt Box, Tutorial, & CTAs */}
+                <div className="lg:col-span-6 xl:col-span-6 flex flex-col gap-4">
+                  {/* Title & Subtitle */}
+                  <div className="flex flex-col gap-1.5">
+                    <h1 className="font-serif text-3xl xl:text-4xl font-normal text-obsidian dark:text-white tracking-tight leading-tight">
+                      {title}
+                    </h1>
+                    <p className="font-sans text-ash-gray font-normal text-sm">
+                      {categoryTagsStr} <span className="text-obsidian dark:text-zinc-100 font-semibold">{creatorHandle}</span>
+                    </p>
+                  </div>
 
-                  {/* Tag Pills */}
-                  <div className="flex flex-wrap items-center gap-2 pt-2 text-xs text-ash-gray font-sans">
-                    <span className="bg-[#f2f2f2] dark:bg-zinc-800 text-obsidian dark:text-zinc-200 px-3 py-1 rounded-full font-semibold">
-                      Client: {author || 'Monocle Magazine'}
-                    </span>
+                  {/* Metadata Pills Row */}
+                  <div className="flex flex-wrap items-center gap-2 text-xs text-ash-gray font-sans">
                     <span className="bg-[#f2f2f2] dark:bg-zinc-800 text-obsidian dark:text-zinc-200 px-3 py-1 rounded-full font-semibold">
                       Model: {model}
+                    </span>
+                    <span className="bg-[#f2f2f2] dark:bg-zinc-800 text-obsidian dark:text-zinc-200 px-3 py-1 rounded-full font-semibold">
+                      Author: @{author || 'Daniel Triendl'}
                     </span>
                     <span className="bg-[#f2f2f2] dark:bg-zinc-800 text-obsidian dark:text-zinc-200 px-3 py-1 rounded-full font-semibold">
                       {rawPrompt.length.toLocaleString('id-ID')} Karakter Prompt
                     </span>
                     {isPremium && (
-                      <span className={`px-3 py-1 rounded-full font-bold ${
-                        isUnlocked ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400' : 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300'
-                      }`}>
+                      <SpecularButton isUnlocked={isUnlocked}>
                         {isUnlocked ? 'Unlocked' : `Premium (${promptCost} Kredit)`}
-                      </span>
+                      </SpecularButton>
                     )}
                   </div>
-                </motion.div>
 
-                {/* Tutorial Cara Menggunakan Prompt (Collapsible Dropdown - Interactive Workflow) */}
-                {(isUnlocked || !isPremium) && (
-                  <motion.div 
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.11 }}
-                    className="rounded-xl border border-purple-200/80 dark:border-purple-800/60 bg-purple-50/30 dark:bg-purple-950/20 text-obsidian dark:text-zinc-100 overflow-hidden transition-all shadow-2xs"
-                  >
-                    <button
-                      type="button"
-                      onClick={() => setIsTutorialOpen(!isTutorialOpen)}
-                      className="w-full px-4 py-3 flex items-center justify-between font-semibold text-obsidian dark:text-white text-xs sm:text-sm hover:bg-purple-100/50 dark:hover:bg-purple-900/30 cursor-pointer transition-colors"
-                    >
-                      <div className="flex items-center gap-2">
-                        <InformationCircleIcon size={16} className="text-purple-600 dark:text-purple-400 shrink-0" />
-                        <span>Cara Menggunakan Prompt Ini</span>
-                      </div>
-                      <motion.span 
-                        animate={{ rotate: isTutorialOpen ? 180 : 0 }} 
-                        transition={{ duration: 0.2 }}
-                        className="text-purple-600 dark:text-purple-400 shrink-0"
-                      >
-                        <ArrowDown01Icon size={16} />
-                      </motion.span>
-                    </button>
+                  {/* Parameter Customizer (1 Input per row if present and unlocked) */}
+                  {variableKeys.length > 0 && (isUnlocked || !isPremium) && (
+                    <PromptParameterCustomizer 
+                      variables={variables} 
+                      variableKeys={variableKeys} 
+                      onChange={handleVariableChange} 
+                    />
+                  )}
 
-                    <AnimatePresence initial={false}>
-                      {isTutorialOpen && (
-                        <motion.div
-                          key="tutorial-content"
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.25, ease: 'easeInOut' }}
-                          className="overflow-hidden"
-                        >
-                          <div className="flex flex-col gap-2.5 px-4 pb-4 pt-2.5 border-t border-purple-200/60 dark:border-purple-800/40">
-                            
-                            {/* Step 1: Copy Prompt */}
-                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-xl bg-white dark:bg-zinc-900 border border-purple-100/90 dark:border-purple-900/50 shadow-2xs">
-                              <div className="flex items-start gap-2.5">
-                                <span className="w-5.5 h-5.5 rounded-full bg-purple-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
-                                  1
-                                </span>
-                                <div>
-                                  <h4 className="text-xs sm:text-sm font-bold text-obsidian dark:text-white leading-tight">Salin Teks Prompt</h4>
-                                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-0.5 leading-normal">
-                                    {variableKeys.length > 0 
-                                      ? 'Kustomisasi variabel di bawah (jika ada), lalu salin teks prompt siap pakai.'
-                                      : 'Salin teks prompt teroptimasi ke clipboard Anda.'}
-                                  </p>
-                                </div>
-                              </div>
-
-                              <button
-                                type="button"
-                                onClick={copyPromptToClipboard}
-                                className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-750 text-obsidian dark:text-zinc-100 border border-zinc-200 dark:border-zinc-700 text-xs font-semibold shadow-2xs cursor-pointer active:scale-95 transition-all self-start sm:self-auto shrink-0"
-                              >
-                                {copiedText ? (
-                                  <>
-                                    <AnimatedCheckmarkSVG size={14} strokeWidth={2.5} className="text-emerald-600 shrink-0" />
-                                    <span className="text-emerald-600 font-semibold">Disalin!</span>
-                                  </>
-                                ) : (
-                                  <>
-                                    <Copy01Icon size={14} className="shrink-0" />
-                                    <span>Salin Prompt</span>
-                                  </>
-                                )}
-                              </button>
-                            </div>
-
-                            {/* Step 2: Open Google Gemini */}
-                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-xl bg-white dark:bg-zinc-900 border border-purple-100/90 dark:border-purple-900/50 shadow-2xs">
-                              <div className="flex items-start gap-2.5">
-                                <span className="w-5.5 h-5.5 rounded-full bg-purple-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
-                                  2
-                                </span>
-                                <div>
-                                  <h4 className="text-xs sm:text-sm font-bold text-obsidian dark:text-white leading-tight">Buka Google Gemini</h4>
-                                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-0.5 leading-normal">
-                                    Kunjungi generator AI Google Gemini untuk men-generate gambar atau visual baru.
-                                  </p>
-                                </div>
-                              </div>
-
-                              <a
-                                href="https://gemini.google.com/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-750 text-obsidian dark:text-zinc-100 border border-zinc-200 dark:border-zinc-700 text-xs font-semibold shadow-2xs cursor-pointer active:scale-95 transition-all self-start sm:self-auto shrink-0 group"
-                              >
-                                <Sparkle className="size-3.5 text-blue-600 dark:text-blue-400 fill-blue-500 shrink-0" />
-                                <span>Buka Gemini</span>
-                                <ArrowUpRight01Icon size={13} className="text-zinc-400 group-hover:text-zinc-700 dark:group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0" />
-                              </a>
-                            </div>
-
-                            {/* Step 3: Paste & Generate */}
-                            <div className="flex items-start gap-2.5 p-3 rounded-xl bg-white dark:bg-zinc-900 border border-purple-100/90 dark:border-purple-900/50 shadow-2xs">
-                              <span className="w-5.5 h-5.5 rounded-full bg-purple-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
-                                3
-                              </span>
-                              <div>
-                                <h4 className="text-xs sm:text-sm font-bold text-obsidian dark:text-white leading-tight">Tempel (*Paste*) & Generate</h4>
-                                <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-0.5 leading-normal">
-                                  Tempel (<kbd className="px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 font-mono text-[11px] font-semibold border border-zinc-200 dark:border-zinc-700 text-obsidian dark:text-white">Ctrl+V</kbd> / <kbd className="px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 font-mono text-[11px] font-semibold border border-zinc-200 dark:border-zinc-700 text-obsidian dark:text-white">Cmd+V</kbd>) teks prompt pada kolom chat Gemini lalu tekan Enter.
-                                </p>
-                              </div>
-                            </div>
-
-                            {/* PRO TIP: Image Reference Tip */}
-                            <div className="p-3.5 rounded-xl bg-amber-50/80 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-800/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
-                              <div className="flex items-start gap-2.5">
-                                <span className="text-base leading-none shrink-0 mt-0.5">💡</span>
-                                <div>
-                                  <h4 className="text-xs font-bold text-amber-950 dark:text-amber-200">
-                                    Tips Hasil Maksimal:
-                                  </h4>
-                                  <p className="text-xs text-amber-800/90 dark:text-amber-400/90 mt-0.5 leading-normal">
-                                    Salin atau unggah <strong>gambar referensi</strong> prompt ini ke Gemini bersama teks prompt agar hasil AI lebih akurat sesuai style & komposisi yang diinginkan.
-                                  </p>
-                                </div>
-                              </div>
-
-                              <button
-                                type="button"
-                                onClick={copyImageUrlToClipboard}
-                                className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-100 hover:bg-amber-200 dark:bg-amber-900/60 text-amber-900 dark:text-amber-200 text-xs font-bold transition-all shrink-0 cursor-pointer active:scale-95 shadow-2xs self-start sm:self-auto"
-                              >
-                                <Image01Icon size={13} className="shrink-0" />
-                                <span>{copiedImg ? 'Link Disalin!' : 'Salin Link Gambar'}</span>
-                              </button>
-                            </div>
-
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </motion.div>
-                )}
-
-                {/* 3. Parameter Customizer Box (SHADCN BASE UI CARD DESIGN) */}
-                {variableKeys.length > 0 && (isUnlocked || !isPremium) && (
-                  <motion.div 
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.12 }}
-                    className="rounded-xl border border-black/10 bg-white text-obsidian shadow-2xs p-5 flex flex-col gap-4"
-                  >
-                    <div className="flex flex-col gap-1">
-                      <div className="flex items-center gap-2">
-                        <SparklesIcon size={16} className="text-purple-600 shrink-0" />
-                        <h3 className="text-sm font-semibold leading-none tracking-tight text-obsidian">Kustomisasi Parameter Prompt</h3>
-                      </div>
-                      <p className="text-xs text-ash-gray pl-6">
-                        Ubah nilai variabel di bawah untuk menyesuaikan hasil teks prompt secara otomatis.
-                      </p>
+                  {/* Prompt Quote Display */}
+                  <div className={`p-4 rounded-2xl bg-[#f8f8f8] dark:bg-zinc-900 border border-black/5 dark:border-white/10 shadow-2xs ${
+                    !isUnlocked && isPremium ? 'blur-xs select-none opacity-50' : ''
+                  }`}>
+                    <div className="flex items-center justify-between gap-2 pb-2 mb-2 border-b border-black/5 dark:border-white/5">
+                      <span className="text-[11px] font-bold text-obsidian dark:text-white uppercase tracking-wider">Teks Prompt</span>
+                      <span className="text-[11px] text-zinc-500 font-medium">{compiledPrompt.length} Karakter</span>
                     </div>
+                    <p className="text-xs sm:text-sm text-zinc-800 dark:text-zinc-200 font-serif leading-relaxed italic max-h-[140px] overflow-y-auto pr-1">
+                      "{compiledPrompt}"
+                    </p>
+                  </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
-                      {variableKeys.map((vKey) => (
-                        <div key={vKey} className="flex flex-col gap-1.5">
-                          <label className="text-xs font-medium text-obsidian flex items-center justify-between">
-                            <span className="capitalize">{vKey}</span>
-                            <span className="text-[11px] text-purple-600 font-mono">{`{${vKey}}`}</span>
-                          </label>
-                          <input 
-                            type="text" 
-                            value={variables[vKey]}
-                            onChange={(e) => handleVariableChange(vKey, e.target.value)}
-                            className="h-9 w-full rounded-md border border-black/15 bg-white px-3 py-1 text-sm shadow-2xs transition-colors focus:border-purple-600 focus:outline-none focus:ring-1 focus:ring-purple-600 font-normal text-obsidian"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-
-                {/* 4. Pure High-Craft Editorial Typography Display */}
-                <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.15 }}
-                  className="flex flex-col gap-6"
-                >
-                  <div className="relative">
-                    {/* Quick Copy Button in Top-Right Corner */}
-                    {(isUnlocked || !isPremium) && (
+                  {/* Tutorial Cara Menggunakan Prompt (Collapsible Accordion Dropdown) */}
+                  {(isUnlocked || !isPremium) && (
+                    <div className="rounded-2xl border border-purple-200/80 dark:border-purple-800/60 bg-purple-50/30 dark:bg-purple-950/20 text-obsidian dark:text-zinc-100 overflow-hidden transition-all shadow-2xs">
                       <button
                         type="button"
-                        onClick={handleCopyText}
-                        className={`absolute top-0 right-0 z-10 p-3 rounded-full border transition-colors duration-200 cursor-pointer shadow-sm flex items-center justify-center ${
-                          copiedText 
-                            ? 'bg-emerald-500 border-emerald-400 text-white shadow-emerald-500/30' 
-                            : 'bg-white/90 dark:bg-zinc-800/90 backdrop-blur-md border-black/10 dark:border-white/10 text-zinc-900 dark:text-white hover:bg-zinc-950 hover:text-white dark:hover:bg-zinc-100 dark:hover:text-zinc-950'
-                        }`}
-                        title="Salin Cepat Teks Prompt"
+                        onClick={() => setIsTutorialOpen(!isTutorialOpen)}
+                        className="w-full px-4 py-2.5 flex items-center justify-between font-semibold text-obsidian dark:text-white text-xs hover:bg-purple-100/50 dark:hover:bg-purple-900/30 cursor-pointer transition-colors"
                       >
-                        <AnimatePresence mode="wait" initial={false}>
-                          {copiedText ? (
-                            <div key="check">
-                              <AnimatedCheckmarkSVG size={18} strokeWidth={2.5} className="text-white" />
-                            </div>
-                          ) : (
-                            <div key="copy">
-                              <Copy01Icon size={18} />
-                            </div>
-                          )}
-                        </AnimatePresence>
-                      </button>
-                    )}
-
-                    <div className={`font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-obsidian leading-[1.3] tracking-tight transition-all duration-500 ${!isUnlocked && isPremium ? 'blur-xs select-none opacity-40 min-h-[200px] sm:min-h-[220px] max-h-64 overflow-hidden py-4' : 'pr-16 py-3 sm:py-4'}`}>
-                      "{compiledPrompt}"
-                    </div>
-
-                    {/* Lock Overlay for Premium Items */}
-                    {!isUnlocked && isPremium && (
-                      <div className="absolute inset-0 bg-white/95 backdrop-blur-md flex flex-col items-center justify-center p-4 text-center gap-4 rounded-2xl border border-zinc-200 pointer-events-none my-auto">
-                        <div className="flex flex-col items-center">
-                          <h3 className="text-lg sm:text-xl font-bold text-obsidian tracking-tight">Prompt Premium Terkunci</h3>
-                          <p className="text-xs sm:text-sm text-ash-gray mt-1.5 leading-relaxed max-w-md">Gunakan {promptCost} kredit untuk membuka dan menyalin teks prompt ini.</p>
+                        <div className="flex items-center gap-2">
+                          <InformationCircleIcon size={15} className="text-purple-600 dark:text-purple-400 shrink-0" />
+                          <span>Cara Menggunakan Prompt Ini</span>
                         </div>
-                        <PrimaryCTAButton
-                          label={`Buka Prompt (${Number(promptCost).toLocaleString('id-ID')} Kredit)`}
-                          hoverLabel="Buka & Salin Sekarang"
-                          onClick={handleCopyText}
-                        />
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Primary CTA Action Toolbar */}
-                  {(isUnlocked || !isPremium) && (
-                    <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-black/5">
-                      <button
-                        onClick={handleCopyText}
-                        className={`h-12 px-8 rounded-full font-bold text-sm flex items-center justify-center gap-2.5 transition-all cursor-pointer active:scale-95 duration-200 ${
-                          copiedText
-                            ? 'bg-emerald-600 text-white shadow-emerald-600/20'
-                            : 'bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1.5px_3px_0_rgba(0,0,0,0.25)] hover:from-zinc-700 hover:via-zinc-800 hover:to-zinc-950 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_3px_8px_0_rgba(0,0,0,0.3)]'
-                        }`}
-                      >
-                        {copiedText ? <AnimatedCheckmarkSVG size={18} strokeWidth={2.5} className="text-white" /> : <Copy01Icon size={18} />}
-                        <span>{copiedText ? 'Teks Prompt Berhasil Disalin!' : 'Salin Teks Prompt'}</span>
+                        <motion.span 
+                          animate={{ rotate: isTutorialOpen ? 180 : 0 }} 
+                          transition={{ duration: 0.2 }}
+                          className="text-purple-600 dark:text-purple-400 shrink-0"
+                        >
+                          <ArrowDown01Icon size={15} />
+                        </motion.span>
                       </button>
+
+                      <AnimatePresence initial={false}>
+                        {isTutorialOpen && (
+                          <motion.div
+                            key="desktop-tutorial-content"
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: 'easeInOut' }}
+                            className="overflow-hidden"
+                          >
+                            <div className="flex flex-col gap-2 p-3 border-t border-purple-200/60 dark:border-purple-800/40 text-xs">
+                              <div className="flex items-center justify-between gap-2 p-2 rounded-xl bg-white dark:bg-zinc-900 border border-purple-100 dark:border-purple-900/50 shadow-2xs">
+                                <div className="flex items-center gap-2 min-w-0">
+                                  <span className="w-5 h-5 rounded-full bg-purple-600 text-white font-bold text-[10px] flex items-center justify-center shrink-0">1</span>
+                                  <span className="font-semibold text-obsidian dark:text-white truncate">Salin teks prompt teroptimasi</span>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={copyPromptToClipboard}
+                                  className="px-2.5 py-1 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-obsidian dark:text-white text-[11px] font-bold shrink-0 cursor-pointer active:scale-95 transition-all shadow-2xs border border-black/5 dark:border-white/10"
+                                >
+                                  {copiedText ? <span className="text-emerald-600">Disalin!</span> : <span>Salin</span>}
+                                </button>
+                              </div>
+
+                              <div className="flex items-center justify-between gap-2 p-2 rounded-xl bg-white dark:bg-zinc-900 border border-purple-100 dark:border-purple-900/50 shadow-2xs">
+                                <div className="flex items-center gap-2 min-w-0">
+                                  <span className="w-5 h-5 rounded-full bg-purple-600 text-white font-bold text-[10px] flex items-center justify-center shrink-0">2</span>
+                                  <span className="font-semibold text-obsidian dark:text-white truncate">Buka generator AI Google Gemini</span>
+                                </div>
+                                <a
+                                  href="https://gemini.google.com/"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-purple-600 text-white text-[11px] font-bold shrink-0 cursor-pointer active:scale-95 transition-all shadow-2xs"
+                                >
+                                  <Sparkle className="size-3 text-amber-300 fill-amber-300 shrink-0" />
+                                  <span>Buka Gemini</span>
+                                  <ArrowUpRight01Icon size={12} className="shrink-0" />
+                                </a>
+                              </div>
+
+                              <div className="p-2.5 rounded-xl bg-amber-50/90 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-800/60 flex items-center justify-between gap-2 shadow-2xs">
+                                <div className="flex items-center gap-2 min-w-0">
+                                  <span className="text-sm leading-none shrink-0">💡</span>
+                                  <span className="text-[11px] text-amber-900 dark:text-amber-200 truncate">Tips: Unggah link gambar referensi ke Gemini</span>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={copyImageUrlToClipboard}
+                                  className="px-2.5 py-1 rounded-lg bg-amber-200/80 dark:bg-amber-900/70 hover:bg-amber-300 text-amber-950 dark:text-amber-100 text-[11px] font-bold shrink-0 cursor-pointer active:scale-95 shadow-2xs"
+                                >
+                                  {copiedImg ? 'Disalin!' : 'Salin Link Gambar'}
+                                </button>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  )}
+
+                  {/* Dual Action CTAs + Engagement Tools */}
+                  <div className="flex items-center justify-between gap-3 pt-3 border-t border-black/5 dark:border-white/5 mt-1">
+                    {/* Left Action Buttons */}
+                    <div className="flex items-center gap-2.5">
+                      <PrimaryButton
+                        onClick={handleCopyText}
+                        className="h-11 px-6 rounded-full text-xs sm:text-sm font-bold shadow-xs flex items-center justify-center gap-2 active:scale-95"
+                      >
+                        {copiedText ? (
+                          <span className="flex items-center gap-1.5 text-emerald-400">
+                            <Check size={15} className="stroke-[2.5]" />
+                            <span>Teks Disalin!</span>
+                          </span>
+                        ) : (isUnlocked || !isPremium) ? (
+                          <span className="flex items-center gap-1.5">
+                            <Copy01Icon size={15} />
+                            <span>Salin Teks Prompt</span>
+                          </span>
+                        ) : (
+                          <span className="flex items-center gap-1.5">
+                            <AnimatedLockIcon size={14} className="text-white" />
+                            <span>Buka Prompt ({promptCost} Kredit)</span>
+                          </span>
+                        )}
+                      </PrimaryButton>
 
                       <WhiteButton
                         onClick={copyImageUrlToClipboard}
-                        className="h-12 px-6 rounded-full text-sm font-bold shadow-2xs flex items-center justify-center gap-2"
-                        title="Salin Link Gambar Referensi"
+                        className="h-11 px-4.5 rounded-full text-xs sm:text-sm font-bold shadow-2xs flex items-center justify-center gap-1.5"
                       >
-                        <Image01Icon size={16} className="shrink-0" />
-                        <span>{copiedImg ? 'Link Gambar Disalin!' : 'Salin Gambar'}</span>
+                        <Image01Icon size={15} className="shrink-0" />
+                        <span>{copiedImg ? 'Link Disalin!' : 'Salin Link Gambar'}</span>
                       </WhiteButton>
+                    </div>
 
+                    {/* Right Engagement Buttons */}
+                    <div className="flex items-center gap-2">
+                      {/* Share Button */}
                       <button
                         type="button"
                         onClick={handleShareLink}
-                        className="h-12 px-6 rounded-full bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs font-bold text-sm flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer active:scale-95 border-0"
-                        title="Bagikan Tautan Prompt"
+                        className="h-11 w-11 rounded-full bg-white dark:bg-zinc-800 text-obsidian dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs hover:bg-zinc-100 active:scale-95 flex items-center justify-center cursor-pointer border-0"
+                        title="Bagikan Tautan"
                       >
-                        {copiedLink ? <Check size={16} className="text-emerald-600 stroke-[2.5]" /> : <Share2 size={16} className="stroke-[2]" />}
-                        <span>{copiedLink ? 'Link Disalin!' : 'Bagikan'}</span>
+                        {copiedLink ? <CheckmarkCircle02Icon size={18} className="text-emerald-600" /> : <Share01Icon size={18} />}
                       </button>
 
-                      {errorMsg && (
-                        <span className="text-xs text-red-500 flex items-center gap-1 font-medium">
-                          <AlertCircleIcon size={14} /> {errorMsg}
-                        </span>
-                      )}
+                      {/* Favorite Button */}
+                      <button
+                        type="button"
+                        onClick={() => onToggleFavorite(prompt.id)}
+                        className={`inline-flex items-center gap-1.5 h-11 px-4 rounded-full text-xs font-bold transition-all active:scale-95 shadow-2xs border-0 cursor-pointer ${
+                          isFavorite 
+                            ? 'bg-rose-50 text-rose-600 ring-1 ring-rose-300 dark:bg-rose-950/50 dark:text-rose-400' 
+                            : 'bg-white dark:bg-zinc-800 text-obsidian dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 hover:bg-zinc-100'
+                        }`}
+                      >
+                        <FavouriteIcon size={16} className={isFavorite ? 'fill-rose-600 text-rose-600' : ''} />
+                        <span>{likes + (isFavorite ? 1 : 0)}</span>
+                      </button>
                     </div>
-                  )}
-                </motion.div>
+                  </div>
+
+                </div>
               </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </main>
+            </div>
+          </main>
 
         {/* Lightweight Floating Navigation Dock Component for Desktop */}
         <Dock 
           className="hidden md:block"
           items={[
             {
-              icon: Image01Icon,
-              label: 'Cover',
-              isActive: !showProjectInfo,
-              onClick: () => setShowProjectInfo(false)
-            },
-            {
-              icon: InformationCircleIcon,
-              label: 'Prompt Info',
-              isActive: showProjectInfo,
-              onClick: () => setShowProjectInfo(true)
+              icon: SparklesIcon,
+              label: 'Prompt',
+              isActive: true,
+              onClick: () => {}
             },
             { isSeparator: true },
             {
@@ -1374,6 +1158,12 @@ export default function PromptDetailView({
               isActive: isBookmarked,
               onClick: () => setIsBookmarked(!isBookmarked),
               className: isBookmarked ? 'text-amber-500 fill-amber-500' : ''
+            },
+            {
+              icon: Share01Icon,
+              label: copiedLink ? 'Disalin!' : 'Bagikan',
+              isActive: copiedLink,
+              onClick: handleShareLink
             }
           ]} 
         />
