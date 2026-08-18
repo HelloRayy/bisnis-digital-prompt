@@ -525,30 +525,26 @@ export default function PromptDetailView({
                 </button>
               </div>
 
-              {/* 1. Hero Image Card with Bottom-Right Zoom Button */}
-              <div className="relative w-full rounded-3xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/10 dark:border-white/10 flex items-center justify-center">
-                
-                {/* Natural Aspect Ratio Hero Image */}
-                <div className="relative w-full max-h-[62vh] flex items-center justify-center bg-zinc-100 dark:bg-zinc-900">
-                  {!isHeroLoaded && (
-                    <div className="w-full h-64 flex flex-col items-center justify-center bg-zinc-100 dark:bg-zinc-900 animate-pulse">
-                      <div className="w-10 h-10 rounded-full bg-zinc-200/80 dark:bg-zinc-800 flex items-center justify-center text-zinc-400 mb-2">
-                        <Image01Icon size={20} className="opacity-60" />
-                      </div>
-                      <span className="text-[11px] font-medium text-zinc-400">Memuat Preview...</span>
+              {/* 1. Hero Image Card with Bottom-Right Zoom Button (Tight Fit Container) */}
+              <div className="relative w-fit max-w-full mx-auto rounded-3xl overflow-hidden flex items-center justify-center">
+                {!isHeroLoaded && (
+                  <div className="w-[85vw] max-w-[400px] h-72 flex flex-col items-center justify-center bg-zinc-100 dark:bg-zinc-900 rounded-3xl border border-black/10 dark:border-white/10 animate-pulse">
+                    <div className="w-10 h-10 rounded-full bg-zinc-200/80 dark:bg-zinc-800 flex items-center justify-center text-zinc-400 mb-2">
+                      <Image01Icon size={20} className="opacity-60" />
                     </div>
-                  )}
-                  <img
-                    src={getOptimizedImageUrl(activeImage, 1080, 80)}
-                    alt={title}
-                    decoding="async"
-                    onLoad={() => setIsHeroLoaded(true)}
-                    onClick={() => setIsLightboxOpen(true)}
-                    className={`w-full max-h-[62vh] object-contain cursor-pointer transition-opacity duration-300 ${
-                      isHeroLoaded ? 'opacity-100 block' : 'opacity-0 hidden'
-                    }`}
-                  />
-                </div>
+                    <span className="text-[11px] font-medium text-zinc-400">Memuat Preview...</span>
+                  </div>
+                )}
+                <img
+                  src={getOptimizedImageUrl(activeImage, 1080, 80)}
+                  alt={title}
+                  decoding="async"
+                  onLoad={() => setIsHeroLoaded(true)}
+                  onClick={() => setIsLightboxOpen(true)}
+                  className={`max-w-full max-h-[64vh] w-auto h-auto object-contain rounded-3xl border border-black/10 dark:border-white/10 shadow-xs cursor-pointer transition-opacity duration-300 ${
+                    isHeroLoaded ? 'opacity-100 block' : 'opacity-0 hidden'
+                  }`}
+                />
 
                 {/* Bottom-Right Floating Zoom/Lightbox Button */}
                 <button
@@ -856,14 +852,12 @@ export default function PromptDetailView({
                     transition={{ duration: 0.2 }}
                     className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-14 items-center w-full my-auto"
                   >
-              {/* Left Image Showcase with True Natural Aspect Ratio */}
+              {/* Left Image Showcase with Tight Fit to Exact Image Dimensions */}
               <div className="lg:col-span-6 xl:col-span-6 flex flex-col gap-4 items-center justify-center">
-                <div 
-                  className="relative w-full max-w-[560px] xl:max-w-[620px] max-h-[72vh] rounded-2xl overflow-hidden bg-zinc-100/60 dark:bg-zinc-900/60 border border-black/5 dark:border-white/10 flex items-center justify-center shadow-xs"
-                >
+                <div className="relative w-fit max-w-full max-h-[74vh] rounded-2xl overflow-hidden flex items-center justify-center">
                   {/* High-Craft Shimmer Skeleton */}
                   {!isHeroLoaded && (
-                    <div className="w-full h-72 flex flex-col items-center justify-center bg-zinc-100 dark:bg-zinc-900 animate-pulse">
+                    <div className="w-80 sm:w-96 h-80 flex flex-col items-center justify-center bg-zinc-100 dark:bg-zinc-900 rounded-2xl border border-black/5 dark:border-white/10 animate-pulse">
                       <div className="w-12 h-12 rounded-full bg-zinc-200/80 dark:bg-zinc-800 flex items-center justify-center text-zinc-400 mb-2">
                         <Image01Icon size={24} className="opacity-60" />
                       </div>
@@ -877,7 +871,7 @@ export default function PromptDetailView({
                     decoding="async"
                     onLoad={() => setIsHeroLoaded(true)}
                     onClick={() => setIsLightboxOpen(true)}
-                    className={`w-full max-h-[72vh] object-contain rounded-2xl cursor-pointer hover:scale-[1.01] transition-all duration-300 z-10 ${
+                    className={`max-w-full max-h-[74vh] w-auto h-auto object-contain rounded-2xl border border-black/10 dark:border-white/10 shadow-xs cursor-pointer hover:scale-[1.01] transition-all duration-300 z-10 ${
                       isHeroLoaded ? 'opacity-100 block' : 'opacity-0 hidden'
                     }`}
                     title="Klik untuk memperbesar gambar"
