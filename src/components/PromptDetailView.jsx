@@ -1231,34 +1231,56 @@ export default function PromptDetailView({
                   transition={{ duration: 0.5, delay: 0.15 }}
                   className="flex flex-col gap-6"
                 >
-                  <div className="relative">
-                    {/* Quick Copy Button in Top-Right Corner */}
+                  <div className="relative pt-2">
+                    {/* Top-Right Sticky Action Toolbar (Resting at top-right, turns sticky at top-[80px] on scroll) */}
                     {(isUnlocked || !isPremium) && (
-                      <button
-                        type="button"
-                        onClick={handleCopyText}
-                        className={`absolute top-0 right-0 z-10 p-3 rounded-full border transition-colors duration-200 cursor-pointer shadow-sm flex items-center justify-center ${
-                          copiedText 
-                            ? 'bg-emerald-500 border-emerald-400 text-white shadow-emerald-500/30' 
-                            : 'bg-white/90 dark:bg-zinc-800/90 backdrop-blur-md border-black/10 dark:border-white/10 text-zinc-900 dark:text-white hover:bg-zinc-950 hover:text-white dark:hover:bg-zinc-100 dark:hover:text-zinc-950'
-                        }`}
-                        title="Salin Cepat Teks Prompt"
-                      >
-                        <AnimatePresence mode="wait" initial={false}>
+                      <div className={`transition-all duration-300 z-30 ${
+                        isScrolled
+                          ? 'fixed top-[80px] right-6 sm:right-10 md:right-12 lg:right-14 p-1.5 rounded-full bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-lg flex items-center gap-2 pointer-events-auto'
+                          : 'absolute top-0 right-0 flex items-center gap-2'
+                      }`}>
+                        {/* 1. Salin Teks Prompt Button */}
+                        <button
+                          type="button"
+                          onClick={handleCopyText}
+                          className={`h-9.5 px-4 sm:px-5 rounded-full font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer active:scale-95 duration-200 ${
+                            copiedText
+                              ? 'bg-emerald-600 text-white shadow-emerald-600/20'
+                              : 'bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-xs hover:from-zinc-700 hover:via-zinc-800 hover:to-zinc-950'
+                          }`}
+                          title="Salin Teks Prompt"
+                        >
                           {copiedText ? (
-                            <div key="check">
-                              <AnimatedCheckmarkSVG size={18} strokeWidth={2.5} className="text-white" />
-                            </div>
+                            <AnimatedCheckmarkSVG size={16} strokeWidth={2.5} className="text-white shrink-0" />
                           ) : (
-                            <div key="copy">
-                              <Copy01Icon size={18} />
-                            </div>
+                            <Copy01Icon size={16} className="shrink-0" />
                           )}
-                        </AnimatePresence>
-                      </button>
+                          <span>{copiedText ? 'Teks Disalin!' : 'Salin Teks Prompt'}</span>
+                        </button>
+
+                        {/* 2. Salin Link Gambar Button */}
+                        <WhiteButton
+                          onClick={copyImageUrlToClipboard}
+                          className="h-9.5 px-3.5 sm:px-4 rounded-full text-xs sm:text-sm font-bold shadow-2xs flex items-center justify-center gap-1.5"
+                          title="Salin Link Gambar Referensi"
+                        >
+                          <Image01Icon size={15} className="shrink-0" />
+                          <span>{copiedImg ? 'Gambar Disalin!' : 'Salin Gambar'}</span>
+                        </WhiteButton>
+
+                        {/* 3. Share Button */}
+                        <button
+                          type="button"
+                          onClick={handleShareLink}
+                          className="h-9.5 w-9.5 rounded-full bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs flex items-center justify-center transition-all duration-200 cursor-pointer active:scale-95 border-0 shrink-0"
+                          title="Bagikan Tautan Prompt"
+                        >
+                          {copiedLink ? <Check size={15} className="text-emerald-600 stroke-[2.5]" /> : <Share2 size={15} className="stroke-[2]" />}
+                        </button>
+                      </div>
                     )}
 
-                    <div className={`font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-obsidian leading-[1.3] tracking-tight transition-all duration-500 ${!isUnlocked && isPremium ? 'blur-xs select-none opacity-40 min-h-[200px] sm:min-h-[220px] max-h-64 overflow-hidden py-4' : 'pr-16 py-3 sm:py-4'}`}>
+                    <div className={`font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-obsidian leading-[1.3] tracking-tight transition-all duration-500 pt-12 sm:pt-14 ${!isUnlocked && isPremium ? 'blur-xs select-none opacity-40 min-h-[200px] sm:min-h-[220px] max-h-64 overflow-hidden py-4' : 'py-3 sm:py-4'}`}>
                       "{compiledPrompt}"
                     </div>
 
@@ -1278,46 +1300,10 @@ export default function PromptDetailView({
                     )}
                   </div>
 
-                  {/* Primary CTA Action Toolbar */}
-                  {(isUnlocked || !isPremium) && (
-                    <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-black/5">
-                      <button
-                        onClick={handleCopyText}
-                        className={`h-12 px-8 rounded-full font-bold text-sm flex items-center justify-center gap-2.5 transition-all cursor-pointer active:scale-95 duration-200 ${
-                          copiedText
-                            ? 'bg-emerald-600 text-white shadow-emerald-600/20'
-                            : 'bg-gradient-to-b from-zinc-800 to-zinc-950 text-white border border-white/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2),0_1.5px_3px_0_rgba(0,0,0,0.25)] hover:from-zinc-700 hover:via-zinc-800 hover:to-zinc-950 hover:border-white/25 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_3px_8px_0_rgba(0,0,0,0.3)]'
-                        }`}
-                      >
-                        {copiedText ? <AnimatedCheckmarkSVG size={18} strokeWidth={2.5} className="text-white" /> : <Copy01Icon size={18} />}
-                        <span>{copiedText ? 'Teks Prompt Berhasil Disalin!' : 'Salin Teks Prompt'}</span>
-                      </button>
-
-                      <WhiteButton
-                        onClick={copyImageUrlToClipboard}
-                        className="h-12 px-6 rounded-full text-sm font-bold shadow-2xs flex items-center justify-center gap-2"
-                        title="Salin Link Gambar Referensi"
-                      >
-                        <Image01Icon size={16} className="shrink-0" />
-                        <span>{copiedImg ? 'Link Gambar Disalin!' : 'Salin Gambar'}</span>
-                      </WhiteButton>
-
-                      <button
-                        type="button"
-                        onClick={handleShareLink}
-                        className="h-12 px-6 rounded-full bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-100 ring-1 ring-black/10 dark:ring-white/10 shadow-2xs font-bold text-sm flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer active:scale-95 border-0"
-                        title="Bagikan Tautan Prompt"
-                      >
-                        {copiedLink ? <Check size={16} className="text-emerald-600 stroke-[2.5]" /> : <Share2 size={16} className="stroke-[2]" />}
-                        <span>{copiedLink ? 'Link Disalin!' : 'Bagikan'}</span>
-                      </button>
-
-                      {errorMsg && (
-                        <span className="text-xs text-red-500 flex items-center gap-1 font-medium">
-                          <AlertCircleIcon size={14} /> {errorMsg}
-                        </span>
-                      )}
-                    </div>
+                  {errorMsg && (
+                    <span className="text-xs text-red-500 flex items-center gap-1 font-medium">
+                      <AlertCircleIcon size={14} /> {errorMsg}
+                    </span>
                   )}
                 </motion.div>
               </motion.div>
