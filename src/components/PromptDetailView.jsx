@@ -1245,8 +1245,8 @@ export default function PromptDetailView({
                     <div className="flex items-center justify-end w-full min-h-[44px]">
                       <div className={`transition-all duration-200 z-40 ${
                         isPromptSticky
-                          ? 'fixed top-[80px] right-4 sm:right-6 md:right-8 lg:right-10 p-1.5 rounded-full bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-lg flex items-center gap-1.5 sm:gap-2 pointer-events-auto animate-in fade-in zoom-in-95 duration-200'
-                          : 'inline-flex items-center gap-1.5 sm:gap-2'
+                          ? 'fixed top-[80px] right-4 sm:right-6 md:right-8 lg:right-10 flex items-center gap-2 pointer-events-auto animate-in fade-in duration-200'
+                          : 'inline-flex items-center gap-2'
                       }`}>
                         {/* 1. Salin Teks Prompt Button */}
                         <button
