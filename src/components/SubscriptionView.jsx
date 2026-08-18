@@ -218,9 +218,6 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                       <Coins size={14} className="text-purple-600 stroke-[2.2]" />
                       {basicCredits.toLocaleString('id-ID')} kredit
                     </span>
-                    <span className="font-semibold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/60 px-2 py-0.5 rounded-full text-[11px] border border-purple-200/50 dark:border-purple-800/50">
-                      {basicPct}%
-                    </span>
                   </div>
                   <input
                     type="range"
@@ -344,9 +341,6 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                     <span className="font-bold text-white flex items-center gap-1.5">
                       <Coins size={14} className="text-amber-400 stroke-[2.2]" />
                       {proCredits.toLocaleString('id-ID')} kredit
-                    </span>
-                    <span className="font-semibold text-amber-300 bg-amber-950/80 px-2 py-0.5 rounded-full text-[11px] border border-amber-500/30">
-                      {proPct}%
                     </span>
                   </div>
                   <input
