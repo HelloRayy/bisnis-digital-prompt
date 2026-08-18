@@ -36,8 +36,33 @@ import {
 } from '@/components/ui/alert-dialog';
 
 /**
- * Per-Digit Rolling Number Ticker (Odometer Style)
- * Setiap digit angka (0-9) bergulir secara independen satu per satu dari atas ke bawah.
+ * Single Digit Reel Column for Smooth Odometer Animation (Hardware-Accelerated)
+ */
+function DigitReel({ digit }) {
+  const num = parseInt(digit, 10);
+  return (
+    <span className="relative inline-block h-[1.12em] overflow-hidden leading-none tabular-nums align-baseline">
+      {/* Invisible digit '8' ensures perfectly stable width and baseline */}
+      <span className="invisible select-none opacity-0 pointer-events-none">8</span>
+      <span
+        className="absolute left-0 top-0 w-full flex flex-col transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform"
+        style={{
+          transform: `translateY(-${num * 10}%)`
+        }}
+      >
+        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((d) => (
+          <span key={d} className="h-[1.12em] flex items-center justify-center">
+            {d}
+          </span>
+        ))}
+      </span>
+    </span>
+  );
+}
+
+/**
+ * Per-Digit Rolling Number Ticker (High-End Luxury Odometer Reel)
+ * Setiap digit angka bergulir secara independen dan halus menggunakan GPU-accelerated transform.
  */
 export function DigitTicker({ value, prefix = "", suffix = "", className = "" }) {
   const str = String(value);
@@ -62,29 +87,7 @@ export function DigitTicker({ value, prefix = "", suffix = "", className = "" })
         const posFromRight = chars.length - 1 - index;
 
         return (
-          <span
-            key={`col-${posFromRight}`}
-            className="relative inline-block h-[1.12em] overflow-hidden leading-none align-baseline"
-          >
-            <AnimatePresence mode="popLayout" initial={false}>
-              <motion.span
-                key={`${posFromRight}-${char}`}
-                initial={{ y: "-100%", opacity: 0, filter: "blur(1.5px)" }}
-                animate={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
-                exit={{ y: "100%", opacity: 0, filter: "blur(1.5px)" }}
-                transition={{
-                  type: "spring",
-                  stiffness: 520,
-                  damping: 32,
-                  mass: 0.5,
-                  delay: posFromRight * 0.015, // Efek cascade halus per digit
-                }}
-                className="inline-block"
-              >
-                {char}
-              </motion.span>
-            </AnimatePresence>
-          </span>
+          <DigitReel key={`digit-${posFromRight}`} digit={char} />
         );
       })}
       {suffix && <span className="inline-block ml-0.5">{suffix}</span>}
