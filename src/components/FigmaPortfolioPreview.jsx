@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import promptsData from '../data/prompts.json';
 import { 
   ArrowUpRight01Icon, 
@@ -197,6 +197,48 @@ export default function FigmaPortfolioPreview({
   const displayedPrompts = useMemo(() => {
     return filteredPrompts.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
   }, [filteredPrompts, currentPage]);
+
+  // Cache to track preloaded image URLs so we never duplicate network requests
+  const preloadedUrlsRef = useRef(new Set());
+
+  // Helper to prefetch images for a specific page number into browser disk/memory cache
+  const prefetchPageImages = useCallback((targetPage) => {
+    if (targetPage < 1 || targetPage > totalPages) return;
+    const startIdx = (targetPage - 1) * ITEMS_PER_PAGE;
+    const endIdx = startIdx + ITEMS_PER_PAGE;
+    const targetItems = filteredPrompts.slice(startIdx, endIdx);
+
+    // Prefetch top 16 images of target page (above-the-fold viewport)
+    targetItems.slice(0, 16).forEach((item) => {
+      const src = item?.image || item?.img;
+      if (!src) return;
+      const optimizedSrc = getOptimizedImageUrl(src, 480, 75);
+      if (!preloadedUrlsRef.current.has(optimizedSrc)) {
+        preloadedUrlsRef.current.add(optimizedSrc);
+        const img = new Image();
+        img.decoding = 'async';
+        img.src = optimizedSrc;
+      }
+    });
+  }, [filteredPrompts, totalPages]);
+
+  // SMART ENGAGEMENT-BASED PREFETCH:
+  // - Zero prefetch on Page 1 (saves bandwidth & RAM for users who only bounce or search).
+  // - As soon as the user navigates to Page 2 or higher (currentPage >= 2),
+  //   automatically prefetch the next page (currentPage + 1) during browser idle time!
+  useEffect(() => {
+    if (currentPage >= 2 && currentPage < totalPages) {
+      const nextPage = currentPage + 1;
+      const idleCallback = window.requestIdleCallback || ((cb) => setTimeout(cb, 1000));
+      const cancelCallback = window.cancelIdleCallback || clearTimeout;
+
+      const handle = idleCallback(() => {
+        prefetchPageImages(nextPage);
+      }, { timeout: 2500 });
+
+      return () => cancelCallback(handle);
+    }
+  }, [currentPage, totalPages, prefetchPageImages]);
 
   // Dynamic Column Count detection matching Tailwind breakpoints (1, 2, 3, 4, 5, 6 cols)
   const [columnCount, setColumnCount] = useState(6);
@@ -484,6 +526,8 @@ export default function FigmaPortfolioPreview({
                     <button
                       disabled={currentPage === 1}
                       onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                      onMouseEnter={() => prefetchPageImages(currentPage - 1)}
+                      onTouchStart={() => prefetchPageImages(currentPage - 1)}
                       className="w-10 h-10 sm:w-10 sm:h-10 text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800/60 rounded-xl disabled:opacity-20 disabled:pointer-events-none transition-all cursor-pointer flex items-center justify-center shrink-0"
                       aria-label="Previous Page"
                     >
@@ -506,6 +550,8 @@ export default function FigmaPortfolioPreview({
                               )}
                               <button
                                 onClick={() => setCurrentPage(page)}
+                                onMouseEnter={() => prefetchPageImages(page)}
+                                onTouchStart={() => prefetchPageImages(page)}
                                 className={`w-10 h-10 sm:w-11 sm:h-11 rounded-2xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center shrink-0 ${
                                   isActive
                                     ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-950 dark:text-white shadow-xs scale-105 border border-zinc-300 dark:border-zinc-600 font-bold'
@@ -523,6 +569,8 @@ export default function FigmaPortfolioPreview({
                     <button
                       disabled={currentPage === totalPages}
                       onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                      onMouseEnter={() => prefetchPageImages(currentPage + 1)}
+                      onTouchStart={() => prefetchPageImages(currentPage + 1)}
                       className="w-10 h-10 sm:w-10 sm:h-10 text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800/60 rounded-xl disabled:opacity-20 disabled:pointer-events-none transition-all cursor-pointer flex items-center justify-center shrink-0"
                       aria-label="Next Page"
                     >
