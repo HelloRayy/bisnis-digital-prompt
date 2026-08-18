@@ -110,18 +110,8 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
-/* Dynamic Floating Secondary CTA Close Button (Fixed on scroll, natural at top) */
+/* Dynamic Floating Secondary CTA Close Button (Fixed on scroll, 16px below header navbar) */
 function DetailCloseCTA({ onClose, isScrolled }) {
-  let sidebarLeft = "left-4 sm:left-6 md:left-8 lg:left-72";
-  try {
-    const { state, isMobile } = useSidebar();
-    if (!isMobile) {
-      sidebarLeft = state === "collapsed" ? "left-16 sm:left-20" : "left-72";
-    }
-  } catch (e) {
-    // fallback
-  }
-
   return (
     <div className="mb-6 sm:mb-8 flex items-center justify-start min-h-[36px]">
       <button 
@@ -129,7 +119,7 @@ function DetailCloseCTA({ onClose, isScrolled }) {
         onClick={onClose}
         className={`transition-all duration-200 cursor-pointer active:scale-95 ${
           isScrolled 
-            ? `fixed top-3.5 ${sidebarLeft} z-50 group inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl text-zinc-950 dark:text-white ring-1 ring-black/15 dark:ring-white/20 shadow-md text-xs font-semibold hover:bg-white dark:hover:bg-zinc-800 hover:ring-black/25` 
+            ? 'fixed top-[80px] left-6 md:left-[calc(var(--sidebar-width)+2rem)] group-data-[state=collapsed]/sidebar-wrapper:md:left-[calc(var(--sidebar-width-icon)+2rem)] z-40 group inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl text-zinc-950 dark:text-white ring-1 ring-black/15 dark:ring-white/20 shadow-md text-xs font-semibold hover:bg-white dark:hover:bg-zinc-800 hover:ring-black/25' 
             : 'group inline-flex items-center gap-2.5 p-0 bg-transparent text-obsidian dark:text-zinc-200 text-xs font-semibold hover:text-purple-600'
         }`}
         title="Tutup Preview & Kembali"
