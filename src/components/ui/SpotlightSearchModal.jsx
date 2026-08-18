@@ -150,22 +150,21 @@ export default function SpotlightSearchModal({
     setRecentSearches([]);
   };
 
-  if (!isOpen) return null;
-
   return (
     <AnimatePresence>
-      <div 
-        className="fixed inset-0 z-50 flex items-start justify-center p-3 sm:p-4 pt-[12vh] sm:pt-[15vh] bg-black/50 backdrop-blur-md overflow-y-auto"
-        onClick={onClose}
-      >
-        <motion.div
-          initial={{ opacity: 0, scale: 0.96, y: -14 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.96, y: -14 }}
-          transition={{ type: "spring", stiffness: 450, damping: 32 }}
-          className="relative w-full max-w-2xl font-sans flex flex-col gap-2.5 my-auto"
-          onClick={(e) => e.stopPropagation()}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 z-50 flex items-start justify-center p-3 sm:p-4 pt-[12vh] sm:pt-[15vh] bg-black/50 backdrop-blur-md overflow-y-auto"
+          onClick={onClose}
         >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96, y: -14 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.96, y: -14 }}
+            transition={{ type: "spring", stiffness: 450, damping: 32 }}
+            className="relative w-full max-w-2xl font-sans flex flex-col gap-2.5 my-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
           {/* Main Floating Spotlight Search Box (High Elevation Shadow) */}
           <div className="w-full bg-white/95 dark:bg-zinc-900/95 backdrop-blur-2xl rounded-2xl sm:rounded-3xl border border-black/10 dark:border-white/10 shadow-[0_24px_64px_rgba(0,0,0,0.22),0_4px_16px_rgba(0,0,0,0.08)] overflow-hidden flex flex-col">
             
@@ -378,6 +377,7 @@ export default function SpotlightSearchModal({
           </div>
         </motion.div>
       </div>
+      )}
     </AnimatePresence>
   );
 }
