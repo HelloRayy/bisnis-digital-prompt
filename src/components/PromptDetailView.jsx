@@ -858,10 +858,10 @@ export default function PromptDetailView({
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.2 }}
-                    className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 items-center w-full max-w-5xl xl:max-w-6xl mx-auto my-auto"
+                    className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-8 lg:gap-12 xl:gap-16 items-center w-full my-auto"
                   >
               {/* Left Image Showcase with Tight Fit to Exact Image Dimensions */}
-              <div className="lg:col-span-6 xl:col-span-6 flex flex-col gap-4 items-center lg:items-end justify-center">
+              <div className="flex flex-col gap-4 items-start justify-center shrink-0">
                 <div className="relative w-fit max-w-full max-h-[74vh] rounded-2xl overflow-hidden flex items-center justify-center">
                   {/* High-Craft Shimmer Skeleton */}
                   {!isHeroLoaded && (
@@ -889,7 +889,7 @@ export default function PromptDetailView({
 
                 {/* Right Details & CTA OR Subscription Panel */}
                 {showSubscription ? (
-                  <div className="lg:col-span-6 xl:col-span-6 flex flex-col gap-5 max-h-[75vh] overflow-y-auto pr-1.5 scrollbar-thin animate-in fade-in zoom-in-95 duration-200">
+                  <div className="flex flex-col gap-5 max-w-xl max-h-[75vh] overflow-y-auto pr-1.5 scrollbar-thin animate-in fade-in zoom-in-95 duration-200">
                     <div className="flex items-center justify-between border-b border-black/5 pb-3">
                       <div>
                         <h2 className="text-lg font-bold text-obsidian tracking-tight">Paket Berlangganan</h2>
@@ -912,7 +912,7 @@ export default function PromptDetailView({
                     />
                   </div>
                 ) : (
-                  <div className="lg:col-span-6 xl:col-span-6 flex flex-col gap-6 items-start justify-center max-w-xl">
+                  <div className="flex flex-col gap-6 items-start justify-center max-w-xl xl:max-w-2xl">
                     <div className="flex flex-col gap-3">
                       <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-obsidian tracking-tight leading-tight">
                         {title}
