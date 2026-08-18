@@ -27,7 +27,8 @@ import {
 import { BanknoteArrowUp, Coins, MoreHorizontal } from 'lucide-react';
 import { getCleanShortSlug } from '../utils/slug';
 import { getOptimizedImageUrl } from '../utils/image-optimizer';
-import { getPromptAspectRatioValue } from '../utils/prompt-helpers';
+import { getPromptAspectRatioValue, getShortTitle } from '../utils/prompt-helpers';
+import { matchesPromptSearch, scorePromptSearch, POPULAR_SEARCH_TAGS } from '../utils/search-engine';
 import { AppSidebar } from '@/components/app-sidebar';
 import { Dock } from '@/components/ui/dock-two';
 import { AnimatedNumber } from '@/components/ui/animated-counter';
@@ -129,10 +130,7 @@ export default function FigmaPortfolioPreview({
   // Strictly memoized filtered dataset: Only recalculated when filters actually change!
   const filteredPrompts = useMemo(() => {
     const rawFiltered = allPrompts.filter((item) => {
-      const promptText = (item.prompt || '').toLowerCase();
-      const authorText = (item.author || '').toLowerCase();
-      const matchesSearch = searchQuery === '' || promptText.includes(searchQuery.toLowerCase()) || authorText.includes(searchQuery.toLowerCase());
-      
+      const matchesSearch = matchesPromptSearch(item, searchQuery);
       if (!matchesSearch) return false;
 
       const catLower = (item.categories || []).join(' ').toLowerCase();
@@ -162,6 +160,15 @@ export default function FigmaPortfolioPreview({
       }
       return true;
     });
+
+    // If searching, sort directly by search relevance score (highest relevance first)
+    if (searchQuery && searchQuery.trim()) {
+      return [...rawFiltered].sort((a, b) => {
+        const scoreA = scorePromptSearch(a, searchQuery);
+        const scoreB = scorePromptSearch(b, searchQuery);
+        return scoreB - scoreA;
+      });
+    }
 
     const freePrompts = rawFiltered.filter(p => !p.isPremium);
     const premiumPrompts = rawFiltered.filter(p => p.isPremium);
@@ -526,13 +533,30 @@ export default function FigmaPortfolioPreview({
               )}
             </>
           ) : (
-            <div className="py-20 text-center flex flex-col items-center justify-center gap-3 text-ash-gray font-sans">
-              <p className="text-base font-semibold">Tidak ada karya yang cocok dengan pencarian "{searchQuery}".</p>
+            <div className="py-20 text-center flex flex-col items-center justify-center gap-4 text-ash-gray font-sans max-w-md mx-auto">
+              <div className="w-14 h-14 rounded-2xl bg-zinc-100 dark:bg-zinc-850 flex items-center justify-center text-zinc-400">
+                <Search01Icon size={24} />
+              </div>
+              <div className="flex flex-col gap-1">
+                <p className="text-base font-semibold text-obsidian dark:text-white">Tidak ada prompt yang cocok dengan "{searchQuery}".</p>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400">Coba kata kunci lain atau pilih rekomendasi gaya populer di bawah ini.</p>
+              </div>
+              <div className="flex flex-wrap items-center justify-center gap-1.5 pt-1">
+                {POPULAR_SEARCH_TAGS.slice(0, 6).map((tag, tIdx) => (
+                  <button
+                    key={tIdx}
+                    onClick={() => { setSearchQuery(tag.query); }}
+                    className="px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 hover:bg-purple-50 dark:hover:bg-purple-950/50 text-xs font-medium text-obsidian dark:text-zinc-200 hover:text-purple-600 dark:hover:text-purple-300 border border-black/5 dark:border-white/10 cursor-pointer transition-colors"
+                  >
+                    {tag.label}
+                  </button>
+                ))}
+              </div>
               <button 
                 onClick={() => { setSearchQuery(''); setActiveCategory('image'); }} 
-                className="text-xs font-bold text-obsidian underline cursor-pointer"
+                className="text-xs font-bold text-purple-600 dark:text-purple-400 hover:underline cursor-pointer pt-2"
               >
-                Reset Pencarian
+                Reset & Tampilkan Semua Prompt
               </button>
             </div>
           )}

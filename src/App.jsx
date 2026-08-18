@@ -12,6 +12,7 @@ import { Toaster } from '@/components/ui/sonner';
 import { Clock01Icon } from 'hugeicons-react';
 import MobileBottomDock from './components/ui/MobileBottomDock';
 import SpotlightSearchModal from './components/ui/SpotlightSearchModal';
+import { matchesPromptSearch } from './utils/search-engine';
 
 function App() {
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
@@ -36,13 +37,10 @@ function App() {
   // Global Keyboard Shortcut for Spotlight Search (Cmd+K / Ctrl+K / /)
   useEffect(() => {
     const handleKeyDown = (e) => {
-      const target = e.target;
-      const isInput = target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable);
-      
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
         setIsSpotlightOpen(prev => !prev);
-      } else if (e.key === '/' && !isInput && !isSpotlightOpen) {
+      } else if (e.key === '/' && !['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) {
         e.preventDefault();
         setIsSpotlightOpen(true);
       }
@@ -51,17 +49,10 @@ function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isSpotlightOpen]);
 
-  // Count matching prompts for spotlight indicator
+  // Count matching prompts for spotlight indicator using unified smart search engine
   const matchingPromptsCount = React.useMemo(() => {
     if (!searchQuery.trim()) return promptsData.length;
-    const q = searchQuery.toLowerCase().trim();
-    return promptsData.filter(item => {
-      const matchTitle = item.title?.toLowerCase().includes(q);
-      const matchPrompt = item.prompt?.toLowerCase().includes(q);
-      const matchAuthor = item.author?.toLowerCase().includes(q);
-      const matchTags = Array.isArray(item.tags) && item.tags.some(t => t.toLowerCase().includes(q));
-      return matchTitle || matchPrompt || matchAuthor || matchTags;
-    }).length;
+    return promptsData.filter(item => matchesPromptSearch(item, searchQuery)).length;
   }, [searchQuery]);
 
   // Set manual scroll restoration on mount
@@ -578,11 +569,16 @@ function App() {
         />
       )}
 
-      {/* Global Centered Spotlight Search Modal (No Suggestions) */}
+      {/* Global Intelligent Spotlight Search Modal */}
       <SpotlightSearchModal
         isOpen={isSpotlightOpen}
         onClose={() => setIsSpotlightOpen(false)}
         value={searchQuery}
+        prompts={promptsData}
+        onSelectPrompt={(item) => {
+          handleOpenPrompt(item);
+          setIsSpotlightOpen(false);
+        }}
         onChange={(val) => {
           setSearchQuery(val);
           if (currentPath !== '/' && !currentPath.startsWith('/view/')) {
