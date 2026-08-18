@@ -93,9 +93,9 @@ export function DigitTicker({ value, prefix = "", suffix = "", className = "" })
 }
 
 export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel = false, billingMode = 'subscription' }) {
-  // Slider states for "Atur Kredit" mode
-  const [basicCredits, setBasicCredits] = useState(1500); // 500 - 3000
-  const [proCredits, setProCredits] = useState(6000); // 4000 - 20000
+  // Smooth 1% - 100% scrolling percentage slider states
+  const [basicPct, setBasicPct] = useState(35); // 1% to 100% (default ~35%)
+  const [proPct, setProPct] = useState(45);     // 1% to 100% (default ~45%)
   const [activeCardIndex, setActiveCardIndex] = useState(0); // 0: Business, 1: Enterprise
   const carouselRef = useRef(null);
 
@@ -105,12 +105,14 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
 
   const isSub = billingMode === 'subscription';
 
-  // Calculations for custom slider cards
+  // Smooth continuous calculations based on 1-100% slider
+  // Basic: 500 kredit (1%) -> 5.000 kredit (100%), rounded to clean 25s
+  const basicCredits = Math.round((500 + ((basicPct - 1) / 99) * (5000 - 500)) / 25) * 25;
   const basicPrice = Math.round(basicCredits * 2.5); // Rp 2.5 per kredit
-  const proPrice = Math.round(proCredits * 2.0); // Rp 2.0 per kredit
 
-  const basicPct = ((basicCredits - 500) / (3000 - 500)) * 100;
-  const proPct = ((proCredits - 4000) / (20000 - 4000)) * 100;
+  // Pro: 4.000 kredit (1%) -> 25.000 kredit (100%), rounded to clean 100s
+  const proCredits = Math.round((4000 + ((proPct - 1) / 99) * (25000 - 4000)) / 100) * 100;
+  const proPrice = Math.round(proCredits * 2.0); // Rp 2.0 per kredit
 
   // Track active slide on scroll for pagination dots
   const handleCarouselScroll = (e) => {
@@ -213,17 +215,17 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                       <Coins size={14} className="text-purple-600 stroke-[2.2]" />
                       {basicCredits.toLocaleString('id-ID')} kredit
                     </span>
-                    <span className="font-semibold text-zinc-500 dark:text-zinc-400 text-xs">
-                      Rp 2,5/kredit
+                    <span className="font-semibold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/60 px-2 py-0.5 rounded-full text-[11px] border border-purple-200/50 dark:border-purple-800/50">
+                      {basicPct}%
                     </span>
                   </div>
                   <input
                     type="range"
-                    min="500"
-                    max="3000"
-                    step="250"
-                    value={basicCredits}
-                    onChange={(e) => setBasicCredits(Number(e.target.value))}
+                    min="1"
+                    max="100"
+                    step="1"
+                    value={basicPct}
+                    onChange={(e) => setBasicPct(Number(e.target.value))}
                     className="w-full h-2 rounded-full appearance-none cursor-pointer accent-purple-600 dark:accent-purple-400 bg-zinc-200/80 dark:bg-zinc-800"
                     style={{
                       background: `linear-gradient(to right, #9333ea ${basicPct}%, #e4e4e7 ${basicPct}%)`
@@ -340,17 +342,17 @@ export function SubscriptionCards({ userCredits = 0, onTopUp = () => {}, isPanel
                       <Coins size={14} className="text-amber-400 stroke-[2.2]" />
                       {proCredits.toLocaleString('id-ID')} kredit
                     </span>
-                    <span className="font-semibold text-zinc-400 text-xs">
-                      Rp 2,0/kredit
+                    <span className="font-semibold text-amber-300 bg-amber-950/80 px-2 py-0.5 rounded-full text-[11px] border border-amber-500/30">
+                      {proPct}%
                     </span>
                   </div>
                   <input
                     type="range"
-                    min="4000"
-                    max="20000"
-                    step="1000"
-                    value={proCredits}
-                    onChange={(e) => setProCredits(Number(e.target.value))}
+                    min="1"
+                    max="100"
+                    step="1"
+                    value={proPct}
+                    onChange={(e) => setProPct(Number(e.target.value))}
                     className="w-full h-2 rounded-full appearance-none cursor-pointer accent-white bg-zinc-800"
                     style={{
                       background: `linear-gradient(to right, #ffffff ${proPct}%, #3f3f46 ${proPct}%)`
