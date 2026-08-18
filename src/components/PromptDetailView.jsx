@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, Coins, Sparkle, Share2, Unlock, Lock, Bookmark, Search, MoreHorizontal, ChevronLeft } from 'lucide-react';
 import { toast } from 'sonner';
